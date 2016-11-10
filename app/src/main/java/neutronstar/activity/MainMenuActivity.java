@@ -1,7 +1,9 @@
-package at.ac.tuwien.ims.neutronenstern;
+package neutronstar.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import at.ac.tuwien.ims.neutronenstern.R;
 
 public class MainMenuActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package at.ac.tuwien.ims.neutronenstern;
+package neutronstar.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

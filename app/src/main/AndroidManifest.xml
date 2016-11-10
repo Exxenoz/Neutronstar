@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"
+        <activity android:name="neutronstar.activity.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
@@ -20,14 +20,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".IntroActivity"
+        <activity android:name="neutronstar.activity.IntroActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
             android:noHistory="true">
         </activity>
 
-        <activity android:name=".MainMenuActivity"
+        <activity android:name="neutronstar.activity.MainMenuActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode">

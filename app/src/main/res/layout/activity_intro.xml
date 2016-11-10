@@ -4,9 +4,9 @@
     android:id="@+id/activity_intro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="at.ac.tuwien.ims.neutronenstern.IntroActivity">
+    tools:context="at.ac.tuwien.ims.neutronenstern.model.IntroActivity">
 
-    <at.ac.tuwien.ims.neutronenstern.FullScreenVideoView
+    <neutronstar.view.FullScreenVideoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/introView" />

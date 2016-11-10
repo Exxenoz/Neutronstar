@@ -1,4 +1,4 @@
-package at.ac.tuwien.ims.neutronenstern;
+package neutronstar.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.VideoView;
+
+import at.ac.tuwien.ims.neutronenstern.R;
 
 public class IntroActivity extends Activity implements MediaPlayer.OnCompletionListener, View.OnTouchListener {
 
