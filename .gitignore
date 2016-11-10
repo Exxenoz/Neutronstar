@@ -14,3 +14,5 @@
 .externalNativeBuild
 
 
+app/build/
+.idea/

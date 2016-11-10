@@ -1,4 +1,4 @@
-package at.ac.tuwien.ims.uemultimediatemplate;
+package at.ac.tuwien.ims.neutronenstern;
 
 import org.junit.Test;
 
