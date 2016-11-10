@@ -12,7 +12,8 @@
         <activity
             android:name=".MainActivity"
             android:noHistory="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,10 +24,12 @@
         <activity
             android:name=".IntroActivity"
             android:noHistory="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode">
         </activity>
 
-        <activity android:name=".MainMenuActivity">
+        <activity android:name=".MainMenuActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode">
 
         </activity>
 
