@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="at.ac.tuwien.ims.neutronenstern">
+    package="at.autrage.projects.zeta">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="neutronstar.activity.MainActivity"
+        <activity android:name="at.autrage.projects.zeta.activity.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
@@ -20,14 +20,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="neutronstar.activity.IntroActivity"
+        <activity android:name="at.autrage.projects.zeta.activity.IntroActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
             android:noHistory="true">
         </activity>
 
-        <activity android:name="neutronstar.activity.MainMenuActivity"
+        <activity android:name="at.autrage.projects.zeta.activity.MainMenuActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode">
