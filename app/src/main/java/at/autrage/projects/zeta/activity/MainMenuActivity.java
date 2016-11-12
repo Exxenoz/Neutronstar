@@ -1,11 +1,10 @@
 package at.autrage.projects.zeta.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import at.autrage.projects.zeta.R;
 
-public class MainMenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends SuperActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

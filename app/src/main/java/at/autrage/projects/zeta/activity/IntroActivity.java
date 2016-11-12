@@ -1,6 +1,5 @@
 package at.autrage.projects.zeta.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,7 +12,7 @@ import android.widget.VideoView;
 
 import at.autrage.projects.zeta.R;
 
-public class IntroActivity extends Activity implements MediaPlayer.OnCompletionListener, View.OnTouchListener {
+public class IntroActivity extends SuperActivity implements MediaPlayer.OnCompletionListener, View.OnTouchListener {
 
     private VideoView m_IntroView;
 
