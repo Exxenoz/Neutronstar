@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "at.ac.tuwien.ims.uemultimediatemplate"
+        applicationId "at.autrage.projects.zeta"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
