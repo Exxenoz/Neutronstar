@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_menu"
     android:layout_width="match_parent"
@@ -7,13 +8,256 @@
     android:background="@drawable/background_generic"
     tools:context="at.autrage.projects.zeta.model.MainMenuActivity">
 
-    <TextView
-        android:text="MainMenu"
+    <ImageView
+        app:srcCompat="@drawable/mm_logo"
+        android:id="@+id/imgViewLogo"
+        android:cropToPadding="false"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10.67dp"
+        android:layout_marginRight="10.67dp" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        app:srcCompat="@drawable/mm_button_blue_left"
+        android:id="@+id/imgViewNewGame"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="38.33dp"
+        android:layout_marginTop="20.33dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_button_blue_right"
+        android:id="@+id/imgViewHighscore"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@android:color/background_light" />
+        android:layout_marginTop="92.33dp"
+        android:layout_marginLeft="103.5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_button_blue_left"
+        android:id="@+id/imgViewHelp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="164.33dp"
+        android:layout_marginLeft="38.33dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_button_blue_right"
+        android:id="@+id/imgViewCredits"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="236.33dp"
+        android:layout_marginLeft="103.5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_icon_newgame"
+        android:id="@+id/imgViewNewGameIcon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="51dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_icon_help"
+        android:id="@+id/imgViewHelpIcon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="195dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_icon_highscore"
+        android:id="@+id/imgViewHighscoreIcon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="402dp"
+        android:layout_marginTop="122dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mm_icon_credits"
+        android:id="@+id/imgViewCreditsIcon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="402dp"
+        android:layout_marginTop="266dp" />
+
+    <TextView
+        android:text="@string/mm_newgame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewNewGame"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="57dp" />
+
+    <TextView
+        android:text="@string/mm_highscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewHighscore"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="203dp"
+        android:layout_marginTop="129dp" />
+
+    <TextView
+        android:text="@string/mm_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewHelp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="201dp" />
+
+    <TextView
+        android:text="@string/mm_credits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewCredits"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="219dp"
+        android:layout_marginTop="273dp" />
+
+    <Button
+        android:id="@+id/btnAreaNewGameIcon"
+        android:background="@color/colorAccent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="48dp"
+        android:layout_width="74dp"
+        android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/btnAreaHighscoreIcon"
+        android:background="@color/colorAccent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="387dp"
+        android:layout_width="74dp"
+        android:layout_marginTop="105dp" />
+
+    <Button
+        android:id="@+id/btnAreaHelpIcon"
+        android:background="@color/colorAccent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="48dp"
+        android:layout_width="74dp"
+        android:layout_marginTop="176dp" />
+
+    <Button
+        android:id="@+id/btnAreaCreditsIcon"
+        android:background="@color/colorAccent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="387dp"
+        android:layout_width="74dp"
+        android:layout_marginTop="248dp" />
+
+    <Button
+        android:id="@+id/btnAreaNewGame"
+        android:background="@color/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="122dp"
+        android:layout_marginTop="44dp"
+        android:layout_height="54dp"
+        android:layout_width="275dp" />
+
+    <Button
+        android:id="@+id/btnAreaHighscore"
+        android:background="@color/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="117dp"
+        android:layout_height="54dp"
+        android:layout_width="275dp" />
+
+    <Button
+        android:id="@+id/btnAreaHelp"
+        android:background="@color/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="122dp"
+        android:layout_marginTop="190dp"
+        android:layout_height="54dp"
+        android:layout_width="275dp" />
+
+    <Button
+        android:id="@+id/btnAreaCredits"
+        android:background="@color/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="260dp"
+        android:layout_height="54dp"
+        android:layout_width="275dp" />
+
+    <TextView
+        android:text="Development Build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewDevelopment"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10.67dp"
+        android:layout_marginBottom="10.67dp" />
+
 </RelativeLayout>

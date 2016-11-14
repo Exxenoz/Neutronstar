@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Projekt Neutronenstern</string>
+    <string name="mm_newgame">Neues Spiel</string>
+    <string name="mm_help">Hilfe</string>
+    <string name="mm_highscore">Highscore</string>
+    <string name="mm_credits">Credits</string>
 </resources>
