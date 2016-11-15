@@ -11,7 +11,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:launchMode="singleInstance"
             android:noHistory="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -23,7 +22,6 @@
         <activity
             android:name=".activity.IntroActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:launchMode="singleInstance"
             android:noHistory="true"
             android:screenOrientation="landscape"></activity>
         <activity

@@ -14,9 +14,25 @@ public class SuperActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
 
+        enableImmersiveMode();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        enableImmersiveMode();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Default: Do nothing
+    }
+
+    protected void enableImmersiveMode() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(WishedSystemUiVisibility);
         decorView.setOnSystemUiVisibilityChangeListener(new SystemUiVisibilityChangeListener(decorView));
