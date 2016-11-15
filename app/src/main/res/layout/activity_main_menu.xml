@@ -12,100 +12,100 @@
         app:srcCompat="@drawable/mm_logo"
         android:id="@+id/imgViewLogo"
         android:cropToPadding="false"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="200px"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10.67dp"
-        android:layout_marginRight="10.67dp" />
+        android:layout_marginTop="32px"
+        android:layout_marginRight="32px"
+        android:layout_width="451px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="1100px"
+        android:layout_height="310px"
         app:srcCompat="@drawable/mm_button_blue_left"
         android:id="@+id/imgViewNewGame"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="38.33dp"
-        android:layout_marginTop="20.33dp" />
+        android:layout_marginLeft="115px"
+        android:layout_marginTop="61px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="1100px"
+        android:layout_height="310px"
         app:srcCompat="@drawable/mm_button_blue_right"
         android:id="@+id/imgViewHighscore"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="92.33dp"
-        android:layout_marginLeft="103.5dp" />
+        android:layout_marginTop="277px"
+        android:layout_marginLeft="311px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="1100px"
+        android:layout_height="310px"
         app:srcCompat="@drawable/mm_button_blue_left"
         android:id="@+id/imgViewHelp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="164.33dp"
-        android:layout_marginLeft="38.33dp" />
+        android:layout_marginTop="493px"
+        android:layout_marginLeft="115px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="1100px"
+        android:layout_height="310px"
         app:srcCompat="@drawable/mm_button_blue_right"
         android:id="@+id/imgViewCredits"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="236.33dp"
-        android:layout_marginLeft="103.5dp" />
+        android:layout_marginTop="709px"
+        android:layout_marginLeft="311px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128px"
+        android:layout_height="128px"
         app:srcCompat="@drawable/mm_icon_newgame"
         android:id="@+id/imgViewNewGameIcon"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="51dp" />
+        android:layout_marginLeft="192px"
+        android:layout_marginTop="153px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mm_icon_help"
-        android:id="@+id/imgViewHelpIcon"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="195dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128px"
+        android:layout_height="128px"
         app:srcCompat="@drawable/mm_icon_highscore"
         android:id="@+id/imgViewHighscoreIcon"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="402dp"
-        android:layout_marginTop="122dp" />
+        android:layout_marginLeft="1206px"
+        android:layout_marginTop="366px" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128px"
+        android:layout_height="128px"
+        app:srcCompat="@drawable/mm_icon_help"
+        android:id="@+id/imgViewHelpIcon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="192px"
+        android:layout_marginTop="585px" />
+
+    <ImageView
+        android:layout_width="128px"
+        android:layout_height="128px"
         app:srcCompat="@drawable/mm_icon_credits"
         android:id="@+id/imgViewCreditsIcon"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="402dp"
-        android:layout_marginTop="266dp" />
+        android:layout_marginLeft="1206px"
+        android:layout_marginTop="798px" />
 
     <TextView
         android:text="@string/mm_newgame"
@@ -117,8 +117,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="190dp"
-        android:layout_marginTop="57dp" />
+        android:layout_marginLeft="570px"
+        android:layout_marginTop="171px" />
 
     <TextView
         android:text="@string/mm_highscore"
@@ -130,8 +130,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="203dp"
-        android:layout_marginTop="129dp" />
+        android:layout_marginLeft="609px"
+        android:layout_marginTop="387px" />
 
     <TextView
         android:text="@string/mm_help"
@@ -143,8 +143,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="230dp"
-        android:layout_marginTop="201dp" />
+        android:layout_marginLeft="690px"
+        android:layout_marginTop="603px" />
 
     <TextView
         android:text="@string/mm_credits"
@@ -156,52 +156,52 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="219dp"
-        android:layout_marginTop="273dp" />
+        android:layout_marginLeft="657px"
+        android:layout_marginTop="819px" />
 
     <Button
         android:id="@+id/btnAreaNewGameIcon"
         android:background="@color/colorAccent"
-        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="48dp"
-        android:layout_width="74dp"
-        android:layout_marginTop="32dp" />
+        android:layout_marginLeft="144px"
+        android:layout_marginTop="96px"
+        android:layout_width="220px"
+        android:layout_height="240px" />
 
     <Button
         android:id="@+id/btnAreaHighscoreIcon"
         android:background="@color/colorAccent"
-        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="387dp"
-        android:layout_width="74dp"
-        android:layout_marginTop="105dp" />
+        android:layout_marginLeft="1161px"
+        android:layout_marginTop="315px"
+        android:layout_width="220px"
+        android:layout_height="240px" />
 
     <Button
         android:id="@+id/btnAreaHelpIcon"
         android:background="@color/colorAccent"
-        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="48dp"
-        android:layout_width="74dp"
-        android:layout_marginTop="176dp" />
+        android:layout_marginLeft="144px"
+        android:layout_marginTop="528px"
+        android:layout_width="220px"
+        android:layout_height="240px" />
 
     <Button
         android:id="@+id/btnAreaCreditsIcon"
         android:background="@color/colorAccent"
-        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="387dp"
-        android:layout_width="74dp"
-        android:layout_marginTop="248dp" />
+        android:layout_marginLeft="1161px"
+        android:layout_marginTop="744px"
+        android:layout_width="220px"
+        android:layout_height="240px" />
 
     <Button
         android:id="@+id/btnAreaNewGame"
@@ -209,10 +209,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="122dp"
-        android:layout_marginTop="44dp"
-        android:layout_height="54dp"
-        android:layout_width="275dp" />
+        android:layout_marginLeft="364px"
+        android:layout_marginTop="132px"
+        android:layout_width="825px"
+        android:layout_height="162px" />
 
     <Button
         android:id="@+id/btnAreaHighscore"
@@ -220,10 +220,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="112dp"
-        android:layout_marginTop="117dp"
-        android:layout_height="54dp"
-        android:layout_width="275dp" />
+        android:layout_marginLeft="336px"
+        android:layout_marginTop="351px"
+        android:layout_width="825px"
+        android:layout_height="162px" />
 
     <Button
         android:id="@+id/btnAreaHelp"
@@ -231,10 +231,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="122dp"
-        android:layout_marginTop="190dp"
-        android:layout_height="54dp"
-        android:layout_width="275dp" />
+        android:layout_marginLeft="364px"
+        android:layout_marginTop="570px"
+        android:layout_width="825px"
+        android:layout_height="162px" />
 
     <Button
         android:id="@+id/btnAreaCredits"
@@ -242,10 +242,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="112dp"
-        android:layout_marginTop="260dp"
-        android:layout_height="54dp"
-        android:layout_width="275dp" />
+        android:layout_marginLeft="336px"
+        android:layout_marginTop="780px"
+        android:layout_width="825px"
+        android:layout_height="162px" />
 
     <TextView
         android:text="Development Build"
@@ -257,7 +257,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10.67dp"
-        android:layout_marginBottom="10.67dp" />
+        android:layout_marginRight="32px"
+        android:layout_marginBottom="32px" />
 
 </RelativeLayout>
