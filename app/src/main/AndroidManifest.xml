@@ -29,12 +29,10 @@
         <activity
             android:name=".activity.MainMenuActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:launchMode="singleInstance"
             android:screenOrientation="landscape"></activity>
         <activity
             android:name=".activity.GameActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:launchMode="singleInstance"
             android:screenOrientation="landscape"></activity>
     </application>
 
