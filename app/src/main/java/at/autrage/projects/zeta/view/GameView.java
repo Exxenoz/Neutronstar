@@ -55,10 +55,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return true;
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
+    public void drawGameView(Canvas canvas) {
         // Paint erstellen:
         Paint p = new Paint();
         p.setColor(Color.RED);

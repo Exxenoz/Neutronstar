@@ -43,7 +43,7 @@ public class GameLoop implements Runnable {
                 c = m_Holder.lockCanvas(null);
                 synchronized (m_Holder) {
                     if (c != null) {
-                        m_View.onDraw(c);
+                        m_View.drawGameView(c);
                     }
                 }
             } finally {
