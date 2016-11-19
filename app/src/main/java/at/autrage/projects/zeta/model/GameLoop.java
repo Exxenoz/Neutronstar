@@ -1,8 +1,10 @@
 package at.autrage.projects.zeta.model;
 
 import android.graphics.Canvas;
+import android.provider.Settings;
 import android.view.SurfaceHolder;
 
+import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 public class GameLoop implements Runnable {
@@ -20,7 +22,7 @@ public class GameLoop implements Runnable {
         this.m_Running = running;
     }
 
-    public void updateGame(float deltaTime) {
+    public void updateGame() {
         // Update game logic
     }
 
@@ -29,12 +31,21 @@ public class GameLoop implements Runnable {
         m_Running = true;
 
         Canvas c = null;
+        long startTime = System.currentTimeMillis();
+        long currTime = 0;
+        long sleepTime = 0;
 
         while (m_Running) {
-            // TODO: Frame-Unabhängigkeit implementieren
+            // Time:
+            currTime = System.currentTimeMillis();
+
+            Time.setDeltaTimeInMs(currTime - startTime);
+            Time.setDeltaTime(Time.getDeltaTimeInMs() / 1000f);
+
+            startTime = currTime;
 
             // Update:
-            updateGame(0f);
+            updateGame();
 
             // Render:
             c = null;
@@ -52,9 +63,14 @@ public class GameLoop implements Runnable {
                 }
             }
 
+            sleepTime = 16 - System.currentTimeMillis() - startTime;
             try {
-                Thread.sleep(16);
-            } catch (InterruptedException e) { }
+                if (sleepTime > 0) {
+                    Thread.sleep(sleepTime);
+                }
+            } catch (InterruptedException e) {
+                // Do nothing, in Andi we trust!
+            }
         }
     }
 }
