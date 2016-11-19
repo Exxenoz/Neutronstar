@@ -7,21 +7,47 @@ import android.view.SurfaceHolder;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
+/**
+ * This class contains the game loop.
+ *
+ * <p>If started, it repeats the update and render routine all 16 milli seconds.</p>
+ */
 public class GameLoop implements Runnable {
 
+    /** Variable for locking the canvas while rendering */
     private SurfaceHolder m_Holder;
+    /** Variable which stores reference to {@link GameView} */
     private GameView m_View;
+    /**
+     * Variable which contains the current state of the thread.
+     *
+     * <p>True means that the thrad is currently running. Otherwise the variable is set to false.</p>
+     */
     private boolean m_Running;
 
+    /**
+     * Constructor
+     *
+     * @param holder Reference to the canvas which has to be locked
+     * @param view Reference to the {@link GameView}
+     */
     public GameLoop(SurfaceHolder holder, GameView view) {
         this.m_Holder = holder;
         this.m_View = view;
     }
 
+    /**
+     * Set the value of {@link GameLoop#m_Running}
+     *
+     * @param running True means that the thrad is currently running. Otherwise the variable is set to false.
+     */
     public void setRunning(boolean running) {
         this.m_Running = running;
     }
 
+    /**
+     * Function which updates the game models
+     */
     public void updateGame() {
         // Update game logic
     }
