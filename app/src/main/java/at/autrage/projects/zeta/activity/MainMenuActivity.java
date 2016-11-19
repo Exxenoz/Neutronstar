@@ -7,6 +7,9 @@ import android.widget.Button;
 
 import at.autrage.projects.zeta.R;
 
+/**
+ * This activity contains various buttons to navigate through the main menu.
+ */
 public class MainMenuActivity extends SuperActivity {
 
     @Override
@@ -36,6 +39,7 @@ public class MainMenuActivity extends SuperActivity {
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);
 
+            // Start slide animation
             m_OwnerActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
         }
     }

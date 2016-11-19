@@ -5,7 +5,11 @@ import android.view.View;
 import android.widget.Button;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.view.GameView;
 
+/**
+ * This activity represents the game view and holds the {@link GameView} object.
+ */
 public class GameActivity extends SuperActivity implements View.OnClickListener {
 
     @Override
@@ -19,8 +23,10 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        // Close current activity
         finish();
 
+        // Start slide animation
         overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
     }
 }

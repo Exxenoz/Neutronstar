@@ -12,23 +12,28 @@ import android.view.SurfaceView;
 
 import at.autrage.projects.zeta.model.GameLoop;
 
+/**
+ * This class inherits from {@link SurfaceView} and implements {@link SurfaceHolder.Callback}.
+ * It is responsible for {@link GameLoop} management and drawing of the whole game view.
+ */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-
+    /** Reference to our {@link GameLoop} object. */
     GameLoop m_Loop;
+    /** Reference to our {@link GameLoop} thread. */
     Thread m_LoopThread;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // Callback für Events hinzufügen:
+        // Add callback for events
         getHolder().addCallback(this);
-        // Damit Events behandelt werden:
+        // Ensure that events are generated
         setFocusable(true);
-        // z.B. Ressourcen initialisieren
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("PNE::Debug", "GameView::surfaceCreated()");
+        // Initialize game loop and start thread
         m_Loop = new GameLoop(holder, this);
         m_LoopThread = new Thread(m_Loop);
         m_LoopThread.start();
@@ -47,23 +52,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        // Ein Touch-Event wurde ausgelöst
-        if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            // Was soll bei einer Berührung passieren?
-        }
-
+        // ToDo: Implement input processing
         return true;
     }
 
+    /**
+     * This method draws the game view to the given {@link Canvas} object.
+     *
+     * @param canvas The canvas where the game view should be drawn.
+     */
     public void drawGameView(Canvas canvas) {
-        // Paint erstellen:
+        // Create paint object
         Paint p = new Paint();
         p.setColor(Color.RED);
-        // Rechteck zeichnen:
+        // Draw rectangle for testing purpose
         canvas.drawRect(20, 20, 100, 100, p);
     }
 
-    // Stop the game loop and the thread:
+    /**
+     * This method stops the game loop thread.
+     */
     private void endGame() {
         m_Loop.setRunning(false);
 

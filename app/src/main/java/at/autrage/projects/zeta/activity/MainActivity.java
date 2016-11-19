@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import at.autrage.projects.zeta.R;
 
+/**
+ * This activity represents the starting point of the application.
+ */
 public class MainActivity extends SuperActivity {
 
     @Override
