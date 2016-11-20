@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import at.autrage.projects.zeta.R;
@@ -24,6 +25,8 @@ public class MainMenuActivity extends SuperActivity {
 
         btnAreaNewGame.setOnClickListener(newGameButtonAreaListener);
         btnAreaNewGameIcon.setOnClickListener(newGameButtonAreaListener);
+
+        scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_main_menu));
     }
 
     private class NewGameButtonAreaListener implements View.OnClickListener {
