@@ -169,7 +169,7 @@
 
     <Button
         android:id="@+id/btnAreaNewGameIcon"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -180,7 +180,7 @@
 
     <Button
         android:id="@+id/btnAreaHighscoreIcon"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -191,7 +191,7 @@
 
     <Button
         android:id="@+id/btnAreaHelpIcon"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -202,7 +202,7 @@
 
     <Button
         android:id="@+id/btnAreaCreditsIcon"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -213,7 +213,7 @@
 
     <Button
         android:id="@+id/btnAreaNewGame"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -224,7 +224,7 @@
 
     <Button
         android:id="@+id/btnAreaHighscore"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -235,7 +235,7 @@
 
     <Button
         android:id="@+id/btnAreaHelp"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -246,7 +246,7 @@
 
     <Button
         android:id="@+id/btnAreaCredits"
-        android:background="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
