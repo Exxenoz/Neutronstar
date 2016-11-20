@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.module.Database;
+import at.autrage.projects.zeta.persistence.HighscoreTable;
+import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
 /**
  * This activity represents the starting point of the application.
@@ -17,7 +19,7 @@ public class MainActivity extends SuperActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize database
-        // Database.getInstance();
+        Database.initialize(this);
 
         Intent redirectIntent = new Intent(this, IntroActivity.class);
         startActivity(redirectIntent);
