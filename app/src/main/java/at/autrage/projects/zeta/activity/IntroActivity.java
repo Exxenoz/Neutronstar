@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +19,7 @@ import at.autrage.projects.zeta.R;
 public class IntroActivity extends SuperActivity implements MediaPlayer.OnCompletionListener, View.OnTouchListener {
 
     private VideoView m_IntroView;
+    private boolean m_Skipped;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,11 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
      * by starting the {@link MainMenuActivity}.
      */
     private void skipVideo() {
-        startActivity(new Intent(this, MainMenuActivity.class));
+        if (!m_Skipped) {
+            m_Skipped = true;
+            startActivity(new Intent(this, MainMenuActivity.class));
+            Log.d("PNE::Debug", "Skipped video intro...");
+        }
     }
 
     @Override
