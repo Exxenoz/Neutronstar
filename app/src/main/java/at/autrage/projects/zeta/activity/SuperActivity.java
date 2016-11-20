@@ -160,8 +160,8 @@ public class SuperActivity extends AppCompatActivity {
     }
 
     /**
-     * This class implements an {@link View.OnSystemUiVisibilityChangeListener} and reacts
-     * to possible system ui visibility changes by re-enabling immersive mode if necessary.
+     * This class reacts to possible system ui visibility
+     * changes by re-enabling immersive mode if necessary.
      */
     private class SystemUiVisibilityChangeListener implements View.OnSystemUiVisibilityChangeListener {
 

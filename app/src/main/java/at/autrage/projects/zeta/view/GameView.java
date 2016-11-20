@@ -13,7 +13,6 @@ import android.view.SurfaceView;
 import at.autrage.projects.zeta.model.GameLoop;
 
 /**
- * This class inherits from {@link SurfaceView} and implements {@link SurfaceHolder.Callback}.
  * It is responsible for {@link GameLoop} management and drawing of the whole game view.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
