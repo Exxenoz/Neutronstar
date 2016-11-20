@@ -109,55 +109,63 @@
 
     <TextView
         android:text="@string/mm_newgame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="825px"
+        android:layout_height="162px"
         android:id="@+id/txtViewNewGame"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="570px"
-        android:layout_marginTop="171px" />
+        android:layout_marginLeft="350px"
+        android:layout_marginTop="132px"
+        android:textSize="64px"
+        android:textAlignment="center"
+        android:gravity="center" />
 
     <TextView
         android:text="@string/mm_highscore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="825px"
+        android:layout_height="162px"
         android:id="@+id/txtViewHighscore"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="64px"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="609px"
-        android:layout_marginTop="387px" />
+        android:layout_marginLeft="350px"
+        android:layout_marginTop="351px"
+        android:textAlignment="center"
+        android:gravity="center" />
 
     <TextView
         android:text="@string/mm_help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="825px"
+        android:layout_height="162px"
         android:id="@+id/txtViewHelp"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="64px"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="690px"
-        android:layout_marginTop="603px" />
+        android:layout_marginLeft="350px"
+        android:layout_marginTop="570px"
+        android:textAlignment="center"
+        android:gravity="center" />
 
     <TextView
         android:text="@string/mm_credits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="825px"
+        android:layout_height="162px"
         android:id="@+id/txtViewCredits"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="64px"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="657px"
-        android:layout_marginTop="819px" />
+        android:layout_marginLeft="350px"
+        android:layout_marginTop="780px"
+        android:textAlignment="center"
+        android:gravity="center" />
 
     <Button
         android:id="@+id/btnAreaNewGameIcon"
@@ -253,11 +261,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtViewDevelopment"
         android:textColor="@android:color/white"
-        android:textSize="10sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32px"
-        android:layout_marginBottom="32px" />
+        android:layout_marginBottom="32px"
+        android:textSize="32px" />
 
 </RelativeLayout>

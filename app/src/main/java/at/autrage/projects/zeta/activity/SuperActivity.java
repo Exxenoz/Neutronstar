@@ -6,6 +6,7 @@ import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,11 @@ public class SuperActivity extends AppCompatActivity {
                 currView instanceof TextView ||
                 currView instanceof Button)) {
                 continue;
+            }
+
+            if (currView instanceof TextView) {
+                TextView textView = (TextView)currView;
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textView.getTextSize() * scaleFactor);
             }
 
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)currView.getLayoutParams();
