@@ -8,7 +8,8 @@
 
     <at.autrage.projects.zeta.view.GameView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/gameView" />
 
     <TextView
         android:text="Game View ;-)"
@@ -29,4 +30,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/btnFinishGame" />
+
+    <TextView
+        android:text="00 FPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewFPS"
+        android:textAlignment="textEnd"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="32px"
+        android:layout_marginRight="32px"
+        android:textColor="@android:color/white"
+        android:textSize="36px" />
 </RelativeLayout>

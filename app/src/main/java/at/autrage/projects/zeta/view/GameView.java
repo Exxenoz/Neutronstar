@@ -9,20 +9,29 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
+import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.model.GameLoop;
+import at.autrage.projects.zeta.module.Time;
 
 /**
  * It is responsible for {@link GameLoop} management and drawing of the whole game view.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    /** Reference to our {@link GameActivity} object. */
+    GameActivity m_GameActivity;
     /** Reference to our {@link GameLoop} object. */
     GameLoop m_Loop;
     /** Reference to our {@link GameLoop} thread. */
     Thread m_LoopThread;
+    /** Reference to the fps text view element. */
+    TextView m_TxtViewFPS;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        // Initialize game activity variable
+        m_GameActivity = (GameActivity)context;
         // Add callback for events
         getHolder().addCallback(this);
         // Ensure that events are generated
@@ -56,11 +65,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
+     * Function which updates the game models
+     */
+    public void update() {
+        // Update user interface states
+        m_GameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (m_TxtViewFPS != null) {
+                    m_TxtViewFPS.setText(Time.getFPS() + " FPS");
+                }
+            }
+        });
+    }
+
+    /**
      * This method draws the game view to the given {@link Canvas} object.
      *
      * @param canvas The canvas where the game view should be drawn.
      */
-    public void drawGameView(Canvas canvas) {
+    public void render(Canvas canvas) {
         // Create paint object
         Paint p = new Paint();
         p.setColor(Color.RED);
@@ -79,5 +103,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         } catch (InterruptedException e) {
             Log.e("PNE::Error", e.getMessage());
         }
+    }
+
+    /**
+     * Sets the value of {@link GameView#m_TxtViewFPS}
+     *
+     * @param txtViewFPS The reference to the fps text view.
+     */
+    public void setTxtViewFPS(TextView txtViewFPS) {
+        m_TxtViewFPS = txtViewFPS;
     }
 }

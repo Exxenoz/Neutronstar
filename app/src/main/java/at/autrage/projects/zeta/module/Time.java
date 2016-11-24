@@ -99,4 +99,11 @@ public class Time {
     public static long getDeltaTimeInMs() {
         return Time.deltaTimeInMs;
     }
+
+    /**
+     * Returns the estimated amount of frames per second
+     *
+     * @return the value of estimated frames per second
+     */
+    public static long getFPS() { return (long)(1f / Math.max(Time.deltaTime, 0.016f)); }
 }

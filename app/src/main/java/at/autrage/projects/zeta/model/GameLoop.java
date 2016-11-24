@@ -1,7 +1,6 @@
 package at.autrage.projects.zeta.model;
 
 import android.graphics.Canvas;
-import android.provider.Settings;
 import android.view.SurfaceHolder;
 
 import at.autrage.projects.zeta.module.Time;
@@ -45,13 +44,6 @@ public class GameLoop implements Runnable {
         this.m_Running = running;
     }
 
-    /**
-     * Function which updates the game models
-     */
-    public void updateGame() {
-        // Update game logic
-    }
-
     @Override
     public void run() {
         m_Running = true;
@@ -71,7 +63,7 @@ public class GameLoop implements Runnable {
             startTime = currTime;
 
             // Update:
-            updateGame();
+            m_View.update();
 
             // Render:
             c = null;
@@ -80,7 +72,7 @@ public class GameLoop implements Runnable {
                 c = m_Holder.lockCanvas(null);
                 synchronized (m_Holder) {
                     if (c != null) {
-                        m_View.drawGameView(c);
+                        m_View.render(c);
                     }
                 }
             } finally {
