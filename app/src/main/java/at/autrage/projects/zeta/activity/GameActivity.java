@@ -20,6 +20,8 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        m_CurrentActivity = Activities.GameActivity;
+
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setTxtViewFPS((TextView)findViewById(R.id.txtViewFPS));
 

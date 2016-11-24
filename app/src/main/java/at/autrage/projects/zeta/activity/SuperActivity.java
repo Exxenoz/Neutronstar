@@ -21,6 +21,25 @@ import android.widget.TextView;
  */
 public class SuperActivity extends AppCompatActivity {
 
+    public enum Activities {
+        MainActivity,
+        IntroActivity,
+        MainMenuActivity,
+        GameActivity
+    }
+
+    /** The currently active activity */
+    protected static Activities m_CurrentActivity = Activities.MainActivity;
+
+    /**
+     * Returns the value of {@link SuperActivity#m_CurrentActivity}
+     *
+     * @return the value of {@link SuperActivity#m_CurrentActivity}
+     */
+    public static Activities getCurrentActivity() {
+        return m_CurrentActivity;
+    }
+
     public final int ReferenceResolutionX = 1920;
     public final int ReferenceResolutionY = 1080;
 

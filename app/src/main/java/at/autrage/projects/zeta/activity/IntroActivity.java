@@ -28,9 +28,9 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
-
-        // Set layout
         setContentView(R.layout.activity_intro);
+
+        m_CurrentActivity = Activities.IntroActivity;
 
         // Initialize VideoView
         m_IntroView = (VideoView)findViewById(R.id.introView);

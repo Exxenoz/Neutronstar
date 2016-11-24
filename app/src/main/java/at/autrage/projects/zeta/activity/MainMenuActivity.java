@@ -20,6 +20,8 @@ public class MainMenuActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        m_CurrentActivity = Activities.MainMenuActivity;
+
         SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
 
         NewGameButtonAreaListener newGameButtonAreaListener = new NewGameButtonAreaListener(this);

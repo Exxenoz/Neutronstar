@@ -19,6 +19,8 @@ public class MainActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        m_CurrentActivity = Activities.MainActivity;
+
         // Initialize database
         Database.initialize(this);
 
