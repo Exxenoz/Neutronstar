@@ -89,7 +89,7 @@ public class GameLoop implements Runnable {
                 }
             }
 
-            sleepTime = 16 - System.currentTimeMillis() - startTime;
+            sleepTime = 16 - (System.currentTimeMillis() - startTime);
             try {
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
