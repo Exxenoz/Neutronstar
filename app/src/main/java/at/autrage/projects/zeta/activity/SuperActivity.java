@@ -43,6 +43,38 @@ public class SuperActivity extends AppCompatActivity {
     public final int ReferenceResolutionX = 1920;
     public final int ReferenceResolutionY = 1080;
 
+    private static int m_CurrentResolutionX;
+    private static int m_CurrentResolutionY;
+
+    /**
+     * Returns the value of {@link SuperActivity#m_CurrentResolutionX}
+     *
+     * @return the value of {@link SuperActivity#m_CurrentResolutionX}
+     */
+    public static int getCurrentResolutionX() {
+        return m_CurrentResolutionX;
+    }
+
+    /**
+     * Returns the value of {@link SuperActivity#m_CurrentResolutionY}
+     *
+     * @return the value of {@link SuperActivity#m_CurrentResolutionY}
+     */
+    public static int getCurrentResolutionY() {
+        return m_CurrentResolutionY;
+    }
+
+    private static float m_ScaleFactor;
+
+    /**
+     * Returns the value of {@link SuperActivity#m_ScaleFactor}
+     *
+     * @return the value of {@link SuperActivity#m_ScaleFactor}
+     */
+    public static float getScaleFactor() {
+        return m_ScaleFactor;
+    }
+
     /**
      * Used as globally accessible immersive mode flags container.
      */
@@ -86,21 +118,21 @@ public class SuperActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point(); display.getRealSize(size);
 
-        int currResolutionX = size.x;
-        int currResolutionY = size.y;
+        m_CurrentResolutionX = size.x;
+        m_CurrentResolutionY = size.y;
 
-        float scaleFactorX = currResolutionX / (float)ReferenceResolutionX;
-        float scaleFactorY = currResolutionY / (float)ReferenceResolutionY;
+        float scaleFactorX = m_CurrentResolutionX / (float)ReferenceResolutionX;
+        float scaleFactorY = m_CurrentResolutionY / (float)ReferenceResolutionY;
 
-        float scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+        m_ScaleFactor = Math.min(scaleFactorX, scaleFactorY);
 
         Log.d("PNE::Debug", "Reference Resolution: " + ReferenceResolutionX + "x" + ReferenceResolutionY);
-        Log.d("PNE::Debug", "Current Resolution: " + currResolutionX + "x" + currResolutionY);
-        Log.d("PNE::Debug", "ScaleFactor (to current Resolution): " + scaleFactor);
+        Log.d("PNE::Debug", "Current Resolution: " + m_CurrentResolutionX + "x" + m_CurrentResolutionY);
+        Log.d("PNE::Debug", "ScaleFactor (to current Resolution): " + m_ScaleFactor);
 
         int counter = 0;
 
-        if (scaleFactor == 1.0f) {
+        if (m_ScaleFactor == 1.0f) {
             Log.d("PNE::Debug", "No scaling required, because scale factor is 1!");
             return;
         }
@@ -119,17 +151,17 @@ public class SuperActivity extends AppCompatActivity {
 
             if (currView instanceof TextView) {
                 TextView textView = (TextView)currView;
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textView.getTextSize() * scaleFactor);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textView.getTextSize() * m_ScaleFactor);
             }
 
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)currView.getLayoutParams();
 
             if (layoutParams.width > 0) {
-                layoutParams.width *= scaleFactor;
+                layoutParams.width *= m_ScaleFactor;
             }
 
             if (layoutParams.height > 0) {
-                layoutParams.height *= scaleFactor;
+                layoutParams.height *= m_ScaleFactor;
             }
 
             int leftMargin = layoutParams.leftMargin;
@@ -138,19 +170,19 @@ public class SuperActivity extends AppCompatActivity {
             int bottomMargin = layoutParams.bottomMargin;
 
             if (leftMargin > 0) {
-                leftMargin *= scaleFactor;
+                leftMargin *= m_ScaleFactor;
             }
 
             if (rightMargin > 0) {
-                rightMargin *= scaleFactor;
+                rightMargin *= m_ScaleFactor;
             }
 
             if (topMargin > 0) {
-                topMargin *= scaleFactor;
+                topMargin *= m_ScaleFactor;
             }
 
             if (bottomMargin > 0) {
-                bottomMargin *= scaleFactor;
+                bottomMargin *= m_ScaleFactor;
             }
 
             layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
