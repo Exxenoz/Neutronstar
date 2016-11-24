@@ -34,7 +34,6 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         m_MainContext = mainActivity.getApplicationContext();
 
         m_AudioManager = (AudioManager)m_MainContext.getSystemService(MainActivity.AUDIO_SERVICE);
-        m_AudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, m_AudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
 
         // Initialize SoundPool (for sound effects):
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
