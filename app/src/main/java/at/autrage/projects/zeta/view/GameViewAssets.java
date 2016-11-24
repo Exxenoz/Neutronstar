@@ -3,10 +3,7 @@ package at.autrage.projects.zeta.view;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.view.Display;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.SuperActivity;
