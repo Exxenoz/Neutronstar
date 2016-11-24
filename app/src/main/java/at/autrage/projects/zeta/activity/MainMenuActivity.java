@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.module.SoundManager;
 
 /**
  * This activity contains various buttons to navigate through the main menu.
@@ -18,6 +19,8 @@ public class MainMenuActivity extends SuperActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
 
         NewGameButtonAreaListener newGameButtonAreaListener = new NewGameButtonAreaListener(this);
 

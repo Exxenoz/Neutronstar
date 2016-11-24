@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.module.Database;
+import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
@@ -20,6 +21,9 @@ public class MainActivity extends SuperActivity {
 
         // Initialize database
         Database.initialize(this);
+
+        // Initialize sound manager
+        SoundManager.getInstance().initialize(this);
 
         Intent redirectIntent = new Intent(this, IntroActivity.class);
         startActivity(redirectIntent);
