@@ -7,7 +7,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.util.Log;
 
+import java.util.HashMap;
+
+import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.MainActivity;
 
 public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, SoundPool.OnLoadCompleteListener {
@@ -23,6 +27,8 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     AudioManager m_AudioManager;
     MediaPlayer m_MediaPlayer;
     SoundPool m_SoundPool;
+    boolean m_SoundPoolLoaded;
+    HashMap<Integer, Integer> m_ResIdToSoundIdMap;
 
     public final int MaxSFXStreams = 5;
 
@@ -44,6 +50,8 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         }
 
         m_SoundPool.setOnLoadCompleteListener(this);
+
+        loadSoundPool();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -62,6 +70,18 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     @SuppressWarnings("deprecation") // SupressWarnings should not be used, still in this case it is needed
     private SoundPool createOldSoundpool() {
         return new SoundPool(MaxSFXStreams, AudioManager.STREAM_MUSIC, 0);
+    }
+
+    private void addSoundToSoundPool(int resId) {
+        m_ResIdToSoundIdMap.put(resId, m_SoundPool.load(m_MainContext, resId, 1));
+    }
+
+    private void loadSoundPool() {
+        m_ResIdToSoundIdMap = new HashMap<>();
+
+        addSoundToSoundPool(R.raw.sfx_button_back);
+        addSoundToSoundPool(R.raw.sfx_button_pick);
+        addSoundToSoundPool(R.raw.sfx_button_select);
     }
 
     public void StartBGM(int resId, boolean looping) {
@@ -95,7 +115,23 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         }
     }
 
+    public void PlaySFX(int resId) {
+        Integer soundId = m_ResIdToSoundIdMap.get(resId);
+        if (soundId == null) {
+            Log.e("PNE::Error", "Could not play sound effect with resource id " + resId + ", because it was not loaded.");
+            return;
+        }
+
+        if (!m_SoundPoolLoaded) {
+            Log.e("PNE::Error", "Could not play sound effect with resource id " + resId + ", because sound pool is not fully loaded yet.");
+            return;
+        }
+
+        m_SoundPool.play(soundId, 1, 1, 0, 0, 1);
+    }
+
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+        m_SoundPoolLoaded = true;
     }
 }

@@ -11,8 +11,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
+import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.model.GameLoop;
+import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 
 /**
@@ -41,6 +43,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("PNE::Debug", "GameView::surfaceCreated()");
+
+        SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
+
         // Initialize game loop and start thread
         m_Loop = new GameLoop(holder, this);
         m_LoopThread = new Thread(m_Loop);
@@ -55,7 +60,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d("PNE::Debug", "GameView::surfaceDestroyed()");
-        endGame();
+
+        m_Loop.setRunning(false);
+
+        try {
+            m_LoopThread.join();
+        } catch (InterruptedException e) {
+            Log.e("PNE::Error", e.getMessage());
+        }
+
+        SoundManager.getInstance().StopBGM();
     }
 
     @Override
@@ -90,19 +104,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         p.setColor(Color.RED);
         // Draw rectangle for testing purpose
         canvas.drawRect(20, 20, 100, 100, p);
-    }
-
-    /**
-     * This method stops the game loop thread.
-     */
-    private void endGame() {
-        m_Loop.setRunning(false);
-
-        try {
-            m_LoopThread.join();
-        } catch (InterruptedException e) {
-            Log.e("PNE::Error", e.getMessage());
-        }
     }
 
     /**

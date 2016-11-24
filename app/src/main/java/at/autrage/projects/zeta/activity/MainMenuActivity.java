@@ -22,8 +22,6 @@ public class MainMenuActivity extends SuperActivity {
 
         m_CurrentActivity = Activities.MainMenuActivity;
 
-        SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
-
         NewGameButtonAreaListener newGameButtonAreaListener = new NewGameButtonAreaListener(this);
 
         Button btnAreaNewGame = (Button)findViewById(R.id.btnAreaNewGame);
@@ -46,6 +44,8 @@ public class MainMenuActivity extends SuperActivity {
         @Override
         public void onClick(View v) {
             Log.d("PNE::Debug", "Clicked New Game Button...");
+
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_button_select);
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);
