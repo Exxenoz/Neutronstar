@@ -29,6 +29,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     Thread m_LoopThread;
     /** Reference to the fps text view element. */
     TextView m_TxtViewFPS;
+    /** Reference to our {@link GameViewAssets} object. */
+    GameViewAssets m_Assets;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,6 +45,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("PNE::Debug", "GameView::surfaceCreated()");
+
+        m_Assets = new GameViewAssets();
+        m_Assets.load(getResources());
 
         SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
 
@@ -70,6 +75,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         SoundManager.getInstance().StopBGM();
+
+        m_Assets.unLoad();
     }
 
     @Override
@@ -99,11 +106,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param canvas The canvas where the game view should be drawn.
      */
     public void render(Canvas canvas) {
-        // Create paint object
-        Paint p = new Paint();
-        p.setColor(Color.RED);
-        // Draw rectangle for testing purpose
-        canvas.drawRect(20, 20, 100, 100, p);
+        canvas.drawBitmap(m_Assets.BackgroundGame, m_Assets.BackgroundGameRectSrc, m_Assets.BackgroundGameRectDst, new Paint());
     }
 
     /**
