@@ -1,10 +1,7 @@
 package at.autrage.projects.zeta.persistence;
 
 
-public abstract class Table {
-    public abstract String getTableName();
-    public abstract String[][] getColumns();
-
+public abstract class Table<TEntry> {
     protected String[] m_ColumnNames;
 
     public Table() {
@@ -19,6 +16,11 @@ public abstract class Table {
             m_ColumnNames[i] = columns[i][0];
         }
     }
+
+    public abstract TEntry createEntry();
+
+    public abstract String getTableName();
+    public abstract String[][] getColumns();
 
     public String[] getColumnNames() {
         return m_ColumnNames;

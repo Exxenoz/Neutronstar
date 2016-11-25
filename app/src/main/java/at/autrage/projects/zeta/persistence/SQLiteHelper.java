@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Map;
+
 import at.autrage.projects.zeta.module.Database;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -19,7 +21,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         String sql = "";
 
-        for (Table table : Database.getTables()) {
+        for (Table table : Database.getTables().values()) {
             sql += table.createTableSQLString();
         }
 
@@ -35,7 +37,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         String sql = "";
 
-        for (Table table : Database.getTables()) {
+        for (Table table : Database.getTables().values()) {
             sql += table.deleteTableSQLString();
         }
 

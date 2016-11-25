@@ -2,17 +2,14 @@ package at.autrage.projects.zeta.persistence;
 
 
 import android.content.ContentValues;
-import android.util.Log;
+import android.database.Cursor;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
-public abstract class TableEntry {
+public abstract class TableEntry<T extends Table> {
     public long ID;
 
-    protected Table m_Table;
+    protected T m_Table;
 
-    public TableEntry(Table table) {
+    public TableEntry(T table) {
         m_Table = table;
     }
 
@@ -24,5 +21,6 @@ public abstract class TableEntry {
         return m_Table.getColumnNames();
     }
 
-    public abstract ContentValues getContentValues();
+    public abstract ContentValues write();
+    public abstract void read(Cursor cursor);
 }

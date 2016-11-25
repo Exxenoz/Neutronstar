@@ -7,10 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import at.autrage.projects.zeta.persistence.HighscoreTable;
-import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 import at.autrage.projects.zeta.persistence.SQLiteHelper;
 import at.autrage.projects.zeta.persistence.Table;
 import at.autrage.projects.zeta.persistence.TableEntry;
@@ -19,11 +20,23 @@ import at.autrage.projects.zeta.persistence.TableEntry;
  * This class creates a direct connection to a SQLite Database.
  */
 public class Database {
-    public static final int HighscoreTable = 0;
+    public enum Tables {
+        HighscoreTable,
+    }
 
-    private static Table[] tables = new Table[]{
-            new HighscoreTable()
+    private static final Map<Tables, Table> tables = new HashMap<Tables, Table>() {
+        {
+            put(Tables.HighscoreTable, new HighscoreTable());
+        }
     };
+
+    public static Map<Tables, Table> getTables() {
+        return tables;
+    }
+
+    public static Table getTable(Tables tableId) {
+        return tables.get(tableId);
+    }
 
     // Database fields
     private SQLiteDatabase m_Database;
@@ -45,20 +58,13 @@ public class Database {
         m_DBHelper = new SQLiteHelper(context);
     }
 
-    public static Table[] getTables() {
-        return tables;
-    }
-
-    public static Table getTable(int tableIdx) {
-        return tables[tableIdx];
-    }
-
     /**
      * Opens a writable database connection
      * @throws SQLException
      */
     public void open() throws SQLException {
         m_Database = m_DBHelper.getWritableDatabase();
+
         Log.d("PNE::Debug", "Database connection opened.");
     }
 
@@ -74,12 +80,9 @@ public class Database {
      * @param entry has to be a value which extends TableEntry
      */
     public void insertTableEntry(TableEntry entry) {
+        entry.ID = m_Database.insert(entry.getTableName(), null, entry.write());
 
-        long insertId = m_Database.insert(entry.getTableName(), null,
-                entry.getContentValues());
-        entry.ID = insertId;
-
-        Log.d("PNE::Debug", String.format("Inserted new table entry (id: %d) to table %s.", insertId, entry.getTableName()));
+        Log.d("PNE::Debug", String.format("Inserted new table entry (id: %d) to table %s.", entry.ID, entry.getTableName()));
     }
 
     /**
@@ -87,59 +90,33 @@ public class Database {
      * @param entry has to be a value which extends TableEntry
      */
     public void deleteTableEntry(TableEntry entry) {
-        long id = entry.ID;
+        m_Database.delete(entry.getTableName(), entry.getColumnNames()[0] + " = " + entry.ID, null);
 
-        m_Database.delete(entry.getTableName(), entry.getColumnNames()[0]
-                + " = " + id, null);
-
-        Log.d("PNE::Debug", String.format("Removed table entry (id: %d) from table %s.", id, entry.getTableName()));
+        Log.d("PNE::Debug", String.format("Removed table entry (id: %d) from table %s.", entry.ID, entry.getTableName()));
     }
 
     /**
-     * Selects all entries from table highscores
-     * @param table the object ob the highscore table
-     * @return a list of all entries from the highscores table
+     * Selects all entries from a specified database table.
+     *
+     * @param table the object to the database table.
+     * @return a list of all entries from the specified table.
      */
-    public List<HighscoreTableEntry> selectAllHighscoreTableEntries(HighscoreTable table) {
-        List<HighscoreTableEntry> tableEntries = new ArrayList<HighscoreTableEntry>();
+    public <T extends Table<TEntry>, TEntry extends TableEntry<T>> List<TEntry> selectTableEntries(Table<TEntry> table) {
+        List<TEntry> tableEntries = new ArrayList<>();
 
-        Cursor cursor = m_Database.query(table.getTableName(),
-                table.getColumnNames(), null, null, null, null, null);
-
+        Cursor cursor = m_Database.query(table.getTableName(), table.getColumnNames(), null, null, null, null, null);
         cursor.moveToFirst();
+
         while (!cursor.isAfterLast()) {
-            HighscoreTableEntry highscoreTableEntry = getHighscoreTableEntryFromCursor(cursor, table);
-            tableEntries.add(highscoreTableEntry);
+            TEntry tableEntry = table.createEntry();
+            tableEntry.read(cursor);
+            tableEntries.add(tableEntry);
 
             cursor.moveToNext();
-
-            Log.d("PNE::Debug",
-                    String.format("Loaded highscore entry (ID: %d, Level: %d, Score: %d, Date: %s)",
-                            highscoreTableEntry.ID,
-                            highscoreTableEntry.Level,
-                            highscoreTableEntry.Score,
-                            highscoreTableEntry.Date
-                    )
-            );
         }
 
-        // make sure to close the cursor
         cursor.close();
-        return tableEntries;
-    }
 
-    /**
-     * Converts the curser object to an valid table entry of the highscore table
-     * @param cursor object which contains the data read from the SQLite database
-     * @param table object wich contains the hichscore table
-     * @return a valid highscore table entry
-     */
-    private HighscoreTableEntry getHighscoreTableEntryFromCursor(Cursor cursor, HighscoreTable table) {
-        HighscoreTableEntry highscoreTableEntry = new HighscoreTableEntry(table);
-        highscoreTableEntry.ID = cursor.getInt(0);
-        highscoreTableEntry.Level = cursor.getInt(1);
-        highscoreTableEntry.Score = cursor.getInt(2);
-        highscoreTableEntry.Date  = cursor.getString(3);
-        return highscoreTableEntry;
+        return tableEntries;
     }
 }
