@@ -27,10 +27,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     GameLoop m_Loop;
     /** Reference to our {@link GameLoop} thread. */
     Thread m_LoopThread;
-    /** Reference to the fps text view element. */
-    TextView m_TxtViewFPS;
     /** Reference to our {@link GameViewAssets} object. */
     GameViewAssets m_Assets;
+    /** Reference to our {@link GameViewUI} object. */
+    GameViewUI m_UI;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,8 +93,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_GameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (m_TxtViewFPS != null) {
-                    m_TxtViewFPS.setText(Time.getFPS() + " FPS");
+                if (m_UI == null) {
+                    return;
+                }
+
+                if (m_UI.TxtViewFPS != null) {
+                    m_UI.TxtViewFPS.setText(Time.getFPS() + " FPS");
                 }
             }
         });
@@ -110,11 +114,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Sets the value of {@link GameView#m_TxtViewFPS}
+     * Sets the value of {@link GameView#m_UI}
      *
-     * @param txtViewFPS The reference to the fps text view.
+     * @param ui The reference to game view ui object.
      */
-    public void setTxtViewFPS(TextView txtViewFPS) {
-        m_TxtViewFPS = txtViewFPS;
+    public void setGameViewUI(GameViewUI ui) {
+        m_UI = ui;
     }
 }

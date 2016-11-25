@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.view.GameView;
+import at.autrage.projects.zeta.view.GameViewUI;
 
 /**
  * This activity represents the game view and holds the {@link GameView} object.
@@ -22,8 +23,11 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
         m_CurrentActivity = Activities.GameActivity;
 
+        GameViewUI gameViewUI = new GameViewUI();
+        gameViewUI.TxtViewFPS = (TextView)findViewById(R.id.txtViewFPS);
+
         m_GameView = (GameView)findViewById(R.id.gameView);
-        m_GameView.setTxtViewFPS((TextView)findViewById(R.id.txtViewFPS));
+        m_GameView.setGameViewUI(gameViewUI);
 
         Button btnFinishGame = (Button)findViewById(R.id.btnFinishGame);
         btnFinishGame.setOnClickListener(this);
