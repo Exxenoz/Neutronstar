@@ -101,10 +101,11 @@ public class Database {
      * @param table the object to the database table.
      * @return a list of all entries from the specified table.
      */
-    public <T extends Table<TEntry>, TEntry extends TableEntry<T>> List<TEntry> selectTableEntries(Table<TEntry> table) {
+    public <T extends Table<TEntry>, TEntry extends TableEntry<T>>
+    List<TEntry> selectTableEntries(Table<TEntry> table, String selection, String[] selectionArgs, String orderBy) {
         List<TEntry> tableEntries = new ArrayList<>();
 
-        Cursor cursor = m_Database.query(table.getTableName(), table.getColumnNames(), null, null, null, null, null);
+        Cursor cursor = m_Database.query(table.getTableName(), table.getColumnNames(), selection, selectionArgs, null, null, orderBy);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
@@ -118,5 +119,17 @@ public class Database {
         cursor.close();
 
         return tableEntries;
+    }
+
+    /**
+     * Selects all entries from a specified database table ordered by the specified parameter.
+     *
+     * @param table the object to the database table.
+     * @param orderBy how to order the rows.
+     * @return a list of all entries from the specified table.
+     */
+    public <T extends Table<TEntry>, TEntry extends TableEntry<T>>
+    List<TEntry> selectTableEntriesOrdered(Table<TEntry> table, String orderBy) {
+        return selectTableEntries(table, null, null, orderBy);
     }
 }
