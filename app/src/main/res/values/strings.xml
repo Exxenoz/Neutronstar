@@ -6,4 +6,5 @@
     <string name="mm_credits">Credits</string>
     <string name="hs_back">Zurück zum Hauptmenü</string>
     <string name="hs_newgame">Neues Spiel</string>
+    <string name="hs_noentry">Kein Eintrag</string>
 </resources>
