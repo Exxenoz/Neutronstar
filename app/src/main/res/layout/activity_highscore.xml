@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_highscore"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_game"
+    tools:context="at.autrage.projects.zeta.activity.HighscoreActivity">
+
+    <TextView
+        android:text="Highscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewTitle"
+        android:textColor="@android:color/white"
+        android:textSize="64px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_red"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg1"
+        android:layout_marginTop="128px"
+        android:layout_marginLeft="108px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_green"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg2"
+        android:layout_marginTop="278px"
+        android:layout_marginLeft="108px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_green"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg3"
+        android:layout_marginTop="428px"
+        android:layout_marginLeft="108px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_blue"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg4"
+        android:layout_marginTop="578px"
+        android:layout_marginLeft="108px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_blue"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg5"
+        android:layout_marginTop="728px"
+        android:layout_marginLeft="108px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg6"
+        android:layout_marginTop="128px"
+        android:layout_marginLeft="996px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg7"
+        android:layout_marginTop="278px"
+        android:layout_marginLeft="996px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg8"
+        android:layout_marginTop="428px"
+        android:layout_marginLeft="996px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg9"
+        android:layout_marginTop="578px"
+        android:layout_marginLeft="996px" />
+
+    <ImageView
+        android:layout_width="818px"
+        android:layout_height="158px"
+        app:srcCompat="@drawable/hs_field_background_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewFieldBg10"
+        android:layout_marginTop="728px"
+        android:layout_marginLeft="996px" />
+
+    <TextView
+        android:text="01 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imgViewFieldBg1"
+        android:layout_alignStart="@+id/imgViewFieldBg1"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry1"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="02 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg2"
+        android:layout_alignStart="@id/imgViewFieldBg2"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry2"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="03 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg3"
+        android:layout_alignStart="@id/imgViewFieldBg3"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry3"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="04 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg4"
+        android:layout_alignStart="@id/imgViewFieldBg4"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry4"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="05 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg5"
+        android:layout_alignStart="@id/imgViewFieldBg5"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry5"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="06 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg6"
+        android:layout_alignStart="@id/imgViewFieldBg6"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry6"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="07 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg7"
+        android:layout_alignStart="@id/imgViewFieldBg7"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry7"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="08 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg8"
+        android:layout_alignStart="@id/imgViewFieldBg8"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry8"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="09 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg9"
+        android:layout_alignStart="@id/imgViewFieldBg9"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry9"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <TextView
+        android:text="10 | Lvl. 99 | 999.999 | 06.11.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgViewFieldBg10"
+        android:layout_alignStart="@id/imgViewFieldBg10"
+        android:layout_marginTop="48px"
+        android:id="@+id/txtViewEntry10"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="52px"
+        android:textSize="52px" />
+
+    <ImageView
+        android:layout_width="825px"
+        android:layout_height="197px"
+        app:srcCompat="@drawable/hs_button_blue_left"
+        android:layout_alignParentTop="true"
+        android:id="@+id/imgViewButtonBack"
+        android:layout_marginTop="882px"
+        android:layout_marginLeft="103px" />
+
+    <ImageView
+        android:layout_width="825px"
+        android:layout_height="197px"
+        app:srcCompat="@drawable/hs_button_blue_left"
+        android:layout_alignParentTop="true"
+        android:id="@+id/imgViewButtonNewGame"
+        android:layout_marginTop="882px"
+        android:layout_marginLeft="991px" />
+
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        app:srcCompat="@drawable/hs_icon_back"
+        android:id="@+id/imgViewIconBack"
+        android:layout_below="@+id/imgViewFieldBg5"
+        android:layout_marginTop="52px"
+        android:layout_marginLeft="150px" />
+
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        app:srcCompat="@drawable/hs_icon_newgame"
+        android:layout_alignTop="@+id/imgViewIconBack"
+        android:id="@+id/imgViewIconNewGame"
+        android:layout_marginLeft="1040px" />
+
+    <TextView
+        android:text="@string/hs_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewButtonBack"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="280px"
+        android:layout_marginTop="952px"
+        android:textSize="42px" />
+
+    <TextView
+        android:text="@string/hs_newgame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewButtonNewGame"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="1168px"
+        android:layout_marginTop="952px"
+        android:textSize="42px" />
+
+    <Button
+        android:id="@+id/btnAreaBackIcon"
+        android:background="@android:color/transparent"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:layout_marginLeft="115px"
+        android:layout_marginTop="905px" />
+
+    <Button
+        android:id="@+id/btnAreaBack"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="265px"
+        android:layout_marginTop="928px"
+        android:layout_height="100px"
+        android:layout_width="650px" />
+
+    <Button
+        android:id="@+id/btnAreaNewGameIcon"
+        android:background="@android:color/transparent"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:layout_marginLeft="1005px"
+        android:layout_marginTop="905px" />
+
+    <Button
+        android:id="@+id/btnAreaNewGame"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1155px"
+        android:layout_marginTop="928px"
+        android:layout_height="100px"
+        android:layout_width="650px" />
+
+</RelativeLayout>

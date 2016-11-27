@@ -4,4 +4,6 @@
     <string name="mm_help">Hilfe</string>
     <string name="mm_highscore">Highscore</string>
     <string name="mm_credits">Credits</string>
+    <string name="hs_back">Zurück zum Hauptmenü</string>
+    <string name="hs_newgame">Neues Spiel</string>
 </resources>

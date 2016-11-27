@@ -25,7 +25,8 @@ public class SuperActivity extends AppCompatActivity {
         MainActivity,
         IntroActivity,
         MainMenuActivity,
-        GameActivity
+        GameActivity,
+        HighscoreActivity
     }
 
     /** The currently active activity */
