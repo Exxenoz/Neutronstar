@@ -31,12 +31,24 @@ public class GameViewAssets {
 
     private void loadAnimationData() {
         m_Animations = new Animation[] {
-            new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 0, 0, 1920, 1080, 1920, 1080, 0)
+            new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 0, 0, 1920, 1080, 1920, 1080, 0),
+            new Animation(1, R.drawable.gv_planet_sheet, "PlanetSheet", 0, 0, 2048, 2048, 256, 256, 0.0333f),
+            new Animation(2, R.drawable.gv_planet_cloud_sheet, "CloudSheet", 0, 0 , 2048, 2048, 256, 256, 0.0300f)
         };
         m_AnimationSets = new AnimationSet[] {
             new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {
                 {
                     put(AnimationType.Default, m_Animations[0]);
+                }
+            }),
+            new AnimationSet(1, "Planet", new HashMap<AnimationType, Animation>() {
+                {
+                    put(AnimationType.Default, m_Animations[1]);
+                }
+            }),
+            new AnimationSet(2, "PlanetClouds", new HashMap<AnimationType, Animation>() {
+                {
+                    put(AnimationType.Default, m_Animations[2]);
                 }
             })
         };
@@ -44,6 +56,8 @@ public class GameViewAssets {
 
     private void loadGameObjects() {
         new GameObject(m_GameView, 0, 0, m_AnimationSets[0]);
+        new GameObject(m_GameView, 960, 540, m_AnimationSets[1]);
+        new GameObject(m_GameView, 960, 540, m_AnimationSets[2]);
     }
 
     public void load(Resources resources) {
