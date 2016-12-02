@@ -1,49 +1,54 @@
 package at.autrage.projects.zeta.animation;
 
 
-import android.graphics.Bitmap;
-import android.graphics.Point;
+import android.content.res.Resources;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Vector;
 
 public class Animation {
     private int m_ID;
-    private Bitmap m_SequenceImage;
     private String m_Name;
-    private Point m_StartTexCoords;
-    private Point m_EndTexCoords;
-    private Point m_Size;
+
+    private int m_StartTexCoordX;
+    private int m_StartTexCoordY;
+
+    private int m_EndTexCoordX;
+    private int m_EndTexCoordY;
+
+    private int m_SizeX;
+    private int m_SizeY;
+
     private float m_Duration;
     private List<AnimationFrame> m_AnimationFrames;
 
-    public Animation(int ID, Bitmap sequenceImage, String name,
-                     Point startTexCoords, Point endTexCoords,
-                     Point size, float duration) {
+    public Animation(int ID, int sequenceImageResID, String name,
+                     int startTexCoordX, int startTexCoordY, int endTexCoordX, int endTexCoordY,
+                     int sizeX, int sizeY, float duration) {
         this.m_ID = ID;
-        this.m_SequenceImage = sequenceImage;
         this.m_Name = name;
-        this.m_StartTexCoords = startTexCoords;
-        this.m_EndTexCoords = endTexCoords;
-        this.m_Size = size;
+
+        this.m_StartTexCoordX = startTexCoordX;
+        this.m_StartTexCoordY = startTexCoordY;
+
+        this.m_EndTexCoordX = endTexCoordX;
+        this.m_EndTexCoordY = endTexCoordY;
+
+        this.m_SizeX = sizeX;
+        this.m_SizeY = sizeY;
+
         this.m_Duration = duration;
         this.m_AnimationFrames = new ArrayList<AnimationFrame>();
 
-        GenerateAnimationFrames();
+        generateAnimationFrames(sequenceImageResID);
     }
 
-    public AnimationFrame GetFirstAnimationFrame() {
-        return m_AnimationFrames != null && m_AnimationFrames.size() > 0 ? m_AnimationFrames.get(0) : null;
-    }
-
-    private void GenerateAnimationFrames() {
-        for (int texCoordY = m_StartTexCoords.y; texCoordY < m_EndTexCoords.y; texCoordY += m_Size.y)
+    private void generateAnimationFrames(int sequenceImageResID) {
+        for (int texCoordY = m_StartTexCoordY; texCoordY < m_EndTexCoordY; texCoordY += m_SizeY)
         {
-            for (int texCoordX = m_StartTexCoords.x; texCoordX < m_EndTexCoords.x; texCoordX += m_Size.x)
+            for (int texCoordX = m_StartTexCoordX; texCoordX < m_EndTexCoordX; texCoordX += m_SizeX)
             {
-                m_AnimationFrames.add(new AnimationFrame(m_SequenceImage, new Point(texCoordX, texCoordY), m_Size, m_Duration));
+                m_AnimationFrames.add(new AnimationFrame(sequenceImageResID, texCoordX, texCoordY, m_SizeX, m_SizeY, m_Duration));
             }
         }
 
@@ -56,5 +61,53 @@ public class Animation {
 
             m_AnimationFrames.get(i).setNextFrame(m_AnimationFrames.get(next));
         }
+    }
+
+    public void load(Resources resources) {
+        for (AnimationFrame af : m_AnimationFrames) {
+            af.load(resources);
+        }
+    }
+
+    public void unLoad() {
+        for (AnimationFrame af : m_AnimationFrames) {
+            af.unLoad();
+        }
+    }
+
+    public AnimationFrame getFirstAnimationFrame() {
+        return m_AnimationFrames != null && m_AnimationFrames.size() > 0 ? m_AnimationFrames.get(0) : null;
+    }
+
+    public int getStartTexCoordX() {
+        return m_StartTexCoordX;
+    }
+
+    public int getStartTexCoordY() {
+        return m_StartTexCoordY;
+    }
+
+    public int getEndTexCoordX() {
+        return m_EndTexCoordX;
+    }
+
+    public int getEndTexCoordY() {
+        return m_EndTexCoordY;
+    }
+
+    public int getSizeX() {
+        return m_SizeX;
+    }
+
+    public int getSizeY() {
+        return m_SizeY;
+    }
+
+    public int getID() {
+        return m_ID;
+    }
+
+    public String getName() {
+        return m_Name;
     }
 }

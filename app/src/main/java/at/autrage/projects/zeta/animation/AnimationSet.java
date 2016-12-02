@@ -9,10 +9,10 @@ public class AnimationSet {
     private String m_Name;
     private Map<AnimationType, Animation> m_Animations;
 
-    public AnimationSet(int ID, String name) {
+    public AnimationSet(int ID, String name, Map<AnimationType, Animation> animations) {
         this.m_ID = ID;
         this.m_Name = name;
-        this.m_Animations = new HashMap<AnimationType, Animation>();
+        this.m_Animations = animations;
     }
 
     public void insertAnimation(AnimationType animationType, Animation animation) {
