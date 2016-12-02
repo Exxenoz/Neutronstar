@@ -2,12 +2,12 @@ package at.autrage.projects.zeta.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 
 /**
@@ -48,7 +48,7 @@ public class MainMenuActivity extends SuperActivity {
 
         @Override
         public void onClick(View v) {
-            Log.d("PNE::Debug", "Clicked New Game Button...");
+            Logger.D("Clicked New Game Button...");
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_button_select);
 
@@ -70,7 +70,7 @@ public class MainMenuActivity extends SuperActivity {
 
         @Override
         public void onClick(View v) {
-            Log.d("PNE::Debug", "Clicked Highscore Button...");
+            Logger.D("Clicked Highscore Button...");
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_button_select);
 

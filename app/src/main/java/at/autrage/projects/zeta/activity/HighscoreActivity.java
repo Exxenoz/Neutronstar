@@ -12,6 +12,7 @@ import java.util.List;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.module.Database;
+import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
@@ -122,7 +123,7 @@ public class HighscoreActivity extends SuperActivity {
 
         @Override
         public void onClick(View v) {
-            Log.d("PNE::Debug", "Clicked Back Button...");
+            Logger.D("Clicked Back Button...");
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_button_back);
 
@@ -144,7 +145,7 @@ public class HighscoreActivity extends SuperActivity {
 
         @Override
         public void onClick(View v) {
-            Log.d("PNE::Debug", "Clicked New Game Button...");
+            Logger.D("Clicked New Game Button...");
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_button_select);
 
