@@ -118,12 +118,12 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     public void PlaySFX(int resId) {
         Integer soundId = m_ResIdToSoundIdMap.get(resId);
         if (soundId == null) {
-            Log.e("PNE::Error", "Could not play sound effect with resource id " + resId + ", because it was not loaded.");
+            Logger.E("Could not play sound effect with resource id " + resId + ", because it was not loaded.");
             return;
         }
 
         if (!m_SoundPoolLoaded) {
-            Log.e("PNE::Error", "Could not play sound effect with resource id " + resId + ", because sound pool is not fully loaded yet.");
+            Logger.E("Could not play sound effect with resource id " + resId + ", because sound pool is not fully loaded yet.");
             return;
         }
 

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.VideoView;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.module.Logger;
 
 /**
  * This activity immediately starts an intro video in full screen mode.
@@ -59,7 +60,7 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
         if (!m_Skipped) {
             m_Skipped = true;
             startActivity(new Intent(this, MainMenuActivity.class));
-            Log.d("PNE::Debug", "Skipped video intro...");
+            Logger.D("Skipped video intro...");
         }
     }
 

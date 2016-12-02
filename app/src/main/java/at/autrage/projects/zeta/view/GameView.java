@@ -2,18 +2,16 @@ package at.autrage.projects.zeta.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.model.GameLoop;
+import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 
@@ -44,7 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d("PNE::Debug", "GameView::surfaceCreated()");
+        Logger.D("GameView::surfaceCreated()");
 
         m_Assets = new GameViewAssets();
         m_Assets.load(getResources());
@@ -59,19 +57,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.d("PNE::Debug", "GameView::surfaceChanged()");
+        Logger.D("GameView::surfaceChanged()");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d("PNE::Debug", "GameView::surfaceDestroyed()");
+        Logger.D("GameView::surfaceDestroyed()");
 
         m_Loop.setRunning(false);
 
         try {
             m_LoopThread.join();
         } catch (InterruptedException e) {
-            Log.e("PNE::Error", e.getMessage());
+            Logger.E(e.getMessage());
         }
 
         SoundManager.getInstance().StopBGM();

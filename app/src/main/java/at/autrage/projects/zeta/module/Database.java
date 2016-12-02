@@ -65,7 +65,7 @@ public class Database {
     public void open() throws SQLException {
         m_Database = m_DBHelper.getWritableDatabase();
 
-        Log.d("PNE::Debug", "Database connection opened.");
+        Logger.D("Database connection opened.");
     }
 
     /**
@@ -82,7 +82,7 @@ public class Database {
     public void insertTableEntry(TableEntry entry) {
         entry.ID = m_Database.insert(entry.getTableName(), null, entry.write());
 
-        Log.d("PNE::Debug", String.format("Inserted new table entry (id: %d) to table %s.", entry.ID, entry.getTableName()));
+        Logger.D(String.format("Inserted new table entry (id: %d) to table %s.", entry.ID, entry.getTableName()));
     }
 
     /**
@@ -92,7 +92,7 @@ public class Database {
     public void deleteTableEntry(TableEntry entry) {
         m_Database.delete(entry.getTableName(), entry.getColumnNames()[0] + " = " + entry.ID, null);
 
-        Log.d("PNE::Debug", String.format("Removed table entry (id: %d) from table %s.", entry.ID, entry.getTableName()));
+        Logger.D(String.format("Removed table entry (id: %d) from table %s.", entry.ID, entry.getTableName()));
     }
 
     /**

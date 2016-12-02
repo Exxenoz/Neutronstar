@@ -27,7 +27,7 @@ public class Time {
      */
     public static void setDeltaTime(float deltaTime) {
         if (deltaTime < 0) {
-            Log.e("PNE::Error", "Couldn't set delta time, because value must not be negative.");
+            Logger.E("Couldn't set delta time, because value must not be negative.");
             return;
         }
 
@@ -42,7 +42,7 @@ public class Time {
      */
     public static void setTimeScale(float timeScale) {
         if (timeScale < 0) {
-            Log.e("PNE::Error", "Couldn't set time scale, because value must not be negative.");
+            Logger.E("Couldn't set time scale, because value must not be negative.");
             return;
         }
 
@@ -57,7 +57,7 @@ public class Time {
      */
     public static void setDeltaTimeInMs(long deltaTimeInMs) {
         if (deltaTimeInMs < 0) {
-            Log.e("PNE::Error", "Couldn't set delta time in ms, because value must not be negative.");
+            Logger.E("Couldn't set delta time in ms, because value must not be negative.");
             return;
         }
 

@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import at.autrage.projects.zeta.module.Logger;
+
 /**
  * This class is inherited by most project activities to enable immersive mode automatically.
  *
@@ -113,8 +115,8 @@ public class SuperActivity extends AppCompatActivity {
     }
 
     protected void scaleChildViewsToCurrentResolution(ViewGroup rootViewGroup) {
-        Log.d("PNE::Debug", "Activity Layout Name: " + getResources().getResourceEntryName(rootViewGroup.getId()));
-        Log.d("PNE::Debug", "Activity Layout Childs: " + rootViewGroup.getChildCount());
+        Logger.D("Activity Layout Name: " + getResources().getResourceEntryName(rootViewGroup.getId()));
+        Logger.D("Activity Layout Childs: " + rootViewGroup.getChildCount());
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point(); display.getRealSize(size);
@@ -127,14 +129,14 @@ public class SuperActivity extends AppCompatActivity {
 
         m_ScaleFactor = Math.min(scaleFactorX, scaleFactorY);
 
-        Log.d("PNE::Debug", "Reference Resolution: " + ReferenceResolutionX + "x" + ReferenceResolutionY);
-        Log.d("PNE::Debug", "Current Resolution: " + m_CurrentResolutionX + "x" + m_CurrentResolutionY);
-        Log.d("PNE::Debug", "ScaleFactor (to current Resolution): " + m_ScaleFactor);
+        Logger.D("Reference Resolution: " + ReferenceResolutionX + "x" + ReferenceResolutionY);
+        Logger.D("Current Resolution: " + m_CurrentResolutionX + "x" + m_CurrentResolutionY);
+        Logger.D("ScaleFactor (to current Resolution): " + m_ScaleFactor);
 
         int counter = 0;
 
         if (m_ScaleFactor == 1.0f) {
-            Log.d("PNE::Debug", "No scaling required, because scale factor is 1!");
+            Logger.D("No scaling required, because scale factor is 1!");
             return;
         }
 
@@ -193,7 +195,7 @@ public class SuperActivity extends AppCompatActivity {
             ++counter;
         }
 
-        Log.d("PNE::Debug", "Scaled " + counter + " views to current resolution!");
+        Logger.D("Scaled " + counter + " views to current resolution!");
     }
 
     /**
