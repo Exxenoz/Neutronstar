@@ -2,13 +2,20 @@ package at.autrage.projects.zeta.animation;
 
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import at.autrage.projects.zeta.module.Logger;
+
 public class Animation {
     private int m_ID;
     private String m_Name;
+
+    private int m_SequenceImageResID;
+    private Bitmap m_SequenceImage;
 
     private int m_StartTexCoordX;
     private int m_StartTexCoordY;
@@ -28,6 +35,9 @@ public class Animation {
         this.m_ID = ID;
         this.m_Name = name;
 
+        this.m_SequenceImageResID = sequenceImageResID;
+        this.m_SequenceImage = null;
+
         this.m_StartTexCoordX = startTexCoordX;
         this.m_StartTexCoordY = startTexCoordY;
 
@@ -40,15 +50,15 @@ public class Animation {
         this.m_Duration = duration;
         this.m_AnimationFrames = new ArrayList<AnimationFrame>();
 
-        generateAnimationFrames(sequenceImageResID);
+        generateAnimationFrames();
     }
 
-    private void generateAnimationFrames(int sequenceImageResID) {
+    private void generateAnimationFrames() {
         for (int texCoordY = m_StartTexCoordY; texCoordY < m_EndTexCoordY; texCoordY += m_SizeY)
         {
             for (int texCoordX = m_StartTexCoordX; texCoordX < m_EndTexCoordX; texCoordX += m_SizeX)
             {
-                m_AnimationFrames.add(new AnimationFrame(sequenceImageResID, texCoordX, texCoordY, m_SizeX, m_SizeY, m_Duration));
+                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, texCoordY, m_SizeX, m_SizeY, m_Duration));
             }
         }
 
@@ -64,19 +74,35 @@ public class Animation {
     }
 
     public void load(Resources resources) {
-        for (AnimationFrame af : m_AnimationFrames) {
-            af.load(resources);
+        if (m_SequenceImage != null) {
+            Logger.E("Could not load animation frame, because it is already loaded!");
+            return;
         }
+
+        m_SequenceImage = BitmapFactory.decodeResource(resources, m_SequenceImageResID);
     }
 
     public void unLoad() {
-        for (AnimationFrame af : m_AnimationFrames) {
-            af.unLoad();
+        if (m_SequenceImage != null) {
+            m_SequenceImage.recycle();
+            m_SequenceImage = null;
         }
     }
 
-    public AnimationFrame getFirstAnimationFrame() {
-        return m_AnimationFrames != null && m_AnimationFrames.size() > 0 ? m_AnimationFrames.get(0) : null;
+    public int getID() {
+        return m_ID;
+    }
+
+    public String getName() {
+        return m_Name;
+    }
+
+    public Bitmap getSequenceImage() {
+        return m_SequenceImage;
+    }
+
+    public int getSequenceImageResID() {
+        return m_SequenceImageResID;
     }
 
     public int getStartTexCoordX() {
@@ -103,11 +129,7 @@ public class Animation {
         return m_SizeY;
     }
 
-    public int getID() {
-        return m_ID;
-    }
-
-    public String getName() {
-        return m_Name;
+    public AnimationFrame getFirstAnimationFrame() {
+        return m_AnimationFrames != null && m_AnimationFrames.size() > 0 ? m_AnimationFrames.get(0) : null;
     }
 }

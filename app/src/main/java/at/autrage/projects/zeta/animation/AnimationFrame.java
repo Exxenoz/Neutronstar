@@ -12,8 +12,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.module.Logger;
 
 public class AnimationFrame {
-    private int m_SequenceImageResID;
-    private Bitmap m_SequenceImage;
+    private Animation m_Owner;
     private Rect m_TexCoordRect;
     private int m_TexCoordX;
     private int m_TexCoordY;
@@ -22,9 +21,8 @@ public class AnimationFrame {
     private float m_Duration;
     private AnimationFrame m_NextFrame;
 
-    public AnimationFrame(int sequenceImageResID, int texCoordX, int texCoordY, int sizeX, int sizeY, float duration) {
-        this.m_SequenceImageResID = sequenceImageResID;
-        this.m_SequenceImage = null;
+    public AnimationFrame(Animation owner, int texCoordX, int texCoordY, int sizeX, int sizeY, float duration) {
+        this.m_Owner = owner;
         this.m_TexCoordX = texCoordX;
         this.m_TexCoordY = texCoordY;
         this.m_SizeX = sizeX;
@@ -34,24 +32,8 @@ public class AnimationFrame {
         m_TexCoordRect = new Rect(texCoordX, texCoordY, texCoordX + sizeX, texCoordY + sizeY);
     }
 
-    public void load(Resources resources) {
-        if (m_SequenceImage != null) {
-            Logger.E("Could not load animation frame, because it is already loaded!");
-            return;
-        }
-
-        m_SequenceImage = BitmapFactory.decodeResource(resources, m_SequenceImageResID);
-    }
-
-    public void unLoad() {
-        if (m_SequenceImage != null) {
-            m_SequenceImage.recycle();
-            m_SequenceImage = null;
-        }
-    }
-
     public Bitmap getSequenceImage() {
-        return m_SequenceImage;
+        return m_Owner.getSequenceImage();
     }
 
     public Rect getTexCoordRect() {
