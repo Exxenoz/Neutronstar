@@ -38,6 +38,7 @@ public class GameObject {
     private AnimationSet m_AnimationSet;
     private AnimationFrame m_CurrentAnimationFrame;
     private float m_AnimationTimer;
+    private boolean m_AnimationReversed;
 
     public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         m_GameView = gameView;
@@ -58,6 +59,7 @@ public class GameObject {
         m_AnimationSet = animationSet;
         m_CurrentAnimationFrame = null;
         m_AnimationTimer = 0;
+        m_AnimationReversed = false;
 
         if (m_AnimationSet != null) {
             playAnimationFromSet(AnimationType.Default);
@@ -77,7 +79,14 @@ public class GameObject {
             if (m_AnimationTimer >= m_CurrentAnimationFrame.getDuration())
             {
                 m_AnimationTimer -= m_CurrentAnimationFrame.getDuration();
-                setCurrentAnimationFrame(m_CurrentAnimationFrame.getNextFrame());
+
+                if (m_AnimationReversed) {
+                    setCurrentAnimationFrame(m_CurrentAnimationFrame.getLastFrame());
+                }
+                else
+                {
+                    setCurrentAnimationFrame(m_CurrentAnimationFrame.getNextFrame());
+                }
             }
         }
 
@@ -135,6 +144,10 @@ public class GameObject {
         float scaleFactor = SuperActivity.getScaleFactor();
         m_ScaledSizeX = m_SizeX * scaleFactor;
         m_ScaledSizeY = m_SizeY * scaleFactor;
+    }
+
+    public void setAnimationReversed(boolean animationReversed) {
+        this.m_AnimationReversed = animationReversed;
     }
 
     public void destroy() {

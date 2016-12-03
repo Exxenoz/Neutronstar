@@ -62,14 +62,24 @@ public class Animation {
             }
         }
 
-        for (int i = 0, next = i + 1; i < m_AnimationFrames.size(); i++, next++)
+        for (int i = 0, next = i + 1, last = i - 1; i < m_AnimationFrames.size(); i++, next++)
         {
-            if (next == m_AnimationFrames.size())
-            {
+            if (last < 0) {
+                last = m_AnimationFrames.size() - 1;
+            }
+
+            if (next == m_AnimationFrames.size()) {
                 next = 0;
             }
 
-            m_AnimationFrames.get(i).setNextFrame(m_AnimationFrames.get(next));
+            AnimationFrame lastAnimationFrame = m_AnimationFrames.get(last);
+            AnimationFrame currentAnimationFrame = m_AnimationFrames.get(i);
+            AnimationFrame nextAnimationFrame = m_AnimationFrames.get(next);
+
+            currentAnimationFrame.setLastFrame(lastAnimationFrame);
+            currentAnimationFrame.setNextFrame(nextAnimationFrame);
+
+            last = i;
         }
     }
 
