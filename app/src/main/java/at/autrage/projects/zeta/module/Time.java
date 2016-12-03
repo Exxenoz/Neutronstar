@@ -16,7 +16,7 @@ public class Time {
     /** Passed time in seconds multiplied by the factor {@link Time#timeScale} */
     private static float scaledDeltaTime;
     /** Factor which gets multiplied to {@link Time#deltaTime} to form {@link Time#scaledDeltaTime} */
-    private static float timeScale;
+    private static float timeScale = 1f;
     /** Passed time in milli seconds */
     private static long deltaTimeInMs;
 
