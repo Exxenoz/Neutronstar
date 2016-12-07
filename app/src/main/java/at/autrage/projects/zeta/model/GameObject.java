@@ -32,6 +32,8 @@ public class GameObject {
     private float m_ScaledSizeX;
     private float m_ScaledSizeY;
 
+    private float m_ScaleFactor;
+
     public Rect m_DstRect;
 
     private Animation m_Animation;
@@ -52,6 +54,8 @@ public class GameObject {
         m_SizeX = m_SizeY = 0;
         m_ScaledSizeX = 0;
         m_ScaledSizeY = 0;
+
+        m_ScaleFactor = 1f;
 
         m_DstRect = new Rect();
 
@@ -138,8 +142,8 @@ public class GameObject {
         }
 
         m_CurrentAnimationFrame = animationFrame;
-        m_SizeX = m_CurrentAnimationFrame.getSizeX();
-        m_SizeY = m_CurrentAnimationFrame.getSizeY();
+        m_SizeX = (int)(m_CurrentAnimationFrame.getSizeX() * m_ScaleFactor);
+        m_SizeY = (int)(m_CurrentAnimationFrame.getSizeY() * m_ScaleFactor);
 
         float scaleFactor = SuperActivity.getScaleFactor();
         m_ScaledSizeX = m_SizeX * scaleFactor;
@@ -148,6 +152,14 @@ public class GameObject {
 
     public void setAnimationReversed(boolean animationReversed) {
         this.m_AnimationReversed = animationReversed;
+    }
+
+    public void setScaleFactor(float scaleFactor) {
+        m_ScaleFactor = scaleFactor;
+    }
+
+    public float getScaleFactor() {
+        return m_ScaleFactor;
     }
 
     public void destroy() {
