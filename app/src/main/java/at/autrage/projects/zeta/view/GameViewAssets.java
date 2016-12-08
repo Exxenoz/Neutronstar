@@ -33,7 +33,7 @@ public class GameViewAssets {
         m_Animations = new Animation[] {
             new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 0, 0, 1920, 1080, 1920, 1080, 0),
             new Animation(1, R.drawable.gv_planet_sheet_100p, "PlanetSheet", 0, 0, 2000, 1800, 100, 100, 0.032f),
-            new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 0, 0 , 2000, 1800, 100, 100, 0.1f)
+            new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 0, 0 , 2000, 1800, 100, 100, 0.04f)
         };
         m_AnimationSets = new AnimationSet[] {
             new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {

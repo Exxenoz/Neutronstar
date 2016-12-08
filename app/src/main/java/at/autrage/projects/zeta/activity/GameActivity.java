@@ -2,6 +2,7 @@ package at.autrage.projects.zeta.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
         Button btnFinishGame = (Button)findViewById(R.id.btnFinishGame);
         btnFinishGame.setOnClickListener(this);
+
+        scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
     }
 
     @Override
