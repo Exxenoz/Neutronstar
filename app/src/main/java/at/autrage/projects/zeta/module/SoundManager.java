@@ -95,8 +95,13 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
 
     public void StopBGM() {
         if (m_MediaPlayer != null) {
-            m_MediaPlayer.stop();
-            m_MediaPlayer.release();
+            try {
+                m_MediaPlayer.stop();
+                m_MediaPlayer.release();
+            } catch (IllegalStateException e) {
+                // Do nothing...
+            }
+
             m_MediaPlayer = null;
         }
     }
