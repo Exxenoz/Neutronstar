@@ -25,6 +25,11 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         m_CurrentActivity = Activities.GameActivity;
 
         GameViewUI gameViewUI = new GameViewUI();
+        gameViewUI.TxtViewPopulation = (TextView)findViewById(R.id.txtViewPopulation);
+        gameViewUI.TxtViewMoney = (TextView)findViewById(R.id.txtViewMoney);
+        gameViewUI.TxtViewLevel = (TextView)findViewById(R.id.txtViewLevel);
+        gameViewUI.TxtViewScore = (TextView)findViewById(R.id.txtViewScore);
+        gameViewUI.TxtViewTime = (TextView)findViewById(R.id.txtViewTime);
         gameViewUI.TxtViewFPS = (TextView)findViewById(R.id.txtViewFPS);
 
         m_GameView = (GameView)findViewById(R.id.gameView);
