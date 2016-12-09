@@ -20,6 +20,8 @@ import at.autrage.projects.zeta.view.GameViewUI;
 public class GameActivity extends SuperActivity implements View.OnClickListener {
     /** Reference to our {@link GameView} object. */
     private GameView m_GameView;
+    /** Indicates whether the sound is muted or not. */
+    private boolean m_Muted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         Button btnAreaPause = (Button)findViewById(R.id.btnAreaPause);
         btnAreaPause.setOnClickListener(new PauseButtonAreaListener(this, (ImageView)findViewById(R.id.imgViewPause)));
 
+        Button btnAreaSound = (Button)findViewById(R.id.btnAreaSound);
+        btnAreaSound.setOnClickListener(new SoundButtonAreaListener(this, (ImageView)findViewById(R.id.imgViewSound)));
+
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
     }
 
@@ -70,6 +75,9 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         super.onDestroy();
 
         Time.setTimeScale(1f);
+
+        SoundManager.getInstance().setBGMVolume(1f);
+        SoundManager.getInstance().setSFXVolume(1f);
     }
 
     private class PauseButtonAreaListener implements View.OnClickListener {
@@ -96,6 +104,35 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
                 m_ImageView.setBackgroundResource(R.drawable.gv_icon_play);
                 Logger.D("Clicked Pause Button...");
             }
+        }
+    }
+
+    private class SoundButtonAreaListener implements View.OnClickListener {
+
+        private GameActivity m_OwnerActivity;
+        private ImageView m_ImageView;
+
+        public SoundButtonAreaListener(GameActivity ownerActivity, ImageView imageView) {
+            m_OwnerActivity = ownerActivity;
+            m_ImageView = imageView;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (m_Muted) {
+                SoundManager.getInstance().setBGMVolume(1f);
+                SoundManager.getInstance().setSFXVolume(1f);
+                m_ImageView.setBackgroundResource(R.drawable.gv_icon_mute);
+                Logger.D("Clicked Unmute Button...");
+            }
+            else {
+                SoundManager.getInstance().setBGMVolume(0f);
+                SoundManager.getInstance().setSFXVolume(0f);
+                m_ImageView.setBackgroundResource(R.drawable.gv_icon_unmute);
+                Logger.D("Clicked Mute Button...");
+            }
+
+            m_Muted = !m_Muted;
         }
     }
 }

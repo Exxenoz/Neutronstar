@@ -191,6 +191,14 @@
         android:layout_marginLeft="1792px"
         android:background="@drawable/gv_icon_mute" />
 
+    <Button
+        android:layout_width="165px"
+        android:layout_height="150px"
+        android:id="@+id/btnAreaSound"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
     <TextView
         android:text="99"
         android:layout_height="wrap_content"
