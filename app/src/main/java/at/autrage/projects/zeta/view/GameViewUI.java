@@ -16,6 +16,23 @@ public class GameViewUI {
     /** Reference to the fps text view element. */
     public TextView TxtViewFPS;
 
+    /** Reference to the small rocket count text view element. */
+    public TextView TxtViewSmallRocketCount;
+    /** Reference to the big rocket count text view element. */
+    public TextView TxtViewBigRocketCount;
+    /** Reference to the small nuke count text view element. */
+    public TextView TxtViewSmallNukeCount;
+    /** Reference to the big nuke count text view element. */
+    public TextView TxtViewBigNukeCount;
+    /** Reference to the small laser count text view element. */
+    public TextView TxtViewSmallLaserCount;
+    /** Reference to the big laser count text view element. */
+    public TextView TxtViewBigLaserCount;
+    /** Reference to the small contact bomb count text view element. */
+    public TextView TxtViewSmallContactBombCount;
+    /** Reference to the big contact bomb count text view element. */
+    public TextView TxtViewBigContactBombCount;
+
     public GameViewUI() {
     }
 }

@@ -31,6 +31,14 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         gameViewUI.TxtViewScore = (TextView)findViewById(R.id.txtViewScore);
         gameViewUI.TxtViewTime = (TextView)findViewById(R.id.txtViewTime);
         gameViewUI.TxtViewFPS = (TextView)findViewById(R.id.txtViewFPS);
+        gameViewUI.TxtViewSmallRocketCount = (TextView)findViewById(R.id.txtViewSmallRocketCount);
+        gameViewUI.TxtViewBigRocketCount = (TextView)findViewById(R.id.txtViewBigRocketCount);
+        gameViewUI.TxtViewSmallNukeCount = (TextView)findViewById(R.id.txtViewSmallNukeCount);
+        gameViewUI.TxtViewBigNukeCount = (TextView)findViewById(R.id.txtViewBigNukeCount);
+        gameViewUI.TxtViewSmallLaserCount = (TextView)findViewById(R.id.txtViewSmallLaserCount);
+        gameViewUI.TxtViewBigLaserCount = (TextView)findViewById(R.id.txtViewBigLaserCount);
+        gameViewUI.TxtViewSmallContactBombCount = (TextView)findViewById(R.id.txtViewSmallContactBombCount);
+        gameViewUI.TxtViewBigContactBombCount = (TextView)findViewById(R.id.txtViewBigContactBombCount);
 
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setGameViewUI(gameViewUI);
