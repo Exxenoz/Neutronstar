@@ -30,10 +30,14 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     boolean m_SoundPoolLoaded;
     HashMap<Integer, Integer> m_ResIdToSoundIdMap;
     int m_LengthToResume;
+    float m_BGMVolume;
+    float m_SFXVolume;
 
     public final int MaxSFXStreams = 5;
 
     private SoundManager() {
+        m_BGMVolume = 1f;
+        m_SFXVolume = 1f;
     }
 
     public void initialize(MainActivity mainActivity) {
@@ -121,6 +125,14 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         }
     }
 
+    public void setBGMVolume(float volume) {
+        if (m_MediaPlayer != null) {
+            m_MediaPlayer.setVolume(volume, volume);
+        }
+
+        m_BGMVolume = volume;
+    }
+
     @Override
     public void onPrepared(MediaPlayer mp) {
         if (mp != null) {
@@ -136,6 +148,10 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     }
 
     public void PlaySFX(int resId) {
+        if (m_SFXVolume == 0f) {
+            return;
+        }
+
         Integer soundId = m_ResIdToSoundIdMap.get(resId);
         if (soundId == null) {
             Logger.E("Could not play sound effect with resource id " + resId + ", because it was not loaded.");
@@ -147,7 +163,11 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
             return;
         }
 
-        m_SoundPool.play(soundId, 1, 1, 0, 0, 1);
+        m_SoundPool.play(soundId, m_SFXVolume, m_SFXVolume, 0, 0, 1);
+    }
+
+    public void setSFXVolume(float volume) {
+        m_SFXVolume = volume;
     }
 
     @Override
