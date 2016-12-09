@@ -8,21 +8,61 @@
     tools:context="at.autrage.projects.zeta.activity.GameActivity"
     android:background="@android:color/black">
 
-    <!--<at.autrage.projects.zeta.view.GameView
+    <at.autrage.projects.zeta.view.GameView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gameView" /> -->
+        android:id="@+id/gameView" />
 
     <TextView
-        android:text="00 FPS"
+        android:text="$ 999.999 Mrd."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewMoney"
+        android:textColor="@android:color/white"
+        android:layout_alignBaseline="@+id/txtViewLevel"
+        android:layout_alignBottom="@+id/txtViewLevel"
+        android:layout_toEndOf="@+id/imgViewIconBigRocket"
+        android:textSize="38px" />
+
+    <TextView
+        android:text="Lvl. 99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewLevel"
+        android:textColor="@android:color/white"
+        android:layout_alignTop="@+id/txtViewFPS"
+        android:layout_centerHorizontal="true"
+        android:textSize="38px" />
+
+    <ImageView
+        android:layout_width="48px"
+        android:layout_height="43px"
+        app:srcCompat="@drawable/gv_icon_highscore"
+        android:id="@+id/imgViewIconHighscore"
+        android:layout_alignTop="@+id/txtViewScore"
+        android:layout_toEndOf="@+id/txtViewSmallLaserCount" />
+
+    <TextView
+        android:text="000.000.000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewScore"
+        android:textColor="@android:color/white"
+        android:layout_alignBaseline="@+id/txtViewLevel"
+        android:layout_alignBottom="@+id/txtViewLevel"
+        android:layout_alignStart="@+id/imgViewIconBigLaser"
+        android:textSize="38px" />
+
+    <TextView
+        android:text="00"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewFPS"
         android:textAlignment="textEnd"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="32px"
-        android:layout_marginRight="32px"
+        android:layout_marginTop="48px"
+        android:layout_marginRight="48px"
         android:textColor="@android:color/white"
         android:textSize="36px" />
 
@@ -254,4 +294,46 @@
         android:gravity="right"
         android:layout_width="200px"
         android:textSize="38px" />
+
+    <TextView
+        android:text="99.999 Mrd."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewPopulation"
+        android:textColor="@android:color/white"
+        android:textSize="38px"
+        android:layout_alignBaseline="@+id/txtViewMoney"
+        android:layout_alignBottom="@+id/txtViewMoney"
+        android:layout_alignStart="@+id/txtViewSmallRocketCount"
+        android:layout_marginLeft="20px" />
+
+    <ImageView
+        android:layout_width="29px"
+        android:layout_height="47px"
+        app:srcCompat="@drawable/gv_icon_population"
+        android:id="@+id/imgViewIconPopulation"
+        android:layout_alignTop="@+id/txtViewPopulation"
+        android:layout_toEndOf="@+id/imgViewIconPause"
+        android:layout_marginTop="4px" />
+
+    <TextView
+        android:text="180s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewTime"
+        android:textColor="@android:color/white"
+        android:textSize="38px"
+        android:layout_marginLeft="14px"
+        android:layout_alignTop="@+id/txtViewFPS"
+        android:layout_toEndOf="@+id/imgViewIconTime" />
+
+    <ImageView
+        android:layout_width="37px"
+        android:layout_height="35px"
+        app:srcCompat="@drawable/gv_icon_time"
+        android:id="@+id/imgViewIconTime"
+        android:layout_alignBottom="@+id/txtViewTime"
+        android:layout_alignStart="@+id/imgViewIconBigContactBomb"
+        android:layout_marginBottom="6px" />
+
 </RelativeLayout>

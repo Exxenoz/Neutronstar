@@ -138,7 +138,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 if (m_UI.TxtViewFPS != null) {
-                    m_UI.TxtViewFPS.setText(Time.getFPS() + " FPS");
+                    m_UI.TxtViewFPS.setText("" + Time.getFPS());
                 }
             }
         });
