@@ -166,22 +166,30 @@
     <ImageView
         android:layout_width="96px"
         android:layout_height="96px"
-        app:srcCompat="@drawable/gv_icon_pause"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconPause"
         android:layout_marginTop="960px"
-        android:layout_marginLeft="32px" />
+        android:layout_marginLeft="32px"
+        android:background="@drawable/gv_icon_pause"
+        android:id="@+id/imgViewPause" />
+
+    <Button
+        android:id="@+id/btnAreaPause"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="150px"
+        android:layout_width="165px" />
 
     <ImageView
         android:layout_width="96px"
         android:layout_height="96px"
-        app:srcCompat="@drawable/gv_icon_mute"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconSound"
+        android:id="@+id/imgViewSound"
         android:layout_marginTop="960px"
-        android:layout_marginLeft="1792px" />
+        android:layout_marginLeft="1792px"
+        android:background="@drawable/gv_icon_mute" />
 
     <TextView
         android:text="99"
@@ -305,16 +313,7 @@
         android:layout_alignBaseline="@+id/txtViewMoney"
         android:layout_alignBottom="@+id/txtViewMoney"
         android:layout_alignStart="@+id/txtViewSmallRocketCount"
-        android:layout_marginLeft="20px" />
-
-    <ImageView
-        android:layout_width="29px"
-        android:layout_height="47px"
-        app:srcCompat="@drawable/gv_icon_population"
-        android:id="@+id/imgViewIconPopulation"
-        android:layout_alignTop="@+id/txtViewPopulation"
-        android:layout_toEndOf="@+id/imgViewIconPause"
-        android:layout_marginTop="4px" />
+        android:layout_marginLeft="16px" />
 
     <TextView
         android:text="180s"
@@ -335,5 +334,14 @@
         android:layout_alignBottom="@+id/txtViewTime"
         android:layout_alignStart="@+id/imgViewIconBigContactBomb"
         android:layout_marginBottom="6px" />
+
+    <ImageView
+        android:layout_width="29px"
+        android:layout_height="47px"
+        app:srcCompat="@drawable/gv_icon_population"
+        android:id="@+id/imgViewIconPopulation"
+        android:layout_alignTop="@+id/txtViewPopulation"
+        android:layout_toEndOf="@+id/imgViewPause"
+        android:layout_marginTop="4px" />
 
 </RelativeLayout>

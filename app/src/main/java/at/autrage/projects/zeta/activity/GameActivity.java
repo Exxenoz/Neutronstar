@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.SoundManager;
+import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewUI;
 
@@ -15,7 +19,7 @@ import at.autrage.projects.zeta.view.GameViewUI;
  */
 public class GameActivity extends SuperActivity implements View.OnClickListener {
     /** Reference to our {@link GameView} object. */
-    GameView m_GameView;
+    private GameView m_GameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,9 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         Button btnFinishGame = (Button)findViewById(R.id.btnFinishGame);
         btnFinishGame.setOnClickListener(this);
 
+        Button btnAreaPause = (Button)findViewById(R.id.btnAreaPause);
+        btnAreaPause.setOnClickListener(new PauseButtonAreaListener(this, (ImageView)findViewById(R.id.imgViewPause)));
+
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
     }
 
@@ -56,5 +63,39 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
         // Start slide animation
         overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Time.setTimeScale(1f);
+    }
+
+    private class PauseButtonAreaListener implements View.OnClickListener {
+
+        private GameActivity m_OwnerActivity;
+        private ImageView m_ImageView;
+
+        public PauseButtonAreaListener(GameActivity ownerActivity, ImageView imageView) {
+            m_OwnerActivity = ownerActivity;
+            m_ImageView = imageView;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (Time.getTimeScale() == 0f) {
+                SoundManager.getInstance().ResumeBGM();
+                Time.setTimeScale(1f);
+                m_ImageView.setBackgroundResource(R.drawable.gv_icon_pause);
+                Logger.D("Clicked Resume Button...");
+            }
+            else {
+                Time.setTimeScale(0f);
+                SoundManager.getInstance().PauseBGM();
+                m_ImageView.setBackgroundResource(R.drawable.gv_icon_play);
+                Logger.D("Clicked Pause Button...");
+            }
+        }
     }
 }
