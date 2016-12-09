@@ -29,6 +29,7 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     SoundPool m_SoundPool;
     boolean m_SoundPoolLoaded;
     HashMap<Integer, Integer> m_ResIdToSoundIdMap;
+    int m_LengthToResume;
 
     public final int MaxSFXStreams = 5;
 
@@ -103,6 +104,20 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
             }
 
             m_MediaPlayer = null;
+        }
+    }
+
+    public void PauseBGM() {
+        if (m_MediaPlayer != null) {
+            m_MediaPlayer.pause();
+            m_LengthToResume = m_MediaPlayer.getCurrentPosition();
+        }
+    }
+
+    public void ResumeBGM() {
+        if (m_MediaPlayer != null) {
+            m_MediaPlayer.seekTo(m_LengthToResume);
+            m_MediaPlayer.start();
         }
     }
 
