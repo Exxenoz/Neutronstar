@@ -42,6 +42,12 @@ public class GameObject {
     private float m_AnimationTimer;
     private boolean m_AnimationReversed;
 
+    private float m_DirectionX;
+    private float m_DirectionY;
+    private float m_SpeedX;
+    private float m_SpeedY;
+    private float m_Speed;
+
     public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         m_GameView = gameView;
 
@@ -64,6 +70,10 @@ public class GameObject {
         m_CurrentAnimationFrame = null;
         m_AnimationTimer = 0;
         m_AnimationReversed = false;
+
+        m_DirectionX = 0f;
+        m_DirectionY = 0f;
+        setSpeed(0f);
 
         if (m_AnimationSet != null) {
             playAnimationFromSet(AnimationType.Default);
@@ -92,6 +102,11 @@ public class GameObject {
                     setCurrentAnimationFrame(m_CurrentAnimationFrame.getNextFrame());
                 }
             }
+        }
+
+        if (m_Speed != 0f) {
+            m_PositionX = m_SpeedX * Time.getDeltaTime();
+            m_PositionY = m_SpeedY * Time.getDeltaTime();
         }
 
         float scaleFactor = SuperActivity.getScaleFactor();
@@ -156,6 +171,28 @@ public class GameObject {
 
     public void setScaleFactor(float scaleFactor) {
         m_ScaleFactor = scaleFactor;
+    }
+
+    public void setDirectionX(float directionX) {
+        this.m_DirectionX = directionX;
+        setSpeed(m_Speed);
+    }
+
+    public void setDirectionY(float directionY) {
+        this.m_DirectionY = directionY;
+        setSpeed(m_Speed);
+    }
+
+    public void setDirection(float directionX, float directionY) {
+        this.m_DirectionX = directionX;
+        this.m_DirectionY = directionY;
+        setSpeed(m_Speed);
+    }
+
+    public void setSpeed(float speed) {
+        m_Speed = speed;
+        m_SpeedX = m_DirectionX * speed;
+        m_SpeedY = m_DirectionY * speed;
     }
 
     public float getScaleFactor() {
