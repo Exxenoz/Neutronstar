@@ -69,10 +69,12 @@
     <ImageView
         app:srcCompat="@drawable/gv_hotbar"
         android:id="@+id/imgViewHotbar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="false"
         android:layout_width="1628px"
-        android:layout_height="173px" />
+        android:layout_height="173px"
+        android:layout_marginLeft="146px"
+        android:layout_marginTop="907px" />
 
     <Button
         android:text="Finish Game"
@@ -200,21 +202,23 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="99"
+        android:text="8"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallRocketCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
-        android:layout_marginLeft="155px"
+        android:layout_marginTop="935px"
+        android:layout_marginLeft="325px"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
-        android:layout_width="200px"
-        android:textSize="38px" />
+        android:layout_width="wrap_content"
+        android:rotation="-90"
+        android:textStyle="bold"
+        android:textSize="42px" />
 
     <TextView
-        android:text="99"
+        android:text="0"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigRocketCount"
         android:textColor="@android:color/white"
@@ -228,7 +232,6 @@
         android:textSize="38px" />
 
     <TextView
-        android:text="99"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallNukeCount"
         android:textColor="@android:color/white"
@@ -242,7 +245,6 @@
         android:textSize="38px" />
 
     <TextView
-        android:text="99"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigNukeCount"
         android:textColor="@android:color/white"
@@ -256,7 +258,6 @@
         android:textSize="38px" />
 
     <TextView
-        android:text="99s"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallLaserCount"
         android:textColor="@android:color/white"
@@ -270,7 +271,6 @@
         android:textSize="38px" />
 
     <TextView
-        android:text="99s"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigLaserCount"
         android:textColor="@android:color/white"
@@ -284,7 +284,6 @@
         android:textSize="38px" />
 
     <TextView
-        android:text="99"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallContactBombCount"
         android:textColor="@android:color/white"
@@ -298,7 +297,6 @@
         android:textSize="38px" />
 
     <TextView
-        android:text="99"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigContactBombCount"
         android:textColor="@android:color/white"
@@ -310,18 +308,6 @@
         android:gravity="right"
         android:layout_width="200px"
         android:textSize="38px" />
-
-    <TextView
-        android:text="99.999 Mrd."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtViewPopulation"
-        android:textColor="@android:color/white"
-        android:textSize="38px"
-        android:layout_alignBaseline="@+id/txtViewMoney"
-        android:layout_alignBottom="@+id/txtViewMoney"
-        android:layout_alignStart="@+id/txtViewSmallRocketCount"
-        android:layout_marginLeft="16px" />
 
     <TextView
         android:text="180s"
@@ -349,7 +335,108 @@
         app:srcCompat="@drawable/gv_icon_population"
         android:id="@+id/imgViewIconPopulation"
         android:layout_alignTop="@+id/txtViewPopulation"
-        android:layout_toEndOf="@+id/imgViewPause"
-        android:layout_marginTop="4px" />
+        android:layout_toEndOf="@+id/imgViewPause" />
+
+    <TextView
+        android:text="99.999 Mrd."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewPopulation"
+        android:textColor="@android:color/white"
+        android:textSize="38px"
+        android:layout_marginLeft="16px"
+        android:layout_alignBaseline="@+id/txtViewFPS"
+        android:layout_alignBottom="@+id/txtViewFPS"
+        android:layout_toEndOf="@+id/btnAreaPause" />
+
+    <ImageView
+        android:layout_width="256px"
+        app:srcCompat="@drawable/gv_hotbar_highlited"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:id="@+id/imgViewHotbarHighlighted"
+        android:layout_height="227px"
+        android:layout_marginTop="853px"
+        android:layout_marginLeft="146px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaSmallRocket"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="177px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaBigRocket"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="373px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaSmallNuke"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="569px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaBigNuke"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="765px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaSmallLaser"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="961px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaBigLaser"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="1157px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaSmallContactBomb"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="1353px" />
+
+    <Button
+        android:layout_width="196px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaBigContactBomb"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="930px"
+        android:layout_height="150px"
+        android:layout_marginLeft="1549px" />
 
 </RelativeLayout>

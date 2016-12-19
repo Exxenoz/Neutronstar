@@ -16,9 +16,15 @@ import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
+import at.autrage.projects.zeta.model.Player;
+import at.autrage.projects.zeta.model.Weapon;
+import at.autrage.projects.zeta.model.WeaponUpgrades;
+import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
+import at.autrage.projects.zeta.module.Util;
 
 /**
  * It is responsible for {@link GameLoop} management and drawing of the whole game view.
@@ -34,6 +40,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameViewAssets m_Assets;
     /** Reference to our {@link GameViewUI} object. */
     private GameViewUI m_UI;
+    /** Reference to (@link Player) object. */
+    private Player m_Player;
     /** Reference to our drawn {@link GameObject}s. */
     private List<GameObject> m_GameObjects;
     /** Reference to the game objects which will be inserted into {@link GameView#m_GameObjects}. */
@@ -51,6 +59,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         // Ensure that events are generated
         setFocusable(true);
+        // Initialize player
+        m_Player = new Player();
         // Initialize game object list
         m_GameObjects = new ArrayList<GameObject>();
         // Initialize game objects to insert queue
@@ -129,6 +139,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
+        m_Player.onUpdate();
+
         m_ColliderList.clear();
 
         // Update game objects
@@ -162,8 +174,56 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     return;
                 }
 
+                if (m_UI.TxtViewPopulation != null) {
+                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros(m_Player.getPopulation(), 5, true)));
+                }
+
+                if (m_UI.TxtViewMoney != null) {
+                    m_UI.TxtViewMoney.setText(String.format("$ %s Mrd.", Util.addLeadingZeros(m_Player.getMoney(), 6, true)));
+                }
+
+                if (m_UI.TxtViewLevel != null) {
+                    m_UI.TxtViewLevel.setText(String.format("Lvl. %d", m_Player.getLevel()));
+                }
+
+                if (m_UI.TxtViewScore != null) {
+                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(m_Player.getScore(), 9, true)));
+                }
+
+                if (m_UI.TxtViewTime != null) {
+                    m_UI.TxtViewTime.setText(String.format("%ds", (int) m_Player.getRemainingTime()));
+                }
+
                 if (m_UI.TxtViewFPS != null) {
                     m_UI.TxtViewFPS.setText("" + Time.getFPS());
+                }
+
+                if (m_UI.TxtViewBigRocketCount != null) {
+                    m_UI.TxtViewBigRocketCount.setText("" + m_Player.getWeaponCount(Weapons.BigRocket));
+                }
+
+                if (m_UI.TxtViewSmallNukeCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                    m_UI.TxtViewSmallNukeCount.setText("" + m_Player.getWeaponCount(Weapons.SmallNuke));
+                }
+
+                if (m_UI.TxtViewBigNukeCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                    m_UI.TxtViewBigNukeCount.setText("" + m_Player.getWeaponCount(Weapons.BigNuke));
+                }
+
+                if (m_UI.TxtViewSmallLaserCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(m_Player.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
+                }
+
+                if (m_UI.TxtViewBigLaserCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                    m_UI.TxtViewBigLaserCount.setText(Math.min((int)(m_Player.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
+                }
+
+                if (m_UI.TxtViewSmallContactBombCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                    m_UI.TxtViewSmallContactBombCount.setText("" + m_Player.getWeaponCount(Weapons.SmallContactBomb));
+                }
+
+                if (m_UI.TxtViewBigContactBombCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                    m_UI.TxtViewBigContactBombCount.setText("" + m_Player.getWeaponCount(Weapons.BigContactBomb));
                 }
             }
         });
@@ -181,6 +241,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public void changeSelectedWeapon(Weapons weapon) {
+        if (m_Player != null) {
+            m_Player.setSelectedWeapon(weapon);
+        }
+    }
+
     /**
      * Sets the value of {@link GameView#m_UI}
      *
@@ -188,5 +254,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void setGameViewUI(GameViewUI ui) {
         m_UI = ui;
+    }
+
+    public Player getPlayer() {
+        return m_Player;
     }
 }
