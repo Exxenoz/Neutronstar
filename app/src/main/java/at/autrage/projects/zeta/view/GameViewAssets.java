@@ -55,7 +55,7 @@ public class GameViewAssets {
     }
 
     private void loadGameObjects() {
-        new GameObject(m_GameView, 0, 0, m_AnimationSets[0]);
+        new GameObject(m_GameView, 960, 540, m_AnimationSets[0]);
         GameObject earth = new GameObject(m_GameView, 960, 540, m_AnimationSets[1]);
         earth.setScaleFactor(2.56f);
         GameObject clouds = new GameObject(m_GameView, 960, 540, m_AnimationSets[2]);
