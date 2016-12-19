@@ -84,21 +84,24 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
         private GameActivity m_OwnerActivity;
         private ImageView m_ImageView;
+        private float m_LastTimeScale;
 
         public PauseButtonAreaListener(GameActivity ownerActivity, ImageView imageView) {
             m_OwnerActivity = ownerActivity;
             m_ImageView = imageView;
+            m_LastTimeScale = Time.getTimeScale();
         }
 
         @Override
         public void onClick(View v) {
             if (Time.getTimeScale() == 0f) {
                 SoundManager.getInstance().ResumeBGM();
-                Time.setTimeScale(1f);
+                Time.setTimeScale(m_LastTimeScale);
                 m_ImageView.setBackgroundResource(R.drawable.gv_icon_pause);
                 Logger.D("Clicked Resume Button...");
             }
             else {
+                m_LastTimeScale = Time.getTimeScale();
                 Time.setTimeScale(0f);
                 SoundManager.getInstance().PauseBGM();
                 m_ImageView.setBackgroundResource(R.drawable.gv_icon_play);
