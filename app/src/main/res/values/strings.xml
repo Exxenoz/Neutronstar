@@ -7,4 +7,18 @@
     <string name="hs_back">Zurück zum Hauptmenü</string>
     <string name="hs_newgame">Neues Spiel</string>
     <string name="hs_noentry">Kein Eintrag</string>
+    <string name="sv_desc_big_rocket">5 x Große Rakete</string>
+    <string name="sv_desc_small_nuke">10 x Kleine Atombombe</string>
+    <string name="sv_desc_big_nuke">5 x Große Atombombe</string>
+    <string name="sv_desc_small_contact_bomb">10 x Kleine Kontaktbombe</string>
+    <string name="sv_desc_big_contact_bomb">5 x Große Kontaktbombe</string>
+    <string name="sv_desc_pro_babypill" >1 x Pro-Babypille</string>
+    <string name="sv_undo">Rückgängig</string>
+    <string name="sv_desc_increase_damage">Schaden erhöhen</string>
+    <string name="sv_desc_increase_speed">Tempo erhöhen</string>
+    <string name="sv_desc_increase_radius">Radius erhöhen</string>
+    <string name="sv_desc_research_nuke">Atombombe erforschen</string>
+    <string name="sv_desc_research_laser">Laser erforschen</string>
+    <string name="sv_desc_research_contact_bomb">Kontaktbombe erforschen</string>
+    <string name="sv_next_level">Nächster Level</string>
 </resources>
