@@ -29,8 +29,14 @@ public class GameObject {
     private int m_SizeX;
     private int m_SizeY;
 
+    private float m_HalfSizeX;
+    private float m_HalfSizeY;
+
     private float m_ScaledSizeX;
     private float m_ScaledSizeY;
+
+    private float m_ScaledHalfSizeX;
+    private float m_ScaledHalfSizeY;
 
     private float m_ScaleFactor;
 
@@ -58,8 +64,9 @@ public class GameObject {
         m_ScaledPositionY = 0;
 
         m_SizeX = m_SizeY = 0;
-        m_ScaledSizeX = 0;
-        m_ScaledSizeY = 0;
+        m_HalfSizeX = m_HalfSizeY = 0;
+        m_ScaledSizeX = m_ScaledSizeY = 0;
+        m_ScaledHalfSizeX = m_ScaledHalfSizeY = 0;
 
         m_ScaleFactor = 1f;
 
@@ -113,8 +120,11 @@ public class GameObject {
         m_ScaledPositionX = m_PositionX * scaleFactor;
         m_ScaledPositionY = m_PositionY * scaleFactor;
 
-        m_DstRect.set((int)m_ScaledPositionX, (int)m_ScaledPositionY,
-                (int)(m_ScaledPositionX+m_ScaledSizeX), (int)(m_ScaledPositionY+m_ScaledSizeY));
+        float scaledPivotPositionX = m_ScaledPositionX - m_ScaledHalfSizeX;
+        float scaledPivotPositionY = m_ScaledPositionY - m_ScaledHalfSizeY;
+
+        m_DstRect.set((int)(scaledPivotPositionX), (int)(scaledPivotPositionY),
+                (int)(scaledPivotPositionX + m_ScaledSizeX), (int)(scaledPivotPositionY + m_ScaledSizeY));
     }
 
     public void onDraw(Canvas canvas) {
@@ -160,9 +170,15 @@ public class GameObject {
         m_SizeX = (int)(m_CurrentAnimationFrame.getSizeX() * m_ScaleFactor);
         m_SizeY = (int)(m_CurrentAnimationFrame.getSizeY() * m_ScaleFactor);
 
+        m_HalfSizeX = m_SizeX / 2f;
+        m_HalfSizeY = m_SizeY / 2f;
+
         float scaleFactor = SuperActivity.getScaleFactor();
         m_ScaledSizeX = m_SizeX * scaleFactor;
         m_ScaledSizeY = m_SizeY * scaleFactor;
+
+        m_ScaledHalfSizeX = m_HalfSizeX * scaleFactor;
+        m_ScaledHalfSizeY = m_HalfSizeY * scaleFactor;
     }
 
     public void setAnimationReversed(boolean animationReversed) {
@@ -193,6 +209,14 @@ public class GameObject {
         m_Speed = speed;
         m_SpeedX = m_DirectionX * speed;
         m_SpeedY = m_DirectionY * speed;
+    }
+
+    public float getPositionX() {
+        return m_PositionX;
+    }
+
+    public float getPositionY() {
+        return m_PositionY;
     }
 
     public float getScaleFactor() {
