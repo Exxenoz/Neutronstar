@@ -10,6 +10,7 @@ import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationFrame;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
@@ -53,6 +54,8 @@ public class GameObject {
     private float m_SpeedX;
     private float m_SpeedY;
     private float m_Speed;
+
+    private Collider m_Collider;
 
     public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         m_GameView = gameView;
@@ -125,6 +128,9 @@ public class GameObject {
 
         m_DstRect.set((int)(scaledPivotPositionX), (int)(scaledPivotPositionY),
                 (int)(scaledPivotPositionX + m_ScaledSizeX), (int)(scaledPivotPositionY + m_ScaledSizeY));
+    }
+
+    public void onCollide(Collider collider) {
     }
 
     public void onDraw(Canvas canvas) {
@@ -211,6 +217,10 @@ public class GameObject {
         m_SpeedY = m_DirectionY * speed;
     }
 
+    public void setCollider(Collider collider) {
+        m_Collider = collider;
+    }
+
     public float getPositionX() {
         return m_PositionX;
     }
@@ -221,6 +231,10 @@ public class GameObject {
 
     public float getScaleFactor() {
         return m_ScaleFactor;
+    }
+
+    public Collider getCollider() {
+        return m_Collider;
     }
 
     public void destroy() {

@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.Logger;
@@ -39,6 +40,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private ConcurrentLinkedQueue<GameObject> m_GameObjectsToInsert;
     /** Reference to the game objects which will be deleted from {@link GameView#m_GameObjects}. */
     private ConcurrentLinkedQueue<GameObject> m_GameObjectsToDelete;
+    /** Contains active colliders - most of the time, at least. (Cache) */
+    private List<Collider> m_ColliderList;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -56,6 +59,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_GameObjectsToDelete = new ConcurrentLinkedQueue<GameObject>();
         // Initialize game view assets
         m_Assets = new GameViewAssets(this);
+        // Initialize collider list
+        m_ColliderList = new ArrayList<Collider>(128);
     }
 
     public void addGameObjectToInsertQueue(GameObject gameObject) {
@@ -124,9 +129,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
+        m_ColliderList.clear();
+
         // Update game objects
         for (GameObject go : m_GameObjects) {
             go.onUpdate();
+
+            if (go.getCollider() != null) {
+                m_ColliderList.add(go.getCollider());
+            }
+        }
+
+        int i = 0;
+
+        for (Collider co1 : m_ColliderList) {
+            i++;
+
+            for (int j = i; j < m_ColliderList.size(); j++) {
+                Collider co2 = m_ColliderList.get(j);
+                if (co1.intersects(co2)) {
+                    co1.getOwner().onCollide(co2);
+                    co2.getOwner().onCollide(co1);
+                }
+            }
         }
 
         // Update user interface states
