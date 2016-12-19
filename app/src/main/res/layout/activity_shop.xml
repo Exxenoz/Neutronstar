@@ -183,7 +183,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_research_laser"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewResearchLaser"
+        android:id="@+id/imgViewIconResearchLaser"
         android:layout_marginTop="666px"
         android:layout_marginLeft="1005px" />
 
@@ -255,7 +255,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_research_contact_bomb"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewResearchContactBomb"
+        android:id="@+id/imgViewIconResearchContactBomb"
         android:layout_marginTop="785px"
         android:layout_marginLeft="1773px" />
 
