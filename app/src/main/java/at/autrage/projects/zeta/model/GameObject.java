@@ -115,8 +115,8 @@ public class GameObject {
         }
 
         if (m_Speed != 0f) {
-            m_PositionX = m_SpeedX * Time.getScaledDeltaTime();
-            m_PositionY = m_SpeedY * Time.getScaledDeltaTime();
+            m_PositionX += m_SpeedX * Time.getScaledDeltaTime();
+            m_PositionY += m_SpeedY * Time.getScaledDeltaTime();
         }
 
         float scaleFactor = SuperActivity.getScaleFactor();
