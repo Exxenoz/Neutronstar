@@ -2,6 +2,7 @@ package at.autrage.projects.zeta.model;
 
 
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -13,20 +14,22 @@ public class Rocket extends Weapon {
     }
 
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        Rocket smallRocket = new Rocket(player.getGameView(), positionX, positionY,
+        Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket));
-        smallRocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
-        smallRocket.setDirection(directionX, directionY);
-        smallRocket.setSpeed(Pustafin.SmallRocketSpeedBase);
-        return smallRocket;
+        rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        rocket.setDirection(directionX, directionY);
+        rocket.setSpeed(Pustafin.SmallRocketSpeedBase);
+        rocket.setCollider(new CircleCollider(rocket, 32f));
+        return rocket;
     }
 
     public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        Rocket smallRocket = new Rocket(player.getGameView(), positionX, positionY,
+        Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket));
-        smallRocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
-        smallRocket.setDirection(directionX, directionY);
-        smallRocket.setSpeed(Pustafin.BigRocketSpeedBase);
-        return smallRocket;
+        rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        rocket.setDirection(directionX, directionY);
+        rocket.setSpeed(Pustafin.BigRocketSpeedBase);
+        rocket.setCollider(new CircleCollider(rocket, 40f));
+        return rocket;
     }
 }

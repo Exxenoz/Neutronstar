@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
+import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
@@ -80,6 +81,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
         GameObject earth = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
         earth.setScaleFactor(2.56f);
+        earth.setCollider(new CircleCollider(earth, 128f));
         GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         clouds.setScaleFactor(2.56f);
         clouds.setAnimationReversed(true);

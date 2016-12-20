@@ -12,6 +12,7 @@ import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -143,6 +144,10 @@ public class GameObject {
             canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
             canvas.drawBitmap(m_CurrentAnimationFrame.getSequenceImage(), m_CurrentAnimationFrame.getTexCoordRect(), m_DstRect, null);
             canvas.restore();
+
+            if (Pustafin.DebugMode && m_Collider != null) {
+                m_Collider.onDraw(canvas);
+            }
         }
     }
 
@@ -238,6 +243,14 @@ public class GameObject {
 
     public float getPositionY() {
         return m_PositionY;
+    }
+
+    public float getScaledPositionX() {
+        return m_ScaledPositionX;
+    }
+
+    public float getScaledPositionY() {
+        return m_ScaledPositionY;
     }
 
     public float getScaleFactor() {

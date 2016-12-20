@@ -2,6 +2,8 @@ package at.autrage.projects.zeta.module;
 
 
 public class Pustafin {
+    public static final boolean DebugMode = true;
+
     public static final int LevelDuration = 120;
     public static final int StartBudget = 100;
     public static final int StartPopulation = 8000;

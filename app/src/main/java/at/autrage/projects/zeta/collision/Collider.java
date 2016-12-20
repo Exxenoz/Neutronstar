@@ -1,11 +1,13 @@
 package at.autrage.projects.zeta.collision;
 
 
+import android.graphics.Canvas;
+
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.Logger;
 
 public abstract class Collider {
-    private GameObject m_Owner;
+    protected GameObject m_Owner;
 
     public Collider(GameObject owner) {
         m_Owner = owner;
@@ -68,6 +70,8 @@ public abstract class Collider {
 
         return false;
     }
+
+    public abstract void onDraw(Canvas canvas);
 
     public GameObject getOwner() {
         return m_Owner;
