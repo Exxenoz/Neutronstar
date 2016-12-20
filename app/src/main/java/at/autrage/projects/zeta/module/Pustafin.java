@@ -19,8 +19,8 @@ public class Pustafin {
     public static final float SmallContactBombHitDamageBase = 1f;
     public static final float BigContactBombHitDamageBase = 1f;
 
-    public static final float SmallRocketSpeedBase = 1f;
-    public static final float BigRocketSpeedBase = 1f;
+    public static final float SmallRocketSpeedBase = 100f;
+    public static final float BigRocketSpeedBase = 80f;
     public static final float SmallNukeSpeedBase = 1f;
     public static final float BigNukeSpeedBase = 1f;
     public static final float SmallLaserSpeedBase = 0f;

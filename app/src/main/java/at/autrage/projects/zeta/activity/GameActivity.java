@@ -55,6 +55,9 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         Button btnFinishGame = (Button)findViewById(R.id.btnFinishGame);
         btnFinishGame.setOnClickListener(this);
 
+        Button btnAreaPlanet = (Button) findViewById(R.id.btnAreaPlanet);
+        btnAreaPlanet.setOnTouchListener(m_GameView.getPlayer());
+
         Button btnAreaPause = (Button)findViewById(R.id.btnAreaPause);
         btnAreaPause.setOnClickListener(new PauseButtonAreaListener(this, (ImageView)findViewById(R.id.imgViewPause)));
 
@@ -115,6 +118,11 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
         SoundManager.getInstance().setBGMVolume(1f);
         SoundManager.getInstance().setSFXVolume(1f);
+    }
+
+    public void setHighlightedHotbarBoxToSmallRocketArea() {
+        Button btnAreaSmallRocket = (Button) findViewById(R.id.btnAreaSmallRocket);
+        btnAreaSmallRocket.performClick();
     }
 
     private class PauseButtonAreaListener implements View.OnClickListener {

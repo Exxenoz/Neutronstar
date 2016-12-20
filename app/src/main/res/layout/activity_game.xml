@@ -439,4 +439,14 @@
         android:layout_height="150px"
         android:layout_marginLeft="1549px" />
 
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaPlanet"
+        android:layout_height="270px"
+        android:layout_width="270px"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="825px"
+        android:layout_marginTop="405px" />
+
 </RelativeLayout>

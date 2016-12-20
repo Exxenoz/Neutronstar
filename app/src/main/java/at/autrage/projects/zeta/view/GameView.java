@@ -61,7 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // Ensure that events are generated
         setFocusable(true);
         // Initialize player
-        m_Player = new Player();
+        m_Player = new Player(this);
         // Initialize game object list
         m_GameObjects = new ArrayList<GameObject>();
         // Initialize game objects to insert queue
@@ -131,8 +131,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        // ToDo: Implement input processing
-        return true;
+        if (m_Player == null) {
+            return false;
+        }
+
+        return m_Player.onGlobalTouch(e);
     }
 
     /**
@@ -266,6 +269,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void setGameViewUI(GameViewUI ui) {
         m_UI = ui;
+    }
+
+    public GameActivity getGameActivity() {
+        return m_GameActivity;
     }
 
     public Player getPlayer() {

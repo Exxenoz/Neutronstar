@@ -45,6 +45,8 @@ public class AssetManager {
         m_Animations.put(Animations.BackgroundGameDefault, new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 0, 0, 1920, 1080, 1920, 1080, 0));
         m_Animations.put(Animations.PlanetSheet, new Animation(1, R.drawable.gv_planet_sheet_100p, "PlanetSheet", 0, 0, 2000, 1800, 100, 100, 0.032f));
         m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 0, 0 , 2000, 1800, 100, 100, 0.04f));
+        m_Animations.put(Animations.SmallRocket, new Animation(3, R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 0, 0, 64, 64, 64, 64, 0f));
+        m_Animations.put(Animations.BigRocket, new Animation(4, R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 0, 0, 80, 80, 80, 80, 0f));
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
@@ -54,6 +56,12 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.Clouds, new AnimationSet(2, "Clouds", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.CloudSheet));
+        }}));
+        m_AnimationSets.put(AnimationSets.SmallRocket, new AnimationSet(3, "SmallRocket", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.SmallRocket));
+        }}));
+        m_AnimationSets.put(AnimationSets.BigRocket, new AnimationSet(4, "BigRocket", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.BigRocket));
         }}));
     }
 
