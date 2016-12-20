@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.Weapon;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
+import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
@@ -36,8 +39,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameLoop m_Loop;
     /** Reference to our {@link GameLoop} thread. */
     private Thread m_LoopThread;
-    /** Reference to our {@link GameViewAssets} object. */
-    private GameViewAssets m_Assets;
     /** Reference to our {@link GameViewUI} object. */
     private GameViewUI m_UI;
     /** Reference to (@link Player) object. */
@@ -67,10 +68,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_GameObjectsToInsert = new ConcurrentLinkedQueue<GameObject>();
         // Initialize game objects to delete queue
         m_GameObjectsToDelete = new ConcurrentLinkedQueue<GameObject>();
-        // Initialize game view assets
-        m_Assets = new GameViewAssets(this);
+        // Initialize asset manager module
+        AssetManager.getInstance().initialize();
         // Initialize collider list
         m_ColliderList = new ArrayList<Collider>(128);
+
+        initializeGameView();
+    }
+
+    private void initializeGameView() {
+        new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+        GameObject earth = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
+        earth.setScaleFactor(2.56f);
+        GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
+        clouds.setScaleFactor(2.56f);
+        clouds.setAnimationReversed(true);
     }
 
     public void addGameObjectToInsertQueue(GameObject gameObject) {
@@ -85,7 +97,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         Logger.D("GameView::surfaceCreated()");
 
-        m_Assets.load(getResources());
+        AssetManager.getInstance().load(getResources());
 
         SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
 
@@ -114,7 +126,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         SoundManager.getInstance().StopBGM();
 
-        m_Assets.unLoad();
+        AssetManager.getInstance().unLoad();
     }
 
     @Override
