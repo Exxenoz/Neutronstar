@@ -27,6 +27,8 @@ public class GameObject {
     private float m_ScaledPositionX;
     private float m_ScaledPositionY;
 
+    private float m_RotationAngle;
+
     private int m_SizeX;
     private int m_SizeY;
 
@@ -65,6 +67,8 @@ public class GameObject {
 
         m_ScaledPositionX = 0;
         m_ScaledPositionY = 0;
+
+        m_RotationAngle = 0f;
 
         m_SizeX = m_SizeY = 0;
         m_HalfSizeX = m_HalfSizeY = 0;
@@ -135,7 +139,10 @@ public class GameObject {
 
     public void onDraw(Canvas canvas) {
         if (m_CurrentAnimationFrame != null) {
+            canvas.save(Canvas.MATRIX_SAVE_FLAG);
+            canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
             canvas.drawBitmap(m_CurrentAnimationFrame.getSequenceImage(), m_CurrentAnimationFrame.getTexCoordRect(), m_DstRect, null);
+            canvas.restore();
         }
     }
 
@@ -189,6 +196,10 @@ public class GameObject {
 
     public void setAnimationReversed(boolean animationReversed) {
         this.m_AnimationReversed = animationReversed;
+    }
+
+    public void setRotationAngle(float rotationAngle) {
+        m_RotationAngle = rotationAngle;
     }
 
     public void setScaleFactor(float scaleFactor) {
