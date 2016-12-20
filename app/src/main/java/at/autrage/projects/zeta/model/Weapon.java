@@ -13,6 +13,10 @@ public class Weapon extends GameObject {
 
     public Weapon(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
+
+        m_HitDamage = 0f;
+        m_AOEDamage = 0f;
+        m_AOERadius = 0f;
     }
 
     public float getHitDamage() {
