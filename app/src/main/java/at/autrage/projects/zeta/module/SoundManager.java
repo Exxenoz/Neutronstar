@@ -24,10 +24,8 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     MainActivity m_MainActivity;
     Context m_MainContext;
 
-    AudioManager m_AudioManager;
     MediaPlayer m_MediaPlayer;
     SoundPool m_SoundPool;
-    boolean m_SoundPoolLoaded;
     HashMap<Integer, Integer> m_ResIdToSoundIdMap;
     int m_LengthToResume;
     float m_BGMVolume;
@@ -43,8 +41,6 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     public void initialize(MainActivity mainActivity) {
         m_MainActivity = mainActivity;
         m_MainContext = mainActivity.getApplicationContext();
-
-        m_AudioManager = (AudioManager)m_MainContext.getSystemService(MainActivity.AUDIO_SERVICE);
 
         // Initialize SoundPool (for sound effects):
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -158,11 +154,6 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
             return;
         }
 
-        if (!m_SoundPoolLoaded) {
-            Logger.E("Could not play sound effect with resource id " + resId + ", because sound pool is not fully loaded yet.");
-            return;
-        }
-
         m_SoundPool.play(soundId, m_SFXVolume, m_SFXVolume, 0, 0, 1);
     }
 
@@ -172,6 +163,5 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
 
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-        m_SoundPoolLoaded = true;
     }
 }
