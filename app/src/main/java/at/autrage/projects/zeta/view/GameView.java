@@ -16,6 +16,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
@@ -42,8 +43,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Thread m_LoopThread;
     /** Reference to our {@link GameViewUI} object. */
     private GameViewUI m_UI;
-    /** Reference to (@link Player) object. */
-    private Player m_Player;
     /** Reference to our drawn {@link GameObject}s. */
     private List<GameObject> m_GameObjects;
     /** Reference to the game objects which will be inserted into {@link GameView#m_GameObjects}. */
@@ -52,6 +51,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private ConcurrentLinkedQueue<GameObject> m_GameObjectsToDelete;
     /** Contains active colliders - most of the time, at least. (Cache) */
     private List<Collider> m_ColliderList;
+    /** Reference to (@link EnemySpawner) object. */
+    private EnemySpawner m_EnemySpawner;
+    /** Reference to (@link Player) object. */
+    private Player m_Player;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,12 +80,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void initializeGameView() {
-        new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+        m_EnemySpawner = new EnemySpawner(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
         // Initialize player
         m_Player = new Player(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
         m_Player.setScaleFactor(2.56f);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
+
+        m_EnemySpawner.setPlayer(m_Player);
 
         GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         clouds.setScaleFactor(2.56f);

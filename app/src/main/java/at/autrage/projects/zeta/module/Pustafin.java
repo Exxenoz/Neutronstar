@@ -29,4 +29,6 @@ public class Pustafin {
     public static final float BigLaserSpeedBase = 0f;
     public static final float SmallContactBombSpeedBase = 1f;
     public static final float BigContactBombSpeedBase = 1f;
+
+
 }
