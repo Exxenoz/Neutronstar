@@ -191,7 +191,7 @@
         android:id="@+id/imgViewSound"
         android:layout_marginTop="960px"
         android:layout_marginLeft="1792px"
-        android:background="@drawable/gv_icon_mute" />
+        android:background="@drawable/gv_icon_unmute" />
 
     <Button
         android:layout_width="165px"

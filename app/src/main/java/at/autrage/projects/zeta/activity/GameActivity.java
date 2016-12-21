@@ -218,13 +218,13 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
             if (m_Muted) {
                 SoundManager.getInstance().setBGMVolume(1f);
                 SoundManager.getInstance().setSFXVolume(1f);
-                m_ImageView.setBackgroundResource(R.drawable.gv_icon_mute);
+                m_ImageView.setBackgroundResource(R.drawable.gv_icon_unmute);
                 Logger.D("Clicked Unmute Button...");
             }
             else {
                 SoundManager.getInstance().setBGMVolume(0f);
                 SoundManager.getInstance().setSFXVolume(0f);
-                m_ImageView.setBackgroundResource(R.drawable.gv_icon_unmute);
+                m_ImageView.setBackgroundResource(R.drawable.gv_icon_mute);
                 Logger.D("Clicked Mute Button...");
             }
 
