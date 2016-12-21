@@ -47,6 +47,9 @@ public class AssetManager {
         m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 0, 0 , 2000, 1800, 100, 100, 0.04f));
         m_Animations.put(Animations.SmallRocket, new Animation(3, R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 0, 0, 64, 64, 64, 64, 0f));
         m_Animations.put(Animations.BigRocket, new Animation(4, R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 0, 0, 80, 80, 80, 80, 0f));
+        m_Animations.put(Animations.Asteroid1, new Animation(5, R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 0, 0, 256, 256, 256, 256, 0f));
+        m_Animations.put(Animations.Asteroid2, new Animation(6, R.drawable.gv_enemy_asteroid2, "EnemyAsteroid2", 0, 0, 256, 256, 256, 256, 0f));
+        m_Animations.put(Animations.Asteroid3, new Animation(7, R.drawable.gv_enemy_asteroid3, "EnemyAsteroid3", 0, 0, 256, 256, 256, 256, 0f));
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
@@ -62,6 +65,15 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.BigRocket, new AnimationSet(4, "BigRocket", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BigRocket));
+        }}));
+        m_AnimationSets.put(AnimationSets.Asteroid1, new AnimationSet(5, "Asteroid1", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Asteroid1));
+        }}));
+        m_AnimationSets.put(AnimationSets.Asteroid2, new AnimationSet(6, "Asteroid2", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Asteroid2));
+        }}));
+        m_AnimationSets.put(AnimationSets.Asteroid3, new AnimationSet(7, "Asteroid3", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Asteroid3));
         }}));
     }
 

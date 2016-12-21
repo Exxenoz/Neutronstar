@@ -13,6 +13,11 @@ public class Enemy extends GameObject {
 
     public Enemy(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
+
+        m_Health = 1f;
+        m_HitDamage = 0f;
+        m_Bounty = 0;
+        m_Points = 0;
     }
 
     public float getHealth() {

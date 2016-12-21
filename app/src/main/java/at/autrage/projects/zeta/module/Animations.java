@@ -6,10 +6,13 @@ public enum Animations {
     CloudSheet,
     SmallRocket,
     BigRocket,
+    Asteroid1,
+    Asteroid2,
+    Asteroid3,
     SmallNuke,
     BigNuke,
     SmallLaser,
     BigLaser,
     SmallContactBomb,
-    BigContactBomb
+    BigContactBomb,
 }
