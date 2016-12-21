@@ -211,6 +211,22 @@ public class GameObject {
         m_ScaleFactor = scaleFactor;
     }
 
+    public void setHalfSizeX(float halfSizeX) {
+        this.m_HalfSizeX = halfSizeX;
+    }
+
+    public void setHalfSizeY(float halfSizeY) {
+        this.m_HalfSizeY = halfSizeY;
+    }
+
+    public void setScaledHalfSizeX(float scaledHalfSizeX) {
+        this.m_ScaledHalfSizeX = scaledHalfSizeX;
+    }
+
+    public void setScaledHalfSizeY(float scaledHalfSizeY) {
+        this.m_ScaledHalfSizeY = scaledHalfSizeY;
+    }
+
     public void setDirectionX(float directionX) {
         this.m_DirectionX = directionX;
         setSpeed(m_Speed);
@@ -237,6 +253,10 @@ public class GameObject {
         m_Collider = collider;
     }
 
+    public GameView getGameView() {
+        return m_GameView;
+    }
+
     public float getPositionX() {
         return m_PositionX;
     }
@@ -251,6 +271,26 @@ public class GameObject {
 
     public float getScaledPositionY() {
         return m_ScaledPositionY;
+    }
+
+    public float getRotationAngle() {
+        return m_RotationAngle;
+    }
+
+    public float getHalfSizeX() {
+        return m_HalfSizeX;
+    }
+
+    public float getHalfSizeY() {
+        return m_HalfSizeY;
+    }
+
+    public float getScaledHalfSizeX() {
+        return m_ScaledHalfSizeX;
+    }
+
+    public float getScaledHalfSizeY() {
+        return m_ScaledHalfSizeY;
     }
 
     public float getScaleFactor() {

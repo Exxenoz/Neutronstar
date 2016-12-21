@@ -61,8 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         // Ensure that events are generated
         setFocusable(true);
-        // Initialize player
-        m_Player = new Player(this);
+
         // Initialize game object list
         m_GameObjects = new ArrayList<GameObject>();
         // Initialize game objects to insert queue
@@ -79,9 +78,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void initializeGameView() {
         new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
-        GameObject earth = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
-        earth.setScaleFactor(2.56f);
-        earth.setCollider(new CircleCollider(earth, 128f));
+
+        // Initialize player
+        m_Player = new Player(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
+        m_Player.setScaleFactor(2.56f);
+        m_Player.setCollider(new CircleCollider(m_Player, 128f));
+
         GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         clouds.setScaleFactor(2.56f);
         clouds.setAnimationReversed(true);
@@ -155,8 +157,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 m_GameObjects.remove(m_GameObjectsToDelete.poll());
             }
         }
-
-        m_Player.onUpdate();
 
         m_ColliderList.clear();
 

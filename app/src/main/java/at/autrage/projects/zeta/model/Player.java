@@ -7,14 +7,13 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Player implements View.OnTouchListener {
-    private GameView m_GameView;
-
+public class Player extends GameObject implements View.OnTouchListener {
     private int m_Level;
     private float m_RemainingTime;
 
@@ -35,8 +34,8 @@ public class Player implements View.OnTouchListener {
 
     private Map<Integer, Position> m_TouchEventStartPositions;
 
-    public Player(GameView gameView) {
-        m_GameView = gameView;
+    public Player(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
+        super(gameView, positionX, positionY, animationSet);
 
         m_Level = 1;
         m_RemainingTime = Pustafin.LevelDuration;
@@ -58,7 +57,7 @@ public class Player implements View.OnTouchListener {
     }
 
     public void onUpdate() {
-
+        super.onUpdate();
 
         if (m_Population <= 0) {
             // Level failed!!! :,(
@@ -154,13 +153,9 @@ public class Player implements View.OnTouchListener {
         if (weaponCount > 0) {
             m_Weapons.put(m_SelectedWeapon, --weaponCount);
             if (weaponCount == 0) {
-                m_GameView.getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
+                getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
             }
         }
-    }
-
-    public GameView getGameView() {
-        return m_GameView;
     }
 
     public int getLevel() {
