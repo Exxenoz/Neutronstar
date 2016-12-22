@@ -30,8 +30,6 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        m_CurrentActivity = Activities.IntroActivity;
-
         // Initialize VideoView
         m_IntroView = (VideoView)findViewById(R.id.introView);
         m_IntroView.setOnCompletionListener(this);
@@ -43,6 +41,13 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
 
         // Start the video
         m_IntroView.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        m_CurrentActivity = Activities.IntroActivity;
     }
 
     @Override

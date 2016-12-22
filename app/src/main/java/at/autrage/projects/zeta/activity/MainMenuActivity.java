@@ -20,8 +20,6 @@ public class MainMenuActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        m_CurrentActivity = Activities.MainMenuActivity;
-
         NewGameButtonAreaListener newGameButtonAreaListener = new NewGameButtonAreaListener(this);
         HighscoreButtonAreaListener highscoreButtonAreaListener = new HighscoreButtonAreaListener(this);
 
@@ -36,6 +34,13 @@ public class MainMenuActivity extends SuperActivity {
         btnAreaHighscoreIcon.setOnClickListener(highscoreButtonAreaListener);
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_main_menu));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        m_CurrentActivity = Activities.MainMenuActivity;
     }
 
     private class NewGameButtonAreaListener implements View.OnClickListener {

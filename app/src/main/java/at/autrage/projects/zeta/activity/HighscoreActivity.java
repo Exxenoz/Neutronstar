@@ -24,8 +24,6 @@ public class HighscoreActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-        m_CurrentActivity = Activities.HighscoreActivity;
-
         HighscoreActivity.BackButtonAreaListener backButtonAreaListener = new HighscoreActivity.BackButtonAreaListener(this);
         HighscoreActivity.NewGameButtonAreaListener newGameButtonAreaListener = new HighscoreActivity.NewGameButtonAreaListener(this);
 
@@ -42,6 +40,13 @@ public class HighscoreActivity extends SuperActivity {
         updateHighscoreEntries();
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_highscore));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        m_CurrentActivity = Activities.HighscoreActivity;
     }
 
     private void updateHighscoreEntries() {

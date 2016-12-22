@@ -10,4 +10,11 @@ public class ShopActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        m_CurrentActivity = Activities.ShopActivity;
+    }
 }

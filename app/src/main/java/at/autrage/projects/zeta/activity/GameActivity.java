@@ -31,8 +31,6 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        m_CurrentActivity = Activities.GameActivity;
-
         GameViewUI gameViewUI = new GameViewUI();
         gameViewUI.TxtViewPopulation = (TextView)findViewById(R.id.txtViewPopulation);
         gameViewUI.TxtViewMoney = (TextView)findViewById(R.id.txtViewMoney);
@@ -99,6 +97,13 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
                 (int)((146f + 196f * 7f) * getScaleFactor()), Weapons.BigContactBomb, WeaponUpgrades.ResearchContactBomb));
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        m_CurrentActivity = Activities.GameActivity;
     }
 
     @Override

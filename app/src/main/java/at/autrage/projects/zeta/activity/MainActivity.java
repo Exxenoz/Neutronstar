@@ -17,8 +17,6 @@ public class MainActivity extends SuperActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        m_CurrentActivity = Activities.MainActivity;
-
         // Initialize database
         Database.initialize(this);
 
@@ -27,5 +25,12 @@ public class MainActivity extends SuperActivity {
 
         Intent redirectIntent = new Intent(this, IntroActivity.class);
         startActivity(redirectIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        m_CurrentActivity = Activities.MainActivity;
     }
 }
