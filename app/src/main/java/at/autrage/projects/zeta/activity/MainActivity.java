@@ -6,8 +6,6 @@ import android.os.Bundle;
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.SoundManager;
-import at.autrage.projects.zeta.persistence.HighscoreTable;
-import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
 /**
  * This activity represents the starting point of the application.

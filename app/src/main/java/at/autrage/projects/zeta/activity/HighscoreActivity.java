@@ -152,6 +152,9 @@ public class HighscoreActivity extends SuperActivity {
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);
 
+            // Close current activity
+            finish();
+
             // Start slide animation
             m_OwnerActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
         }

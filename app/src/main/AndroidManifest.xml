@@ -32,14 +32,15 @@
         <activity
             android:name=".activity.GameActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:noHistory="true"
             android:screenOrientation="landscape" />
         <activity
             android:name=".activity.HighscoreActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:noHistory="true"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.ShopActivity"></activity>
+        <activity
+            android:name=".activity.ShopActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

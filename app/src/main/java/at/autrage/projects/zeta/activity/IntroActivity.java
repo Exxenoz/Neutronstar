@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -59,7 +58,13 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
     private void skipVideo() {
         if (!m_Skipped) {
             m_Skipped = true;
+
+            // Redirect to main menu activity
             startActivity(new Intent(this, MainMenuActivity.class));
+
+            // Close current activity
+            finish();
+
             Logger.D("Skipped video intro...");
         }
     }
