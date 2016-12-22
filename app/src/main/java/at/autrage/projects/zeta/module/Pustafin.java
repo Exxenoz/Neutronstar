@@ -4,6 +4,10 @@ package at.autrage.projects.zeta.module;
 public class Pustafin {
     public static final boolean DebugMode = true;
 
+    public static final int MaxUpdateDelta = 16; // In ms
+    public static final int MinRenderDelta = 16; // In ms
+    public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
+
     public static final int LevelDuration = 120;
     public static final int StartBudget = 100;
     public static final int StartPopulation = 8000;

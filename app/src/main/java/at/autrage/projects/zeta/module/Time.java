@@ -11,6 +11,8 @@ import android.util.Log;
  *
  */
 public class Time {
+    /** Real passed time in seconds */
+    private static float realDeltaTime;
     /** Passed time in seconds */
     private static float deltaTime;
     /** Passed time in seconds multiplied by the factor {@link Time#timeScale} */
@@ -19,6 +21,20 @@ public class Time {
     private static float timeScale = 1f;
     /** Passed time in milli seconds */
     private static long deltaTimeInMs;
+
+    /**
+     * Sets the {@link Time#realDeltaTime} variable to a new value.
+     *
+     * @param realDeltaTime must be positive
+     */
+    public static void setRealDeltaTime(float realDeltaTime) {
+        if (realDeltaTime < 0) {
+            Logger.E("Couldn't set real delta time, because value must not be negative.");
+            return;
+        }
+
+        Time.realDeltaTime = realDeltaTime;
+    }
 
     /**
      * Sets the {@link Time#deltaTime} variable to a new value.
@@ -65,9 +81,18 @@ public class Time {
     }
 
     /**
-     * Returns the value of {@link Time#deltaTimeInMs}
+     * Returns the value of {@link Time#realDeltaTime}
      *
-     * @return the value of {@link Time#deltaTimeInMs}
+     * @return the value of {@link Time#realDeltaTime}
+     */
+    public static float getRealDeltaTime() {
+        return Time.realDeltaTime;
+    }
+
+    /**
+     * Returns the value of {@link Time#deltaTime}
+     *
+     * @return the value of {@link Time#deltaTime}
      */
     public static float getDeltaTime() {
         return Time.deltaTime;
@@ -105,5 +130,7 @@ public class Time {
      *
      * @return the value of estimated frames per second
      */
-    public static long getFPS() { return (long)(1f / Math.max(Time.deltaTime, 0.016f)); }
+    public static long getFPS() {
+        return (long)(1000f / Math.max(Time.realDeltaTime, 1f /* 1000 FPS display limit */));
+    }
 }

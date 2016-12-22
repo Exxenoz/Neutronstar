@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.model;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -51,21 +52,38 @@ public class GameLoop implements Runnable {
         Canvas c = null;
         long startTime = System.currentTimeMillis();
         long currTime = 0;
+        long diffTime = 0;
         long sleepTime = 0;
 
         while (m_Running) {
-            // Time:
+            //************************************************
+            //* Frame independent game logic updates section *
+            //************************************************
             currTime = System.currentTimeMillis();
 
-            Time.setDeltaTimeInMs(currTime - startTime);
-            Time.setDeltaTime(Time.getDeltaTimeInMs() / 1000f);
+            diffTime = currTime - startTime;
+            Time.setRealDeltaTime(diffTime);
+            // The update delta may not be too high, otherwise physical calculations for movements or collisions
+            // will fail due to float precision. In order to provide _always_ small update deltas, we simply
+            // added this second loop, that sets delta time to a manageable maximum and calls the update() method.
+            // This behaviour then is repeated until the remaining diff time is smaller than the specified max delta time.
+            for (; diffTime >= Pustafin.MaxUpdateDelta; diffTime -= Pustafin.MaxUpdateDelta) {
+                Time.setDeltaTimeInMs(Pustafin.MaxUpdateDelta);
+                Time.setDeltaTime(Pustafin.MaxUpdateDeltaInSeconds);
+                m_View.update();
+            }
+
+            if (diffTime > 0) {
+                Time.setDeltaTimeInMs(diffTime);
+                Time.setDeltaTime(diffTime / 1000f);
+                m_View.update();
+            }
 
             startTime = currTime;
 
-            // Update:
-            m_View.update();
-
-            // Render:
+            //**********************************
+            //* Synchronized rendering section *
+            //**********************************
             c = null;
 
             try {
@@ -81,7 +99,7 @@ public class GameLoop implements Runnable {
                 }
             }
 
-            sleepTime = 16 - (System.currentTimeMillis() - startTime);
+            sleepTime = Pustafin.MinRenderDelta - (System.currentTimeMillis() - startTime);
             try {
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
