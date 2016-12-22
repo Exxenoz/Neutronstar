@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_generic"
-    tools:context="at.autrage.projects.zeta.model.MainMenuActivity">
+    tools:context="at.autrage.projects.zeta.activity.MainMenuActivity">
 
     <ImageView
         app:srcCompat="@drawable/mm_logo"
