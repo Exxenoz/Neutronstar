@@ -10,20 +10,51 @@ public class Pustafin {
 
     public static final int LevelDuration = 120;
     public static final int StartBudget = 100;
-    public static final int StartPopulation = 8000;
-    public static final float BasePopulationRegeneration = 1.0005f;
+    public static final int StartPopulation = 7390; // As from 2016
+    public static final float PopulationIncreaseFactor = 1.0005f;
+    public static final float ProBabypillPopulationIncreaseFactor = 0.00015f;
 
-    public static final int SmallLaserCostPerSecond = 10;
-    public static final int BigLaserCostPerSecond = 20;
+    public static final int BigRocketPacketSize = 5;
+    public static final int SmallNukePacketSize = 10;
+    public static final int BigNukePacketSize = 5;
+    public static final int SmallContactBombPacketSize = 10;
+    public static final int BigContactBombPacketSize = 5;
+    public static final int ProBabypillPacketSize = 1;
 
-    public static final float SmallRocketHitDamageBase = 1f;
-    public static final float BigRocketHitDamageBase = 1f;
-    public static final float SmallNukeHitDamageBase = 1f;
-    public static final float BigNukeHitDamageBase = 1f;
-    public static final float SmallLaserHitDamageBase = 1f;
-    public static final float BigLaserHitDamageBase = 1f;
-    public static final float SmallContactBombHitDamageBase = 1f;
-    public static final float BigContactBombHitDamageBase = 1f;
+    public static final float DamageUpgradeCostIncreaseFactor = 1.1f;
+    public static final float SpeedUpgradeCostIncreaseFactor = 1.1f;
+    public static final float RadiusUpgradeCostIncreaseFactor = 1.1f;
+
+    public static final float DamageUpgradeIncreaseFactor = 1.1f;
+    public static final float SpeedUpgradeIncreaseFactor = 1.1f;
+    public static final float RadiusUpgradeIncreaseFactor = 1.1f;
+
+    public static final int StartDamageUpgradeCost = 200;
+    public static final int StartSpeedUpgradeCost = 100;
+    public static final int StartRadiusUpgradeCost = 300;
+
+    public static final int ResearchNukeCost = 1500;
+    public static final int ResearchLaserCost = 3000;
+    public static final int ResearchContactBombCost = 2000;
+
+    public static final int SmallRocketPacketCost = 0;
+    public static final int BigRocketPacketCost = 300;
+    public static final int SmallNukePacketCost = 1000;
+    public static final int BigNukePacketCost = 1500;
+    public static final int SmallLaserCostPerSecond = 150;
+    public static final int BigLaserCostPerSecond = 300;
+    public static final int SmallContactBombPacketCost = 1000;
+    public static final int BigConctactBombPacketCost = 1500;
+    public static final int ProBabypillPacketCost = 1000;
+
+    public static final float SmallRocketHitDamageBase = 20f;
+    public static final float BigRocketHitDamageBase = 80f;
+    public static final float SmallNukeHitDamageBase = 100f;
+    public static final float BigNukeHitDamageBase = 200f;
+    public static final float SmallLaserHitDamageBase = 150f;
+    public static final float BigLaserHitDamageBase = 250f;
+    public static final float SmallContactBombHitDamageBase = 100f;
+    public static final float BigContactBombHitDamageBase = 200f;
 
     public static final float SmallRocketSpeedBase = 100f;
     public static final float BigRocketSpeedBase = 80f;
@@ -34,5 +65,11 @@ public class Pustafin {
     public static final float SmallContactBombSpeedBase = 1f;
     public static final float BigContactBombSpeedBase = 1f;
 
-
+    public static final int   AsteroidStartCount = 16;
+    public static final float AsteroidStartScale = 0.188f;
+    public static final float AsteroidCountIncreaseFactor = 5f;
+    public static final float AsteroidScaleIncreaseFactor = 0.05f;
+    public static final float AsteroidBaseHealthPerScaleFactor = 100f;
+    public static final float AsteroidMoneyPerScaleFactor = 200f;
+    public static final float AsteroidImpactDamageFactor = 10f;
 }
