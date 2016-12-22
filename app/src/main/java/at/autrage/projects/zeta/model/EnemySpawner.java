@@ -77,8 +77,10 @@ public class EnemySpawner extends GameObject {
 
         float asteroidHealth = (float) (asteroidScale * Pustafin.AsteroidBaseHealthPerScaleFactor * Math.pow(1 + asteroidScale, Math.log(randomIdx + 1)));
         float asteroidHitDamage = asteroidHealth * Pustafin.AsteroidImpactDamageFactor;
-        float asteroidBounty = asteroidScale * Pustafin.AsteroidMoneyPerScaleFactor;
-        float asteroidPoints = 0f; //TODO
+
+        int asteroidBounty = (int) (asteroidScale * Pustafin.AsteroidMoneyPerScaleFactor);
+        int asteroidPoints = 0; //TODO
+
         float asteroidSpeed = 50f; //TODO
         float asteroidRotationSpeed = (float) (Math.random() * (Pustafin.AsteroidMaxRotationSpeed - Pustafin.AsteroidMinRotationSpeed) + Pustafin.AsteroidMinRotationSpeed);
 
@@ -118,7 +120,7 @@ public class EnemySpawner extends GameObject {
 
         return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
                 asteroidScale, asteroidSpeed, asteroidRotationSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
-                asteroidSpawnDirectionX, asteroidSpawnDirectionY);
+                asteroidSpawnDirectionX, asteroidSpawnDirectionY, asteroidBounty, asteroidPoints);
     }
 
     @Override

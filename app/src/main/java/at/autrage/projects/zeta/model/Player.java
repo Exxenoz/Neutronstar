@@ -200,6 +200,14 @@ public class Player extends GameObject implements View.OnTouchListener {
         return m_SelectedWeapon;
     }
 
+    public void setScore(int score) {
+        this.m_Score = score;
+    }
+
+    public void setMoney(int money) {
+        this.m_Money = money;
+    }
+
     public void setSelectedWeapon(Weapons selectedWeapon) {
         this.m_SelectedWeapon = selectedWeapon;
     }

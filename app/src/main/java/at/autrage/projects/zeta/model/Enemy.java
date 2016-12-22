@@ -2,22 +2,44 @@ package at.autrage.projects.zeta.model;
 
 
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Enemy extends GameObject {
 
-    private float m_Health;
-    private float m_HitDamage;
-    private float m_Bounty;
-    private float m_Points;
+    protected float m_Health;
+    protected float m_HitDamage;
+    protected int m_Bounty;
+    protected int m_Points;
 
     public Enemy(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
         m_Health = 1f;
         m_HitDamage = 0f;
-        m_Bounty = 0f;
-        m_Points = 0f;
+        m_Bounty = 0;
+        m_Points = 0;
+    }
+
+    @Override
+    public void onCollide(Collider collider) {
+        super.onCollide(collider);
+
+        if (collider.getOwner() instanceof Weapon) {
+            Weapon weapon = (Weapon) collider.getOwner();
+            m_Health -= weapon.getHitDamage();
+            if (m_Health <= 0f) {
+                m_Health = 0f;
+
+                Player player = getGameView().getPlayer();
+                if (player != null) {
+                    player.setMoney(player.getMoney() + m_Bounty);
+                    player.setScore(player.getScore() + m_Points);
+                }
+
+                destroy();
+            }
+        }
     }
 
     public float getHealth() {
@@ -36,19 +58,19 @@ public class Enemy extends GameObject {
         this.m_HitDamage = hitDamage;
     }
 
-    public float getBounty() {
+    public int getBounty() {
         return m_Bounty;
     }
 
-    public void setBounty(float bounty) {
+    public void setBounty(int bounty) {
         this.m_Bounty = bounty;
     }
 
-    public float getPoints() {
+    public int getPoints() {
         return m_Points;
     }
 
-    public void setPoints(float points) {
+    public void setPoints(int points) {
         this.m_Points = points;
     }
 }

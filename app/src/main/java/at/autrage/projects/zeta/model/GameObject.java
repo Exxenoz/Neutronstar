@@ -136,6 +136,7 @@ public class GameObject {
     }
 
     public void onCollide(Collider collider) {
+        // TODO
     }
 
     public void onDraw(Canvas canvas) {
@@ -276,6 +277,14 @@ public class GameObject {
 
     public float getRotationAngle() {
         return m_RotationAngle;
+    }
+
+    public int getSizeX() {
+        return m_SizeX;
+    }
+
+    public int getSizeY() {
+        return m_SizeY;
     }
 
     public float getHalfSizeX() {

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
@@ -27,12 +28,14 @@ public class Asteroid extends Enemy {
     }
 
     public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed, float rotationSpeed,
-                                          float positionX, float positionY, float directionX, float directionY) {
+                                          float positionX, float positionY, float directionX, float directionY, int bounty, int points) {
         Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
         asteroid.setScaleFactor(scale);
         asteroid.setDirection(directionX, directionY);
         asteroid.setSpeed(moveSpeed);
         asteroid.setRotationSpeed(rotationSpeed);
+        asteroid.setBounty(bounty);
+        asteroid.setPoints(points);
         asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX()));
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f) and scale factor %f",

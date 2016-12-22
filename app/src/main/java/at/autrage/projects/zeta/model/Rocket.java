@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -11,6 +12,19 @@ import at.autrage.projects.zeta.view.GameView;
 public class Rocket extends Weapon {
     public Rocket(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
+    }
+
+    @Override
+    public void onCollide(Collider collider) {
+        super.onCollide(collider);
+
+        if (collider.getOwner() instanceof Enemy) {
+            GameObject explosion = new GameObject(getGameView(), getPositionX(), getPositionY(),
+                    AssetManager.getInstance().getAnimationSet(AnimationSets.Explosion1));
+            explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
+
+            destroy();
+        }
     }
 
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {

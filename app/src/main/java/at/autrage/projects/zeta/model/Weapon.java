@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.model;
 import java.util.Vector;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Weapon extends GameObject {
