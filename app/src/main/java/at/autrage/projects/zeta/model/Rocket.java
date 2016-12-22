@@ -19,7 +19,7 @@ public class Rocket extends Weapon {
         super.onCollide(collider);
 
         if (collider.getOwner() instanceof Enemy) {
-            GameObject explosion = new GameObject(getGameView(), getPositionX(), getPositionY(),
+            Explosion explosion = new Explosion(getGameView(), getPositionX(), getPositionY(),
                     AssetManager.getInstance().getAnimationSet(AnimationSets.Explosion1));
             explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
 

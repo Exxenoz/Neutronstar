@@ -9,5 +9,10 @@ public class Explosion extends GameObject {
         super(gameView, positionX, positionY, animationSet);
     }
 
+    @Override
+    protected void onAnimationFinished() {
+        super.onAnimationFinished();
 
+        destroy();
+    }
 }

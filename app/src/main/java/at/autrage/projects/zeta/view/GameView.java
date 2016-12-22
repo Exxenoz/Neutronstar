@@ -85,6 +85,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // Initialize player
         m_Player = new Player(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
         m_Player.setScaleFactor(2.56f);
+        m_Player.setAnimationRepeatable(true);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
 
         m_EnemySpawner.initialize();
@@ -92,6 +93,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         clouds.setScaleFactor(2.56f);
         clouds.setAnimationReversed(true);
+        clouds.setAnimationRepeatable(true);
     }
 
     public void addGameObjectToInsertQueue(GameObject gameObject) {

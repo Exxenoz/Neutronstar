@@ -1,9 +1,7 @@
 package at.autrage.projects.zeta.model;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.Animation;
@@ -48,9 +46,12 @@ public class GameObject {
 
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;
-    private AnimationFrame m_CurrentAnimationFrame;
+    private AnimationFrame m_CurrAnimationFrame;
+    private AnimationFrame m_NextAnimationFrame;
     private float m_AnimationTimer;
     private boolean m_AnimationReversed;
+    private boolean m_AnimationRepeatable;
+    private boolean m_AnimationPaused;
 
     private float m_DirectionX;
     private float m_DirectionY;
@@ -82,9 +83,12 @@ public class GameObject {
 
         m_Animation = null;
         m_AnimationSet = animationSet;
-        m_CurrentAnimationFrame = null;
+        m_CurrAnimationFrame = null;
+        m_NextAnimationFrame = null;
         m_AnimationTimer = 0;
         m_AnimationReversed = false;
+        m_AnimationRepeatable = false;
+        m_AnimationPaused = false;
 
         m_DirectionX = 0f;
         m_DirectionY = 0f;
@@ -100,21 +104,34 @@ public class GameObject {
     }
 
     public void onUpdate() {
-        if (m_CurrentAnimationFrame != null &&
-            m_CurrentAnimationFrame != m_CurrentAnimationFrame.getNextFrame())
+        if (m_CurrAnimationFrame != null && !m_AnimationPaused &&
+            m_CurrAnimationFrame != m_CurrAnimationFrame.getNextFrame())
         {
             m_AnimationTimer += Time.getScaledDeltaTime();
 
-            if (m_AnimationTimer >= m_CurrentAnimationFrame.getDuration())
+            if (m_AnimationTimer >= m_CurrAnimationFrame.getDuration())
             {
-                m_AnimationTimer -= m_CurrentAnimationFrame.getDuration();
+                m_AnimationTimer -= m_CurrAnimationFrame.getDuration();
 
                 if (m_AnimationReversed) {
-                    setCurrentAnimationFrame(m_CurrentAnimationFrame.getLastFrame());
+                    m_NextAnimationFrame = m_CurrAnimationFrame.getLastFrame();
                 }
-                else
-                {
-                    setCurrentAnimationFrame(m_CurrentAnimationFrame.getNextFrame());
+                else {
+                    m_NextAnimationFrame = m_CurrAnimationFrame.getNextFrame();
+                }
+
+                if (m_NextAnimationFrame == m_Animation.getFirstAnimationFrame()) {
+                    onAnimationFinished();
+
+                    if (!m_AnimationRepeatable) {
+                        m_AnimationPaused = true;
+                    }
+                    else {
+                        setCurrentAnimationFrame(m_NextAnimationFrame);
+                    }
+                }
+                else {
+                    setCurrentAnimationFrame(m_NextAnimationFrame);
                 }
             }
         }
@@ -135,15 +152,17 @@ public class GameObject {
                 (int)(scaledPivotPositionX + m_ScaledSizeX), (int)(scaledPivotPositionY + m_ScaledSizeY));
     }
 
+    protected void onAnimationFinished() {
+    }
+
     public void onCollide(Collider collider) {
-        // TODO
     }
 
     public void onDraw(Canvas canvas) {
-        if (m_CurrentAnimationFrame != null) {
+        if (m_CurrAnimationFrame != null) {
             canvas.save(Canvas.MATRIX_SAVE_FLAG);
             canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
-            canvas.drawBitmap(m_CurrentAnimationFrame.getSequenceImage(), m_CurrentAnimationFrame.getTexCoordRect(), m_DstRect, null);
+            canvas.drawBitmap(m_CurrAnimationFrame.getSequenceImage(), m_CurrAnimationFrame.getTexCoordRect(), m_DstRect, null);
             canvas.restore();
 
             if (Pustafin.DebugMode && m_Collider != null) {
@@ -178,6 +197,7 @@ public class GameObject {
         m_Animation = animation;
         setCurrentAnimationFrame(animationFrame);
         m_AnimationTimer = 0;
+        m_AnimationPaused = false;
     }
 
     private void setCurrentAnimationFrame(AnimationFrame animationFrame) {
@@ -185,9 +205,9 @@ public class GameObject {
             return;
         }
 
-        m_CurrentAnimationFrame = animationFrame;
-        m_SizeX = (int)(m_CurrentAnimationFrame.getSizeX() * m_ScaleFactor);
-        m_SizeY = (int)(m_CurrentAnimationFrame.getSizeY() * m_ScaleFactor);
+        m_CurrAnimationFrame = animationFrame;
+        m_SizeX = (int)(m_CurrAnimationFrame.getSizeX() * m_ScaleFactor);
+        m_SizeY = (int)(m_CurrAnimationFrame.getSizeY() * m_ScaleFactor);
 
         m_HalfSizeX = m_SizeX / 2f;
         m_HalfSizeY = m_SizeY / 2f;
@@ -204,13 +224,21 @@ public class GameObject {
         this.m_AnimationReversed = animationReversed;
     }
 
+    public void setAnimationRepeatable(boolean animationRepeatable) {
+        this.m_AnimationRepeatable = animationRepeatable;
+    }
+
+    public void setAnimationPaused(boolean animationPaused) {
+        this.m_AnimationPaused = animationPaused;
+    }
+
     public void setRotationAngle(float rotationAngle) {
         m_RotationAngle = rotationAngle;
     }
 
     public void setScaleFactor(float scaleFactor) {
         m_ScaleFactor = scaleFactor;
-        setCurrentAnimationFrame(m_CurrentAnimationFrame);
+        setCurrentAnimationFrame(m_CurrAnimationFrame);
     }
 
     public void setHalfSizeX(float halfSizeX) {
