@@ -209,6 +209,7 @@ public class GameObject {
 
     public void setScaleFactor(float scaleFactor) {
         m_ScaleFactor = scaleFactor;
+        setCurrentAnimationFrame(m_CurrentAnimationFrame);
     }
 
     public void setHalfSizeX(float halfSizeX) {
