@@ -120,7 +120,7 @@ public class EnemySpawner extends GameObject {
 
         return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
                 asteroidScale, asteroidSpeed, asteroidRotationSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
-                asteroidSpawnDirectionX, asteroidSpawnDirectionY, asteroidBounty, asteroidPoints);
+                asteroidSpawnDirectionX, asteroidSpawnDirectionY, asteroidHealth, asteroidHitDamage, asteroidBounty, asteroidPoints);
     }
 
     @Override

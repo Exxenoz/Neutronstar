@@ -28,18 +28,20 @@ public class Asteroid extends Enemy {
     }
 
     public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed, float rotationSpeed,
-                                          float positionX, float positionY, float directionX, float directionY, int bounty, int points) {
+                                          float positionX, float positionY, float directionX, float directionY, float health, float hitDamage, int bounty, int points) {
         Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
         asteroid.setScaleFactor(scale);
         asteroid.setDirection(directionX, directionY);
         asteroid.setSpeed(moveSpeed);
         asteroid.setRotationSpeed(rotationSpeed);
+        asteroid.setHealth(health);
+        asteroid.setHitDamage(hitDamage);
         asteroid.setBounty(bounty);
         asteroid.setPoints(points);
         asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX()));
 
-        Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f) and scale factor %f",
-                positionX, positionY, directionX, directionY, scale);
+        Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale factor (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
+                positionX, positionY, directionX, directionY, scale, health, hitDamage, bounty, points);
 
         return asteroid;
     }

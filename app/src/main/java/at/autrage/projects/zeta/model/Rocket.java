@@ -36,6 +36,7 @@ public class Rocket extends Weapon {
         rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(Pustafin.SmallRocketSpeedBase);
+        rocket.setHitDamage(Pustafin.SmallRocketHitDamageBase);
         rocket.setCollider(new CircleCollider(rocket, 32f));
         return rocket;
     }
@@ -46,6 +47,7 @@ public class Rocket extends Weapon {
         rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(Pustafin.BigRocketSpeedBase);
+        rocket.setHitDamage(Pustafin.BigRocketHitDamageBase);
         rocket.setCollider(new CircleCollider(rocket, 40f));
         return rocket;
     }
