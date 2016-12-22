@@ -57,7 +57,7 @@ public class Pustafin {
     public static final float SmallContactBombHitDamageBase = 100f;
     public static final float BigContactBombHitDamageBase = 200f;
 
-    public static final float ExplosionSizeScaleFactor = 1.1f;
+    public static final float ExplosionSizeScaleFactor = 2f;
 
     public static final float SmallRocketSpeedBase = 100f;
     public static final float BigRocketSpeedBase = 80f;
