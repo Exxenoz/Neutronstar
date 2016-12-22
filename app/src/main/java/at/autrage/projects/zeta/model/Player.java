@@ -44,7 +44,7 @@ public class Player extends GameObject implements View.OnTouchListener {
         m_Money = Pustafin.StartBudget;
 
         m_Population = Pustafin.StartPopulation;
-        m_PopulationReg = Pustafin.BasePopulationRegeneration;
+        m_PopulationReg = Pustafin.PopulationIncreaseFactor;
 
         m_Weapons = new HashMap<Weapons, Integer>();
         m_WeaponUpgrades = new HashMap<WeaponUpgrades, Integer>();

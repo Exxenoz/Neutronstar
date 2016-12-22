@@ -8,16 +8,16 @@ public class Enemy extends GameObject {
 
     private float m_Health;
     private float m_HitDamage;
-    private int m_Bounty;
-    private int m_Points;
+    private float m_Bounty;
+    private float m_Points;
 
     public Enemy(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
         m_Health = 1f;
         m_HitDamage = 0f;
-        m_Bounty = 0;
-        m_Points = 0;
+        m_Bounty = 0f;
+        m_Points = 0f;
     }
 
     public float getHealth() {
@@ -36,19 +36,19 @@ public class Enemy extends GameObject {
         this.m_HitDamage = hitDamage;
     }
 
-    public int getBounty() {
+    public float getBounty() {
         return m_Bounty;
     }
 
-    public void setBounty(int bounty) {
+    public void setBounty(float bounty) {
         this.m_Bounty = bounty;
     }
 
-    public int getPoints() {
+    public float getPoints() {
         return m_Points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(float points) {
         this.m_Points = points;
     }
 }

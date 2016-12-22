@@ -87,7 +87,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_Player.setScaleFactor(2.56f);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
 
-        m_EnemySpawner.setPlayer(m_Player);
+        m_EnemySpawner.initialize();
 
         GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         clouds.setScaleFactor(2.56f);

@@ -1,15 +1,24 @@
 package at.autrage.projects.zeta.model;
 
 
+import java.util.Random;
+
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
+import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Asteroid extends Enemy {
     private float m_RotationSpeed;
+
+    private static AnimationSets[] m_AsteroidAnimationSets = new AnimationSets[] {
+            AnimationSets.Asteroid1,
+            AnimationSets.Asteroid2,
+            AnimationSets.Asteroid3
+    };
 
     public Asteroid(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
@@ -24,7 +33,11 @@ public class Asteroid extends Enemy {
         asteroid.setDirection(directionX, directionY);
         asteroid.setSpeed(moveSpeed);
         asteroid.setRotationSpeed(rotationSpeed);
-        asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX() * scale));
+        asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX()));
+
+        Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f) and scale factor %f",
+                positionX, positionY, directionX, directionY, scale);
+
         return asteroid;
     }
 
@@ -35,6 +48,11 @@ public class Asteroid extends Enemy {
         if (m_RotationSpeed != 0) {
             setRotationAngle(getRotationSpeed() + m_RotationSpeed * Time.getScaledDeltaTime());
         }
+    }
+
+    public static AnimationSets getRandomAnimationSet(Random random) {
+        int randomIdx = random.nextInt(m_AsteroidAnimationSets.length);
+        return m_AsteroidAnimationSets[randomIdx];
     }
 
     public float getRotationSpeed() {

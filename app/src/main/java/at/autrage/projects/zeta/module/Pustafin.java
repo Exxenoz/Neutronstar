@@ -9,6 +9,7 @@ public class Pustafin {
     public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
 
     public static final int LevelDuration = 120;
+    public static final int LevelSpawnTime = 110;
     public static final int StartBudget = 100;
     public static final int StartPopulation = 7390; // As from 2016
     public static final float PopulationIncreaseFactor = 1.0005f;
@@ -72,4 +73,10 @@ public class Pustafin {
     public static final float AsteroidBaseHealthPerScaleFactor = 100f;
     public static final float AsteroidMoneyPerScaleFactor = 200f;
     public static final float AsteroidImpactDamageFactor = 10f;
+
+    public static final float AsteroidMinRotationSpeed = 10f; // Degrees per second
+    public static final float AsteroidMaxRotationSpeed = 45f; // Degrees per second
+
+    public static final float AsteroidEasySpawnPositionProbability = 0.7f;
+    public static final float AsteroidHardSpawnPositionProbability = 1f - AsteroidEasySpawnPositionProbability;
 }
