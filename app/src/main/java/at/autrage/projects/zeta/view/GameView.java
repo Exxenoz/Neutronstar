@@ -269,6 +269,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (m_Player != null) {
             m_Player.setSelectedWeapon(weapon);
         }
+
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_change_weapon);
     }
 
     /**

@@ -136,6 +136,7 @@ public class GameActivity extends SuperActivity {
                 SoundManager.getInstance().ResumeBGM();
                 Time.setTimeScale(m_LastTimeScale);
                 m_ImageView.setBackgroundResource(R.drawable.gv_icon_pause);
+                SoundManager.getInstance().PlaySFX(R.raw.sfx_button_resume);
                 Logger.D("Clicked Resume Button...");
             }
             else {
@@ -143,6 +144,7 @@ public class GameActivity extends SuperActivity {
                 Time.setTimeScale(0f);
                 SoundManager.getInstance().PauseBGM();
                 m_ImageView.setBackgroundResource(R.drawable.gv_icon_play);
+                SoundManager.getInstance().PlaySFX(R.raw.sfx_button_pause);
                 Logger.D("Clicked Pause Button...");
             }
         }

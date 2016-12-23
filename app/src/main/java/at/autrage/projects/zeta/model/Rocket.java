@@ -1,12 +1,14 @@
 package at.autrage.projects.zeta.model;
 
 
+import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Pustafin;
+import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Rocket extends Weapon {
@@ -19,6 +21,7 @@ public class Rocket extends Weapon {
         super.onCollide(collider);
 
         if (collider.getOwner() instanceof Enemy) {
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket);
             explode(collider.getOwner());
         }
     }
@@ -31,6 +34,7 @@ public class Rocket extends Weapon {
         rocket.setSpeed(Pustafin.SmallRocketSpeedBase);
         rocket.setHitDamage(Pustafin.SmallRocketHitDamageBase);
         rocket.setCollider(new CircleCollider(rocket, 32f));
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
         return rocket;
     }
 
@@ -42,6 +46,7 @@ public class Rocket extends Weapon {
         rocket.setSpeed(Pustafin.BigRocketSpeedBase);
         rocket.setHitDamage(Pustafin.BigRocketHitDamageBase);
         rocket.setCollider(new CircleCollider(rocket, 40f));
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
         return rocket;
     }
 }

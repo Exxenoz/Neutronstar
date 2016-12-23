@@ -83,6 +83,12 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         addSoundToSoundPool(R.raw.sfx_button_back);
         addSoundToSoundPool(R.raw.sfx_button_pick);
         addSoundToSoundPool(R.raw.sfx_button_select);
+        addSoundToSoundPool(R.raw.sfx_button_pause);
+        addSoundToSoundPool(R.raw.sfx_button_resume);
+        addSoundToSoundPool(R.raw.sfx_change_weapon);
+        addSoundToSoundPool(R.raw.sfx_hit_planet);
+        addSoundToSoundPool(R.raw.sfx_hit_rocket);
+        addSoundToSoundPool(R.raw.sfx_launch_rocket);
     }
 
     public void StartBGM(int resId, boolean looping) {

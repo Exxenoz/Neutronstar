@@ -7,10 +7,12 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
+import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -165,6 +167,8 @@ public class Player extends GameObject implements View.OnTouchListener {
 
         if (collider.getOwner() instanceof Enemy) {
             Enemy enemy = (Enemy)collider.getOwner();
+
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet);
 
             m_Population -= (int)enemy.getHitDamage();
             if (m_Population <= 0) {
