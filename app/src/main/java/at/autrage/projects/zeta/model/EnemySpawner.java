@@ -45,8 +45,8 @@ public class EnemySpawner extends GameObject {
         m_AsteroidMaxScale = Pustafin.AsteroidStartScale + m_Player.getLevel() * Pustafin.AsteroidScaleIncreaseFactor;
         m_AsteroidScaleStep = (m_AsteroidMaxScale - Pustafin.AsteroidStartScale) / m_AsteroidSpawnCount;
 
-        m_AsteroidSpawnTimer = 0f;
         m_AsteroidSpawnTimeDelta = (float)Pustafin.LevelSpawnTime / m_AsteroidSpawnCount;
+        m_AsteroidSpawnTimer = m_AsteroidSpawnTimeDelta; // Spawn first asteroid on next tick
 
         m_Random = new Random();
 
