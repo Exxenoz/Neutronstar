@@ -8,8 +8,8 @@ public class Pustafin {
     public static final int MinRenderDelta = 16; // In ms
     public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
 
-    public static final int LevelDuration = 120;
-    public static final int LevelSpawnTime = 110;
+    public static final int LevelDuration = 120;  // In seconds
+    public static final int LevelSpawnTime = 100; // In seconds
     public static final int StartBudget = 100;
     public static final int StartPopulation = 7390; // As from 2016
     public static final float PopulationIncreaseFactor = 1.0005f;
