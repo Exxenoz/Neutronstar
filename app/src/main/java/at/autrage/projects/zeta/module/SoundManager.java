@@ -154,6 +154,10 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
     }
 
     public void PlaySFX(int resId) {
+        PlaySFX(resId, 1f);
+    }
+
+    public void PlaySFX(int resId, float rate) {
         if (m_SFXVolume == 0f) {
             return;
         }
@@ -164,7 +168,7 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
             return;
         }
 
-        m_SoundPool.play(soundId, m_SFXVolume, m_SFXVolume, 0, 0, 1);
+        m_SoundPool.play(soundId, m_SFXVolume, m_SFXVolume, 0, 0, rate);
     }
 
     public void setSFXVolume(float volume) {

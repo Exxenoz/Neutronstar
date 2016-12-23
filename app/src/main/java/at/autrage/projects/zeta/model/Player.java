@@ -175,7 +175,7 @@ public class Player extends GameObject implements View.OnTouchListener {
         if (collider.getOwner() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
             Enemy enemy = (Enemy)collider.getOwner();
 
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet);
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float)Math.random());
 
             int remainingPopulation = GameManager.getInstance().getPopulation() - (int)enemy.getHitDamage();
             if (remainingPopulation <= 0) {

@@ -21,7 +21,7 @@ public class Rocket extends Weapon {
         super.onCollide(collider);
 
         if (collider.getOwner() instanceof Enemy) {
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket);
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float)Math.random());
             explode(collider.getOwner());
         }
     }
