@@ -70,13 +70,17 @@ public class GameLoop implements Runnable {
             for (; diffTime >= Pustafin.MaxUpdateDelta; diffTime -= Pustafin.MaxUpdateDelta) {
                 Time.setDeltaTimeInMs(Pustafin.MaxUpdateDelta);
                 Time.setDeltaTime(Pustafin.MaxUpdateDeltaInSeconds);
-                m_View.update();
+                if (Time.getTimeScale() != 0f) {
+                    m_View.update();
+                }
             }
 
             if (diffTime > 0) {
                 Time.setDeltaTimeInMs(diffTime);
                 Time.setDeltaTime(diffTime / 1000f);
-                m_View.update();
+                if (Time.getTimeScale() != 0f) {
+                    m_View.update();
+                }
             }
 
             startTime = currTime;
