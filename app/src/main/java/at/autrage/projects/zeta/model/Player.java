@@ -158,6 +158,9 @@ public class Player extends GameObject implements View.OnTouchListener {
         }
     }
 
+    public void Loose() {
+    }
+
     public int getLevel() {
         return m_Level;
     }
@@ -206,6 +209,10 @@ public class Player extends GameObject implements View.OnTouchListener {
 
     public void setMoney(int money) {
         this.m_Money = money;
+    }
+
+    public void setPopulation(int population) {
+        this.m_Population = population;
     }
 
     public void setSelectedWeapon(Weapons selectedWeapon) {

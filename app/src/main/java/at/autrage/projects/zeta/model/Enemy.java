@@ -26,7 +26,8 @@ public class Enemy extends GameObject {
         super.onCollide(collider);
 
         if (collider.getOwner() instanceof Weapon) {
-            Weapon weapon = (Weapon) collider.getOwner();
+            Weapon weapon = (Weapon)collider.getOwner();
+
             m_Health -= weapon.getHitDamage();
             if (m_Health <= 0f) {
                 m_Health = 0f;
@@ -39,6 +40,23 @@ public class Enemy extends GameObject {
 
                 destroy();
             }
+        }
+        else if (collider.getOwner() instanceof Player) {
+            Player player = (Player)collider.getOwner();
+
+            explode(player);
+
+            int remainingPopulation = (int)(player.getPopulation() - m_HitDamage);
+            if (remainingPopulation <= 0) {
+                player.setPopulation(remainingPopulation = 0);
+
+                player.Loose();
+            }
+            else {
+                player.setPopulation(remainingPopulation);
+            }
+
+            destroy();
         }
     }
 
