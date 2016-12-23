@@ -40,8 +40,8 @@ public class Asteroid extends Enemy {
         asteroid.setPoints(points);
         asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX()));
 
-        Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale factor (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
-                positionX, positionY, directionX, directionY, scale, health, hitDamage, bounty, points);
+        Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale factor (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
+                positionX, positionY, directionX, directionY, scale, moveSpeed, rotationSpeed, health, hitDamage, bounty, points);
 
         return asteroid;
     }
@@ -50,8 +50,8 @@ public class Asteroid extends Enemy {
     public void onUpdate() {
         super.onUpdate();
 
-        if (m_RotationSpeed != 0) {
-            setRotationAngle(getRotationSpeed() + m_RotationSpeed * Time.getScaledDeltaTime());
+        if (m_RotationSpeed != 0f) {
+            setRotationAngle(getRotationAngle() + m_RotationSpeed * Time.getScaledDeltaTime());
         }
     }
 
