@@ -42,21 +42,7 @@ public class Enemy extends GameObject {
             }
         }
         else if (collider.getOwner() instanceof Player) {
-            Player player = (Player)collider.getOwner();
-
-            explode(player);
-
-            int remainingPopulation = (int)(player.getPopulation() - m_HitDamage);
-            if (remainingPopulation <= 0) {
-                player.setPopulation(remainingPopulation = 0);
-
-                player.Loose();
-            }
-            else {
-                player.setPopulation(remainingPopulation);
-            }
-
-            destroy();
+            explode(collider.getOwner());
         }
     }
 

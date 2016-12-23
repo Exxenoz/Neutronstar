@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
@@ -154,6 +155,22 @@ public class Player extends GameObject implements View.OnTouchListener {
             m_Weapons.put(m_SelectedWeapon, --weaponCount);
             if (weaponCount == 0) {
                 getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
+            }
+        }
+    }
+
+    @Override
+    public void onCollide(Collider collider) {
+        super.onCollide(collider);
+
+        if (collider.getOwner() instanceof Enemy) {
+            Enemy enemy = (Enemy)collider.getOwner();
+
+            m_Population -= (int)enemy.getHitDamage();
+            if (m_Population <= 0) {
+                m_Population = 0;
+
+                Loose();
             }
         }
     }
