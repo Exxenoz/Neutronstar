@@ -67,6 +67,11 @@ public class Player extends GameObject implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (Time.getTimeScale() == 0f) {
+            m_TouchEventStartPositions.clear();
+            return false;
+        }
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 Position pos = new Position();
