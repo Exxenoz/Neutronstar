@@ -22,6 +22,7 @@ public class Player extends GameObject implements View.OnTouchListener {
     private float m_RemainingTime;
     private float m_LastRemainingTime;
     private Weapons m_SelectedWeapon;
+    private boolean m_LevelFinished;
 
     private class Position {
         public float X;
@@ -36,12 +37,17 @@ public class Player extends GameObject implements View.OnTouchListener {
         m_RemainingTime = Pustafin.LevelDuration;
         m_LastRemainingTime = m_RemainingTime;
         m_SelectedWeapon = Weapons.SmallRocket;
+        m_LevelFinished = false;
 
         m_TouchEventStartPositions = new HashMap<Integer, Position>();
     }
 
     public void onUpdate() {
         super.onUpdate();
+
+        if (m_LevelFinished) {
+            return;
+        }
 
         m_LastRemainingTime = m_RemainingTime;
         m_RemainingTime -= Time.getScaledDeltaTime();
@@ -54,7 +60,7 @@ public class Player extends GameObject implements View.OnTouchListener {
             GameManager.getInstance().setUpdateFlag(UpdateFlags.FPS);
         }
 
-        if (m_RemainingTime <= 0f) {
+        if (m_RemainingTime == 0f) {
             win();
         }
     }
@@ -67,6 +73,10 @@ public class Player extends GameObject implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (m_LevelFinished) {
+            return false;
+        }
+
         if (Time.getTimeScale() == 0f) {
             m_TouchEventStartPositions.clear();
             return false;
@@ -93,6 +103,10 @@ public class Player extends GameObject implements View.OnTouchListener {
     }
 
     public boolean onGlobalTouch(MotionEvent event) {
+        if (m_LevelFinished) {
+            return false;
+        }
+
         // TODO: Implement LAZOR!
         return false;
     }
@@ -154,6 +168,10 @@ public class Player extends GameObject implements View.OnTouchListener {
     public void onCollide(Collider collider) {
         super.onCollide(collider);
 
+        if (m_LevelFinished) {
+            return;
+        }
+
         if (collider.getOwner() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
             Enemy enemy = (Enemy)collider.getOwner();
 
@@ -173,11 +191,15 @@ public class Player extends GameObject implements View.OnTouchListener {
     }
 
     public void win() {
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
 
+        m_LevelFinished = true;
     }
 
     public void loose() {
-        GameManager.getInstance().reset();
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_loose);
+
+        m_LevelFinished = true;
     }
 
     public float getRemainingTime() {

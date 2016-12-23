@@ -89,6 +89,10 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         addSoundToSoundPool(R.raw.sfx_hit_planet);
         addSoundToSoundPool(R.raw.sfx_hit_rocket);
         addSoundToSoundPool(R.raw.sfx_launch_rocket);
+        addSoundToSoundPool(R.raw.sfx_drumhits_new_highscore);
+        addSoundToSoundPool(R.raw.sfx_drumhits_next_level);
+        addSoundToSoundPool(R.raw.sfx_ending_loose);
+        addSoundToSoundPool(R.raw.sfx_ending_win);
     }
 
     public void StartBGM(int resId, boolean looping) {

@@ -12,6 +12,7 @@ import java.util.List;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.module.Database;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
@@ -152,7 +153,9 @@ public class HighscoreActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked New Game Button...");
 
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_button_select);
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
+
+            GameManager.getInstance().reset();
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);
