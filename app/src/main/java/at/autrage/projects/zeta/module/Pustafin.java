@@ -84,4 +84,7 @@ public class Pustafin {
 
     // Distance from planet where gameobjects are automatically destroyed
     public static final float GameObjectAutoDestroyDistance = 960 + 200;
+
+    public static final int GameActivityRedirectionDelayOnWin = 2000; // In ms
+    public static final int GameActivityRedirectionDelayOnLoose = 2000; // In ms
 }

@@ -56,7 +56,7 @@ public class GameActivity extends SuperActivity {
         btnDebugWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_GameView.getPlayer().win();
+                m_GameView.win();
             }
         });
 
@@ -65,7 +65,7 @@ public class GameActivity extends SuperActivity {
         btnDebugLoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_GameView.getPlayer().loose();
+                m_GameView.loose();
             }
         });
 

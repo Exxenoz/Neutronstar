@@ -1,6 +1,7 @@
 package at.autrage.projects.zeta.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -9,10 +10,14 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
+import at.autrage.projects.zeta.activity.HighscoreActivity;
+import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.EnemySpawner;
@@ -57,6 +62,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private EnemySpawner m_EnemySpawner;
     /** Reference to (@link Player) object. */
     private Player m_Player;
+    /** Timer to delay redirection to the next activity. */
+    private Timer m_RedirectionDelayTimer;
+    /** True if the current level is finished, otherwise false. */
+    private boolean m_LevelFinished;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -81,6 +90,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_ColliderList = new ArrayList<Collider>(128);
 
         initializeGameView();
+
+        m_RedirectionDelayTimer = new Timer();
+
+        m_LevelFinished = false;
     }
 
     private void initializeGameView() {
@@ -282,6 +295,68 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public void win() {
+        if (m_LevelFinished) {
+            return;
+        }
+
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
+
+        m_RedirectionDelayTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                m_GameActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Open shop activity
+                        Intent redirectIntent = new Intent(m_GameActivity, ShopActivity.class);
+                        m_GameActivity.startActivity(redirectIntent);
+
+                        // Close game activity
+                        m_GameActivity.finish();
+
+                        // Start slide animation
+                        m_GameActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                    }
+                });
+            }
+        }, Pustafin.GameActivityRedirectionDelayOnWin);
+
+        // Current level is finished
+        m_LevelFinished = true;
+    }
+
+    public void loose() {
+        if (m_LevelFinished) {
+            return;
+        }
+
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_loose);
+
+        m_RedirectionDelayTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                m_GameActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Open highscore activity
+                        Intent redirectIntent = new Intent(m_GameActivity, HighscoreActivity.class);
+                        m_GameActivity.startActivity(redirectIntent);
+
+                        // Close game activity
+                        m_GameActivity.finish();
+
+                        // Start slide animation
+                        m_GameActivity.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+                    }
+                });
+            }
+        }, Pustafin.GameActivityRedirectionDelayOnLoose);
+
+        // Current level is finished
+        m_LevelFinished = true;
+    }
+
     public void changeSelectedWeapon(Weapons weapon) {
         if (m_Player != null) {
             m_Player.setSelectedWeapon(weapon);
@@ -305,5 +380,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public Player getPlayer() {
         return m_Player;
+    }
+
+    public boolean isLevelFinished() {
+        return m_LevelFinished;
     }
 }

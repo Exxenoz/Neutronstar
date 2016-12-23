@@ -22,7 +22,6 @@ public class Player extends GameObject implements View.OnTouchListener {
     private float m_RemainingTime;
     private float m_LastRemainingTime;
     private Weapons m_SelectedWeapon;
-    private boolean m_LevelFinished;
 
     private class Position {
         public float X;
@@ -37,7 +36,6 @@ public class Player extends GameObject implements View.OnTouchListener {
         m_RemainingTime = Pustafin.LevelDuration;
         m_LastRemainingTime = m_RemainingTime;
         m_SelectedWeapon = Weapons.SmallRocket;
-        m_LevelFinished = false;
 
         m_TouchEventStartPositions = new HashMap<Integer, Position>();
     }
@@ -45,7 +43,7 @@ public class Player extends GameObject implements View.OnTouchListener {
     public void onUpdate() {
         super.onUpdate();
 
-        if (m_LevelFinished) {
+        if (getGameView().isLevelFinished()) {
             return;
         }
 
@@ -61,7 +59,7 @@ public class Player extends GameObject implements View.OnTouchListener {
         }
 
         if (m_RemainingTime == 0f) {
-            win();
+            getGameView().win();
         }
     }
 
@@ -73,7 +71,7 @@ public class Player extends GameObject implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (m_LevelFinished) {
+        if (getGameView().isLevelFinished()) {
             return false;
         }
 
@@ -103,7 +101,7 @@ public class Player extends GameObject implements View.OnTouchListener {
     }
 
     public boolean onGlobalTouch(MotionEvent event) {
-        if (m_LevelFinished) {
+        if (getGameView().isLevelFinished()) {
             return false;
         }
 
@@ -168,7 +166,7 @@ public class Player extends GameObject implements View.OnTouchListener {
     public void onCollide(Collider collider) {
         super.onCollide(collider);
 
-        if (m_LevelFinished) {
+        if (getGameView().isLevelFinished()) {
             return;
         }
 
@@ -185,21 +183,9 @@ public class Player extends GameObject implements View.OnTouchListener {
             GameManager.getInstance().setPopulation(remainingPopulation);
 
             if (remainingPopulation <= 0) {
-                loose();
+                getGameView().loose();
             }
         }
-    }
-
-    public void win() {
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
-
-        m_LevelFinished = true;
-    }
-
-    public void loose() {
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_loose);
-
-        m_LevelFinished = true;
     }
 
     public float getRemainingTime() {
