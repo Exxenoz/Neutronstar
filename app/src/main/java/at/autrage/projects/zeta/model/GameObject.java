@@ -9,6 +9,8 @@ import at.autrage.projects.zeta.animation.AnimationFrame;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
@@ -169,6 +171,35 @@ public class GameObject {
                 m_Collider.onDraw(canvas);
             }
         }
+    }
+
+    public void explode(GameObject target) {
+        float explosionSpawnPositionX = 0f;
+        float explosionSpawnPositionY = 0f;
+
+        // Move explosion center near target if there is any
+        if (target != null) {
+            float positionDeltaX = target.getPositionX() - getPositionX();
+            float positionDeltaY = target.getPositionY() - getPositionY();
+
+            double distance = Math.sqrt(positionDeltaX * positionDeltaX + positionDeltaY * positionDeltaY);
+
+            float targetDirectionX = (float)(positionDeltaX / distance);
+            float targetDirectionY = (float)(positionDeltaY / distance);
+
+            explosionSpawnPositionX = getPositionX() + targetDirectionX * getHalfSizeX() / 2f;
+            explosionSpawnPositionY = getPositionY() + targetDirectionY * getHalfSizeY() / 2f;
+        }
+        else {
+            explosionSpawnPositionX = getPositionX();
+            explosionSpawnPositionY = getPositionY();
+        }
+
+        Explosion explosion = new Explosion(getGameView(), explosionSpawnPositionX, explosionSpawnPositionY,
+                AssetManager.getInstance().getAnimationSet(AnimationSets.Explosion1));
+        explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
+
+        destroy();
     }
 
     public void playAnimationFromSet(AnimationType animationType) {
