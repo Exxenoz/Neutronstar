@@ -51,7 +51,25 @@ public class GameActivity extends SuperActivity {
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setGameViewUI(gameViewUI);
 
-        Button btnAreaPlanet = (Button) findViewById(R.id.btnAreaPlanet);
+        // Debug
+        Button btnDebugWin = (Button)findViewById(R.id.btnDebugWin);
+        btnDebugWin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_GameView.getPlayer().win();
+            }
+        });
+
+        // Debug
+        Button btnDebugLoose = (Button)findViewById(R.id.btnDebugLoose);
+        btnDebugLoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_GameView.getPlayer().loose();
+            }
+        });
+
+        Button btnAreaPlanet = (Button)findViewById(R.id.btnAreaPlanet);
         btnAreaPlanet.setOnTouchListener(m_GameView.getPlayer());
 
         Button btnAreaPause = (Button)findViewById(R.id.btnAreaPause);

@@ -440,4 +440,28 @@
         android:layout_marginLeft="825px"
         android:layout_marginTop="405px" />
 
+    <Button
+        android:text="[DBG] Win"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnDebugWin"
+        android:layout_width="256px"
+        android:layout_height="96px"
+        android:layout_marginTop="128px"
+        android:layout_marginLeft="32px"
+        android:textSize="30px"
+        android:textAlignment="textStart" />
+
+    <Button
+        android:text="[DBG] Loose"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnDebugLoose"
+        android:layout_width="256px"
+        android:layout_height="96px"
+        android:layout_marginTop="200px"
+        android:layout_marginLeft="32px"
+        android:textSize="30px"
+        android:textAlignment="textStart" />
+
 </RelativeLayout>
