@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Enemy extends GameObject {
@@ -32,11 +33,8 @@ public class Enemy extends GameObject {
             if (m_Health <= 0f) {
                 m_Health = 0f;
 
-                Player player = getGameView().getPlayer();
-                if (player != null) {
-                    player.setMoney(player.getMoney() + m_Bounty);
-                    player.setScore(player.getScore() + m_Points);
-                }
+                GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() + m_Bounty);
+                GameManager.getInstance().setScore(GameManager.getInstance().getScore() + m_Points);
 
                 destroy();
             }

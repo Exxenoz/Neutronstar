@@ -11,6 +11,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
@@ -171,17 +172,11 @@ public class GameActivity extends SuperActivity {
                 return;
             }
 
-            Player player = m_OwnerActivity.m_GameView.getPlayer();
-
-            if (player == null) {
+            if (GameManager.getInstance().getWeaponCount(m_Weapon) == 0) {
                 return;
             }
 
-            if (player.getWeaponCount(m_Weapon) == 0) {
-                return;
-            }
-
-            if (m_RequiredUpgrade == WeaponUpgrades.None || player.getWeaponUpgrade(m_RequiredUpgrade) == 1) {
+            if (m_RequiredUpgrade == WeaponUpgrades.None || GameManager.getInstance().getWeaponUpgrade(m_RequiredUpgrade) == 1) {
 
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) m_Highlighted.getLayoutParams();
 

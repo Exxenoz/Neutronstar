@@ -9,6 +9,7 @@ import java.util.Random;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
@@ -40,9 +41,9 @@ public class EnemySpawner extends GameObject {
 
         m_Player = getGameView().getPlayer();
 
-        m_AsteroidSpawnCount = (int) (Pustafin.AsteroidStartCount + m_Player.getLevel() * Pustafin.AsteroidCountIncreaseFactor);
+        m_AsteroidSpawnCount = (int) (Pustafin.AsteroidStartCount + GameManager.getInstance().getLevel() * Pustafin.AsteroidCountIncreaseFactor);
         m_AsteroidSpawnScales = new ArrayList<Float>(m_AsteroidSpawnCount);
-        m_AsteroidMaxScale = Pustafin.AsteroidStartScale + m_Player.getLevel() * Pustafin.AsteroidScaleIncreaseFactor;
+        m_AsteroidMaxScale = Pustafin.AsteroidStartScale + GameManager.getInstance().getLevel() * Pustafin.AsteroidScaleIncreaseFactor;
         m_AsteroidScaleStep = (m_AsteroidMaxScale - Pustafin.AsteroidStartScale) / m_AsteroidSpawnCount;
 
         m_AsteroidSpawnTimeDelta = (float)Pustafin.LevelSpawnTime / m_AsteroidSpawnCount;
@@ -50,7 +51,7 @@ public class EnemySpawner extends GameObject {
 
         m_Random = new Random();
 
-        Logger.D("Initialize enemy spawner for level %d", m_Player.getLevel());
+        Logger.D("Initialize enemy spawner for level %d", GameManager.getInstance().getLevel());
         Logger.D("Asteroid spawn count: %d", m_AsteroidSpawnCount);
         Logger.D("Asteroid min scale: %f", Pustafin.AsteroidStartScale);
         Logger.D("Asteroid max scale: %f", m_AsteroidMaxScale);

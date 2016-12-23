@@ -25,6 +25,7 @@ import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
@@ -199,19 +200,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 if (m_UI.TxtViewPopulation != null) {
-                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros(m_Player.getPopulation(), 5, true)));
+                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros(GameManager.getInstance().getPopulation(), 5, true)));
                 }
 
                 if (m_UI.TxtViewMoney != null) {
-                    m_UI.TxtViewMoney.setText(String.format("$ %s Mrd.", Util.addLeadingZeros(m_Player.getMoney(), 6, true)));
+                    m_UI.TxtViewMoney.setText(String.format("$ %s Mrd.", Util.addLeadingZeros(GameManager.getInstance().getMoney(), 6, true)));
                 }
 
                 if (m_UI.TxtViewLevel != null) {
-                    m_UI.TxtViewLevel.setText(String.format("Lvl. %d", m_Player.getLevel()));
+                    m_UI.TxtViewLevel.setText(String.format("Lvl. %d", GameManager.getInstance().getLevel()));
                 }
 
                 if (m_UI.TxtViewScore != null) {
-                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(m_Player.getScore(), 9, true)));
+                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(GameManager.getInstance().getScore(), 9, true)));
                 }
 
                 if (m_UI.TxtViewTime != null) {
@@ -223,31 +224,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 if (m_UI.TxtViewBigRocketCount != null) {
-                    m_UI.TxtViewBigRocketCount.setText("" + m_Player.getWeaponCount(Weapons.BigRocket));
+                    m_UI.TxtViewBigRocketCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.BigRocket));
                 }
 
-                if (m_UI.TxtViewSmallNukeCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
-                    m_UI.TxtViewSmallNukeCount.setText("" + m_Player.getWeaponCount(Weapons.SmallNuke));
+                if (m_UI.TxtViewSmallNukeCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                    m_UI.TxtViewSmallNukeCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.SmallNuke));
                 }
 
-                if (m_UI.TxtViewBigNukeCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
-                    m_UI.TxtViewBigNukeCount.setText("" + m_Player.getWeaponCount(Weapons.BigNuke));
+                if (m_UI.TxtViewBigNukeCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                    m_UI.TxtViewBigNukeCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.BigNuke));
                 }
 
-                if (m_UI.TxtViewSmallLaserCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
-                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(m_Player.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
+                if (m_UI.TxtViewSmallLaserCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(GameManager.getInstance().getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
                 }
 
-                if (m_UI.TxtViewBigLaserCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
-                    m_UI.TxtViewBigLaserCount.setText(Math.min((int)(m_Player.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
+                if (m_UI.TxtViewBigLaserCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                    m_UI.TxtViewBigLaserCount.setText(Math.min((int)(GameManager.getInstance().getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
                 }
 
-                if (m_UI.TxtViewSmallContactBombCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
-                    m_UI.TxtViewSmallContactBombCount.setText("" + m_Player.getWeaponCount(Weapons.SmallContactBomb));
+                if (m_UI.TxtViewSmallContactBombCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                    m_UI.TxtViewSmallContactBombCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.SmallContactBomb));
                 }
 
-                if (m_UI.TxtViewBigContactBombCount != null && m_Player.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
-                    m_UI.TxtViewBigContactBombCount.setText("" + m_Player.getWeaponCount(Weapons.BigContactBomb));
+                if (m_UI.TxtViewBigContactBombCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                    m_UI.TxtViewBigContactBombCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.BigContactBomb));
                 }
             }
         });

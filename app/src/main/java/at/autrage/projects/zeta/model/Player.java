@@ -10,6 +10,7 @@ import java.util.Map;
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
@@ -17,17 +18,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Player extends GameObject implements View.OnTouchListener {
-    private int m_Level;
     private float m_RemainingTime;
-
-    private int m_Score;
-    private int m_Money;
-
-    private int m_Population;
-    private float m_PopulationReg;
-
-    private Map<Weapons, Integer> m_Weapons;
-    private Map<WeaponUpgrades, Integer> m_WeaponUpgrades;
     private Weapons m_SelectedWeapon;
 
     private class Position {
@@ -40,38 +31,20 @@ public class Player extends GameObject implements View.OnTouchListener {
     public Player(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        m_Level = 1;
         m_RemainingTime = Pustafin.LevelDuration;
-
-        m_Score = 0;
-        m_Money = Pustafin.StartBudget;
-
-        m_Population = Pustafin.StartPopulation;
-        m_PopulationReg = Pustafin.PopulationIncreaseFactor;
-
-        m_Weapons = new HashMap<Weapons, Integer>();
-        m_WeaponUpgrades = new HashMap<WeaponUpgrades, Integer>();
         m_SelectedWeapon = Weapons.SmallRocket;
 
         m_TouchEventStartPositions = new HashMap<Integer, Position>();
-
-        m_Weapons.put(Weapons.SmallRocket, -1);
-        m_Weapons.put(Weapons.BigRocket, 5);
     }
 
     public void onUpdate() {
         super.onUpdate();
 
-        if (m_Population <= 0) {
-            // Level failed!!! :,(
-            return;
-        }
-
         m_RemainingTime -= Time.getScaledDeltaTime();
         if (m_RemainingTime <= 0f) {
             m_RemainingTime = 0f;
-            // Level finished!!!
-            return;
+
+            win();
         }
     }
 
@@ -115,7 +88,7 @@ public class Player extends GameObject implements View.OnTouchListener {
             return;
         }
 
-        Integer weaponCount = m_Weapons.get(m_SelectedWeapon);
+        Integer weaponCount = GameManager.getInstance().getWeaponCount(m_SelectedWeapon);
         if (weaponCount == null || weaponCount == 0) {
             return;
         }
@@ -154,7 +127,7 @@ public class Player extends GameObject implements View.OnTouchListener {
         }
 
         if (weaponCount > 0) {
-            m_Weapons.put(m_SelectedWeapon, --weaponCount);
+            GameManager.getInstance().setWeaponCount(m_SelectedWeapon, --weaponCount);
             if (weaponCount == 0) {
                 getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
             }
@@ -165,75 +138,38 @@ public class Player extends GameObject implements View.OnTouchListener {
     public void onCollide(Collider collider) {
         super.onCollide(collider);
 
-        if (collider.getOwner() instanceof Enemy) {
+        if (collider.getOwner() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
             Enemy enemy = (Enemy)collider.getOwner();
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet);
 
-            m_Population -= (int)enemy.getHitDamage();
-            if (m_Population <= 0) {
-                m_Population = 0;
+            int remainingPopulation = GameManager.getInstance().getPopulation() - (int)enemy.getHitDamage();
+            if (remainingPopulation <= 0) {
+                remainingPopulation = 0;
+            }
 
-                Loose();
+            GameManager.getInstance().setPopulation(remainingPopulation);
+
+            if (remainingPopulation <= 0) {
+                loose();
             }
         }
     }
 
-    public void Loose() {
+    public void win() {
+
     }
 
-    public int getLevel() {
-        return m_Level;
+    public void loose() {
+        GameManager.getInstance().reset();
     }
 
     public float getRemainingTime() {
         return m_RemainingTime;
     }
 
-    public int getScore() {
-        return m_Score;
-    }
-
-    public int getMoney() {
-        return m_Money;
-    }
-
-    public int getPopulation() {
-        return m_Population;
-    }
-
-    public int getWeaponCount(Weapons weapon) {
-        Integer count = m_Weapons.get(weapon);
-        if (count == null) {
-            count = 0;
-        }
-
-        return count;
-    }
-
-    public int getWeaponUpgrade(WeaponUpgrades weaponUpgrade) {
-        Integer state = m_WeaponUpgrades.get(weaponUpgrade);
-        if (state == null) {
-            state = 0;
-        }
-
-        return state;
-    }
-
     public Weapons getSelectedWeapon() {
         return m_SelectedWeapon;
-    }
-
-    public void setScore(int score) {
-        this.m_Score = score;
-    }
-
-    public void setMoney(int money) {
-        this.m_Money = money;
-    }
-
-    public void setPopulation(int population) {
-        this.m_Population = population;
     }
 
     public void setSelectedWeapon(Weapons selectedWeapon) {
