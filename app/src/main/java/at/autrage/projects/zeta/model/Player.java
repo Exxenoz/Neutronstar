@@ -15,10 +15,12 @@ import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
+import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Player extends GameObject implements View.OnTouchListener {
     private float m_RemainingTime;
+    private float m_LastRemainingTime;
     private Weapons m_SelectedWeapon;
 
     private class Position {
@@ -32,6 +34,7 @@ public class Player extends GameObject implements View.OnTouchListener {
         super(gameView, positionX, positionY, animationSet);
 
         m_RemainingTime = Pustafin.LevelDuration;
+        m_LastRemainingTime = m_RemainingTime;
         m_SelectedWeapon = Weapons.SmallRocket;
 
         m_TouchEventStartPositions = new HashMap<Integer, Position>();
@@ -40,10 +43,18 @@ public class Player extends GameObject implements View.OnTouchListener {
     public void onUpdate() {
         super.onUpdate();
 
+        m_LastRemainingTime = m_RemainingTime;
         m_RemainingTime -= Time.getScaledDeltaTime();
         if (m_RemainingTime <= 0f) {
             m_RemainingTime = 0f;
+        }
 
+        if ((int)m_LastRemainingTime != (int)m_RemainingTime) {
+            GameManager.getInstance().setUpdateFlag(UpdateFlags.Time);
+            GameManager.getInstance().setUpdateFlag(UpdateFlags.FPS);
+        }
+
+        if (m_RemainingTime <= 0f) {
             win();
         }
     }

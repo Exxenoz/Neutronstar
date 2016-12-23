@@ -17,6 +17,11 @@ public class GameManager {
         return m_Instance;
     }
 
+    /**
+     * A flagged state means that the UI must be updated for the corresponding view.
+     */
+    private int m_UpdateFlags;
+
     private int m_Level;
 
     private int m_Score;
@@ -35,6 +40,8 @@ public class GameManager {
     }
 
     public void reset() {
+        m_UpdateFlags = UpdateFlags.All;
+
         m_Level = 1;
 
         m_Score = 0;
@@ -49,12 +56,25 @@ public class GameManager {
         m_Weapons.put(Weapons.BigRocket, 5);
     }
 
+    public void setUpdateFlag(int updateFlag) {
+        m_UpdateFlags |= updateFlag;
+    }
+
+    public boolean hasUpdateFlag(int updateFlag) {
+        return (m_UpdateFlags & updateFlag) == updateFlag;
+    }
+
+    public void delUpdateFlag(int updateFlag) {
+        m_UpdateFlags &= ~updateFlag;
+    }
+
     public int getLevel() {
         return m_Level;
     }
 
     public void setLevel(int level) {
-        this.m_Level = level;
+        m_Level = level;
+        setUpdateFlag(UpdateFlags.Level);
     }
 
     public int getMoney() {
@@ -62,7 +82,8 @@ public class GameManager {
     }
 
     public void setMoney(int money) {
-        this.m_Money = money;
+        m_Money = money;
+        setUpdateFlag(UpdateFlags.Money);
     }
 
     public int getPopulation() {
@@ -70,7 +91,8 @@ public class GameManager {
     }
 
     public void setPopulation(int population) {
-        this.m_Population = population;
+        m_Population = population;
+        setUpdateFlag(UpdateFlags.Population);
     }
 
     public int getScore() {
@@ -78,7 +100,8 @@ public class GameManager {
     }
 
     public void setScore(int score) {
-        this.m_Score = score;
+        m_Score = score;
+        setUpdateFlag(UpdateFlags.Score);
     }
 
     public int getWeaponCount(Weapons weapon) {
@@ -88,6 +111,36 @@ public class GameManager {
 
     public void setWeaponCount(Weapons weapon, int count) {
         m_Weapons.put(weapon, count);
+
+        switch (weapon) {
+            case SmallRocket:
+                setUpdateFlag(UpdateFlags.SmallRocketCount);
+                break;
+            case BigRocket:
+                setUpdateFlag(UpdateFlags.BigRocketCount);
+                break;
+            case SmallNuke:
+                setUpdateFlag(UpdateFlags.SmallNukeCount);
+                break;
+            case BigNuke:
+                setUpdateFlag(UpdateFlags.BigNukeCount);
+                break;
+            case SmallLaser:
+                setUpdateFlag(UpdateFlags.SmallLaserCount);
+                break;
+            case BigLaser:
+                setUpdateFlag(UpdateFlags.BigLaserCount);
+                break;
+            case SmallContactBomb:
+                setUpdateFlag(UpdateFlags.SmallContactBombCount);
+                break;
+            case BigContactBomb:
+                setUpdateFlag(UpdateFlags.BigContactBombCount);
+                break;
+            default:
+                Logger.E("Could not set update flag for weapon " + weapon + ", because it is not defined!");
+                break;
+        }
     }
 
     public int getWeaponUpgrade(WeaponUpgrades weaponUpgrade) {

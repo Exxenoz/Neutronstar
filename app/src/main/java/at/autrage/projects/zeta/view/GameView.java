@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +19,12 @@ import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
-import at.autrage.projects.zeta.model.Weapon;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
+import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
@@ -36,15 +35,17 @@ import at.autrage.projects.zeta.module.Util;
  * It is responsible for {@link GameLoop} management and drawing of the whole game view.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    /** Reference to our {@link GameActivity} object. */
+    /** Reference to the {@link GameActivity} object. */
     private GameActivity m_GameActivity;
-    /** Reference to our {@link GameLoop} object. */
+    /** Cached reference to the {@link GameManager} module.*/
+    private GameManager m_GameManager;
+    /** Reference to the {@link GameLoop} object. */
     private GameLoop m_Loop;
-    /** Reference to our {@link GameLoop} thread. */
+    /** Reference to the {@link GameLoop} thread. */
     private Thread m_LoopThread;
-    /** Reference to our {@link GameViewUI} object. */
+    /** Reference to the {@link GameViewUI} object, which contains UI references. */
     private GameViewUI m_UI;
-    /** Reference to our drawn {@link GameObject}s. */
+    /** Reference to all updated and drawn {@link GameObject} objects. */
     private List<GameObject> m_GameObjects;
     /** Reference to the game objects which will be inserted into {@link GameView#m_GameObjects}. */
     private ConcurrentLinkedQueue<GameObject> m_GameObjectsToInsert;
@@ -61,6 +62,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context, attrs);
         // Initialize game activity variable
         m_GameActivity = (GameActivity)context;
+        // Cache game manager module reference
+        m_GameManager = GameManager.getInstance();
         // Add callback for events
         getHolder().addCallback(this);
         // Ensure that events are generated
@@ -199,56 +202,69 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     return;
                 }
 
-                if (m_UI.TxtViewPopulation != null) {
-                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros(GameManager.getInstance().getPopulation(), 5, true)));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.Population) && m_UI.TxtViewPopulation != null) {
+                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros(m_GameManager.getPopulation(), 5, true)));
+                    m_GameManager.delUpdateFlag(UpdateFlags.Population);
                 }
 
-                if (m_UI.TxtViewMoney != null) {
-                    m_UI.TxtViewMoney.setText(String.format("$ %s Mrd.", Util.addLeadingZeros(GameManager.getInstance().getMoney(), 6, true)));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.Money) && m_UI.TxtViewMoney != null) {
+                    m_UI.TxtViewMoney.setText(String.format("$ %s Mrd.", Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
+                    m_GameManager.delUpdateFlag(UpdateFlags.Money);
                 }
 
-                if (m_UI.TxtViewLevel != null) {
-                    m_UI.TxtViewLevel.setText(String.format("Lvl. %d", GameManager.getInstance().getLevel()));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.Level) && m_UI.TxtViewLevel != null) {
+                    m_UI.TxtViewLevel.setText(String.format("Lvl. %d", m_GameManager.getLevel()));
+                    m_GameManager.delUpdateFlag(UpdateFlags.Level);
                 }
 
-                if (m_UI.TxtViewScore != null) {
-                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(GameManager.getInstance().getScore(), 9, true)));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.Score) && m_UI.TxtViewScore != null) {
+                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(m_GameManager.getScore(), 9, true)));
+                    m_GameManager.delUpdateFlag(UpdateFlags.Score);
                 }
 
-                if (m_UI.TxtViewTime != null) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.Time) && m_UI.TxtViewTime != null) {
                     m_UI.TxtViewTime.setText(String.format("%ds", (int) m_Player.getRemainingTime()));
+                    m_GameManager.delUpdateFlag(UpdateFlags.Time);
                 }
 
-                if (m_UI.TxtViewFPS != null) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.FPS) && m_UI.TxtViewFPS != null) {
                     m_UI.TxtViewFPS.setText("" + Time.getFPS());
+                    m_GameManager.delUpdateFlag(UpdateFlags.FPS);
                 }
 
-                if (m_UI.TxtViewBigRocketCount != null) {
-                    m_UI.TxtViewBigRocketCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.BigRocket));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigRocketCount) && m_UI.TxtViewBigRocketCount != null) {
+                    m_UI.TxtViewBigRocketCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigRocket));
+                    m_GameManager.delUpdateFlag(UpdateFlags.BigRocketCount);
                 }
 
-                if (m_UI.TxtViewSmallNukeCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
-                    m_UI.TxtViewSmallNukeCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.SmallNuke));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallNukeCount) && m_UI.TxtViewSmallNukeCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                    m_UI.TxtViewSmallNukeCount.setText("" + m_GameManager.getWeaponCount(Weapons.SmallNuke));
+                    m_GameManager.delUpdateFlag(UpdateFlags.SmallNukeCount);
                 }
 
-                if (m_UI.TxtViewBigNukeCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
-                    m_UI.TxtViewBigNukeCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.BigNuke));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigNukeCount) && m_UI.TxtViewBigNukeCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                    m_UI.TxtViewBigNukeCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigNuke));
+                    m_GameManager.delUpdateFlag(UpdateFlags.BigNukeCount);
                 }
 
-                if (m_UI.TxtViewSmallLaserCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
-                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(GameManager.getInstance().getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallLaserCount) && m_UI.TxtViewSmallLaserCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(m_GameManager.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
+                    m_GameManager.delUpdateFlag(UpdateFlags.SmallLaserCount);
                 }
 
-                if (m_UI.TxtViewBigLaserCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
-                    m_UI.TxtViewBigLaserCount.setText(Math.min((int)(GameManager.getInstance().getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigLaserCount) && m_UI.TxtViewBigLaserCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                    m_UI.TxtViewBigLaserCount.setText(Math.min((int)(m_GameManager.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
+                    m_GameManager.delUpdateFlag(UpdateFlags.BigLaserCount);
                 }
 
-                if (m_UI.TxtViewSmallContactBombCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
-                    m_UI.TxtViewSmallContactBombCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.SmallContactBomb));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallContactBombCount) && m_UI.TxtViewSmallContactBombCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                    m_UI.TxtViewSmallContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.SmallContactBomb));
+                    m_GameManager.delUpdateFlag(UpdateFlags.SmallContactBombCount);
                 }
 
-                if (m_UI.TxtViewBigContactBombCount != null && GameManager.getInstance().getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
-                    m_UI.TxtViewBigContactBombCount.setText("" + GameManager.getInstance().getWeaponCount(Weapons.BigContactBomb));
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigContactBombCount) && m_UI.TxtViewBigContactBombCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                    m_UI.TxtViewBigContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigContactBomb));
+                    m_GameManager.delUpdateFlag(UpdateFlags.BigContactBombCount);
                 }
             }
         });
