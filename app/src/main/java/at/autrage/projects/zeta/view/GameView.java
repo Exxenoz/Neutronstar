@@ -110,7 +110,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         AssetManager.getInstance().load(getResources());
 
-        SoundManager.getInstance().StartBGM(R.raw.cantina_band, true);
+        // ToDo: Start BGM if there is any
 
         // Initialize game loop and start thread
         m_Loop = new GameLoop(holder, this);
