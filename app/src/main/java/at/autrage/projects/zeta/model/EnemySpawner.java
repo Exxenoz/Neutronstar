@@ -84,6 +84,9 @@ public class EnemySpawner extends GameObject {
 
         float asteroidSpeed = 50f; //TODO
         float asteroidRotationSpeed = (float) (Math.random() * (Pustafin.AsteroidMaxRotationSpeed - Pustafin.AsteroidMinRotationSpeed) + Pustafin.AsteroidMinRotationSpeed);
+        if (m_Random.nextBoolean()) {
+            asteroidRotationSpeed *= -1f;
+        }
 
         float asteroidSpawnDirectionX = 0f;
         float asteroidSpawnDirectionY = 0f;
