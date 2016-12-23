@@ -81,4 +81,7 @@ public class Pustafin {
 
     public static final float AsteroidEasySpawnPositionProbability = 0.7f;
     public static final float AsteroidHardSpawnPositionProbability = 1f - AsteroidEasySpawnPositionProbability;
+
+    // Distance from planet where gameobjects are automatically destroyed
+    public static final float GameObjectAutoDestroyDistance = 960 + 200;
 }

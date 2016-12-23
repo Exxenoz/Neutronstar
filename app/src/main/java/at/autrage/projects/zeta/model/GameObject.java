@@ -143,6 +143,13 @@ public class GameObject {
             m_PositionY += m_SpeedY * Time.getScaledDeltaTime();
         }
 
+        // Check for lost objects and destroy them
+        if (Math.abs(m_PositionX - 960) >= Pustafin.GameObjectAutoDestroyDistance ||
+            Math.abs(m_PositionY - 540) >= Pustafin.GameObjectAutoDestroyDistance) {
+            Logger.D("Auto destroyed game object due to distance from planet.");
+            destroy();
+        }
+
         float scaleFactor = SuperActivity.getScaleFactor();
         m_ScaledPositionX = m_PositionX * scaleFactor;
         m_ScaledPositionY = m_PositionY * scaleFactor;
