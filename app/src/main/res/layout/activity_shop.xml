@@ -640,4 +640,284 @@
         android:textSize="32px"
         android:textAlignment="gravity"
         android:gravity="center_vertical" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyResearchLaserIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="970px"
+        android:layout_marginTop="630px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopNextLevelIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="970px"
+        android:layout_marginTop="900px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopUndoIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="900px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyBigContactBombIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="630px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyIncreaseRadiusIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="970px"
+        android:layout_marginTop="390px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyBigNukeIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="390px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyResearchContactBomblIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1760px"
+        android:layout_marginTop="750px"
+        android:layout_height="150px"
+        android:layout_width="130px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyProBabypillIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="820px"
+        android:layout_marginTop="750px"
+        android:layout_height="150px"
+        android:layout_width="130px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyResearchNukeIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1760px"
+        android:layout_marginTop="510px"
+        android:layout_height="150px"
+        android:layout_width="130px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuySmallContactBombIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="820px"
+        android:layout_marginTop="510px"
+        android:layout_height="150px"
+        android:layout_width="130px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyIncreaseSpeedIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1760px"
+        android:layout_marginTop="270px"
+        android:layout_height="150px"
+        android:layout_width="130px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuySmallNukeIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="820px"
+        android:layout_marginTop="270px"
+        android:layout_height="150px"
+        android:layout_width="130px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyIncreaseDamageIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="970px"
+        android:layout_marginTop="150px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyBigRocketIcon"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="150px"
+        android:layout_width="140px"
+        android:layout_height="150px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyResearchContactBomb"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1100px"
+        android:layout_marginTop="765px"
+        android:layout_height="120px"
+        android:layout_width="660px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyProBabypill"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="160px"
+        android:layout_marginTop="765px"
+        android:layout_height="120px"
+        android:layout_width="660px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyResearchNuke"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1100px"
+        android:layout_marginTop="525px"
+        android:layout_height="120px"
+        android:layout_width="660px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuySmallContactBomb"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="160px"
+        android:layout_marginTop="525px"
+        android:layout_height="120px"
+        android:layout_width="660px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyIncreaseSpeed"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1100px"
+        android:layout_marginTop="285px"
+        android:layout_height="120px"
+        android:layout_width="660px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuySmallNuke"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="160px"
+        android:layout_marginTop="285px"
+        android:layout_height="120px"
+        android:layout_width="660px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyResearchLaser"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1110px"
+        android:layout_marginTop="645px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopNextLevel"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1110px"
+        android:layout_marginTop="915px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopUndo"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="170px"
+        android:layout_marginTop="915px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyBigContactBomb"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="170px"
+        android:layout_marginTop="645px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyIncreaseRadius"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1110px"
+        android:layout_marginTop="405px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyBigNuke"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="170px"
+        android:layout_marginTop="405px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyIncreaseDamage"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="1110px"
+        android:layout_marginTop="165px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
+
+    <Button
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnAreaShopBuyBigRocket"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="170px"
+        android:layout_marginTop="165px"
+        android:layout_width="650px"
+        android:layout_height="120px" />
 </RelativeLayout>
