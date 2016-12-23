@@ -20,7 +20,7 @@ import at.autrage.projects.zeta.view.GameViewUI;
 /**
  * This activity represents the game view and holds the {@link GameView} object.
  */
-public class GameActivity extends SuperActivity implements View.OnClickListener {
+public class GameActivity extends SuperActivity {
     /** Reference to our {@link GameView} object. */
     private GameView m_GameView;
     /** Indicates whether the sound is muted or not. */
@@ -49,9 +49,6 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
 
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setGameViewUI(gameViewUI);
-
-        Button btnFinishGame = (Button)findViewById(R.id.btnFinishGame);
-        btnFinishGame.setOnClickListener(this);
 
         Button btnAreaPlanet = (Button) findViewById(R.id.btnAreaPlanet);
         btnAreaPlanet.setOnTouchListener(m_GameView.getPlayer());
@@ -104,15 +101,6 @@ public class GameActivity extends SuperActivity implements View.OnClickListener 
         super.onResume();
 
         m_CurrentActivity = Activities.GameActivity;
-    }
-
-    @Override
-    public void onClick(View v) {
-        // Close current activity
-        finish();
-
-        // Start slide animation
-        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
     }
 
     @Override
