@@ -1,7 +1,10 @@
 package at.autrage.projects.zeta.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -12,11 +15,13 @@ import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
+import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Util;
 
 public class ShopActivity extends SuperActivity {
     private GameManager m_GameManager;
     private TextView m_TxtViewMoneyDisplay;
+    private boolean m_Finished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,24 @@ public class ShopActivity extends SuperActivity {
         m_GameManager = GameManager.getInstance();
 
         initializeShop();
+
+        Button btnAreaNextLevel = (Button)findViewById(R.id.btnAreaShopNextLevel);
+        btnAreaNextLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickNextLevel();
+            }
+        });
+
+        Button btnAreaNextLevelIcon = (Button)findViewById(R.id.btnAreaShopNextLevelIcon);
+        btnAreaNextLevelIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickNextLevel();
+            }
+        });
+
+        m_Finished = false;
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_shop));
     }
@@ -129,6 +152,29 @@ public class ShopActivity extends SuperActivity {
         else {
             txtViewPriceResearchContactBomb.setText(String.format(getString(R.string.sv_price_display), Pustafin.ResearchContactBombCost));
         }
+    }
+
+    private void onClickNextLevel() {
+        if (m_Finished) {
+            return;
+        }
+
+        Logger.D("Clicked Next Level Button...");
+
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
+
+        m_GameManager.setLevel(m_GameManager.getLevel() + 1);
+
+        Intent redirectIntent = new Intent(this, GameActivity.class);
+        startActivity(redirectIntent);
+
+        // Close current activity
+        finish();
+
+        // Start slide animation
+        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+
+        m_Finished = true;
     }
 
     public static int calculateWeaponUpgradeCost(WeaponUpgrades weaponUpgrade, int level) {
