@@ -30,6 +30,10 @@ public class Pustafin {
     public static final float SpeedUpgradeIncreaseFactor = 1.1f;
     public static final float RadiusUpgradeIncreaseFactor = 1.1f;
 
+    public static final int DamageUpgradeMaxLevel = 10;
+    public static final int SpeedUpgradeMaxLevel = 10;
+    public static final int RadiusUpgradeMaxLevel = 10;
+
     public static final int StartDamageUpgradeCost = 200;
     public static final int StartSpeedUpgradeCost = 100;
     public static final int StartRadiusUpgradeCost = 300;
@@ -45,7 +49,7 @@ public class Pustafin {
     public static final int SmallLaserCostPerSecond = 150;
     public static final int BigLaserCostPerSecond = 300;
     public static final int SmallContactBombPacketCost = 1000;
-    public static final int BigConctactBombPacketCost = 1500;
+    public static final int BigContactBombPacketCost = 1500;
     public static final int ProBabypillPacketCost = 1000;
 
     public static final float SmallRocketHitDamageBase = 20f;

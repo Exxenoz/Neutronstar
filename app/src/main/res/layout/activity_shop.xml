@@ -9,12 +9,12 @@
     tools:context="at.autrage.projects.zeta.activity.ShopActivity">
 
     <TextView
-        android:text="$ 99.999 Mrd."
+        android:text="@string/sv_money_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewMoney"
+        android:id="@+id/txtViewShopMoney"
         android:textColor="@android:color/white"
         android:layout_marginLeft="70px"
         android:layout_marginTop="60px" />
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewTitle"
+        android:id="@+id/txtViewShopTitle"
         android:layout_marginLeft="770px"
         android:layout_marginTop="35px"
         android:textColor="@android:color/white"
@@ -37,7 +37,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewBigRocket"
+        android:id="@+id/imgViewShopBigRocket"
         android:layout_marginLeft="16px"
         android:layout_marginTop="128px" />
 
@@ -46,7 +46,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewBigNuke"
+        android:id="@+id/imgViewShopBigNuke"
         android:layout_marginLeft="16px"
         android:layout_marginTop="368px" />
 
@@ -55,7 +55,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIncreaseRadius"
+        android:id="@+id/imgViewShopIncreaseRadius"
         android:layout_marginLeft="954px"
         android:layout_marginTop="368px" />
 
@@ -64,7 +64,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewBigContactBomb"
+        android:id="@+id/imgViewShopBigContactBomb"
         android:layout_marginLeft="16px"
         android:layout_marginTop="610px" />
 
@@ -73,7 +73,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewResearchLaser"
+        android:id="@+id/imgViewShopResearchLaser"
         android:layout_marginLeft="954px"
         android:layout_marginTop="610px" />
 
@@ -82,7 +82,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewUndo"
+        android:id="@+id/imgViewShopUndo"
         android:layout_marginLeft="16px"
         android:layout_marginTop="878px" />
 
@@ -91,7 +91,7 @@
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewNextLevel"
+        android:id="@+id/imgViewShopNextLevel"
         android:layout_marginLeft="954px"
         android:layout_marginTop="878px" />
 
@@ -99,7 +99,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_right"
-        android:id="@+id/imgViewSmallNuke"
+        android:id="@+id/imgViewShopSmallNuke"
         android:layout_marginLeft="141px"
         android:layout_marginTop="248px" />
 
@@ -107,7 +107,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_right"
-        android:id="@+id/imgViewIncreaseSpeed"
+        android:id="@+id/imgViewShopIncreaseSpeed"
         android:layout_marginLeft="1080px"
         android:layout_marginTop="248px" />
 
@@ -115,7 +115,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_left"
-        android:id="@+id/imgViewIncreaseDmg"
+        android:id="@+id/imgViewShopIncreaseDmg"
         android:layout_marginLeft="954px"
         android:layout_marginTop="128px" />
 
@@ -123,7 +123,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_right"
-        android:id="@+id/imgViewSmallContactBomb"
+        android:id="@+id/imgViewShopSmallContactBomb"
         android:layout_marginLeft="141px"
         android:layout_marginTop="488px" />
 
@@ -131,7 +131,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_right"
-        android:id="@+id/imgViewResearchNuke"
+        android:id="@+id/imgViewShopResearchNuke"
         android:layout_marginLeft="1080px"
         android:layout_marginTop="488px" />
 
@@ -139,7 +139,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_right"
-        android:id="@+id/imgViewProBabyPill"
+        android:id="@+id/imgViewShopProBabyPill"
         android:layout_marginLeft="141px"
         android:layout_marginTop="728px" />
 
@@ -147,7 +147,7 @@
         android:layout_width="825px"
         android:layout_height="197px"
         app:srcCompat="@drawable/sv_button_right"
-        android:id="@+id/imgViewResearchContactBomb"
+        android:id="@+id/imgViewShopResearchContactBomb"
         android:layout_marginLeft="1080px"
         android:layout_marginTop="728px" />
 
@@ -156,7 +156,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_big_rocket"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconBigRocket"
+        android:id="@+id/imgViewShopIconBigRocket"
         android:layout_marginTop="185px"
         android:layout_marginLeft="66px" />
 
@@ -165,7 +165,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_increase_damage"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconIncreaseDamage"
+        android:id="@+id/imgViewShopIconIncreaseDamage"
         android:layout_marginTop="185px"
         android:layout_marginLeft="1005px" />
 
@@ -174,7 +174,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_increase_radius"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconIncreaseRadius"
+        android:id="@+id/imgViewShopIconIncreaseRadius"
         android:layout_marginTop="425px"
         android:layout_marginLeft="1005px" />
 
@@ -183,7 +183,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_research_laser"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconResearchLaser"
+        android:id="@+id/imgViewShopIconResearchLaser"
         android:layout_marginTop="666px"
         android:layout_marginLeft="1005px" />
 
@@ -192,14 +192,14 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_next_level"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconNextLevel"
+        android:id="@+id/imgViewShopIconNextLevel"
         android:layout_marginTop="935px"
         android:layout_marginLeft="1005px" />
 
     <ImageView
         app:srcCompat="@drawable/sv_icon_big_nuke"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconBigNuke"
+        android:id="@+id/imgViewShopIconBigNuke"
         android:layout_marginTop="426px"
         android:layout_marginLeft="66px"
         android:layout_width="81px"
@@ -208,7 +208,7 @@
     <ImageView
         app:srcCompat="@drawable/sv_icon_big_contact_bomb"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconBigContactBomb"
+        android:id="@+id/imgViewShopIconBigContactBomb"
         android:layout_marginTop="665px"
         android:layout_marginLeft="66px"
         android:layout_width="80px"
@@ -217,7 +217,7 @@
     <ImageView
         app:srcCompat="@drawable/sv_icon_back"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconUndo"
+        android:id="@+id/imgViewShopIconUndo"
         android:layout_marginTop="935px"
         android:layout_marginLeft="66px"
         android:layout_width="80px"
@@ -228,7 +228,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_small_nuke"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconSmallNuke"
+        android:id="@+id/imgViewShopIconSmallNuke"
         android:layout_marginTop="305px"
         android:layout_marginLeft="835px" />
 
@@ -237,7 +237,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_increase_speed"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconIncreaseSpeed"
+        android:id="@+id/imgViewShopIconIncreaseSpeed"
         android:layout_marginTop="305px"
         android:layout_marginLeft="1773px" />
 
@@ -246,7 +246,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_research_nuke"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconResearchNuke"
+        android:id="@+id/imgViewShopIconResearchNuke"
         android:layout_marginTop="545px"
         android:layout_marginLeft="1773px" />
 
@@ -255,7 +255,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_research_contact_bomb"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconResearchContactBomb"
+        android:id="@+id/imgViewShopIconResearchContactBomb"
         android:layout_marginTop="785px"
         android:layout_marginLeft="1773px" />
 
@@ -264,7 +264,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_small_contact_bomb"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconSmallContactBomb"
+        android:id="@+id/imgViewShopIconSmallContactBomb"
         android:layout_marginTop="546px"
         android:layout_marginLeft="835px" />
 
@@ -273,7 +273,7 @@
         android:layout_height="80px"
         app:srcCompat="@drawable/sv_icon_pro_babypill"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewIconProBabyPill"
+        android:id="@+id/imgViewShopIconProBabyPill"
         android:layout_marginTop="785px"
         android:layout_marginLeft="835px" />
 
@@ -282,7 +282,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescBigRocket"
+        android:id="@+id/txtViewShopDescBigRocket"
         android:textColor="@android:color/white"
         android:layout_marginTop="185px"
         android:layout_marginLeft="180px"
@@ -296,7 +296,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescIncreaseDamage"
+        android:id="@+id/txtViewShopDescIncreaseDamage"
         android:textColor="@android:color/white"
         android:layout_marginTop="185px"
         android:layout_marginLeft="1120px"
@@ -310,7 +310,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescIncreaseSpeed"
+        android:id="@+id/txtViewShopDescIncreaseSpeed"
         android:textColor="@android:color/white"
         android:layout_marginTop="308px"
         android:layout_marginLeft="1120px"
@@ -324,7 +324,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescIncreaseRadius"
+        android:id="@+id/txtViewShopDescIncreaseRadius"
         android:textColor="@android:color/white"
         android:layout_marginTop="428px"
         android:layout_marginLeft="1120px"
@@ -338,7 +338,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescResearchNuke"
+        android:id="@+id/txtViewShopDescResearchNuke"
         android:textColor="@android:color/white"
         android:layout_marginTop="548px"
         android:layout_marginLeft="1120px"
@@ -352,7 +352,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescResearchLaser"
+        android:id="@+id/txtViewShopDescResearchLaser"
         android:textColor="@android:color/white"
         android:layout_marginTop="668px"
         android:layout_marginLeft="1120px"
@@ -366,7 +366,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescResearchContactBomb"
+        android:id="@+id/txtViewShopDescResearchContactBomb"
         android:textColor="@android:color/white"
         android:layout_marginTop="788px"
         android:layout_marginLeft="1120px"
@@ -380,7 +380,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewNextLevel"
+        android:id="@+id/txtViewShopNextLevel"
         android:textColor="@android:color/white"
         android:layout_marginTop="935px"
         android:layout_marginLeft="1120px"
@@ -394,7 +394,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescSmallNuke"
+        android:id="@+id/txtViewShopDescSmallNuke"
         android:textColor="@android:color/white"
         android:layout_marginTop="308px"
         android:layout_marginLeft="180px"
@@ -408,7 +408,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescBigNuke"
+        android:id="@+id/txtViewShopDescBigNuke"
         android:textColor="@android:color/white"
         android:layout_marginTop="428px"
         android:layout_marginLeft="180px"
@@ -422,7 +422,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescSmallContactBomb"
+        android:id="@+id/txtViewShopDescSmallContactBomb"
         android:textColor="@android:color/white"
         android:layout_marginTop="548px"
         android:layout_marginLeft="180px"
@@ -436,7 +436,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescBigContactBomb"
+        android:id="@+id/txtViewShopDescBigContactBomb"
         android:textColor="@android:color/white"
         android:layout_marginTop="668px"
         android:layout_marginLeft="180px"
@@ -450,7 +450,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewDescProBabyPill"
+        android:id="@+id/txtViewShopDescProBabyPill"
         android:textColor="@android:color/white"
         android:layout_marginTop="788px"
         android:layout_marginLeft="180px"
@@ -464,7 +464,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewUndo"
+        android:id="@+id/txtViewShopUndo"
         android:textColor="@android:color/white"
         android:layout_marginTop="935px"
         android:layout_marginLeft="180px"
@@ -474,10 +474,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | 000"
+        android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceBigRocket"
+        android:id="@+id/txtViewShopPriceBigRocket"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -488,10 +488,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | Lvl. 00"
+        android:text="@string/sv_price_level_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceIncreaseDamage"
+        android:id="@+id/txtViewShopPriceIncreaseDamage"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -502,10 +502,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | Lvl. 00"
+        android:text="@string/sv_price_level_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceIncreaseSpeed"
+        android:id="@+id/txtViewShopPriceIncreaseSpeed"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -516,10 +516,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | Lvl. 00"
+        android:text="@string/sv_price_level_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceIncreaseRadius"
+        android:id="@+id/txtViewShopPriceIncreaseRadius"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -530,10 +530,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio."
+        android:text="@string/sv_price_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceResearchNuke"
+        android:id="@+id/txtViewShopPriceResearchNuke"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -544,10 +544,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio."
+        android:text="@string/sv_price_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceResearchLaser"
+        android:id="@+id/txtViewShopPriceResearchLaser"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -558,10 +558,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio."
+        android:text="@string/sv_price_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceResearchContactBomb"
+        android:id="@+id/txtViewShopPriceResearchContactBomb"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -572,10 +572,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | 000"
+        android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceSmallNuke"
+        android:id="@+id/txtViewShopPriceSmallNuke"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -586,10 +586,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | 000"
+        android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceBigNuke"
+        android:id="@+id/txtViewShopPriceBigNuke"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -600,10 +600,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | 000"
+        android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceSmallContactBomb"
+        android:id="@+id/txtViewShopPriceSmallContactBomb"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -614,10 +614,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | 000"
+        android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceBigContactBomb"
+        android:id="@+id/txtViewShopPriceBigContactBomb"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -628,10 +628,10 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:text="$ 000 Mio. | 000"
+        android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"
-        android:id="@+id/txtViewPriceProBabyPill"
+        android:id="@+id/txtViewShopPriceProBabyPill"
         android:textColor="@android:color/white"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
