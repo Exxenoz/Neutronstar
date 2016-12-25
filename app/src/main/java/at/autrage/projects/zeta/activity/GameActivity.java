@@ -15,6 +15,7 @@ import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
+import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewUI;
 
@@ -31,6 +32,9 @@ public class GameActivity extends SuperActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        // Initialize all displays
+        GameManager.getInstance().setUpdateFlag(UpdateFlags.All);
 
         GameViewUI gameViewUI = new GameViewUI();
         gameViewUI.TxtViewPopulation = (TextView)findViewById(R.id.txtViewPopulation);
