@@ -147,4 +147,8 @@ public class GameManager {
         Integer upgrade = m_WeaponUpgrades.get(weaponUpgrade);
         return (upgrade != null) ? upgrade : 0;
     }
+
+    public void setWeaponUpgradeLevel(WeaponUpgrades weaponUpgrade, int level) {
+        m_WeaponUpgrades.put(weaponUpgrade, level);
+    }
 }

@@ -110,12 +110,95 @@ public class ShopActivity extends SuperActivity {
         m_TxtViewPriceResearchContactBomb = (TextView)findViewById(R.id.txtViewShopPriceResearchContactBomb);
     }
 
+    private void initializeShopOnClickListener() {
+        WeaponBuyOnClickListener bigRocketBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigRocket, Weapons.BigRocket,
+                Pustafin.BigRocketPacketCost, Pustafin.BigRocketPacketSize, WeaponUpgrades.None);
+        WeaponBuyOnClickListener smallNukeOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceSmallNuke, Weapons.SmallNuke,
+                Pustafin.SmallNukePacketCost, Pustafin.SmallNukePacketSize, WeaponUpgrades.ResearchNuke);
+        WeaponBuyOnClickListener bigNukeBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigNuke, Weapons.BigNuke,
+                Pustafin.BigNukePacketCost, Pustafin.BigNukePacketSize, WeaponUpgrades.ResearchNuke);
+        WeaponBuyOnClickListener smallContactBombBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb,
+                Pustafin.SmallContactBombPacketCost, Pustafin.SmallContactBombPacketSize, WeaponUpgrades.ResearchContactBomb);
+        WeaponBuyOnClickListener bigContactBombBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb,
+                Pustafin.BigContactBombPacketCost, Pustafin.BigContactBombPacketSize, WeaponUpgrades.ResearchContactBomb);
+        WeaponBuyOnClickListener proBabyPillBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceProBabypill, Weapons.ProBabyPill,
+                Pustafin.ProBabypillPacketCost, Pustafin.ProBabypillPacketSize, WeaponUpgrades.None);
+
+        Button btnAreaBigRocket = (Button) findViewById(R.id.btnAreaShopBuyBigRocket);
+        Button btnAreaBigRocketIcon = (Button) findViewById(R.id.btnAreaShopBuyBigRocketIcon);
+        btnAreaBigRocket.setOnClickListener(bigRocketBuyOnClickListener);
+        btnAreaBigRocketIcon.setOnClickListener(bigRocketBuyOnClickListener);
+
+        Button btnAreaSmallNuke = (Button) findViewById(R.id.btnAreaShopBuySmallNuke);
+        Button btnAreaSmallNukeIcon = (Button) findViewById(R.id.btnAreaShopBuySmallNukeIcon);
+        btnAreaSmallNuke.setOnClickListener(smallNukeOnClickListener);
+        btnAreaSmallNukeIcon.setOnClickListener(smallNukeOnClickListener);
+
+        Button btnAreaBigNuke = (Button) findViewById(R.id.btnAreaShopBuyBigNuke);
+        Button btnAreaBigNukeIcon = (Button) findViewById(R.id.btnAreaShopBuyBigNukeIcon);
+        btnAreaBigNuke.setOnClickListener(bigNukeBuyOnClickListener);
+        btnAreaBigNukeIcon.setOnClickListener(bigNukeBuyOnClickListener);
+
+        Button btnAreaSmallContactBomb = (Button) findViewById(R.id.btnAreaShopBuySmallContactBomb);
+        Button btnAreaSmallContactBombIcon = (Button) findViewById(R.id.btnAreaShopBuySmallContactBombIcon);
+        btnAreaSmallContactBomb.setOnClickListener(smallContactBombBuyOnClickListener);
+        btnAreaSmallContactBombIcon.setOnClickListener(smallContactBombBuyOnClickListener);
+
+        Button btnAreaBigContactBomb = (Button) findViewById(R.id.btnAreaShopBuyBigContactBomb);
+        Button btnAreaBigContactBombIcon = (Button) findViewById(R.id.btnAreaShopBuyBigContactBombIcon);
+        btnAreaBigContactBomb.setOnClickListener(bigContactBombBuyOnClickListener);
+        btnAreaBigContactBombIcon.setOnClickListener(bigContactBombBuyOnClickListener);
+
+        Button btnAreaProBabyPill = (Button) findViewById(R.id.btnAreaShopBuyProBabypill);
+        Button btnAreaProBabyPillIcon = (Button) findViewById(R.id.btnAreaShopBuyProBabypillIcon);
+        btnAreaProBabyPill.setOnClickListener(proBabyPillBuyOnClickListener);
+        btnAreaProBabyPillIcon.setOnClickListener(proBabyPillBuyOnClickListener);
+
+        BuyWeaponUpgradeOnClickListener buyIncreaseDamageWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage, Pustafin.DamageUpgradeMaxLevel);
+        BuyWeaponUpgradeOnClickListener buyIncreaseSpeedWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed, Pustafin.SpeedUpgradeMaxLevel);
+        BuyWeaponUpgradeOnClickListener buyIncreaseRadiusWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius, Pustafin.RadiusUpgradeMaxLevel);
+        BuyWeaponUpgradeOnClickListener buyResearchNukeWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke, 1);
+        BuyWeaponUpgradeOnClickListener buyResearchLaserWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser, 1);
+        BuyWeaponUpgradeOnClickListener buyResearchContactBombWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb, 1);
+
+        Button btnAreaIncreaseDamage = (Button) findViewById(R.id.btnAreaShopBuyIncreaseDamage);
+        Button btnAreaIncreaseDamageIcon = (Button) findViewById(R.id.btnAreaShopBuyIncreaseDamageIcon);
+        btnAreaIncreaseDamage.setOnClickListener(buyIncreaseDamageWeaponUpgradeOnClickListener);
+        btnAreaIncreaseDamageIcon.setOnClickListener(buyIncreaseDamageWeaponUpgradeOnClickListener);
+
+        Button btnAreaIncreaseSpeed = (Button) findViewById(R.id.btnAreaShopBuyIncreaseSpeed);
+        Button btnAreaIncreaseSpeedIcon = (Button) findViewById(R.id.btnAreaShopBuyIncreaseSpeedIcon);
+        btnAreaIncreaseSpeed.setOnClickListener(buyIncreaseSpeedWeaponUpgradeOnClickListener);
+        btnAreaIncreaseSpeedIcon.setOnClickListener(buyIncreaseSpeedWeaponUpgradeOnClickListener);
+
+        Button btnAreaIncreaseRadius = (Button) findViewById(R.id.btnAreaShopBuyIncreaseRadius);
+        Button btnAreaIncreaseRadiusIcon = (Button) findViewById(R.id.btnAreaShopBuyIncreaseRadiusIcon);
+        btnAreaIncreaseRadius.setOnClickListener(buyIncreaseRadiusWeaponUpgradeOnClickListener);
+        btnAreaIncreaseRadiusIcon.setOnClickListener(buyIncreaseRadiusWeaponUpgradeOnClickListener);
+
+        Button btnAreaResearchNuke = (Button) findViewById(R.id.btnAreaShopBuyResearchNuke);
+        Button btnAreaResearchNukeIcon = (Button) findViewById(R.id.btnAreaShopBuyResearchNukeIcon);
+        btnAreaResearchNuke.setOnClickListener(buyResearchNukeWeaponUpgradeOnClickListener);
+        btnAreaResearchNukeIcon.setOnClickListener(buyResearchNukeWeaponUpgradeOnClickListener);
+
+        Button btnAreaResearchLaser = (Button) findViewById(R.id.btnAreaShopBuyResearchLaser);
+        Button btnAreaResearchLaserIcon = (Button) findViewById(R.id.btnAreaShopBuyResearchLaserIcon);
+        btnAreaResearchLaser.setOnClickListener(buyResearchLaserWeaponUpgradeOnClickListener);
+        btnAreaResearchLaserIcon.setOnClickListener(buyResearchLaserWeaponUpgradeOnClickListener);
+
+        Button btnAreaResearchContactBomb = (Button) findViewById(R.id.btnAreaShopBuyResearchContactBomb);
+        Button btnAreaResearchContactBombIcon = (Button) findViewById(R.id.btnAreaShopBuyResearchContactBombIcon);
+        btnAreaResearchContactBomb.setOnClickListener(buyResearchContactBombWeaponUpgradeOnClickListener);
+        btnAreaResearchContactBombIcon.setOnClickListener(buyResearchContactBombWeaponUpgradeOnClickListener);
+    }
+
     private void initializeShop() {
         m_TxtViewMoneyDisplay = (TextView)findViewById(R.id.txtViewShopMoney);
-        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 5, true)));
+        updateMoneyDisplay();
 
         initializeShopDescriptions();
         initializeShopPrices();
+        initializeShopOnClickListener();
 
         updateWeaponPrice(m_TxtViewPriceBigRocket, Weapons.BigRocket, Pustafin.BigRocketPacketCost);
         updateWeaponPrice(m_TxtViewPriceSmallNuke, Weapons.SmallNuke, Pustafin.SmallNukePacketCost);
@@ -133,6 +216,10 @@ public class ShopActivity extends SuperActivity {
         updateWeaponResearchPrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb, Pustafin.ResearchContactBombCost);
     }
 
+    private void updateMoneyDisplay() {
+        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
+    }
+
     private void updateWeaponPrice(TextView textView, Weapons weapon, int weaponPrice) {
         int currenWeaponCount = m_GameManager.getWeaponCount(weapon);
         textView.setText(String.format(getString(R.string.sv_price_count_display), weaponPrice, currenWeaponCount));
@@ -145,7 +232,12 @@ public class ShopActivity extends SuperActivity {
                     calculateWeaponUpgradeCost(weaponUpgrade, currentWeaponUpgradeLevel + 1), currentWeaponUpgradeLevel));
         }
         else {
-            textView.setText(String.format(getString(R.string.sv_max_level_display), currentWeaponUpgradeLevel));
+            if (maxUpgradeLevel == 1) {
+                textView.setText(getString(R.string.sv_researched_display));
+            }
+            else {
+                textView.setText(String.format(getString(R.string.sv_max_level_display), currentWeaponUpgradeLevel));
+            }
         }
     }
 
@@ -197,10 +289,83 @@ public class ShopActivity extends SuperActivity {
                 return (int)(Pustafin.StartSpeedUpgradeCost * Math.pow(Pustafin.SpeedUpgradeCostIncreaseFactor, t));
             case IncreaseRadius:
                 return (int)(Pustafin.StartRadiusUpgradeCost * Math.pow(Pustafin.RadiusUpgradeCostIncreaseFactor, t));
+            case ResearchNuke:
+                return Pustafin.ResearchNukeCost;
+            case ResearchLaser:
+                return Pustafin.ResearchLaserCost;
+            case ResearchContactBomb:
+                return Pustafin.ResearchContactBombCost;
         }
 
         Logger.E("Could not calculate weapon upgrade cost for weapon upgrade " + weaponUpgrade + ", because it is not defined!");
 
         return 0;
+    }
+
+    private class WeaponBuyOnClickListener implements View.OnClickListener {
+        private TextView m_TextView;
+        private Weapons m_Weapon;
+        private int m_Price;
+        private int m_Count;
+        private WeaponUpgrades m_RequiredWeaponUpgrade;
+
+        public WeaponBuyOnClickListener(TextView textView, Weapons weapon, int price, int count, WeaponUpgrades requiredWeaponUpgrade) {
+            m_TextView = textView;
+            m_Weapon = weapon;
+            m_Price = price;
+            m_Count = count;
+            m_RequiredWeaponUpgrade = requiredWeaponUpgrade;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            if (m_RequiredWeaponUpgrade != WeaponUpgrades.None && GameManager.getInstance().getWeaponUpgrade(m_RequiredWeaponUpgrade) != 1) {
+                return;
+            }
+
+            if (GameManager.getInstance().getMoney() < m_Price) {
+                return;
+            }
+
+            GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() - m_Price);
+            GameManager.getInstance().setWeaponCount(m_Weapon, GameManager.getInstance().getWeaponCount(m_Weapon) + m_Count);
+
+            updateMoneyDisplay();
+            updateWeaponPrice(m_TextView, m_Weapon, m_Price);
+        }
+    }
+
+    private class BuyWeaponUpgradeOnClickListener implements View.OnClickListener {
+        private TextView m_TextView;
+        private WeaponUpgrades m_WeaponUpgrade;
+        private int m_MaxWeaponUpgradeLevel;
+
+        public BuyWeaponUpgradeOnClickListener(TextView textView, WeaponUpgrades weaponUpgrade, int maxWeaponUpgradeLevel) {
+            m_TextView = textView;
+            m_WeaponUpgrade = weaponUpgrade;
+            m_MaxWeaponUpgradeLevel = maxWeaponUpgradeLevel;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int nextLevel = GameManager.getInstance().getWeaponUpgrade(m_WeaponUpgrade) + 1;
+
+            if (nextLevel > m_MaxWeaponUpgradeLevel) {
+                return;
+            }
+
+            int price = ShopActivity.calculateWeaponUpgradeCost(m_WeaponUpgrade, nextLevel);
+
+            if (GameManager.getInstance().getMoney() < price) {
+                return;
+            }
+
+            GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() - price);
+            GameManager.getInstance().setWeaponUpgradeLevel(m_WeaponUpgrade, nextLevel);
+
+            updateMoneyDisplay();
+            updateWeaponUpgradePrice(m_TextView, m_WeaponUpgrade, m_MaxWeaponUpgradeLevel);
+        }
     }
 }
