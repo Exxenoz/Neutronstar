@@ -77,7 +77,7 @@ public class EnemySpawner extends GameObject {
         float asteroidHitDamage = asteroidHealth * Pustafin.AsteroidImpactDamageFactor;
 
         int asteroidBounty = (int) (asteroidScale * Pustafin.AsteroidMoneyPerScaleFactor);
-        int asteroidPoints = 0; //TODO
+        int asteroidPoints = (int) (asteroidHealth * Pustafin.AsteroidPointsPerHealthFactor);
 
         float asteroidSpeed = 50f; //TODO
         float asteroidRotationSpeed = (float) (Math.random() * (Pustafin.AsteroidMaxRotationSpeed - Pustafin.AsteroidMinRotationSpeed) + Pustafin.AsteroidMinRotationSpeed);
