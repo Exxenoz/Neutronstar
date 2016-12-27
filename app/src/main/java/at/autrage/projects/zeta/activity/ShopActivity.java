@@ -10,6 +10,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.model.Weapon;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
@@ -21,6 +22,22 @@ import at.autrage.projects.zeta.module.Util;
 public class ShopActivity extends SuperActivity {
     private GameManager m_GameManager;
     private TextView m_TxtViewMoneyDisplay;
+
+    private TextView m_TxtViewPriceBigRocket;
+    private TextView m_TxtViewPriceSmallNuke;
+    private TextView m_TxtViewPriceBigNuke;
+    private TextView m_TxtViewPriceSmallContactBomb;
+    private TextView m_TxtViewPriceBigContactBomb;
+    private TextView m_TxtViewPriceProBabypill;
+
+    private TextView m_TxtViewPriceIncreaseDamage;
+    private TextView m_TxtViewPriceIncreaseSpeed;
+    private TextView m_TxtViewPriceIncreaseRadius;
+
+    private TextView m_TxtViewPriceResearchNuke;
+    private TextView m_TxtViewPriceResearchLaser;
+    private TextView m_TxtViewPriceResearchContactBomb;
+
     private boolean m_Finished;
 
     @Override
@@ -60,10 +77,7 @@ public class ShopActivity extends SuperActivity {
         m_CurrentActivity = Activities.ShopActivity;
     }
 
-    private void initializeShop() {
-        m_TxtViewMoneyDisplay = (TextView)findViewById(R.id.txtViewShopMoney);
-        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 5, true)));
-
+    private void initializeShopDescriptions() {
         TextView txtViewDescBigRocket = (TextView)findViewById(R.id.txtViewShopDescBigRocket);
         TextView txtViewDescSmallNuke = (TextView)findViewById(R.id.txtViewShopDescSmallNuke);
         TextView txtViewDescBigNuke = (TextView)findViewById(R.id.txtViewShopDescBigNuke);
@@ -77,80 +91,71 @@ public class ShopActivity extends SuperActivity {
         txtViewDescSmallContactBomb.setText(String.format(getString(R.string.sv_desc_small_contact_bomb), Pustafin.SmallContactBombPacketSize));
         txtViewDescBigContactBomb.setText(String.format(getString(R.string.sv_desc_big_contact_bomb), Pustafin.BigContactBombPacketSize));
         txtViewDescProBabypill.setText(String.format(getString(R.string.sv_desc_pro_babypill), Pustafin.ProBabypillPacketSize));
+    }
 
-        TextView txtViewPriceBigRocket = (TextView)findViewById(R.id.txtViewShopPriceBigRocket);
-        TextView txtViewPriceSmallNuke = (TextView)findViewById(R.id.txtViewShopPriceSmallNuke);
-        TextView txtViewPriceBigNuke = (TextView)findViewById(R.id.txtViewShopPriceBigNuke);
-        TextView txtViewPriceSmallContactBomb = (TextView)findViewById(R.id.txtViewShopPriceSmallContactBomb);
-        TextView txtViewPriceBigContactBomb = (TextView)findViewById(R.id.txtViewShopPriceBigContactBomb);
-        TextView txtViewPriceProBabypill = (TextView)findViewById(R.id.txtViewShopPriceProBabyPill);
+    private void initializeShopPrices() {
+        m_TxtViewPriceBigRocket = (TextView)findViewById(R.id.txtViewShopPriceBigRocket);
+        m_TxtViewPriceSmallNuke = (TextView)findViewById(R.id.txtViewShopPriceSmallNuke);
+        m_TxtViewPriceBigNuke = (TextView)findViewById(R.id.txtViewShopPriceBigNuke);
+        m_TxtViewPriceSmallContactBomb = (TextView)findViewById(R.id.txtViewShopPriceSmallContactBomb);
+        m_TxtViewPriceBigContactBomb = (TextView)findViewById(R.id.txtViewShopPriceBigContactBomb);
+        m_TxtViewPriceProBabypill = (TextView)findViewById(R.id.txtViewShopPriceProBabyPill);
 
-        txtViewPriceBigRocket.setText(String.format(getString(R.string.sv_price_count_display), Pustafin.BigRocketPacketCost, m_GameManager.getWeaponCount(Weapons.BigRocket)));
-        txtViewPriceSmallNuke.setText(String.format(getString(R.string.sv_price_count_display), Pustafin.SmallNukePacketCost, m_GameManager.getWeaponCount(Weapons.SmallNuke)));
-        txtViewPriceBigNuke.setText(String.format(getString(R.string.sv_price_count_display), Pustafin.BigNukePacketCost, m_GameManager.getWeaponCount(Weapons.BigNuke)));
-        txtViewPriceSmallContactBomb.setText(String.format(getString(R.string.sv_price_count_display), Pustafin.SmallContactBombPacketCost, m_GameManager.getWeaponCount(Weapons.SmallContactBomb)));
-        txtViewPriceBigContactBomb.setText(String.format(getString(R.string.sv_price_count_display), Pustafin.BigContactBombPacketCost, m_GameManager.getWeaponCount(Weapons.BigContactBomb)));
-        txtViewPriceProBabypill.setText(String.format(getString(R.string.sv_price_count_display), Pustafin.ProBabypillPacketCost, m_GameManager.getWeaponUpgrade(WeaponUpgrades.ProBabyPill)));
+        m_TxtViewPriceIncreaseDamage = (TextView)findViewById(R.id.txtViewShopPriceIncreaseDamage);
+        m_TxtViewPriceIncreaseSpeed = (TextView)findViewById(R.id.txtViewShopPriceIncreaseSpeed);
+        m_TxtViewPriceIncreaseRadius = (TextView)findViewById(R.id.txtViewShopPriceIncreaseRadius);
 
-        TextView txtViewPriceIncreaseDamage = (TextView)findViewById(R.id.txtViewShopPriceIncreaseDamage);
-        TextView txtViewPriceIncreaseSpeed = (TextView)findViewById(R.id.txtViewShopPriceIncreaseSpeed);
-        TextView txtViewPriceIncreaseRadius = (TextView)findViewById(R.id.txtViewShopPriceIncreaseRadius);
+        m_TxtViewPriceResearchNuke = (TextView)findViewById(R.id.txtViewShopPriceResearchNuke);
+        m_TxtViewPriceResearchLaser = (TextView)findViewById(R.id.txtViewShopPriceResearchLaser);
+        m_TxtViewPriceResearchContactBomb = (TextView)findViewById(R.id.txtViewShopPriceResearchContactBomb);
+    }
 
-        int increaseDamageUpgradeLevel = m_GameManager.getWeaponUpgrade(WeaponUpgrades.IncreaseDamage);
-        int increaseSpeedUpgradeLevel = m_GameManager.getWeaponUpgrade(WeaponUpgrades.IncreaseSpeed);
-        int increaseRadiusUpgradeLevel = m_GameManager.getWeaponUpgrade(WeaponUpgrades.IncreaseRadius);
+    private void initializeShop() {
+        m_TxtViewMoneyDisplay = (TextView)findViewById(R.id.txtViewShopMoney);
+        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 5, true)));
 
-        if (increaseDamageUpgradeLevel < Pustafin.DamageUpgradeMaxLevel) {
-            txtViewPriceIncreaseDamage.setText(String.format(getString(R.string.sv_price_level_display),
-                    calculateWeaponUpgradeCost(WeaponUpgrades.IncreaseDamage, increaseDamageUpgradeLevel + 1), increaseDamageUpgradeLevel));
+        initializeShopDescriptions();
+        initializeShopPrices();
+
+        updateWeaponPrice(m_TxtViewPriceBigRocket, Weapons.BigRocket, Pustafin.BigRocketPacketCost);
+        updateWeaponPrice(m_TxtViewPriceSmallNuke, Weapons.SmallNuke, Pustafin.SmallNukePacketCost);
+        updateWeaponPrice(m_TxtViewPriceBigNuke, Weapons.BigNuke, Pustafin.BigNukePacketCost);
+        updateWeaponPrice(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb, Pustafin.SmallContactBombPacketCost);
+        updateWeaponPrice(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb, Pustafin.BigContactBombPacketCost);
+        updateWeaponPrice(m_TxtViewPriceProBabypill, Weapons.ProBabyPill, Pustafin.ProBabypillPacketCost);
+
+        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage, Pustafin.DamageUpgradeMaxLevel);
+        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed, Pustafin.SpeedUpgradeMaxLevel);
+        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius, Pustafin.RadiusUpgradeMaxLevel);
+
+        updateWeaponResearchPrice(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke, Pustafin.ResearchNukeCost);
+        updateWeaponResearchPrice(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser, Pustafin.ResearchLaserCost);
+        updateWeaponResearchPrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb, Pustafin.ResearchContactBombCost);
+    }
+
+    private void updateWeaponPrice(TextView textView, Weapons weapon, int weaponPrice) {
+        int currenWeaponCount = m_GameManager.getWeaponCount(weapon);
+        textView.setText(String.format(getString(R.string.sv_price_count_display), weaponPrice, currenWeaponCount));
+    }
+
+    private void updateWeaponUpgradePrice(TextView textView, WeaponUpgrades weaponUpgrade, int maxUpgradeLevel) {
+        int currentWeaponUpgradeLevel = m_GameManager.getWeaponUpgrade(weaponUpgrade);
+        if (currentWeaponUpgradeLevel < maxUpgradeLevel) {
+            textView.setText(String.format(getString(R.string.sv_price_level_display),
+                    calculateWeaponUpgradeCost(weaponUpgrade, currentWeaponUpgradeLevel + 1), currentWeaponUpgradeLevel));
         }
         else {
-            txtViewPriceIncreaseDamage.setText(String.format(getString(R.string.sv_max_level_display), increaseDamageUpgradeLevel));
+            textView.setText(String.format(getString(R.string.sv_max_level_display), currentWeaponUpgradeLevel));
         }
+    }
 
-        if (increaseSpeedUpgradeLevel < Pustafin.SpeedUpgradeMaxLevel) {
-            txtViewPriceIncreaseSpeed.setText(String.format(getString(R.string.sv_price_level_display),
-                    calculateWeaponUpgradeCost(WeaponUpgrades.IncreaseSpeed, increaseSpeedUpgradeLevel + 1), increaseSpeedUpgradeLevel));
+    private void updateWeaponResearchPrice(TextView textView, WeaponUpgrades weaponUpgrade, int researchCosts) {
+        boolean researched = m_GameManager.getWeaponUpgrade(weaponUpgrade) == 1;
+        if (researched) {
+            textView.setText(getString(R.string.sv_researched_display));
         }
         else {
-            txtViewPriceIncreaseSpeed.setText(String.format(getString(R.string.sv_max_level_display), increaseSpeedUpgradeLevel));
-        }
-
-        if (increaseRadiusUpgradeLevel < Pustafin.RadiusUpgradeMaxLevel) {
-            txtViewPriceIncreaseRadius.setText(String.format(getString(R.string.sv_price_level_display),
-                    calculateWeaponUpgradeCost(WeaponUpgrades.IncreaseRadius, increaseRadiusUpgradeLevel + 1), increaseRadiusUpgradeLevel));
-        }
-        else {
-            txtViewPriceIncreaseRadius.setText(String.format(getString(R.string.sv_max_level_display), increaseRadiusUpgradeLevel));
-        }
-
-        TextView txtViewPriceResearchNuke = (TextView)findViewById(R.id.txtViewShopPriceResearchNuke);
-        TextView txtViewPriceResearchLaser = (TextView)findViewById(R.id.txtViewShopPriceResearchLaser);
-        TextView txtViewPriceResearchContactBomb = (TextView)findViewById(R.id.txtViewShopPriceResearchContactBomb);
-
-        boolean researchedNuke = m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1;
-        boolean researchedLaser = m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1;
-        boolean researchedContactBomb = m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1;
-
-        if (researchedNuke) {
-            txtViewPriceResearchNuke.setText(getString(R.string.sv_researched_display));
-        }
-        else {
-            txtViewPriceResearchNuke.setText(String.format(getString(R.string.sv_price_display), Pustafin.ResearchNukeCost));
-        }
-
-        if (researchedLaser) {
-            txtViewPriceResearchLaser.setText(getString(R.string.sv_researched_display));
-        }
-        else {
-            txtViewPriceResearchLaser.setText(String.format(getString(R.string.sv_price_display), Pustafin.ResearchLaserCost));
-        }
-
-        if (researchedContactBomb) {
-            txtViewPriceResearchContactBomb.setText(getString(R.string.sv_researched_display));
-        }
-        else {
-            txtViewPriceResearchContactBomb.setText(String.format(getString(R.string.sv_price_display), Pustafin.ResearchContactBombCost));
+            textView.setText(String.format(getString(R.string.sv_price_display), researchCosts));
         }
     }
 

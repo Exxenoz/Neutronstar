@@ -10,5 +10,6 @@ public enum Weapons {
     SmallLaser,
     BigLaser,
     SmallContactBomb,
-    BigContactBomb
+    BigContactBomb,
+    ProBabyPill
 }

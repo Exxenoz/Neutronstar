@@ -8,6 +8,5 @@ public enum WeaponUpgrades {
     IncreaseRadius,
     ResearchNuke,
     ResearchLaser,
-    ResearchContactBomb,
-    ProBabyPill
+    ResearchContactBomb
 }
