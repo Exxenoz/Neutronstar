@@ -81,6 +81,12 @@ public class Pustafin {
     public static final float AsteroidPointsPerHealthFactor = 10f;
     public static final float AsteroidImpactDamageFactor = 10f;
 
+    public static final float AsteroidMinSpeed = 25f;
+    public static final float AsteroidMaxSpeed = 100f;
+    public static final float AsteroidStartMinSpeed = 45f;
+    public static final float AsteroidStartMaxSpeed = 55f;
+    public static final float AsteroidStartMinSpeedDecreasePerLevel = 1f;
+    public static final float AsteroidStartMaxSpeedIncreasePerLevel = 1f;
     public static final float AsteroidMinRotationSpeed = 10f; // Degrees per second
     public static final float AsteroidMaxRotationSpeed = 45f; // Degrees per second
 

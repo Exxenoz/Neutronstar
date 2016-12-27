@@ -21,6 +21,10 @@ public class EnemySpawner extends GameObject {
     private float m_AsteroidMaxScale;
     private float m_AsteroidScaleStep;
 
+    private float m_AsteroidMaxSpeed;
+    private float m_AsteroidMinSpeed;
+    private float m_AsteroidSpeedStep;
+
     private float m_AsteroidSpawnTimer;
     private float m_AsteroidSpawnTimeDelta;
 
@@ -42,6 +46,12 @@ public class EnemySpawner extends GameObject {
         m_AsteroidSpawnScales = new ArrayList<Float>(m_AsteroidSpawnCount);
         m_AsteroidMaxScale = Pustafin.AsteroidStartScale + GameManager.getInstance().getLevel() * Pustafin.AsteroidScaleIncreaseFactor;
         m_AsteroidScaleStep = (m_AsteroidMaxScale - Pustafin.AsteroidStartScale) / m_AsteroidSpawnCount;
+
+        m_AsteroidMaxSpeed = Math.min(Pustafin.AsteroidStartMaxSpeed + Pustafin.AsteroidStartMaxSpeedIncreasePerLevel * GameManager.getInstance().getLevel(),
+                Pustafin.AsteroidMaxSpeed);
+        m_AsteroidMinSpeed = Math.max(Pustafin.AsteroidStartMinSpeed - Pustafin.AsteroidStartMinSpeedDecreasePerLevel * GameManager.getInstance().getLevel(),
+                Pustafin.AsteroidMinSpeed);
+        m_AsteroidSpeedStep = (m_AsteroidMaxSpeed - m_AsteroidMinSpeed) / m_AsteroidSpawnCount;
 
         m_AsteroidSpawnTimeDelta = (float)Pustafin.LevelSpawnTime / m_AsteroidSpawnCount;
         m_AsteroidSpawnTimer = m_AsteroidSpawnTimeDelta; // Spawn first asteroid on next tick
@@ -79,7 +89,8 @@ public class EnemySpawner extends GameObject {
         int asteroidBounty = (int) (asteroidScale * Pustafin.AsteroidMoneyPerScaleFactor);
         int asteroidPoints = (int) (asteroidHealth * Pustafin.AsteroidPointsPerHealthFactor);
 
-        float asteroidSpeed = 50f; //TODO
+        float asteroidSpeed = m_AsteroidMinSpeed + m_AsteroidSpeedStep * randomIdx;
+
         float asteroidRotationSpeed = (float) (Math.random() * (Pustafin.AsteroidMaxRotationSpeed - Pustafin.AsteroidMinRotationSpeed) + Pustafin.AsteroidMinRotationSpeed);
         if (m_Random.nextBoolean()) {
             asteroidRotationSpeed *= -1f;
