@@ -14,6 +14,7 @@ import at.autrage.projects.zeta.module.Logger;
 public class AnimationFrame {
     private Animation m_Owner;
     private Rect m_TexCoordRect;
+    private Rect m_ScaledTexCoordRect;
     private int m_TexCoordX;
     private int m_TexCoordY;
     private int m_SizeX;
@@ -33,6 +34,17 @@ public class AnimationFrame {
         this.m_NextFrame = null;
 
         m_TexCoordRect = new Rect(texCoordX, texCoordY, texCoordX + sizeX, texCoordY + sizeY);
+        m_ScaledTexCoordRect = new Rect();
+    }
+
+    public void initializeScaledTexCoordRect(float scaleFactorX, float scaleFactorY) {
+        m_ScaledTexCoordRect.set
+        (
+                (int)(m_TexCoordRect.left * scaleFactorX),
+                (int)(m_TexCoordRect.top * scaleFactorY),
+                (int)(m_TexCoordRect.right * scaleFactorX),
+                (int)(m_TexCoordRect.bottom * scaleFactorY)
+        );
     }
 
     public Bitmap getSequenceImage() {
@@ -41,6 +53,10 @@ public class AnimationFrame {
 
     public Rect getTexCoordRect() {
         return m_TexCoordRect;
+    }
+
+    public Rect getScaledTexCoordRect() {
+        return m_ScaledTexCoordRect;
     }
 
     public int getTexCoordX() {

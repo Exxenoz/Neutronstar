@@ -171,7 +171,7 @@ public class GameObject {
         if (m_CurrAnimationFrame != null) {
             canvas.save(Canvas.MATRIX_SAVE_FLAG);
             canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
-            canvas.drawBitmap(m_CurrAnimationFrame.getSequenceImage(), m_CurrAnimationFrame.getTexCoordRect(), m_DstRect, null);
+            canvas.drawBitmap(m_CurrAnimationFrame.getSequenceImage(), m_CurrAnimationFrame.getScaledTexCoordRect(), m_DstRect, null);
             canvas.restore();
 
             if (Pustafin.DebugMode && m_Collider != null) {

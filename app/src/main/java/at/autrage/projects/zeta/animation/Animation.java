@@ -17,35 +17,47 @@ public class Animation {
     private int m_SequenceImageResID;
     private Bitmap m_SequenceImage;
 
+    private int m_SizeX;
+    private int m_SizeY;
+
+    private int m_FrameSizeX;
+    private int m_FrameSizeY;
+
+    private float m_ScaleFactorX;
+    private float m_ScaleFactorY;
+
     private int m_StartTexCoordX;
     private int m_StartTexCoordY;
 
     private int m_EndTexCoordX;
     private int m_EndTexCoordY;
 
-    private int m_SizeX;
-    private int m_SizeY;
-
     private float m_Duration;
     private List<AnimationFrame> m_AnimationFrames;
 
     public Animation(int ID, int sequenceImageResID, String name,
-                     int startTexCoordX, int startTexCoordY, int endTexCoordX, int endTexCoordY,
-                     int sizeX, int sizeY, float duration) {
+                     int sizeX, int sizeY, int frameSizeX, int frameSizeY,
+                     int startTexCoordX, int startTexCoordY, int endTexCoordX, int endTexCoordY, float duration) {
         this.m_ID = ID;
         this.m_Name = name;
 
         this.m_SequenceImageResID = sequenceImageResID;
         this.m_SequenceImage = null;
 
+        this.m_SizeX = sizeX;
+        this.m_SizeY = sizeY;
+
+        this.m_FrameSizeX = frameSizeX;
+        this.m_FrameSizeY = frameSizeY;
+
+        this.m_ScaleFactorX = 0f;
+        this.m_ScaleFactorY = 0f;
+
         this.m_StartTexCoordX = startTexCoordX;
         this.m_StartTexCoordY = startTexCoordY;
 
         this.m_EndTexCoordX = endTexCoordX;
         this.m_EndTexCoordY = endTexCoordY;
-
-        this.m_SizeX = sizeX;
-        this.m_SizeY = sizeY;
 
         this.m_Duration = duration;
         this.m_AnimationFrames = new ArrayList<AnimationFrame>();
@@ -54,11 +66,11 @@ public class Animation {
     }
 
     private void generateAnimationFrames() {
-        for (int texCoordY = m_StartTexCoordY; texCoordY < m_EndTexCoordY; texCoordY += m_SizeY)
+        for (int texCoordY = m_StartTexCoordY; texCoordY < m_EndTexCoordY; texCoordY += m_FrameSizeY)
         {
-            for (int texCoordX = m_StartTexCoordX; texCoordX < m_EndTexCoordX; texCoordX += m_SizeX)
+            for (int texCoordX = m_StartTexCoordX; texCoordX < m_EndTexCoordX; texCoordX += m_FrameSizeX)
             {
-                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, texCoordY, m_SizeX, m_SizeY, m_Duration));
+                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, texCoordY, m_FrameSizeX, m_FrameSizeY, m_Duration));
             }
         }
 
@@ -90,6 +102,16 @@ public class Animation {
         }
 
         m_SequenceImage = BitmapFactory.decodeResource(resources, m_SequenceImageResID);
+
+        m_ScaleFactorX = m_SequenceImage.getWidth() / (float)m_SizeX;
+        m_ScaleFactorY = m_SequenceImage.getHeight() / (float)m_SizeY;
+
+        for (AnimationFrame animationFrame : m_AnimationFrames) {
+            animationFrame.initializeScaledTexCoordRect(m_ScaleFactorX, m_ScaleFactorY);
+        }
+
+        Logger.D("Loaded Sequence Image for Animation %s with size (%d, %d), original size (%d, %d) and scale factors (%f, %f)",
+                m_Name, m_SequenceImage.getWidth(), m_SequenceImage.getHeight(), m_SizeX, m_SizeY, m_ScaleFactorX, m_ScaleFactorY);
     }
 
     public void unLoad() {
@@ -115,6 +137,14 @@ public class Animation {
         return m_SequenceImageResID;
     }
 
+    public int getFrameSizeX() {
+        return m_FrameSizeX;
+    }
+
+    public int getFrameSizeY() {
+        return m_FrameSizeY;
+    }
+
     public int getStartTexCoordX() {
         return m_StartTexCoordX;
     }
@@ -129,14 +159,6 @@ public class Animation {
 
     public int getEndTexCoordY() {
         return m_EndTexCoordY;
-    }
-
-    public int getSizeX() {
-        return m_SizeX;
-    }
-
-    public int getSizeY() {
-        return m_SizeY;
     }
 
     public AnimationFrame getFirstAnimationFrame() {

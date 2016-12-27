@@ -289,6 +289,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param canvas The canvas where the game view should be drawn.
      */
     public void render(Canvas canvas) {
+        // Canvas clearing not needed, because the background image fills the whole screen anyway
+        //canvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+
         // Draw game objects
         for (GameObject go : m_GameObjects) {
             go.onDraw(canvas);
