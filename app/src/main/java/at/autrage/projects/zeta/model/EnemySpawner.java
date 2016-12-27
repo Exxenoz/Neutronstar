@@ -16,7 +16,6 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 public class EnemySpawner extends GameObject {
-    private Player m_Player;
     private int m_AsteroidSpawnCount;
     private List<Float> m_AsteroidSpawnScales;
     private float m_AsteroidMaxScale;
@@ -38,8 +37,6 @@ public class EnemySpawner extends GameObject {
         if (m_Initialized) {
             return;
         }
-
-        m_Player = getGameView().getPlayer();
 
         m_AsteroidSpawnCount = (int) (Pustafin.AsteroidStartCount + GameManager.getInstance().getLevel() * Pustafin.AsteroidCountIncreaseFactor);
         m_AsteroidSpawnScales = new ArrayList<Float>(m_AsteroidSpawnCount);
@@ -141,13 +138,5 @@ public class EnemySpawner extends GameObject {
                 }
             }
         }
-    }
-
-    public Player getPlayer() {
-        return m_Player;
-    }
-
-    public void setPlayer(Player player) {
-        this.m_Player = player;
     }
 }
