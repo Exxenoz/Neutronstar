@@ -27,9 +27,11 @@ public class Rocket extends Weapon {
     public void onUpdate() {
         super.onUpdate();
 
-        m_EngineFire.setPositionX(this.getPositionX() - (this.getDirectionX() * (this.getHalfSizeX() + getHalfSizeX() + m_EngineFireLengthOffset)));
-        m_EngineFire.setPositionY(this.getPositionY() - (this.getDirectionY() * (this.getHalfSizeY() + getHalfSizeY() + m_EngineFireLengthOffset)));
-        m_EngineFire.setRotationAngle(180f + this.getRotationAngle());
+        if (m_EngineFire != null) {
+            m_EngineFire.setPositionX(this.getPositionX() - (this.getDirectionX() * (this.getHalfSizeX() + getHalfSizeX() + m_EngineFireLengthOffset)));
+            m_EngineFire.setPositionY(this.getPositionY() - (this.getDirectionY() * (this.getHalfSizeY() + getHalfSizeY() + m_EngineFireLengthOffset)));
+            m_EngineFire.setRotationAngle(180f + this.getRotationAngle());
+        }
     }
 
     @Override
@@ -46,7 +48,10 @@ public class Rocket extends Weapon {
     public void destroy() {
         super.destroy();
 
-        m_EngineFire.destroy();
+        if (m_EngineFire != null) {
+            m_EngineFire.destroy();
+            m_EngineFire = null;
+        }
     }
 
     public float getEngineFireLengthOffset() {
