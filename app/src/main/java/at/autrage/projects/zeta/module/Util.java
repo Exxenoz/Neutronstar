@@ -22,4 +22,22 @@ public class Util {
 
         return out;
     }
+
+    public static int roof(float value) {
+        if (value > (int) value) {
+            return (int) (value + 1);
+        }
+        else {
+            return (int) value;
+        }
+    }
+
+    public static int roof(double value) {
+        if (value > (int) value) {
+            return (int) (value + 1);
+        }
+        else {
+            return (int) value;
+        }
+    }
 }
