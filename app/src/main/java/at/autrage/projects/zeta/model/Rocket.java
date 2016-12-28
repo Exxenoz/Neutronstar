@@ -12,8 +12,24 @@ import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Rocket extends Weapon {
+    private GameObject m_EngineFire;
+    private float m_EngineFireLengthOffset;
+
     public Rocket(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
+
+        m_EngineFire = new GameObject(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
+        m_EngineFire.setScaleFactor((float)this.getSizeX() / m_EngineFire.getSizeX());
+        m_EngineFire.setAnimationRepeatable(true);
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+
+        m_EngineFire.setPositionX(this.getPositionX() - (this.getDirectionX() * (this.getHalfSizeX() + getHalfSizeX() + m_EngineFireLengthOffset)));
+        m_EngineFire.setPositionY(this.getPositionY() - (this.getDirectionY() * (this.getHalfSizeY() + getHalfSizeY() + m_EngineFireLengthOffset)));
+        m_EngineFire.setRotationAngle(180f + this.getRotationAngle());
     }
 
     @Override
@@ -24,6 +40,21 @@ public class Rocket extends Weapon {
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float)Math.random());
             explode(collider.getOwner());
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        m_EngineFire.destroy();
+    }
+
+    public float getEngineFireLengthOffset() {
+        return m_EngineFireLengthOffset;
+    }
+
+    public void setEngineFireLengthOffset(float engineFireLengthOffset) {
+        this.m_EngineFireLengthOffset = engineFireLengthOffset;
     }
 
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
@@ -46,6 +77,7 @@ public class Rocket extends Weapon {
         rocket.setSpeed(Pustafin.BigRocketSpeedBase);
         rocket.setHitDamage(Pustafin.BigRocketHitDamageBase);
         rocket.setCollider(new CircleCollider(rocket, 40f));
+        rocket.setEngineFireLengthOffset(-10f);
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
         return rocket;
     }

@@ -51,6 +51,7 @@ public class AssetManager {
         m_Animations.put(Animations.Asteroid2, new Animation(6, R.drawable.gv_enemy_asteroid2, "EnemyAsteroid2", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
         m_Animations.put(Animations.Asteroid3, new Animation(7, R.drawable.gv_enemy_asteroid3, "EnemyAsteroid3", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
         m_Animations.put(Animations.Explosion1, new Animation(8, R.drawable.gv_explosion_sheet1, "Explosion1", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
+        m_Animations.put(Animations.EngineFire, new Animation(9, R.drawable.gv_engine_fire, "EngineFire", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
@@ -78,6 +79,9 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.Explosion1, new AnimationSet(8, "Explosion1", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Explosion1));
+        }}));
+        m_AnimationSets.put(AnimationSets.EngineFire, new AnimationSet(9, "EngineFire", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.EngineFire));
         }}));
     }
 

@@ -16,5 +16,6 @@ public enum AnimationSets {
     BigLaser,
     SmallContactBomb,
     BigContactBomb,
-    Explosion1
+    Explosion1,
+    EngineFire
 }

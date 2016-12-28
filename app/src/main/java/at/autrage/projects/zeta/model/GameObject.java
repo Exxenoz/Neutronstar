@@ -295,6 +295,14 @@ public class GameObject {
         this.m_ScaledHalfSizeY = scaledHalfSizeY;
     }
 
+    public float getDirectionX() {
+        return m_DirectionX;
+    }
+
+    public float getDirectionY() {
+        return m_DirectionY;
+    }
+
     public void setDirectionX(float directionX) {
         this.m_DirectionX = directionX;
         setSpeed(m_Speed);
@@ -331,6 +339,19 @@ public class GameObject {
 
     public float getPositionY() {
         return m_PositionY;
+    }
+
+    public void setPositionX(float positionX) {
+        this.m_PositionX = positionX;
+    }
+
+    public void setPositionY(float positionY) {
+        this.m_PositionY = positionY;
+    }
+
+    public void setPosition(float positionX, float positionY) {
+        this.m_PositionX = positionX;
+        this.m_PositionY = positionY;
     }
 
     public float getScaledPositionX() {
