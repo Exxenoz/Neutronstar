@@ -22,6 +22,7 @@ public class Player extends GameObject implements View.OnTouchListener {
     private float m_RemainingTime;
     private float m_LastRemainingTime;
     private Weapons m_SelectedWeapon;
+    private float m_PopulationIncreaseTimer;
 
     private class Position {
         public float X;
@@ -51,6 +52,15 @@ public class Player extends GameObject implements View.OnTouchListener {
         m_RemainingTime -= Time.getScaledDeltaTime();
         if (m_RemainingTime <= 0f) {
             m_RemainingTime = 0f;
+        }
+
+
+        m_PopulationIncreaseTimer += Time.getScaledDeltaTime();
+        while (m_PopulationIncreaseTimer >= 1f) {
+            GameManager.getInstance().setPopulation((1f + Pustafin.PopulationIncreaseFactor +
+                    Pustafin.ProBabypillPopulationIncreaseFactor * GameManager.getInstance().getWeaponCount(Weapons.ProBabyPill))
+                    * GameManager.getInstance().getPopulation());
+            m_PopulationIncreaseTimer--;
         }
 
         if ((int)m_LastRemainingTime != (int)m_RemainingTime) {
@@ -175,14 +185,14 @@ public class Player extends GameObject implements View.OnTouchListener {
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float)Math.random());
 
-            int remainingPopulation = GameManager.getInstance().getPopulation() - (int)enemy.getHitDamage();
-            if (remainingPopulation <= 0) {
-                remainingPopulation = 0;
+            double remainingPopulation = GameManager.getInstance().getPopulation() - enemy.getHitDamage();
+            if ((int)remainingPopulation <= 0f) {
+                remainingPopulation = 0f;
             }
 
             GameManager.getInstance().setPopulation(remainingPopulation);
 
-            if (remainingPopulation <= 0) {
+            if (remainingPopulation <= 0f) {
                 getGameView().loose();
             }
         }

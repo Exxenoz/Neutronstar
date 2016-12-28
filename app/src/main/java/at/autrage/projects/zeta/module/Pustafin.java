@@ -12,7 +12,7 @@ public class Pustafin {
     public static final int LevelSpawnTime = 100; // In seconds
     public static final int StartBudget = 900000;
     public static final int StartPopulation = 7390; // As from 2016
-    public static final float PopulationIncreaseFactor = 1.0005f;
+    public static final float PopulationIncreaseFactor = 0.0005f;
     public static final float ProBabypillPopulationIncreaseFactor = 0.00015f;
 
     public static final int BigRocketPacketSize = 5;

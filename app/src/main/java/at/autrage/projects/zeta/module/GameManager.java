@@ -27,7 +27,7 @@ public class GameManager {
     private int m_Score;
     private int m_Money;
 
-    private int m_Population;
+    private double m_Population;
 
     private Map<Weapons, Integer> m_Weapons;
     private Map<WeaponUpgrades, Integer> m_WeaponUpgrades;
@@ -86,11 +86,11 @@ public class GameManager {
         setUpdateFlag(UpdateFlags.Money);
     }
 
-    public int getPopulation() {
+    public double getPopulation() {
         return m_Population;
     }
 
-    public void setPopulation(int population) {
+    public void setPopulation(double population) {
         m_Population = population;
         setUpdateFlag(UpdateFlags.Population);
     }

@@ -216,7 +216,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.Population) && m_UI.TxtViewPopulation != null) {
-                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros(m_GameManager.getPopulation(), 5, true)));
+                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros((int)m_GameManager.getPopulation(), 5, true)));
                     m_GameManager.delUpdateFlag(UpdateFlags.Population);
                 }
 
@@ -302,6 +302,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (m_LevelFinished) {
             return;
         }
+
+        // Calculate remaining population increase
+        GameManager.getInstance().setPopulation(GameManager.getInstance().getPopulation() * Math.pow(1f + Pustafin.PopulationIncreaseFactor +
+                        Pustafin.ProBabypillPopulationIncreaseFactor * GameManager.getInstance().getWeaponCount(Weapons.ProBabyPill), Util.roof(m_Player.getRemainingTime())));
+        GameManager.getInstance().setWeaponCount(Weapons.ProBabyPill, 0);
 
         SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
 
