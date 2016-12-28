@@ -920,4 +920,26 @@
         android:layout_marginTop="165px"
         android:layout_width="650px"
         android:layout_height="120px" />
+
+    <TextView
+        android:text="@string/sv_population_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewShopPopulation"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="false"
+        android:layout_marginRight="70px"
+        android:layout_marginTop="60px"
+        android:layout_alignParentRight="true" />
+
+    <ImageView
+        android:layout_width="29px"
+        android:layout_height="47px"
+        app:srcCompat="@drawable/gv_icon_population"
+        android:layout_alignParentTop="true"
+        android:id="@+id/imgViewIconPopulation"
+        android:layout_marginTop="63px"
+        android:layout_marginRight="10px"
+        android:layout_toLeftOf="@+id/txtViewShopPopulation" />
+
 </RelativeLayout>

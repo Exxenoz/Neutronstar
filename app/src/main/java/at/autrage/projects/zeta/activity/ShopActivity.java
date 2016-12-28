@@ -196,6 +196,9 @@ public class ShopActivity extends SuperActivity {
         m_TxtViewMoneyDisplay = (TextView)findViewById(R.id.txtViewShopMoney);
         updateMoneyDisplay();
 
+        TextView txtViewPopulationDisplay = (TextView) findViewById(R.id.txtViewShopPopulation);
+        txtViewPopulationDisplay.setText(String.format(getString(R.string.sv_population_display), Util.addLeadingZeros((int) GameManager.getInstance().getPopulation(), 5, true)));
+
         initializeShopDescriptions();
         initializeShopPrices();
         initializeShopOnClickListener();
