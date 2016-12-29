@@ -5,8 +5,7 @@
     android:id="@+id/activity_game"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="at.autrage.projects.zeta.activity.GameActivity"
-    android:background="@android:color/black">
+    tools:context="at.autrage.projects.zeta.activity.GameActivity">
 
     <at.autrage.projects.zeta.view.GameView
         android:layout_width="match_parent"
@@ -19,10 +18,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtViewMoney"
         android:textColor="@android:color/white"
-        android:layout_alignBaseline="@+id/txtViewLevel"
-        android:layout_alignBottom="@+id/txtViewLevel"
-        android:layout_toEndOf="@+id/imgViewIconBigRocket"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="48px"
+        android:layout_marginRight="1130px" />
 
     <TextView
         android:text="Lvl. 99"
@@ -30,17 +30,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtViewLevel"
         android:textColor="@android:color/white"
-        android:layout_alignTop="@+id/txtViewFPS"
         android:layout_centerHorizontal="true"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="48px" />
 
     <ImageView
         android:layout_width="48px"
         android:layout_height="43px"
         app:srcCompat="@drawable/gv_icon_highscore"
         android:id="@+id/imgViewIconHighscore"
-        android:layout_alignTop="@+id/txtViewScore"
-        android:layout_toEndOf="@+id/txtViewSmallLaserCount" />
+        android:layout_marginTop="46px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="1160px" />
 
     <TextView
         android:text="000.000.000"
@@ -48,10 +52,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtViewScore"
         android:textColor="@android:color/white"
-        android:layout_alignBaseline="@+id/txtViewLevel"
-        android:layout_alignBottom="@+id/txtViewLevel"
-        android:layout_alignStart="@+id/imgViewIconBigLaser"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="48px"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="1220px" />
 
     <TextView
         android:text="00"
@@ -60,111 +66,120 @@
         android:id="@+id/txtViewFPS"
         android:textAlignment="textEnd"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentEnd="false"
         android:layout_marginTop="48px"
         android:layout_marginRight="48px"
         android:textColor="@android:color/white"
-        android:textSize="36px" />
+        android:textSize="36px"
+        android:layout_alignParentRight="true" />
 
     <ImageView
         app:srcCompat="@drawable/gv_hotbar"
         android:id="@+id/imgViewHotbar"
-        android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="false"
         android:layout_width="1628px"
         android:layout_height="173px"
         android:layout_marginLeft="146px"
-        android:layout_marginTop="907px" />
+        android:layout_alignParentBottom="true" />
 
     <ImageView
         android:layout_width="90px"
         android:layout_height="90px"
         app:srcCompat="@drawable/gv_icon_small_rocket"
         android:id="@+id/imgViewIconSmallRocket"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="218px"
-        android:layout_marginTop="970px" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <ImageView
         android:layout_width="93px"
         app:srcCompat="@drawable/gv_icon_big_rocket"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconBigRocket"
         android:layout_height="92px"
-        android:layout_marginTop="970px"
-        android:layout_marginLeft="412px" />
+        android:layout_marginLeft="412px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <ImageView
         android:layout_height="85px"
         app:srcCompat="@drawable/gv_icon_small_nuke"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconSmallNuke"
         android:layout_width="87px"
-        android:layout_marginTop="970px"
-        android:layout_marginLeft="610px" />
+        android:layout_marginLeft="610px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <ImageView
         android:layout_width="84px"
         android:layout_height="85px"
         app:srcCompat="@drawable/gv_icon_big_nuke"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconBigNuke"
-        android:layout_marginTop="970px"
-        android:layout_marginLeft="810px" />
+        android:layout_marginLeft="810px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <ImageView
         android:layout_width="80px"
         android:layout_height="80px"
         app:srcCompat="@drawable/gv_icon_small_laser"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconSmallLaser"
-        android:layout_marginTop="970px"
-        android:layout_marginLeft="1010px" />
+        android:layout_marginLeft="1010px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28px" />
 
     <ImageView
         android:layout_width="80px"
         android:layout_height="80px"
         app:srcCompat="@drawable/gv_icon_big_laser"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconBigLaser"
-        android:layout_marginTop="970px"
-        android:layout_marginLeft="1205px" />
+        android:layout_marginLeft="1205px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28px" />
 
     <ImageView
         android:layout_width="90px"
         android:layout_height="90px"
         app:srcCompat="@drawable/gv_icon_small_contact_bomb"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconSmallContactBomb"
-        android:layout_marginTop="965px"
-        android:layout_marginLeft="1395px" />
+        android:layout_marginLeft="1395px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <ImageView
         android:layout_width="80px"
         android:layout_height="79px"
         app:srcCompat="@drawable/gv_icon_big_contact_bomb"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewIconBigContactBomb"
-        android:layout_marginTop="970px"
-        android:layout_marginLeft="1595px" />
+        android:layout_marginLeft="1595px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28px" />
 
     <ImageView
         android:layout_width="96px"
         android:layout_height="96px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="960px"
         android:layout_marginLeft="32px"
         android:background="@drawable/gv_icon_pause"
-        android:id="@+id/imgViewPause" />
+        android:id="@+id/imgViewPause"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <Button
         android:id="@+id/btnAreaPause"
@@ -177,12 +192,12 @@
     <ImageView
         android:layout_width="96px"
         android:layout_height="96px"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewSound"
-        android:layout_marginTop="960px"
         android:layout_marginLeft="1792px"
-        android:background="@drawable/gv_icon_unmute" />
+        android:background="@drawable/gv_icon_unmute"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px" />
 
     <Button
         android:layout_width="165px"
@@ -197,136 +212,126 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallRocketCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="935px"
         android:layout_marginLeft="325px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:rotation="-90"
         android:textStyle="bold"
-        android:textSize="42px" />
+        android:textSize="42px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:text="0"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigRocketCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="354px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallNukeCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="550px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigNukeCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="746px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallLaserCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="942px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigLaserCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="1138px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:layout_height="wrap_content"
         android:id="@+id/txtViewSmallContactBombCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="1334px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
+        android:textSize="38px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <TextView
         android:layout_height="wrap_content"
         android:id="@+id/txtViewBigContactBombCount"
         android:textColor="@android:color/white"
-        android:layout_marginTop="940px"
         android:layout_marginLeft="1530px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:textAlignment="gravity"
         android:gravity="right"
         android:layout_width="200px"
-        android:textSize="38px" />
-
-    <TextView
-        android:text="180s"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtViewTime"
-        android:textColor="@android:color/white"
         android:textSize="38px"
-        android:layout_marginLeft="14px"
-        android:layout_alignTop="@+id/txtViewFPS"
-        android:layout_toEndOf="@+id/imgViewIconTime" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92px" />
 
     <ImageView
         android:layout_width="37px"
         android:layout_height="35px"
         app:srcCompat="@drawable/gv_icon_time"
         android:id="@+id/imgViewIconTime"
-        android:layout_alignBottom="@+id/txtViewTime"
-        android:layout_alignStart="@+id/imgViewIconBigContactBomb"
-        android:layout_marginBottom="6px" />
-
-    <ImageView
-        android:layout_width="29px"
-        android:layout_height="47px"
-        app:srcCompat="@drawable/gv_icon_population"
-        android:id="@+id/imgViewIconPopulation"
-        android:layout_alignTop="@+id/txtViewPopulation"
-        android:layout_toEndOf="@+id/imgViewPause" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="54px"
+        android:layout_marginLeft="1570px" />
 
     <TextView
         android:text="99.999 Mrd."
@@ -335,10 +340,11 @@
         android:id="@+id/txtViewPopulation"
         android:textColor="@android:color/white"
         android:textSize="38px"
-        android:layout_marginLeft="16px"
-        android:layout_alignBaseline="@+id/txtViewFPS"
-        android:layout_alignBottom="@+id/txtViewFPS"
-        android:layout_toEndOf="@+id/btnAreaPause" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="48px"
+        android:layout_marginRight="1500px" />
 
     <ImageView
         android:layout_width="256px"
@@ -347,88 +353,88 @@
         android:layout_alignParentStart="false"
         android:id="@+id/imgViewHotbarHighlighted"
         android:layout_height="227px"
-        android:layout_marginTop="853px"
-        android:layout_marginLeft="146px" />
+        android:layout_marginLeft="146px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaSmallRocket"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="177px" />
+        android:layout_marginLeft="177px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaBigRocket"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="373px" />
+        android:layout_marginLeft="373px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaSmallNuke"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="569px" />
+        android:layout_marginLeft="569px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaBigNuke"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="765px" />
+        android:layout_marginLeft="765px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaSmallLaser"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="961px" />
+        android:layout_marginLeft="961px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaBigLaser"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="1157px" />
+        android:layout_marginLeft="1157px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaSmallContactBomb"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="1353px" />
+        android:layout_marginLeft="1353px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="196px"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentStart="true"
         android:id="@+id/btnAreaBigContactBomb"
         android:background="@android:color/transparent"
-        android:layout_marginTop="930px"
         android:layout_height="150px"
-        android:layout_marginLeft="1549px" />
+        android:layout_marginLeft="1549px"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_alignParentTop="true"
@@ -463,5 +469,28 @@
         android:layout_marginLeft="32px"
         android:textSize="30px"
         android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="29px"
+        android:layout_height="47px"
+        app:srcCompat="@drawable/gv_icon_population"
+        android:id="@+id/imgViewIconPopulation"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="46px"
+        android:layout_toLeftOf="@+id/txtViewPopulation"
+        android:layout_marginRight="10px" />
+
+    <TextView
+        android:text="180s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewTime"
+        android:textColor="@android:color/white"
+        android:textSize="38px"
+        android:layout_marginLeft="1620px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
+        android:layout_marginTop="48px" />
 
 </RelativeLayout>
