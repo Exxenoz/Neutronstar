@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -28,20 +29,27 @@ public class Enemy extends GameObject {
 
         if (collider.getOwner() instanceof Weapon) {
             Weapon weapon = (Weapon)collider.getOwner();
-
-            m_Health -= weapon.getHitDamage();
-            if (m_Health <= 0f) {
-                m_Health = 0f;
-
-                GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() + m_Bounty);
-                GameManager.getInstance().setScore(GameManager.getInstance().getScore() + m_Points);
-
-                destroy();
-            }
+            receiveDamage(weapon.getHitDamage());
         }
         else if (collider.getOwner() instanceof Player) {
-            explode(collider.getOwner());
+            explode(collider.getOwner(), AnimationSets.Explosion1);
         }
+    }
+
+    public void receiveDamage(float damage) {
+        m_Health -= damage;
+        if (m_Health <= 0f) {
+            m_Health = 0f;
+
+            GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() + m_Bounty);
+            GameManager.getInstance().setScore(GameManager.getInstance().getScore() + m_Points);
+
+            destroy();
+        }
+    }
+
+    public boolean isAlive() {
+        return m_Health > 0f;
     }
 
     public float getHealth() {

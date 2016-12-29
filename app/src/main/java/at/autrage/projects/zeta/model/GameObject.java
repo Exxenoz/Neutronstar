@@ -180,7 +180,11 @@ public class GameObject {
         }
     }
 
-    public void explode(GameObject target) {
+    public void explode(GameObject target, AnimationSets animationSet) {
+        explode(target, animationSet, false);
+    }
+
+    public void explode(GameObject target, AnimationSets animationSet, boolean disableAOEDamage) {
         float explosionSpawnPositionX = 0f;
         float explosionSpawnPositionY = 0f;
 
@@ -203,8 +207,16 @@ public class GameObject {
         }
 
         Explosion explosion = new Explosion(getGameView(), explosionSpawnPositionX, explosionSpawnPositionY,
-                AssetManager.getInstance().getAnimationSet(AnimationSets.Explosion1));
-        explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
+                AssetManager.getInstance().getAnimationSet(animationSet));
+
+        if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
+            Weapon weapon = (Weapon)this;
+            explosion.setWeapon(weapon);
+            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+        }
+        else {
+            explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
+        }
 
         destroy();
     }

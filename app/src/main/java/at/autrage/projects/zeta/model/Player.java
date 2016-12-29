@@ -154,8 +154,10 @@ public class Player extends GameObject {
                 weapon = Rocket.createBigRocket(this, spawnPositionX, spawnPositionY, directionX, directionY);
                 break;
             case SmallNuke:
+                weapon = Nuke.createSmallNuke(this, spawnPositionX, spawnPositionY, directionX, directionY);
                 break;
             case BigNuke:
+                weapon = Nuke.createBigNuke(this, spawnPositionX, spawnPositionY, directionX, directionY);
                 break;
             case SmallContactBomb:
                 break;

@@ -52,6 +52,11 @@ public class AssetManager {
         m_Animations.put(Animations.Asteroid3, new Animation(7, R.drawable.gv_enemy_asteroid3, "EnemyAsteroid3", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
         m_Animations.put(Animations.Explosion1, new Animation(8, R.drawable.gv_explosion_sheet1, "Explosion1", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
         m_Animations.put(Animations.EngineFire, new Animation(9, R.drawable.gv_engine_fire, "EngineFire", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
+        m_Animations.put(Animations.SmallNuke, new Animation(10, R.drawable.gv_weapon_small_nuke, "WeaponSmallNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
+        m_Animations.put(Animations.BigNuke, new Animation(11, R.drawable.gv_weapon_big_nuke, "WeaponBigNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
+        m_Animations.put(Animations.Explosion2, new Animation(12, R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
+        m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
+
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
@@ -82,6 +87,18 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.EngineFire, new AnimationSet(9, "EngineFire", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.EngineFire));
+        }}));
+        m_AnimationSets.put(AnimationSets.SmallNuke, new AnimationSet(10, "SmallNuke", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.SmallNuke));
+        }}));
+        m_AnimationSets.put(AnimationSets.BigNuke, new AnimationSet(11, "BigNuke", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.BigNuke));
+        }}));
+        m_AnimationSets.put(AnimationSets.Explosion2, new AnimationSet(12, "Explosion2", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Explosion2));
+        }}));
+        m_AnimationSets.put(AnimationSets.Explosion3, new AnimationSet(13, "Explosion3", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Explosion3));
         }}));
     }
 
