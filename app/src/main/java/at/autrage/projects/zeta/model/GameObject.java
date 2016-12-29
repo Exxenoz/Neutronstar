@@ -319,6 +319,10 @@ public class GameObject {
         setSpeed(m_Speed);
     }
 
+    public float getSpeed() {
+        return m_Speed;
+    }
+
     public void setSpeed(float speed) {
         m_Speed = speed;
         m_SpeedX = m_DirectionX * speed;

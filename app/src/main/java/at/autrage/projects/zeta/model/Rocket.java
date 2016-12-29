@@ -68,7 +68,7 @@ public class Rocket extends Weapon {
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket));
         rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
-        rocket.setSpeed(Pustafin.SmallRocketSpeedBase);
+        rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
         rocket.setCollider(new CircleCollider(rocket, 32f));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
@@ -80,7 +80,7 @@ public class Rocket extends Weapon {
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket));
         rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
-        rocket.setSpeed(Pustafin.BigRocketSpeedBase);
+        rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));
         rocket.setCollider(new CircleCollider(rocket, 40f));
         rocket.setEngineFireLengthOffset(-10f);

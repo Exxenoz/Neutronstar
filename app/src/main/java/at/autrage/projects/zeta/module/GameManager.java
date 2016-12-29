@@ -36,12 +36,16 @@ public class GameManager {
     private Map<WeaponUpgrades, Integer> m_WeaponUpgrades;
     private Map<Weapons, Float> m_WeaponBaseHitDamages;
     private Map<Weapons, Float> m_WeaponHitDamages;
+    private Map<Weapons, Float> m_WeaponBaseSpeeds;
+    private Map<Weapons, Float> m_WeaponSpeeds;
 
     private GameManager() {
         m_Weapons = new HashMap<Weapons, Integer>();
         m_WeaponUpgrades = new HashMap<WeaponUpgrades, Integer>();
         m_WeaponBaseHitDamages = new HashMap<Weapons, Float>();
         m_WeaponHitDamages = new HashMap<Weapons, Float>();
+        m_WeaponBaseSpeeds = new HashMap<Weapons, Float>();
+        m_WeaponSpeeds = new HashMap<Weapons, Float>();
 
         reset();
     }
@@ -60,6 +64,8 @@ public class GameManager {
         m_WeaponUpgrades.clear();
         m_WeaponBaseHitDamages.clear();
         m_WeaponHitDamages.clear();
+        m_WeaponBaseSpeeds.clear();
+        m_WeaponSpeeds.clear();
 
         m_Weapons.put(Weapons.SmallRocket, -1);
         m_Weapons.put(Weapons.BigRocket, 5);
@@ -73,8 +79,19 @@ public class GameManager {
         setWeaponBaseHitDamage(Weapons.SmallContactBomb, Pustafin.SmallContactBombHitDamageBase);
         setWeaponBaseHitDamage(Weapons.BigContactBomb, Pustafin.BigContactBombHitDamageBase);
 
+        setWeaponBaseSpeed(Weapons.SmallRocket, Pustafin.SmallRocketSpeedBase);
+        setWeaponBaseSpeed(Weapons.BigRocket, Pustafin.BigRocketSpeedBase);
+        setWeaponBaseSpeed(Weapons.SmallNuke, Pustafin.SmallNukeSpeedBase);
+        setWeaponBaseSpeed(Weapons.BigNuke, Pustafin.BigNukeSpeedBase);
+        setWeaponBaseSpeed(Weapons.SmallContactBomb, Pustafin.SmallContactBombSpeedBase);
+        setWeaponBaseSpeed(Weapons.BigContactBomb, Pustafin.BigContactBombSpeedBase);
+
         for (Map.Entry<Weapons, Float> pair : m_WeaponBaseHitDamages.entrySet()) {
             setWeaponHitDamage(pair.getKey(), pair.getValue());
+        }
+
+        for (Map.Entry<Weapons, Float> pair : m_WeaponBaseSpeeds.entrySet()) {
+            setWeaponSpeed(pair.getKey(), pair.getValue());
         }
     }
 
@@ -177,6 +194,11 @@ public class GameManager {
                 setWeaponHitDamage(weapon, (float) (getWeaponBaseHitDamage(weapon) * Math.pow(Pustafin.DamageUpgradeIncreaseFactor, level)));
             }
         }
+        else if (weaponUpgrade == WeaponUpgrades.IncreaseSpeed) {
+            for (Weapons weapon : m_WeaponBaseSpeeds.keySet()) {
+                setWeaponSpeed(weapon, (float) (getWeaponBaseSpeed(weapon) * Math.pow(Pustafin.SpeedUpgradeIncreaseFactor, level)));
+            }
+        }
     }
 
     public float getWeaponBaseHitDamage(Weapons weapon) {
@@ -195,5 +217,23 @@ public class GameManager {
 
     public void setWeaponHitDamage(Weapons weapon, float hitDamage) {
         m_WeaponHitDamages.put(weapon, hitDamage);
+    }
+
+    public float getWeaponBaseSpeed(Weapons weapon) {
+        Float speed = m_WeaponBaseSpeeds.get(weapon);
+        return (speed != null) ? speed : 0;
+    }
+
+    public void setWeaponBaseSpeed(Weapons weapon, float speed) {
+        m_WeaponBaseSpeeds.put(weapon, speed);
+    }
+
+    public float getWeaponSpeed(Weapons weapon) {
+        Float speed = m_WeaponSpeeds.get(weapon);
+        return (speed != null) ? speed : 0;
+    }
+
+    public void setWeaponSpeed(Weapons weapon, float speed) {
+        m_WeaponSpeeds.put(weapon, speed);
     }
 }

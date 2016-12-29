@@ -65,14 +65,12 @@ public class Pustafin {
 
     public static final float ExplosionSizeScaleFactor = 2f;
 
-    public static final float SmallRocketSpeedBase = 100f;
-    public static final float BigRocketSpeedBase = 80f;
-    public static final float SmallNukeSpeedBase = 1f;
-    public static final float BigNukeSpeedBase = 1f;
-    public static final float SmallLaserSpeedBase = 0f;
-    public static final float BigLaserSpeedBase = 0f;
-    public static final float SmallContactBombSpeedBase = 1f;
-    public static final float BigContactBombSpeedBase = 1f;
+    public static final float SmallRocketSpeedBase = 80f;
+    public static final float BigRocketSpeedBase = 50f;
+    public static final float SmallNukeSpeedBase = 80f;
+    public static final float BigNukeSpeedBase = 50f;
+    public static final float SmallContactBombSpeedBase = 80f;
+    public static final float BigContactBombSpeedBase = 50f;
 
     public static final int   AsteroidStartCount = 16;
     public static final float AsteroidStartScale = 0.25f;
