@@ -15,6 +15,8 @@ public class Pustafin {
     public static final float PopulationIncreaseFactor = 0.0005f;
     public static final float ProBabypillPopulationIncreaseFactor = 0.00015f;
 
+    public static final float PlanetTouchRadius = 200f;
+
     public static final int BigRocketPacketSize = 5;
     public static final int SmallNukePacketSize = 10;
     public static final int BigNukePacketSize = 5;

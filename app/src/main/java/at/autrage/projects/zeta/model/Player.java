@@ -1,6 +1,10 @@
 package at.autrage.projects.zeta.model;
 
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -8,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.GameManager;
@@ -18,7 +23,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Player extends GameObject implements View.OnTouchListener {
+public class Player extends GameObject {
     private float m_RemainingTime;
     private float m_LastRemainingTime;
     private Weapons m_SelectedWeapon;
@@ -30,6 +35,7 @@ public class Player extends GameObject implements View.OnTouchListener {
     }
 
     private Map<Integer, Position> m_TouchEventStartPositions;
+    private Paint m_PlanetTouchColliderPaint;
 
     public Player(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
@@ -39,6 +45,10 @@ public class Player extends GameObject implements View.OnTouchListener {
         m_SelectedWeapon = Weapons.SmallRocket;
 
         m_TouchEventStartPositions = new HashMap<Integer, Position>();
+        m_PlanetTouchColliderPaint = new Paint();
+        m_PlanetTouchColliderPaint.setColor(Color.BLUE);
+        m_PlanetTouchColliderPaint.setStyle(Paint.Style.STROKE);
+        m_PlanetTouchColliderPaint.setStrokeWidth(2f);
     }
 
     public void onUpdate() {
@@ -73,14 +83,7 @@ public class Player extends GameObject implements View.OnTouchListener {
         }
     }
 
-    /**
-     * This method is called when the player swipes over the planet to launch a missile.
-     * @param v
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onGlobalTouch(MotionEvent event) {
         if (getGameView().isLevelFinished()) {
             return false;
         }
@@ -90,33 +93,31 @@ public class Player extends GameObject implements View.OnTouchListener {
             return false;
         }
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float touchRadius = Pustafin.PlanetTouchRadius * SuperActivity.getScaleFactor();
+
+            float diffX = event.getX() - SuperActivity.getCurrentResolutionX() / 2f;
+            float diffY = event.getY() - SuperActivity.getCurrentResolutionY() / 2f;
+
+            float sqrDist = diffX * diffX + diffY * diffY;
+            if (sqrDist <= touchRadius * touchRadius) {
                 Position pos = new Position();
                 pos.X = event.getX();
                 pos.Y = event.getY();
                 m_TouchEventStartPositions.put(event.getActionIndex(), pos);
-                return true; // if you want to handle the touch event
-            }
-            case MotionEvent.ACTION_UP: {
-                Position pos = m_TouchEventStartPositions.get(event.getActionIndex());
-                if (pos != null) {
-                    onTouchRelease(event, pos);
-                    m_TouchEventStartPositions.remove(event.getActionIndex());
-                }
-                return true; // if you want to handle the touch event
             }
         }
-        return false;
-    }
-
-    public boolean onGlobalTouch(MotionEvent event) {
-        if (getGameView().isLevelFinished()) {
-            return false;
+        else if (event.getAction() == MotionEvent.ACTION_UP)
+        {
+            Position pos = m_TouchEventStartPositions.get(event.getActionIndex());
+            if (pos != null) {
+                onTouchRelease(event, pos);
+                m_TouchEventStartPositions.remove(event.getActionIndex());
+            }
         }
 
         // TODO: Implement LAZOR!
-        return false;
+        return true;
     }
 
     private void onTouchRelease(MotionEvent event, Position startTouchPosition) {
@@ -194,6 +195,25 @@ public class Player extends GameObject implements View.OnTouchListener {
 
             if (remainingPopulation <= 0f) {
                 getGameView().loose();
+            }
+        }
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        if (Pustafin.DebugMode) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                float touchRadius = Pustafin.PlanetTouchRadius * SuperActivity.getScaleFactor();
+                canvas.drawOval
+                (
+                    SuperActivity.getCurrentResolutionX() / 2f - touchRadius,
+                    SuperActivity.getCurrentResolutionY() / 2f - touchRadius,
+                    SuperActivity.getCurrentResolutionX() / 2f + touchRadius,
+                    SuperActivity.getCurrentResolutionY() / 2f + touchRadius,
+                    m_PlanetTouchColliderPaint
+                );
             }
         }
     }

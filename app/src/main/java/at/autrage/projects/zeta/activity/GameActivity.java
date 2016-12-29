@@ -73,9 +73,6 @@ public class GameActivity extends SuperActivity {
             }
         });
 
-        Button btnAreaPlanet = (Button)findViewById(R.id.btnAreaPlanet);
-        btnAreaPlanet.setOnTouchListener(m_GameView.getPlayer());
-
         Button btnAreaPause = (Button)findViewById(R.id.btnAreaPause);
         btnAreaPause.setOnClickListener(new PauseButtonAreaListener(this, (ImageView)findViewById(R.id.imgViewPause)));
 
