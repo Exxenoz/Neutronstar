@@ -45,13 +45,13 @@ public class Pustafin {
     public static final int ResearchContactBombCost = 2000;
 
     public static final int SmallRocketPacketCost = 0;
-    public static final int BigRocketPacketCost = 300;
-    public static final int SmallNukePacketCost = 1000;
-    public static final int BigNukePacketCost = 1500;
-    public static final int SmallLaserCostPerSecond = 150;
-    public static final int BigLaserCostPerSecond = 300;
-    public static final int SmallContactBombPacketCost = 1000;
-    public static final int BigContactBombPacketCost = 1500;
+    public static final int BigRocketPacketCost = 100;
+    public static final int SmallNukePacketCost = 300;
+    public static final int BigNukePacketCost = 500;
+    public static final int SmallLaserCostPerSecond = 50;
+    public static final int BigLaserCostPerSecond = 100;
+    public static final int SmallContactBombPacketCost = 300;
+    public static final int BigContactBombPacketCost = 500;
     public static final int ProBabypillPacketCost = 1000;
 
     public static final float SmallRocketHitDamageBase = 20f;
