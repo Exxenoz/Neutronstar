@@ -3,6 +3,9 @@ package at.autrage.projects.zeta.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -77,6 +80,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         // Ensure that events are generated
         setFocusable(true);
+        // Ensure that draw order is on top
+        setZOrderOnTop(true);
+        // Ensure that canvas format supports transparency
+        getHolder().setFormat(PixelFormat.TRANSPARENT);
 
         // Initialize game object list
         m_GameObjects = new ArrayList<GameObject>();
@@ -97,7 +104,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void initializeGameView() {
-        m_EnemySpawner = new EnemySpawner(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+        m_EnemySpawner = new EnemySpawner(this, 960, 540, null);
 
         // Initialize player
         m_Player = new Player(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
@@ -289,8 +296,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param canvas The canvas where the game view should be drawn.
      */
     public void render(Canvas canvas) {
-        // Canvas clearing not needed, because the background image fills the whole screen anyway
-        //canvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+        // Canvas clearing needed, because the background is set in the layout
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
 
         // Draw game objects
         for (GameObject go : m_GameObjects) {
