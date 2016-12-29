@@ -21,6 +21,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
+import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.EnemySpawner;
@@ -107,14 +108,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_EnemySpawner = new EnemySpawner(this, 960, 540, null);
 
         // Initialize player
-        m_Player = new Player(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
+        m_Player = new Player(this, SuperActivity.getCurrentResolutionX() / (2f * SuperActivity.getScaleFactor()), SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor()), AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
         m_Player.setScaleFactor(2.56f);
         m_Player.setAnimationRepeatable(true);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
 
         m_EnemySpawner.initialize();
 
-        GameObject clouds = new GameObject(this, 960, 540, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
+        GameObject clouds = new GameObject(this, m_Player.getPositionX(), m_Player.getPositionY(), AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         clouds.setScaleFactor(2.56f);
         clouds.setAnimationReversed(true);
         clouds.setAnimationRepeatable(true);
