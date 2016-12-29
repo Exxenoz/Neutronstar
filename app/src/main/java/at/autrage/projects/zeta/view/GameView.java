@@ -81,10 +81,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         // Ensure that events are generated
         setFocusable(true);
-        // Ensure that draw order is on top
-        setZOrderOnTop(true);
-        // Ensure that canvas format supports transparency
-        getHolder().setFormat(PixelFormat.TRANSPARENT);
+        // Set canvas format
+        getHolder().setFormat(PixelFormat.RGBA_8888);
 
         // Initialize game object list
         m_GameObjects = new ArrayList<GameObject>();
@@ -105,7 +103,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void initializeGameView() {
-        m_EnemySpawner = new EnemySpawner(this, 960, 540, null);
+        m_EnemySpawner = new EnemySpawner(this, 0, 0, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
         // Initialize player
         m_Player = new Player(this, SuperActivity.getCurrentResolutionX() / (2f * SuperActivity.getScaleFactor()), SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor()), AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
@@ -297,9 +295,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param canvas The canvas where the game view should be drawn.
      */
     public void render(Canvas canvas) {
-        // Canvas clearing needed, because the background is set in the layout
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
-
         // Draw game objects
         for (GameObject go : m_GameObjects) {
             go.onDraw(canvas);

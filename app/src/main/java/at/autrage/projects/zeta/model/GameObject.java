@@ -44,7 +44,7 @@ public class GameObject {
 
     private float m_ScaleFactor;
 
-    private Rect m_DstRect;
+    protected Rect m_DstRect;
 
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;

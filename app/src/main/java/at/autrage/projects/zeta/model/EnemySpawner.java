@@ -1,12 +1,14 @@
 package at.autrage.projects.zeta.model;
 
 
+import android.graphics.Canvas;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.GameManager;
@@ -137,8 +139,6 @@ public class EnemySpawner extends GameObject {
 
     @Override
     public void onUpdate() {
-        super.onUpdate();
-
         if (!m_AsteroidSpawnScales.isEmpty()) {
             m_AsteroidSpawnTimer += Time.getScaledDeltaTime();
 
@@ -149,5 +149,7 @@ public class EnemySpawner extends GameObject {
                 }
             }
         }
+
+        m_DstRect.set(0, 0, SuperActivity.getCurrentResolutionX(), SuperActivity.getCurrentResolutionY());
     }
 }
