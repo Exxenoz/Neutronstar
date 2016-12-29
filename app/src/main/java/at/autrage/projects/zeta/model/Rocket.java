@@ -7,6 +7,7 @@ import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
@@ -68,7 +69,7 @@ public class Rocket extends Weapon {
         rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(Pustafin.SmallRocketSpeedBase);
-        rocket.setHitDamage(Pustafin.SmallRocketHitDamageBase);
+        rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
         rocket.setCollider(new CircleCollider(rocket, 32f));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
         return rocket;
@@ -80,7 +81,7 @@ public class Rocket extends Weapon {
         rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(Pustafin.BigRocketSpeedBase);
-        rocket.setHitDamage(Pustafin.BigRocketHitDamageBase);
+        rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));
         rocket.setCollider(new CircleCollider(rocket, 40f));
         rocket.setEngineFireLengthOffset(-10f);
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);

@@ -1,8 +1,11 @@
 package at.autrage.projects.zeta.module;
 
+import android.util.Pair;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import at.autrage.projects.zeta.model.Weapon;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 
@@ -31,10 +34,14 @@ public class GameManager {
 
     private Map<Weapons, Integer> m_Weapons;
     private Map<WeaponUpgrades, Integer> m_WeaponUpgrades;
+    private Map<Weapons, Float> m_WeaponBaseHitDamages;
+    private Map<Weapons, Float> m_WeaponHitDamages;
 
     private GameManager() {
         m_Weapons = new HashMap<Weapons, Integer>();
         m_WeaponUpgrades = new HashMap<WeaponUpgrades, Integer>();
+        m_WeaponBaseHitDamages = new HashMap<Weapons, Float>();
+        m_WeaponHitDamages = new HashMap<Weapons, Float>();
 
         reset();
     }
@@ -51,9 +58,24 @@ public class GameManager {
 
         m_Weapons.clear();
         m_WeaponUpgrades.clear();
+        m_WeaponBaseHitDamages.clear();
+        m_WeaponHitDamages.clear();
 
         m_Weapons.put(Weapons.SmallRocket, -1);
         m_Weapons.put(Weapons.BigRocket, 5);
+
+        setWeaponBaseHitDamage(Weapons.SmallRocket, Pustafin.SmallRocketHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.BigRocket, Pustafin.BigRocketHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.SmallNuke, Pustafin.SmallNukeHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.BigNuke, Pustafin.BigNukeHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.SmallLaser, Pustafin.SmallLaserHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.BigLaser, Pustafin.BigLaserHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.SmallContactBomb, Pustafin.SmallContactBombHitDamageBase);
+        setWeaponBaseHitDamage(Weapons.BigContactBomb, Pustafin.BigContactBombHitDamageBase);
+
+        for (Map.Entry<Weapons, Float> pair : m_WeaponBaseHitDamages.entrySet()) {
+            setWeaponHitDamage(pair.getKey(), pair.getValue());
+        }
     }
 
     public void setUpdateFlag(int updateFlag) {
@@ -150,5 +172,28 @@ public class GameManager {
 
     public void setWeaponUpgradeLevel(WeaponUpgrades weaponUpgrade, int level) {
         m_WeaponUpgrades.put(weaponUpgrade, level);
+        if (weaponUpgrade == WeaponUpgrades.IncreaseDamage) {
+            for (Weapons weapon : m_WeaponBaseHitDamages.keySet()) {
+                setWeaponHitDamage(weapon, (float) (getWeaponBaseHitDamage(weapon) * Math.pow(Pustafin.DamageUpgradeIncreaseFactor, level)));
+            }
+        }
+    }
+
+    public float getWeaponBaseHitDamage(Weapons weapon) {
+        Float hitDamage = m_WeaponBaseHitDamages.get(weapon);
+        return (hitDamage != null) ? hitDamage : 0;
+    }
+
+    public void setWeaponBaseHitDamage(Weapons weapon, float hitDamage) {
+        m_WeaponBaseHitDamages.put(weapon, hitDamage);
+    }
+
+    public float getWeaponHitDamage(Weapons weapon) {
+        Float hitDamage = m_WeaponHitDamages.get(weapon);
+        return (hitDamage != null) ? hitDamage : 0;
+    }
+
+    public void setWeaponHitDamage(Weapons weapon, float hitDamage) {
+        m_WeaponHitDamages.put(weapon, hitDamage);
     }
 }

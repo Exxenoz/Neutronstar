@@ -145,15 +145,13 @@ public class Player extends GameObject {
         float spawnPositionX = 960 + directionX * radius;
         float spawnPositionY = 540 + directionY * radius;
 
-        Logger.D("Spawn selected weapon %s at (%f, %f) with direction (%f, %f)",
-                m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY);
-
+        Weapon weapon = null;
         switch (m_SelectedWeapon) {
             case SmallRocket:
-                Rocket.createSmallRocket(this, spawnPositionX, spawnPositionY, directionX, directionY);
+                weapon = Rocket.createSmallRocket(this, spawnPositionX, spawnPositionY, directionX, directionY);
                 break;
             case BigRocket:
-                Rocket.createBigRocket(this, spawnPositionX, spawnPositionY, directionX, directionY);
+                weapon = Rocket.createBigRocket(this, spawnPositionX, spawnPositionY, directionX, directionY);
                 break;
             case SmallNuke:
                 break;
@@ -163,6 +161,11 @@ public class Player extends GameObject {
                 break;
             case BigContactBomb:
                 break;
+        }
+
+        if (weapon != null) {
+            Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f) and hit damage %f",
+                    m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage());
         }
 
         if (weaponCount > 0) {
