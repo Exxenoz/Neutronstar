@@ -4,7 +4,9 @@ package at.autrage.projects.zeta.model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.SubMenu;
 
+import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AnimationSets;
@@ -54,15 +56,16 @@ public class Enemy extends GameObject {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float healthBarStartX = getPositionX() - Pustafin.EnemyHealthBarHalfWidth + Pustafin.EnemyHealthBarOffsetX;
-        float healthBarStartY = getPositionY() - Pustafin.EnemyHealthBarHeight - getHalfSizeY() + Pustafin.EnemyHealthBarOffsetY;
+        float scaleFactor = SuperActivity.getScaleFactor();
+        float healthBarStartX = (getPositionX() - Pustafin.EnemyHealthBarHalfWidth + Pustafin.EnemyHealthBarOffsetX) * scaleFactor;
+        float healthBarStartY = (getPositionY() - Pustafin.EnemyHealthBarHeight - getHalfSizeY() + Pustafin.EnemyHealthBarOffsetY) * scaleFactor;
 
         canvas.drawRect
         (
             healthBarStartX,
             healthBarStartY,
-            healthBarStartX + Pustafin.EnemyHealthBarWidth * m_HealthPercent,
-            healthBarStartY + Pustafin.EnemyHealthBarHalfHeight,
+            healthBarStartX + Pustafin.EnemyHealthBarWidth * m_HealthPercent * scaleFactor,
+            healthBarStartY + Pustafin.EnemyHealthBarHalfHeight * scaleFactor,
             m_HealthBarFillPaint
         );
     }
