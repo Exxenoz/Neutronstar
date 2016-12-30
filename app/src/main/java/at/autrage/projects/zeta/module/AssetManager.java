@@ -2,6 +2,8 @@ package at.autrage.projects.zeta.module;
 
 
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +27,23 @@ public class AssetManager {
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
 
+    private Paint m_HealthBarFillPaintGreen;
+    private Paint m_HealthBarFillPaintOrange;
+    private Paint m_HealthBarFillPaintRed;
+
     private boolean m_Initialized;
 
     private AssetManager() {
         m_Animations = new HashMap<Animations, Animation>();
         m_AnimationSets = new HashMap<AnimationSets, AnimationSet>();
+
+        m_HealthBarFillPaintGreen = new Paint();
+        m_HealthBarFillPaintOrange = new Paint();
+        m_HealthBarFillPaintRed = new Paint();
+
+        m_HealthBarFillPaintGreen.setColor(Color.GREEN);
+        m_HealthBarFillPaintOrange.setColor(Color.rgb(255, 200, 0));
+        m_HealthBarFillPaintRed.setColor(Color.RED);
 
         m_Initialized = false;
     }
@@ -120,5 +134,17 @@ public class AssetManager {
 
     public AnimationSet getAnimationSet(AnimationSets animationSet) {
         return m_AnimationSets.get(animationSet);
+    }
+
+    public Paint getHealthBarFillPaintGreen() {
+        return m_HealthBarFillPaintGreen;
+    }
+
+    public Paint getHealthBarFillPaintOrange() {
+        return m_HealthBarFillPaintOrange;
+    }
+
+    public Paint getHealthBarFillPaintRed() {
+        return m_HealthBarFillPaintRed;
     }
 }

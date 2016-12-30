@@ -80,6 +80,15 @@ public class Pustafin {
     public static final float SmallContactBombRadiusBase = 80f;
     public static final float BigContactBombRadiusBase = 100f;
 
+    public static final float EnemyHealthBarWidth = 80f;
+    public static final float EnemyHealthBarHeight = 15f;
+    public static final float EnemyHealthBarHalfWidth = EnemyHealthBarWidth / 2f;
+    public static final float EnemyHealthBarHalfHeight = EnemyHealthBarHeight / 2f;
+    public static final float EnemyHealthBarOffsetX = 0f;
+    public static final float EnemyHealthBarOffsetY = -10f;
+    public static final float EnemyHealthBarMinPercentageColorGreen = 0.66f;
+    public static final float EnemyHealthBarMinPercentageColorOrange = 0.33f;
+
     public static final int   AsteroidStartCount = 16;
     public static final float AsteroidStartScale = 0.25f;
     public static final float AsteroidCountIncreaseFactor = 5f;
