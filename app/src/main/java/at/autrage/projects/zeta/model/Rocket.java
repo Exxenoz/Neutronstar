@@ -71,7 +71,7 @@ public class Rocket extends Weapon {
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
         rocket.setCollider(new CircleCollider(rocket, 32f));
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return rocket;
     }
 
@@ -84,7 +84,7 @@ public class Rocket extends Weapon {
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));
         rocket.setCollider(new CircleCollider(rocket, 40f));
         rocket.setEngineFireLengthOffset(-10f);
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return rocket;
     }
 }
