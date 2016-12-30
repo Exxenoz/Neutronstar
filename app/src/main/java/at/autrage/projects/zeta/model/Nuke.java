@@ -82,7 +82,7 @@ public class Nuke extends Weapon {
         nuke.setDirection(directionX, directionY);
         nuke.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallNuke));
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallNuke));
-        nuke.setAOEDamage(0f);
+        nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.SmallNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion2);
         nuke.setCollider(new CircleCollider(nuke, 32f));
@@ -97,10 +97,10 @@ public class Nuke extends Weapon {
         nuke.setDirection(directionX, directionY);
         nuke.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigNuke));
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigNuke));
-        nuke.setCollider(new CircleCollider(nuke, 40f));
-        nuke.setAOEDamage(0f);
+        nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.BigNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion3);
+        nuke.setCollider(new CircleCollider(nuke, 40f));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket);
         return nuke;
     }

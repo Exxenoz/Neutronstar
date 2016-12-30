@@ -63,6 +63,8 @@ public class Pustafin {
     public static final float SmallContactBombHitDamageBase = 100f;
     public static final float BigContactBombHitDamageBase = 200f;
 
+    public static final float AOEDamageFactor = 0.4f;
+
     public static final float ExplosionSizeScaleFactor = 2f;
     public static final float ExplosionSizeScaleFactorAOE = 1f;
 

@@ -74,7 +74,7 @@ public class Explosion extends GameObject {
         if (gameObject == null) {
             return;
         }
-        
+
         m_GameObjectsImmuneToAOE.add(gameObject);
     }
 }
