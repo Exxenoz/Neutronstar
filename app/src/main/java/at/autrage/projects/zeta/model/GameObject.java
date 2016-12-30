@@ -213,6 +213,7 @@ public class GameObject {
             Weapon weapon = (Weapon)this;
             explosion.setWeapon(weapon);
             explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            explosion.addImmuneToAOEGameObject(target);
         }
         else {
             explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);

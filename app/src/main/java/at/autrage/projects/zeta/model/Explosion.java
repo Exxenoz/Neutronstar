@@ -7,17 +7,16 @@ import java.util.List;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Explosion extends GameObject {
     private Weapon m_Weapon;
-    private List<GameObject> m_GameObjectsHitByAOE;
+    private List<GameObject> m_GameObjectsImmuneToAOE;
 
     public Explosion(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        m_GameObjectsHitByAOE = new ArrayList<GameObject>();
+        m_GameObjectsImmuneToAOE = new ArrayList<GameObject>();
     }
 
     @Override
@@ -32,12 +31,12 @@ public class Explosion extends GameObject {
             return;
         }
 
-        if (!m_GameObjectsHitByAOE.contains(collider.getOwner())) {
+        if (!m_GameObjectsImmuneToAOE.contains(collider.getOwner())) {
             Enemy enemy = (Enemy) collider.getOwner();
             enemy.receiveDamage(m_Weapon.getAOEDamage());
 
             if (enemy.isAlive()) {
-                m_GameObjectsHitByAOE.add(enemy);
+                m_GameObjectsImmuneToAOE.add(enemy);
             }
         }
     }
@@ -69,5 +68,13 @@ public class Explosion extends GameObject {
         }
 
         setCollider(new CircleCollider(this, weapon.getAOERadius()));
+    }
+
+    public void addImmuneToAOEGameObject(GameObject gameObject) {
+        if (gameObject == null) {
+            return;
+        }
+        
+        m_GameObjectsImmuneToAOE.add(gameObject);
     }
 }
