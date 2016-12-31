@@ -173,10 +173,10 @@ public class GameObject {
             canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
             canvas.drawBitmap(m_CurrAnimationFrame.getSequenceImage(), m_CurrAnimationFrame.getScaledTexCoordRect(), m_DstRect, null);
             canvas.restore();
+        }
 
-            if (Pustafin.DebugMode && m_Collider != null) {
-                m_Collider.onDraw(canvas);
-            }
+        if (Pustafin.DebugMode && m_Collider != null) {
+            m_Collider.onDraw(canvas);
         }
     }
 
