@@ -16,7 +16,7 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Enemy extends GameObject {
-
+    protected EnemySpawner m_Owner;
     protected float m_Health;
     protected float m_HealthMaximum;
     protected float m_HealthPercent;
@@ -29,6 +29,7 @@ public class Enemy extends GameObject {
     public Enemy(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
+        m_Owner = null;
         m_Health = 1f;
         m_HealthMaximum = 1f;
         m_HealthPercent = 1f;
@@ -78,6 +79,23 @@ public class Enemy extends GameObject {
 
             destroy();
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        if (m_Owner != null) {
+            m_Owner.onDestroyEnemy(this);
+        }
+    }
+
+    public EnemySpawner getOwner() {
+        return m_Owner;
+    }
+
+    public void setOwner(EnemySpawner owner) {
+        this.m_Owner =owner;
     }
 
     public boolean isAlive() {

@@ -29,6 +29,7 @@ public class EnemySpawner extends GameObject {
 
     private float m_AsteroidSpawnTimer;
     private float m_AsteroidSpawnTimeDelta;
+    private int m_AsteroidCountDestroyed;
 
     private Random m_Random;
     private boolean m_Initialized;
@@ -57,6 +58,7 @@ public class EnemySpawner extends GameObject {
 
         m_AsteroidSpawnTimeDelta = (float)Pustafin.LevelSpawnTime / m_AsteroidSpawnCount;
         m_AsteroidSpawnTimer = m_AsteroidSpawnTimeDelta; // Spawn first asteroid on next tick
+        m_AsteroidCountDestroyed = 0;
 
         m_Random = new Random();
 
@@ -134,7 +136,7 @@ public class EnemySpawner extends GameObject {
 
         return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
                 asteroidScale, asteroidSpeed, asteroidRotationSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
-                asteroidSpawnDirectionX, asteroidSpawnDirectionY, asteroidHealth, asteroidHitDamage, asteroidBounty, asteroidPoints);
+                asteroidSpawnDirectionX, asteroidSpawnDirectionY, asteroidHealth, asteroidHitDamage, asteroidBounty, asteroidPoints, this);
     }
 
     @Override
@@ -151,5 +153,19 @@ public class EnemySpawner extends GameObject {
         }
 
         m_DstRect.set(0, 0, SuperActivity.getCurrentResolutionX(), SuperActivity.getCurrentResolutionY());
+    }
+
+    public void onDestroyEnemy(Enemy enemy) {
+        if (enemy == null) {
+            return;
+        }
+
+        if (enemy instanceof Asteroid) {
+            m_AsteroidCountDestroyed++;
+        }
+
+        if (m_AsteroidCountDestroyed >= m_AsteroidSpawnCount) {
+            getGameView().win();
+        }
     }
 }

@@ -28,7 +28,7 @@ public class Asteroid extends Enemy {
     }
 
     public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed, float rotationSpeed,
-                                          float positionX, float positionY, float directionX, float directionY, float health, float hitDamage, int bounty, int points) {
+                                          float positionX, float positionY, float directionX, float directionY, float health, float hitDamage, int bounty, int points, EnemySpawner owner) {
         Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
         asteroid.setScaleFactor(scale);
         asteroid.setDirection(directionX, directionY);
@@ -39,6 +39,7 @@ public class Asteroid extends Enemy {
         asteroid.setBounty(bounty);
         asteroid.setPoints(points);
         asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX()));
+        asteroid.setOwner(owner);
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale factor (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
                 positionX, positionY, directionX, directionY, scale, moveSpeed, rotationSpeed, health, hitDamage, bounty, points);
