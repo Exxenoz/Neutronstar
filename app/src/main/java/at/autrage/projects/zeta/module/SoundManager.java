@@ -14,7 +14,7 @@ import java.util.HashMap;
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.MainActivity;
 
-public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, SoundPool.OnLoadCompleteListener {
+public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private static SoundManager m_Instance = new SoundManager();
 
     public static SoundManager getInstance() {
@@ -49,8 +49,6 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         else {
             m_SoundPool = createOldSoundpool();
         }
-
-        m_SoundPool.setOnLoadCompleteListener(this);
 
         loadSoundPool();
     }
@@ -173,9 +171,5 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
 
     public void setSFXVolume(float volume) {
         m_SFXVolume = volume;
-    }
-
-    @Override
-    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
     }
 }
