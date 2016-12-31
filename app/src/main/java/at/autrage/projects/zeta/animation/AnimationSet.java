@@ -30,4 +30,6 @@ public class AnimationSet {
     public Animation getAnimation(AnimationType animationType) {
         return m_Animations.get(animationType);
     }
+
+    public static final AnimationSet None = null;
 }

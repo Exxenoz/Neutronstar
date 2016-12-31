@@ -91,6 +91,7 @@ public class SoundManager implements MediaPlayer.OnPreparedListener, MediaPlayer
         addSoundToSoundPool(R.raw.sfx_drumhits_next_level);
         addSoundToSoundPool(R.raw.sfx_ending_loose);
         addSoundToSoundPool(R.raw.sfx_ending_win);
+        addSoundToSoundPool(R.raw.sfx_siren_noise);
     }
 
     public void StartBGM(int resId, boolean looping) {

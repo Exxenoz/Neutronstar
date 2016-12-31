@@ -8,14 +8,16 @@ public class Pustafin {
     public static final int MinRenderDelta = 16; // In ms
     public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
 
+    public static final float PlanetTouchRadius = 200f;
+    public static final float AlarmAreaRadius = 280f;
+    public static final float AlarmForegroundBlinkDuration = 2f;
+
     public static final int LevelDuration = 120;  // In seconds
     public static final int LevelSpawnTime = 100; // In seconds
     public static final int StartBudget = 100;
     public static final int StartPopulation = 7390; // As from 2016
     public static final float PopulationIncreaseFactor = 0.0005f;
     public static final float ProBabypillPopulationIncreaseFactor = 0.00015f;
-
-    public static final float PlanetTouchRadius = 200f;
 
     public static final int BigRocketPacketSize = 5;
     public static final int SmallNukePacketSize = 10;

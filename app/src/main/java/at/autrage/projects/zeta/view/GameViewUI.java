@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.view;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GameViewUI {
@@ -32,6 +33,9 @@ public class GameViewUI {
     public TextView TxtViewSmallContactBombCount;
     /** Reference to the big contact bomb count text view element. */
     public TextView TxtViewBigContactBombCount;
+
+    /** Reference to the alarm foreground image view element. */
+    public ImageView ImgViewAlarm;
 
     public GameViewUI() {
     }

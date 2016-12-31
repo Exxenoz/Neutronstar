@@ -483,4 +483,13 @@
         android:layout_alignParentLeft="false"
         android:layout_marginTop="48px" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/gv_foreground_alarm"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewAlarm"
+        android:alpha="0" />
+
 </RelativeLayout>

@@ -3,9 +3,7 @@ package at.autrage.projects.zeta.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -24,6 +22,7 @@ import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.model.AlarmArea;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
@@ -69,6 +68,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private EnemySpawner m_EnemySpawner;
     /** Reference to (@link Player) object. */
     private Player m_Player;
+    /** Indicates whether the alarm is enabled or not. */
+    private boolean m_AlarmEnabled;
+    /** True if the alarm should be stopped automatically, otherwise false. */
+    private boolean m_AlarmAutoStop;
+    /** Timer for smooth alarm foreground blinking. */
+    private float m_AlarmTimer;
     /** Timer to delay redirection to the next activity. */
     private Timer m_RedirectionDelayTimer;
     /** True if the current level is finished, otherwise false. */
@@ -100,6 +105,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         initializeGameView();
 
+        m_AlarmEnabled = false;
+        m_AlarmAutoStop = true;
+        m_AlarmTimer = 0f;
+
         m_RedirectionDelayTimer = new Timer();
 
         m_LevelFinished = false;
@@ -120,6 +129,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         clouds.setScaleFactor(2.56f);
         clouds.setAnimationReversed(true);
         clouds.setAnimationRepeatable(true);
+
+        AlarmArea alarmArea = new AlarmArea(this, m_Player.getPositionX(), m_Player.getPositionY());
+        alarmArea.setCollider(new CircleCollider(alarmArea, Pustafin.AlarmAreaRadius));
     }
 
     public void addGameObjectToInsertQueue(GameObject gameObject) {
@@ -288,6 +300,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     m_UI.TxtViewBigContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigContactBomb));
                     m_GameManager.delUpdateFlag(UpdateFlags.BigContactBombCount);
                 }
+
+                if ((m_AlarmEnabled || m_AlarmTimer > 0f) && m_UI.ImgViewAlarm != null) {
+                    if (m_AlarmTimer == 0f && !m_LevelFinished) {
+                        SoundManager.getInstance().PlaySFX(R.raw.sfx_siren_noise);
+                    }
+
+                    if (m_AlarmAutoStop) {
+                        m_AlarmEnabled = false;
+                    }
+
+                    m_AlarmTimer += Time.getScaledDeltaTime();
+                    if (m_AlarmTimer >= Pustafin.AlarmForegroundBlinkDuration) {
+                        m_AlarmTimer = 0f;
+                    }
+
+                    m_UI.ImgViewAlarm.setAlpha((float)Math.sin(Math.PI * m_AlarmTimer / Pustafin.AlarmForegroundBlinkDuration));
+                }
             }
         });
     }
@@ -407,6 +436,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public Player getPlayer() {
         return m_Player;
+    }
+
+    public boolean isAlarmEnabled() {
+        return m_AlarmEnabled;
+    }
+
+    public void setAlarmEnabled(boolean alarmEnabled) {
+        this.m_AlarmEnabled = alarmEnabled;
+    }
+
+    public boolean isAlarmAutoStopped() {
+        return m_AlarmAutoStop;
+    }
+
+    public void setAlarmAutoStop(boolean alarmAutoStop) {
+        this.m_AlarmAutoStop = alarmAutoStop;
     }
 
     public boolean isLevelFinished() {
