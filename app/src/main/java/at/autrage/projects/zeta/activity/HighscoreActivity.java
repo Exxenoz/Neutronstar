@@ -70,7 +70,7 @@ public class HighscoreActivity extends SuperActivity {
         Database.getInstance().open();
 
         HighscoreTable table = (HighscoreTable)Database.getTable(Database.Tables.HighscoreTable);
-        List<HighscoreTableEntry> highscoreTableEntries = Database.getInstance().selectTableEntriesOrdered(table, "Level, Score DESC");
+        List<HighscoreTableEntry> highscoreTableEntries = Database.getInstance().selectTableEntriesOrdered(table, "Level DESC, Score DESC");
 
         Database.getInstance().close();
 
