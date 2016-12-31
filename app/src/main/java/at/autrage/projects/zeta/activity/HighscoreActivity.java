@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import at.autrage.projects.zeta.R;
@@ -51,7 +54,6 @@ public class HighscoreActivity extends SuperActivity {
     }
 
     private void updateHighscoreEntries() {
-
         TextView[] textViewEntries = new TextView[] {
                 (TextView)findViewById(R.id.txtViewEntry1),
                 (TextView)findViewById(R.id.txtViewEntry2),
@@ -68,29 +70,12 @@ public class HighscoreActivity extends SuperActivity {
         Database.getInstance().open();
 
         HighscoreTable table = (HighscoreTable)Database.getTable(Database.Tables.HighscoreTable);
-
-        // Add test entries
-        /*HighscoreTableEntry entry1 = new HighscoreTableEntry(table);
-        entry1.Level = 10;
-        entry1.Score = 123123;
-        entry1.Date = "11.11.16";
-        Database.getInstance().insertTableEntry(entry1);
-
-        HighscoreTableEntry entry2 = new HighscoreTableEntry(table);
-        entry2.Level = 4;
-        entry2.Score = 1337;
-        entry2.Date = "20.12.16";
-        Database.getInstance().insertTableEntry(entry2);
-
-        HighscoreTableEntry entry3 = new HighscoreTableEntry(table);
-        entry3.Level = 8;
-        entry3.Score = 54321;
-        entry3.Date = "30.11.16";
-        Database.getInstance().insertTableEntry(entry3);*/
-
-        List<HighscoreTableEntry> highscoreTableEntries = Database.getInstance().selectTableEntriesOrdered(table, "Level DESC");
+        List<HighscoreTableEntry> highscoreTableEntries = Database.getInstance().selectTableEntriesOrdered(table, "Level, Score DESC");
 
         Database.getInstance().close();
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat(getString(R.string.hs_date_format));
 
         int i = 0;
         for (; i < textViewEntries.length && i < highscoreTableEntries.size(); i++) {
@@ -104,7 +89,9 @@ public class HighscoreActivity extends SuperActivity {
                 continue;
             }
 
-            textViewEntry.setText(String.format("%02d | Lvl. %02d | %,07d | %s", i + 1, highscoreEntry.Level, highscoreEntry.Score, highscoreEntry.Date));
+            date.setTime((long)highscoreEntry.Date * 1000);
+
+            textViewEntry.setText(String.format("%02d | Lvl. %02d | %,07d | %s", i + 1, highscoreEntry.Level, highscoreEntry.Score, dateFormat.format(date)));
         }
 
         String noentry = getString(R.string.hs_noentry);

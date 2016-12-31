@@ -8,7 +8,7 @@ public class HighscoreTable extends Table<HighscoreTableEntry> {
             {"ID",    "INTEGER PRIMARY KEY AUTOINCREMENT"},
             {"Level", "INTEGER NOT NULL"},
             {"Score", "INTEGER NOT NULL"},
-            {"Date",  "TEXT NOT NULL"}
+            {"Date",  "INTEGER NOT NULL"}
     };
 
     @Override

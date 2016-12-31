@@ -6,7 +6,7 @@ import android.database.Cursor;
 public class HighscoreTableEntry extends TableEntry<HighscoreTable> {
     public int Level;
     public int Score;
-    public String Date;
+    public int Date;
 
     public HighscoreTableEntry(HighscoreTable table) {
         super(table);
@@ -30,6 +30,6 @@ public class HighscoreTableEntry extends TableEntry<HighscoreTable> {
         ID = cursor.getInt(0);
         Level = cursor.getInt(1);
         Score = cursor.getInt(2);
-        Date  = cursor.getString(3);
+        Date  = cursor.getInt(3);
     }
 }

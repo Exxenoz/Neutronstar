@@ -32,6 +32,7 @@ import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
+import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.module.Logger;
@@ -39,6 +40,8 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.Util;
+import at.autrage.projects.zeta.persistence.HighscoreTable;
+import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
 /**
  * It is responsible for {@link GameLoop} management and drawing of the whole game view.
@@ -343,6 +346,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_loose);
+
+        Database.getInstance().open();
+
+        HighscoreTable table = (HighscoreTable)Database.getTable(Database.Tables.HighscoreTable);
+
+        // Add highscore entry
+        HighscoreTableEntry highscoreTableEntry = new HighscoreTableEntry(table);
+        highscoreTableEntry.Level = GameManager.getInstance().getLevel();
+        highscoreTableEntry.Score = GameManager.getInstance().getScore();
+        highscoreTableEntry.Date = (int)(System.currentTimeMillis() / 1000);
+        Database.getInstance().insertTableEntry(highscoreTableEntry);
+
+        Database.getInstance().close();
 
         m_RedirectionDelayTimer.schedule(new TimerTask() {
             @Override
