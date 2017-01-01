@@ -29,4 +29,9 @@
     <string name="sv_researched_display">Erforscht</string>
     <string name="sv_population_display" formatted="false">%s Mrd.</string>
     <string name="hs_date_format">dd.MM.yy</string>
+    <string name="tv_desc_welcome">Willkommen im Tutorialmodus!\nBitte berühren Sie zum Fortsetzen den Bildschirm...</string>
+    <string name="tv_desc_population1">Die Bevölkerung des Planeten verringert sich, wenn ein Objekt auf der Erde einschlägt, wobei der Bevölkerungsverlust je nach Objektgröße variiert.</string>
+    <string name="tv_desc_population2">Die Bevölkerung des Planeten vermehrt sich mit der Zeit automatisch. Wenn der Bevölkerungszähler 0 erreicht, dann ist das Spiel beendet.</string>
+    <string name="tv_desc_money1">Die Weltregierung stellt Geld für Waffen zur Verfügung, sobald ein Asteroid erfolgreich zerstört wurde.</string>
+    <string name="tv_desc_money2">Nach jeder Runde bietet der Shop die Möglichkeit, Geld gegen Waffen und Upgrades einzutauschen.</string>
 </resources>

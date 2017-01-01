@@ -41,6 +41,8 @@ public class GameManager {
     private Map<Weapons, Float> m_WeaponBaseRadii;
     private Map<Weapons, Float> m_WeaponRadii;
 
+    private boolean m_TutorialMode;
+
     private GameManager() {
         m_Weapons = new HashMap<Weapons, Integer>();
         m_WeaponUpgrades = new HashMap<WeaponUpgrades, Integer>();
@@ -108,6 +110,10 @@ public class GameManager {
         for (Map.Entry<Weapons, Float> pair : m_WeaponBaseRadii.entrySet()) {
             setWeaponRadius(pair.getKey(), pair.getValue());
         }
+
+        m_TutorialMode = false;
+
+        TutorialManager.getInstance().reset();
     }
 
     public void setUpdateFlag(int updateFlag) {
@@ -273,5 +279,13 @@ public class GameManager {
 
     public void setWeaponRadius(Weapons weapon, float radius) {
         m_WeaponRadii.put(weapon, radius);
+    }
+
+    public boolean isTutorialMode() {
+        return m_TutorialMode;
+    }
+
+    public void setTutorialMode(boolean tutorialMode) {
+        this.m_TutorialMode = tutorialMode;
     }
 }

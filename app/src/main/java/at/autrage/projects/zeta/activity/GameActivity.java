@@ -3,11 +3,13 @@ package at.autrage.projects.zeta.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
@@ -15,6 +17,7 @@ import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
+import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewUI;
@@ -52,6 +55,14 @@ public class GameActivity extends SuperActivity {
         gameViewUI.TxtViewSmallContactBombCount = (TextView)findViewById(R.id.txtViewSmallContactBombCount);
         gameViewUI.TxtViewBigContactBombCount = (TextView)findViewById(R.id.txtViewBigContactBombCount);
         gameViewUI.ImgViewAlarm = (ImageView)findViewById(R.id.imgViewAlarm);
+
+        if (GameManager.getInstance().isTutorialMode()) {
+            TutorialManager.getInstance().setImgViewArrow((ImageView)findViewById(R.id.imgViewTutorialPopulationArrow));
+            TutorialManager.getInstance().setTxtViewTutorialText((TextView)findViewById(R.id.txtViewTutorialPopulation));
+
+            android.view.animation.Animation arrowAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arrow_up_down);
+            TutorialManager.getInstance().getImgViewArrow().startAnimation(arrowAnimation);
+        }
 
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setGameViewUI(gameViewUI);

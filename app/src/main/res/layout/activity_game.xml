@@ -10,6 +10,7 @@
     <at.autrage.projects.zeta.view.GameView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background_game"
         android:id="@+id/gameView" />
 
     <TextView
@@ -439,26 +440,26 @@
     <Button
         android:text="[DBG] Win"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:id="@+id/btnDebugWin"
-        android:layout_width="256px"
         android:layout_height="96px"
-        android:layout_marginTop="128px"
-        android:layout_marginLeft="32px"
-        android:textSize="30px"
-        android:textAlignment="textStart" />
+        android:layout_marginTop="720px"
+        android:textAlignment="textStart"
+        android:layout_alignParentRight="true"
+        android:layout_width="256px"
+        android:textSize="30px" />
 
     <Button
         android:text="[DBG] Loose"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:id="@+id/btnDebugLoose"
-        android:layout_width="256px"
         android:layout_height="96px"
-        android:layout_marginTop="200px"
-        android:layout_marginLeft="32px"
-        android:textSize="30px"
-        android:textAlignment="textStart" />
+        android:layout_marginTop="820px"
+        android:textAlignment="textStart"
+        android:layout_alignParentRight="true"
+        android:layout_width="256px"
+        android:textSize="30px" />
 
     <ImageView
         android:layout_width="29px"
@@ -491,5 +492,33 @@
         android:layout_alignParentStart="true"
         android:id="@+id/imgViewAlarm"
         android:alpha="0" />
+
+    <TextView
+        android:text="@string/tv_desc_welcome"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/txtViewTutorialPopulation"
+        android:layout_height="wrap_content"
+        android:paddingTop="42px"
+        android:paddingBottom="42px"
+        android:paddingRight="42px"
+        android:paddingLeft="42px"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="32px"
+        android:layout_marginTop="500px"
+        android:layout_marginLeft="510px"
+        android:textAllCaps="false"
+        android:background="@drawable/gv_help_box"
+        android:layout_width="900px" />
+
+    <ImageView
+        android:layout_width="128px"
+        app:srcCompat="@drawable/gv_help_arrow"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imgViewTutorialPopulationArrow"
+        android:layout_height="128px"
+        android:layout_marginTop="110px"
+        android:layout_marginLeft="580px" />
 
 </RelativeLayout>

@@ -33,6 +33,7 @@ import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.GameManager;
+import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -148,6 +149,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         AssetManager.getInstance().load(getResources());
 
+        if (GameManager.getInstance().isTutorialMode()) {
+            TutorialManager.getInstance().updateTutorialEntry(this);
+        }
+
         // ToDo: Start BGM if there is any
 
         // Initialize game loop and start thread
@@ -184,7 +189,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return false;
         }
 
-        return m_Player.onGlobalTouch(e);
+        boolean result = false;
+
+        if (GameManager.getInstance().isTutorialMode()) {
+            result = TutorialManager.getInstance().onTouchEvent(this, e) || result;
+        }
+
+        return m_Player.onGlobalTouch(e) || result;
     }
 
     /**
