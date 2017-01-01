@@ -97,7 +97,7 @@ public class Pustafin {
     public static final float AsteroidScaleIncreaseFactor = 0.05f;
     public static final float AsteroidBaseHealthPerScaleFactor = 100f;
     public static final float AsteroidMoneyPerScaleFactor = 200f;
-    public static final float AsteroidPointsPerHealthFactor = 10f;
+    public static final float AsteroidPointsPerHealthFactor = 1f;
     public static final float AsteroidImpactDamageFactor = 10f;
 
     public static final float AsteroidMinSpeed = 25f;
