@@ -62,29 +62,25 @@ public class TutorialManager {
         reset();
     }
 
-    public boolean onTouchEvent(GameView gameView, MotionEvent e) {
-        if (e.getAction() == MotionEvent.ACTION_UP) {
-            return false;
-        }
-
+    public void onClickEvent(GameView gameView) {
         if (m_ImgViewArrow == null) {
-            return false;
+            return;
         }
 
         if (m_TxtViewTutorialText == null) {
-            return false;
+            return;
         }
 
         m_CurrentTutorialIndex++;
 
         if (m_CurrentTutorialIndex >= m_TutorialEntries.length) {
             m_CurrentTutorialIndex = m_TutorialEntries.length - 1;
-            return false;
+            return;
         }
 
         updateTutorialEntry(gameView);
 
-        return true;
+        return;
     }
 
     public void updateTutorialEntry(GameView gameView) {

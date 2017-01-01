@@ -75,6 +75,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean m_AlarmAutoStop;
     /** Timer for smooth alarm foreground blinking. */
     private float m_AlarmTimer;
+    /** True if a click event is in progress, otherwise false. */
+    private boolean m_ClickEventActive;
     /** Timer to delay redirection to the next activity. */
     private Timer m_RedirectionDelayTimer;
     /** True if the current level is finished, otherwise false. */
@@ -109,6 +111,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_AlarmEnabled = false;
         m_AlarmAutoStop = true;
         m_AlarmTimer = 0f;
+
+        m_ClickEventActive = false;
 
         m_RedirectionDelayTimer = new Timer();
 
@@ -183,19 +187,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         AssetManager.getInstance().unLoad();
     }
 
+    public void onClick() {
+        if (GameManager.getInstance().isTutorialMode()) {
+            TutorialManager.getInstance().onClickEvent(this);
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!m_ClickEventActive) {
+                    m_ClickEventActive = true;
+                    onClick();
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                m_ClickEventActive = false;
+                break;
+        }
+
         if (m_Player == null) {
             return false;
         }
 
-        boolean result = false;
-
-        if (GameManager.getInstance().isTutorialMode()) {
-            result = TutorialManager.getInstance().onTouchEvent(this, e) || result;
-        }
-
-        return m_Player.onGlobalTouch(e) || result;
+        return m_Player.onGlobalTouch(e);
     }
 
     /**
