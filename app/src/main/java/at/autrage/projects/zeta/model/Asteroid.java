@@ -9,6 +9,7 @@ import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -27,22 +28,22 @@ public class Asteroid extends Enemy {
         m_RotationSpeed = 0f;
     }
 
-    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed, float rotationSpeed,
-                                          float positionX, float positionY, float directionX, float directionY, float health, float hitDamage, int bounty, int points, EnemySpawner owner) {
+    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed,
+                                          float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner owner) {
         Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
         asteroid.setScaleFactor(scale);
         asteroid.setDirection(directionX, directionY);
         asteroid.setSpeed(moveSpeed);
-        asteroid.setRotationSpeed(rotationSpeed);
+        asteroid.setRandomRotationSpeed();
         asteroid.setHealth(health);
-        asteroid.setHitDamage(hitDamage);
-        asteroid.setBounty(bounty);
-        asteroid.setPoints(points);
+        asteroid.setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
+        asteroid.setBounty((int)(scale * Pustafin.AsteroidMoneyPerScaleFactor));
+        asteroid.setPoints((int)(health * Pustafin.AsteroidPointsPerHealthFactor));
         asteroid.setCollider(new CircleCollider(asteroid, asteroid.getHalfSizeX()));
         asteroid.setOwner(owner);
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale factor (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
-                positionX, positionY, directionX, directionY, scale, moveSpeed, rotationSpeed, health, hitDamage, bounty, points);
+                positionX, positionY, directionX, directionY, scale, moveSpeed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());
 
         return asteroid;
     }
@@ -67,5 +68,12 @@ public class Asteroid extends Enemy {
 
     public void setRotationSpeed(float rotationSpeed) {
         this.m_RotationSpeed = rotationSpeed;
+    }
+
+    public void setRandomRotationSpeed() {
+        this.m_RotationSpeed = (float)(Math.random() * (Pustafin.AsteroidMaxRotationSpeed - Pustafin.AsteroidMinRotationSpeed) + Pustafin.AsteroidMinRotationSpeed);
+        if (Math.random() < 0.5) {
+            this.m_RotationSpeed *= -1f;
+        }
     }
 }

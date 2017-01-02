@@ -106,7 +106,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // Initialize collider list
         m_ColliderList = new ArrayList<Collider>(128);
 
-        initializeGameView();
+        m_EnemySpawner = new EnemySpawner(this, 0, 0, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+
+        float realScaledPositionCenterX = SuperActivity.getCurrentResolutionX() / (2f * SuperActivity.getScaleFactor());
+        float realScaledPositionCenterY = SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor());
+
+        // Initialize player
+        m_Player = new Player(this, realScaledPositionCenterX, realScaledPositionCenterY, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
+        m_Player.setScaleFactor(2.56f);
+        m_Player.setAnimationRepeatable(true);
+        m_Player.setCollider(new CircleCollider(m_Player, 128f));
 
         m_AlarmEnabled = false;
         m_AlarmAutoStop = true;
@@ -117,26 +126,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_RedirectionDelayTimer = new Timer();
 
         m_LevelFinished = false;
-    }
-
-    private void initializeGameView() {
-        m_EnemySpawner = new EnemySpawner(this, 0, 0, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
-
-        // Initialize player
-        m_Player = new Player(this, SuperActivity.getCurrentResolutionX() / (2f * SuperActivity.getScaleFactor()), SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor()), AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
-        m_Player.setScaleFactor(2.56f);
-        m_Player.setAnimationRepeatable(true);
-        m_Player.setCollider(new CircleCollider(m_Player, 128f));
-
-        m_EnemySpawner.initialize();
-
-        GameObject clouds = new GameObject(this, m_Player.getPositionX(), m_Player.getPositionY(), AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
-        clouds.setScaleFactor(2.56f);
-        clouds.setAnimationReversed(true);
-        clouds.setAnimationRepeatable(true);
-
-        AlarmArea alarmArea = new AlarmArea(this, m_Player.getPositionX(), m_Player.getPositionY());
-        alarmArea.setCollider(new CircleCollider(alarmArea, Pustafin.AlarmAreaRadius));
     }
 
     public void addGameObjectToInsertQueue(GameObject gameObject) {

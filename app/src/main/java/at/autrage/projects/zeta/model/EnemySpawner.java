@@ -1,16 +1,12 @@
 package at.autrage.projects.zeta.model;
 
 
-import android.graphics.Canvas;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSet;
-import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -18,6 +14,8 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 public class EnemySpawner extends GameObject {
+    private Random m_Random;
+
     private int m_AsteroidSpawnCount;
     private List<Float> m_AsteroidSpawnScales;
     private float m_AsteroidMaxScale;
@@ -31,20 +29,15 @@ public class EnemySpawner extends GameObject {
     private float m_AsteroidSpawnTimeDelta;
     private int m_AsteroidCountDestroyed;
 
-    private Random m_Random;
-    private boolean m_Initialized;
-
     public EnemySpawner(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        m_Initialized = false;
+        m_Random = new Random();
+
+        initializeAsteroidGenerator();
     }
 
-    public void initialize() {
-        if (m_Initialized) {
-            return;
-        }
-
+    private void initializeAsteroidGenerator() {
         m_AsteroidSpawnCount = (int) (Pustafin.AsteroidStartCount + GameManager.getInstance().getLevel() * Pustafin.AsteroidCountIncreaseFactor);
         m_AsteroidSpawnScales = new ArrayList<Float>(m_AsteroidSpawnCount);
         m_AsteroidMaxScale = Pustafin.AsteroidStartScale + GameManager.getInstance().getLevel() * Pustafin.AsteroidScaleIncreaseFactor;
@@ -60,21 +53,17 @@ public class EnemySpawner extends GameObject {
         m_AsteroidSpawnTimer = m_AsteroidSpawnTimeDelta; // Spawn first asteroid on next tick
         m_AsteroidCountDestroyed = 0;
 
-        m_Random = new Random();
-
-        Logger.D("Initialize enemy spawner for level %d", GameManager.getInstance().getLevel());
-        Logger.D("Asteroid spawn count: %d", m_AsteroidSpawnCount);
-        Logger.D("Asteroid min scale: %f", Pustafin.AsteroidStartScale);
-        Logger.D("Asteroid max scale: %f", m_AsteroidMaxScale);
-        Logger.D("Asteroid scale step: %f", m_AsteroidScaleStep);
-        Logger.D("Asteroid spawn time delta: %fs", m_AsteroidSpawnTimeDelta);
-
         for(int i = 0; i < m_AsteroidSpawnCount; i++) {
             m_AsteroidSpawnScales.add((Pustafin.AsteroidStartScale + (m_AsteroidScaleStep * i)));
         }
         // Do not shuffle this array because of "Math.log(randomIdx + 1)" in spawnAsteroid method!
 
-        m_Initialized = true;
+        Logger.D("Initialized asteroid generator for level %d", GameManager.getInstance().getLevel());
+        Logger.D("Asteroid spawn count: %d", m_AsteroidSpawnCount);
+        Logger.D("Asteroid min scale: %f", Pustafin.AsteroidStartScale);
+        Logger.D("Asteroid max scale: %f", m_AsteroidMaxScale);
+        Logger.D("Asteroid scale step: %f", m_AsteroidScaleStep);
+        Logger.D("Asteroid spawn time delta: %fs", m_AsteroidSpawnTimeDelta);
     }
 
     private Asteroid spawnAsteroid() {
@@ -88,55 +77,47 @@ public class EnemySpawner extends GameObject {
         m_AsteroidSpawnScales.remove(asteroidScale);
 
         float asteroidHealth = (float) (asteroidScale * Pustafin.AsteroidBaseHealthPerScaleFactor * Math.pow(1 + asteroidScale, Math.log(randomIdx + 1)));
-        float asteroidHitDamage = asteroidHealth * Pustafin.AsteroidImpactDamageFactor;
-
-        int asteroidBounty = (int) (asteroidScale * Pustafin.AsteroidMoneyPerScaleFactor);
-        int asteroidPoints = (int) (asteroidHealth * Pustafin.AsteroidPointsPerHealthFactor);
-
         float asteroidSpeed = m_AsteroidMinSpeed + m_AsteroidSpeedStep * randomIdx;
 
-        float asteroidRotationSpeed = (float) (Math.random() * (Pustafin.AsteroidMaxRotationSpeed - Pustafin.AsteroidMinRotationSpeed) + Pustafin.AsteroidMinRotationSpeed);
-        if (m_Random.nextBoolean()) {
-            asteroidRotationSpeed *= -1f;
-        }
+        Vector2D asteroidSpawnDirection = calculateSpawnDirection(Math.random() <= Pustafin.AsteroidEasySpawnPositionProbability, m_Random.nextInt(91));
 
-        float asteroidSpawnDirectionX = 0f;
-        float asteroidSpawnDirectionY = 0f;
+        float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192) + 960;
+        float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192) + 540;
 
-        int asteroidSpawnAngle = m_Random.nextInt(91);
+        return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
+                asteroidScale, asteroidSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
+                asteroidSpawnDirection.X, asteroidSpawnDirection.Y, asteroidHealth, this);
+    }
 
-        float asteroidSpawnSectorProbability = m_Random.nextInt(101) / 100f;
-        if (asteroidSpawnSectorProbability <= Pustafin.AsteroidEasySpawnPositionProbability) {
+    public Vector2D calculateSpawnDirection(boolean easySpawnDirection, int spawnAngle) {
+        Vector2D spawnDirection = new Vector2D();
+
+        if (easySpawnDirection) {
             boolean leftSpawn = m_Random.nextBoolean();
 
             if (leftSpawn) {
-                asteroidSpawnDirectionX = (float) -Math.cos(Math.toRadians(135f + asteroidSpawnAngle));
-                asteroidSpawnDirectionY = (float) -Math.sin(Math.toRadians(135f + asteroidSpawnAngle));
+                spawnDirection.X = (float) -Math.cos(Math.toRadians(135f + spawnAngle));
+                spawnDirection.Y = (float) -Math.sin(Math.toRadians(135f + spawnAngle));
             }
             else {
-                asteroidSpawnDirectionX = (float) -Math.cos(Math.toRadians(-45f + asteroidSpawnAngle));
-                asteroidSpawnDirectionY = (float) -Math.sin(Math.toRadians(-45f + asteroidSpawnAngle));
+                spawnDirection.X = (float) -Math.cos(Math.toRadians(-45f + spawnAngle));
+                spawnDirection.Y = (float) -Math.sin(Math.toRadians(-45f + spawnAngle));
             }
         }
         else {
             boolean topSpawn = m_Random.nextBoolean();
 
             if (topSpawn) {
-                asteroidSpawnDirectionX = (float) -Math.cos(Math.toRadians(45f + asteroidSpawnAngle));
-                asteroidSpawnDirectionY = (float) -Math.sin(Math.toRadians(45f + asteroidSpawnAngle));
+                spawnDirection.X = (float) -Math.cos(Math.toRadians(45f + spawnAngle));
+                spawnDirection.Y = (float) -Math.sin(Math.toRadians(45f + spawnAngle));
             }
             else {
-                asteroidSpawnDirectionX = (float) -Math.cos(Math.toRadians(225f + asteroidSpawnAngle));
-                asteroidSpawnDirectionY = (float) -Math.sin(Math.toRadians(225f + asteroidSpawnAngle));
+                spawnDirection.X = (float) -Math.cos(Math.toRadians(225f + spawnAngle));
+                spawnDirection.Y = (float) -Math.sin(Math.toRadians(225f + spawnAngle));
             }
         }
 
-        float asteroidSpawnPositionX = -asteroidSpawnDirectionX * (960 + 192) + 960;
-        float asteroidSpawnPositionY = -asteroidSpawnDirectionY * (960 + 192) + 540;
-
-        return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
-                asteroidScale, asteroidSpeed, asteroidRotationSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
-                asteroidSpawnDirectionX, asteroidSpawnDirectionY, asteroidHealth, asteroidHitDamage, asteroidBounty, asteroidPoints, this);
+        return spawnDirection;
     }
 
     @Override

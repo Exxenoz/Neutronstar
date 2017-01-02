@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,10 @@ import java.util.Map;
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -29,13 +31,11 @@ public class Player extends GameObject {
     private Weapons m_SelectedWeapon;
     private float m_PopulationIncreaseTimer;
 
-    private class Position {
-        public float X;
-        public float Y;
-    }
-
-    private Map<Integer, Position> m_TouchEventStartPositions;
+    private Map<Integer, Vector2D> m_TouchEventStartPositions;
     private Paint m_PlanetTouchColliderPaint;
+
+    private GameObject m_Clouds;
+    private AlarmArea m_AlarmArea;
 
     public Player(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
@@ -44,11 +44,19 @@ public class Player extends GameObject {
         m_LastRemainingTime = m_RemainingTime;
         m_SelectedWeapon = Weapons.SmallRocket;
 
-        m_TouchEventStartPositions = new HashMap<Integer, Position>();
+        m_TouchEventStartPositions = new HashMap<Integer, Vector2D>();
         m_PlanetTouchColliderPaint = new Paint();
         m_PlanetTouchColliderPaint.setColor(Color.BLUE);
         m_PlanetTouchColliderPaint.setStyle(Paint.Style.STROKE);
         m_PlanetTouchColliderPaint.setStrokeWidth(2f);
+
+        m_Clouds = new GameObject(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
+        m_Clouds.setScaleFactor(2.56f);
+        m_Clouds.setAnimationReversed(true);
+        m_Clouds.setAnimationRepeatable(true);
+
+        m_AlarmArea = new AlarmArea(gameView, positionX, positionY);
+        m_AlarmArea.setCollider(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));
     }
 
     public void onUpdate() {
@@ -101,7 +109,7 @@ public class Player extends GameObject {
 
             float sqrDist = diffX * diffX + diffY * diffY;
             if (sqrDist <= touchRadius * touchRadius) {
-                Position pos = new Position();
+                Vector2D pos = new Vector2D();
                 pos.X = event.getX();
                 pos.Y = event.getY();
                 m_TouchEventStartPositions.put(event.getActionIndex(), pos);
@@ -109,7 +117,7 @@ public class Player extends GameObject {
         }
         else if (event.getAction() == MotionEvent.ACTION_UP)
         {
-            Position pos = m_TouchEventStartPositions.get(event.getActionIndex());
+            Vector2D pos = m_TouchEventStartPositions.get(event.getActionIndex());
             if (pos != null) {
                 onTouchRelease(event, pos);
                 m_TouchEventStartPositions.remove(event.getActionIndex());
@@ -120,7 +128,7 @@ public class Player extends GameObject {
         return true;
     }
 
-    private void onTouchRelease(MotionEvent event, Position startTouchPosition) {
+    private void onTouchRelease(MotionEvent event, Vector2D startTouchPosition) {
         if (m_SelectedWeapon == Weapons.SmallLaser ||
             m_SelectedWeapon == Weapons.BigLaser) {
             // Laser weapon handled in onGlobalTouch function
