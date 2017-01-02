@@ -91,14 +91,14 @@ public class Player extends GameObject {
         }
     }
 
-    public boolean onGlobalTouch(MotionEvent event) {
+    public void onGlobalTouch(MotionEvent event) {
         if (getGameView().isLevelFinished()) {
-            return false;
+            return;
         }
 
         if (Time.getTimeScale() == 0f) {
             m_TouchEventStartPositions.clear();
-            return false;
+            return;
         }
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -125,7 +125,6 @@ public class Player extends GameObject {
         }
 
         // TODO: Implement LAZOR!
-        return true;
     }
 
     private void onTouchRelease(MotionEvent event, Vector2D startTouchPosition) {

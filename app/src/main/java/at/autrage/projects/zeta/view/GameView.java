@@ -142,10 +142,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         AssetManager.getInstance().load(getResources());
 
-        if (GameManager.getInstance().isTutorialMode()) {
-            TutorialManager.getInstance().updateTutorialEntry(this);
-        }
-
         // ToDo: Start BGM if there is any
 
         // Initialize game loop and start thread
@@ -196,11 +192,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 break;
         }
 
-        if (m_Player == null) {
-            return false;
+        if (m_Player != null) {
+            m_Player.onGlobalTouch(e);
         }
 
-        return m_Player.onGlobalTouch(e);
+        // Always handle touch events
+        return true;
     }
 
     /**

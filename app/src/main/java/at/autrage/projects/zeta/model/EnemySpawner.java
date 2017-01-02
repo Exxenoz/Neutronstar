@@ -34,7 +34,12 @@ public class EnemySpawner extends GameObject {
 
         m_Random = new Random();
 
-        initializeAsteroidGenerator();
+        if (!GameManager.getInstance().isTutorialMode()) {
+            initializeAsteroidGenerator();
+        }
+        else {
+            m_AsteroidSpawnScales = new ArrayList<Float>();
+        }
     }
 
     private void initializeAsteroidGenerator() {

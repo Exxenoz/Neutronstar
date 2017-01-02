@@ -67,6 +67,10 @@ public class GameActivity extends SuperActivity {
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setGameViewUI(gameViewUI);
 
+        if (GameManager.getInstance().isTutorialMode()) {
+            TutorialManager.getInstance().startTutorial(m_GameView);
+        }
+
         // Debug
         Button btnDebugWin = (Button)findViewById(R.id.btnDebugWin);
         btnDebugWin.setOnClickListener(new View.OnClickListener() {

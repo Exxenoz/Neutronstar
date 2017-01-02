@@ -62,6 +62,17 @@ public class TutorialManager {
         reset();
     }
 
+    public void startTutorial(GameView gameView) {
+        reset();
+
+        Time.setTimeScale(0f);
+
+        updateTutorialEntry(gameView);
+
+        // Call game views update method to initialize UI elements
+        gameView.update();
+    }
+
     public void onClickEvent(GameView gameView) {
         if (m_ImgViewArrow == null) {
             return;
@@ -83,7 +94,7 @@ public class TutorialManager {
         return;
     }
 
-    public void updateTutorialEntry(GameView gameView) {
+    private void updateTutorialEntry(GameView gameView) {
         TutorialEntry tutorialEntry = m_TutorialEntries[m_CurrentTutorialIndex];
 
         if (tutorialEntry.ArrowDirectionDown) {
