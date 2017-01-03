@@ -223,7 +223,6 @@ public class TextViewEx extends TextView {
             canvas.drawBitmap(cache, 0, 0, paint);
         }
 
-        Logger.D("Line hight: %d, Text size: %f", getLineHeight(), getTextSize());
         if (wrapEnabled) {
             Util.setViewHeight(this, (int) (getPaddingTop() + getPaddingBottom() + Math.max(0, lines - 1) * horizontalFontOffset));
         }
