@@ -54,14 +54,14 @@ public class Util {
         if (width >= 0) {
             width *= scaleFactor;
         }
-        else {
+        else if (width <= -3) {
             width = layoutParams.width;
         }
 
         if (height >= 0) {
             height *= scaleFactor;
         }
-        else {
+        else if (width <= -3) {
             height = layoutParams.height;
         }
 
@@ -72,11 +72,11 @@ public class Util {
     }
 
     public static void setViewWidth(View view, int width) {
-        setViewSize(view, width, -1);
+        setViewSize(view, width, -3);
     }
 
     public static void setViewHeight(View view, int height) {
-        setViewSize(view, -1, height);
+        setViewSize(view, -3, height);
     }
 
     public static void setMargin(View view, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
@@ -135,5 +135,59 @@ public class Util {
 
     public static void setBottomMargin(View view, int bottomMargin) {
         setMargin(view, -1, -1, -1, bottomMargin);
+    }
+
+    public static void setPadding(View view, int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
+        float scaleFactor = SuperActivity.getScaleFactor();
+
+        if (leftPadding >= 0) {
+            leftPadding *= scaleFactor;
+        }
+        else {
+            leftPadding = view.getPaddingLeft();
+        }
+
+        if (rightPadding >= 0) {
+            rightPadding *= scaleFactor;
+        }
+        else {
+            rightPadding = view.getPaddingRight();
+        }
+
+        if (topPadding >= 0) {
+            topPadding *= scaleFactor;
+        }
+        else {
+            topPadding = view.getPaddingTop();
+        }
+
+        if (bottomPadding >= 0) {
+            bottomPadding *= scaleFactor;
+        }
+        else {
+            bottomPadding = view.getPaddingBottom();
+        }
+
+        view.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
+    }
+
+    public static void setLeftAndTopPadding(View view, int leftPadding, int topPadding) {
+        setPadding(view, leftPadding, topPadding, -1, -1);
+    }
+
+    public static void setLeftPadding(View view, int leftPadding) {
+        setPadding(view, leftPadding, -1, -1, -1);
+    }
+
+    public static void setTopPadding(View view, int topPadding) {
+        setPadding(view, -1, topPadding, -1, -1);
+    }
+
+    public static void setRightPadding(View view, int rightPadding) {
+        setPadding(view, -1, -1, rightPadding, -1);
+    }
+
+    public static void setBottomPadding(View view, int bottomPadding) {
+        setPadding(view, -1, -1, -1, bottomPadding);
     }
 }
