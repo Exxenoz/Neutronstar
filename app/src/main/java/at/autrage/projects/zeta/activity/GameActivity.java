@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
-import at.autrage.projects.zeta.animation.Animation;
-import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
@@ -86,7 +84,7 @@ public class GameActivity extends SuperActivity {
         btnDebugLoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_GameView.loose();
+                m_GameView.lose();
             }
         });
 

@@ -29,9 +29,24 @@
     <string name="sv_researched_display">Erforscht</string>
     <string name="sv_population_display" formatted="false">%s Mrd.</string>
     <string name="hs_date_format">dd.MM.yy</string>
-    <string name="tv_desc_welcome">Willkommen im Tutorialmodus!\nBitte berühren Sie zum Fortsetzen den Bildschirm...</string>
-    <string name="tv_desc_population1">Die Bevölkerung des Planeten verringert sich, wenn ein Objekt auf der Erde einschlägt, wobei der Bevölkerungsverlust je nach Objektgröße variiert.</string>
-    <string name="tv_desc_population2">Die Bevölkerung des Planeten vermehrt sich mit der Zeit automatisch. Wenn der Bevölkerungszähler 0 erreicht, dann ist das Spiel beendet.</string>
+    <string name="tv_desc_welcome">Willkommen im Tutorialmodus, Verantwortlicher!\nWenn das kein Spiel wäre, dann hätten wir jetzt ein ernsthaftes Problem.\n\nBitte berühren Sie den Bildschirm wenn Sie verstehen was ich meine...</string>
+    <string name="tv_desc_planet1">Das ist Ihr Heimatplanet. Ihre Aufgabe besteht darin, diesen vor herannahenden Gefahren zu beschützen.</string>
+    <string name="tv_desc_weapon1">Zu Beginn steht Ihnen zur Verteidigung die Waffentype RAKETE zur Verfügung.</string>
+    <string name="tv_desc_weapon2">Raketen werden in eine bestimmte Richtung geradlinig abgeschossen und richten ausschließlich Schaden am getroffenen Objekt an.</string>
+    <string name="tv_desc_small_rocket1">An der roten Umrandung ist erkennbar, welche Waffe für den Einsatz ausgewählt ist.</string>
+    <string name="tv_desc_small_rocket2">Die kleine Rakete ist kostenlos und in unbegrenzter Anzahl verfügbar.</string>
+    <string name="tv_desc_big_rocket1">Die große Rakete ist stärker als die kleine und kann im Shop gekauft werden.</string>
+    <string name="tv_desc_asteroid1">Ein Asteroid nähert sich dem Planeten. Swipen Sie mit dem Finger vom Planeten in Richtung des Asteroiden.</string>
+    <string name="tv_desc_asteroid2">Glückwunsch! Sie haben den Asteroiden erfolgreich vernichtet und damit millionen von Leben gerettet.</string>
+    <string name="tv_desc_asteroid3">Gratuliere! Sie haben den Asteroiden erfolgreich vernichtet, aber leider auch viele Bewohner des Planeten.</string>
+    <string name="tv_desc_asteroid4">Versuchen Sie es noch einmal. Swipen Sie mit dem Finger vom Planeten in Richtung des Asteroiden.</string>
+    <string name="tv_desc_population1">Die Bevölkerung Ihres Heimatplaneten verringert sich, wenn ein Objekt einschlägt, wobei der Bevölkerungsverlust je nach Objektgröße variiert.</string>
+    <string name="tv_desc_population2">Die Bevölkerung Ihres Heimatplaneten vermehrt sich mit der Zeit automatisch. Das Spiel ist beendet, wenn der Bevölkerungszähler 0 erreicht.</string>
     <string name="tv_desc_money1">Die Weltregierung stellt Geld für Waffen zur Verfügung, sobald ein Asteroid erfolgreich zerstört wurde.</string>
     <string name="tv_desc_money2">Nach jeder Runde bietet der Shop die Möglichkeit, Geld gegen Waffen und Upgrades einzutauschen.</string>
+    <string name="tv_desc_score1">Ihre Aufgabe besteht darin, einen möglichst hohen Punktestand zu erreichen. Punkte erhält man durch die Vernichtung von Objekten.</string>
+    <string name="tv_desc_time1">Ein Level dauert eine maximale gleichbleibende Anzahl an Sekunden. Der Level ist spätestens nach Ablauf dieser Zeit gewonnen.</string>
+    <string name="tv_desc_pause">Sie können das Spiel durch Aktivierung dieses Knopfes jederzeit pausieren oder fortsetzen.</string>
+    <string name="tv_desc_mute">Sie können den Sound durch Aktivierung dieses Knopfes jederzeit stumm- oder lautschalten.</string>
+    <string name="tv_desc_finish">Sie haben das Tutorial erfolgreich beendet!\n\nSie können jetzt im Hauptmenü ein neues Spiel starten.</string>
 </resources>

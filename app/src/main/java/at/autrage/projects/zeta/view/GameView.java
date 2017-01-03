@@ -22,7 +22,6 @@ import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.model.AlarmArea;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
@@ -351,6 +350,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return;
         }
 
+        if (GameManager.getInstance().isTutorialMode()) {
+            return;
+        }
+
         // Calculate remaining population increase
         GameManager.getInstance().setPopulation(GameManager.getInstance().getPopulation() * Math.pow(1f + Pustafin.PopulationIncreaseFactor +
                         Pustafin.ProBabypillPopulationIncreaseFactor * GameManager.getInstance().getWeaponCount(Weapons.ProBabyPill), Util.roof(m_Player.getRemainingTime())));
@@ -382,8 +385,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_LevelFinished = true;
     }
 
-    public void loose() {
+    public void lose() {
         if (m_LevelFinished) {
+            return;
+        }
+
+        if (GameManager.getInstance().isTutorialMode()) {
             return;
         }
 
@@ -449,6 +456,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public Player getPlayer() {
         return m_Player;
+    }
+
+    public EnemySpawner getEnemySpawner() {
+        return m_EnemySpawner;
     }
 
     public boolean isAlarmEnabled() {

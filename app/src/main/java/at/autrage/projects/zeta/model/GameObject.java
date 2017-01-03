@@ -63,6 +63,8 @@ public class GameObject {
 
     private Collider m_Collider;
 
+    private boolean m_Visible;
+
     public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         m_GameView = gameView;
 
@@ -95,6 +97,8 @@ public class GameObject {
         m_DirectionX = 0f;
         m_DirectionY = 0f;
         setSpeed(0f);
+
+        m_Visible = true;
 
         if (m_AnimationSet != null) {
             playAnimationFromSet(AnimationType.Default);
@@ -168,6 +172,10 @@ public class GameObject {
     }
 
     public void onDraw(Canvas canvas) {
+        if (!m_Visible) {
+            return;
+        }
+
         if (m_CurrAnimationFrame != null) {
             canvas.save(Canvas.MATRIX_SAVE_FLAG);
             canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
@@ -413,6 +421,14 @@ public class GameObject {
 
     public Collider getCollider() {
         return m_Collider;
+    }
+
+    public boolean isVisible() {
+        return m_Visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.m_Visible = visible;
     }
 
     public void destroy() {

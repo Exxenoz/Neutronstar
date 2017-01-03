@@ -27,7 +27,7 @@ import at.autrage.projects.zeta.view.GameView;
 
 public class Player extends GameObject {
     private float m_RemainingTime;
-    private float m_LastRemainingTime;
+    private float m_OnUpdateEverySecondTimer;
     private Weapons m_SelectedWeapon;
     private float m_PopulationIncreaseTimer;
 
@@ -41,7 +41,7 @@ public class Player extends GameObject {
         super(gameView, positionX, positionY, animationSet);
 
         m_RemainingTime = Pustafin.LevelDuration;
-        m_LastRemainingTime = m_RemainingTime;
+        m_OnUpdateEverySecondTimer = 1f;
         m_SelectedWeapon = Weapons.SmallRocket;
 
         m_TouchEventStartPositions = new HashMap<Integer, Vector2D>();
@@ -66,13 +66,6 @@ public class Player extends GameObject {
             return;
         }
 
-        m_LastRemainingTime = m_RemainingTime;
-        m_RemainingTime -= Time.getScaledDeltaTime();
-        if (m_RemainingTime <= 0f) {
-            m_RemainingTime = 0f;
-        }
-
-
         m_PopulationIncreaseTimer += Time.getScaledDeltaTime();
         while (m_PopulationIncreaseTimer >= 1f) {
             GameManager.getInstance().setPopulation((1f + Pustafin.PopulationIncreaseFactor +
@@ -81,10 +74,21 @@ public class Player extends GameObject {
             m_PopulationIncreaseTimer--;
         }
 
-        if ((int)m_LastRemainingTime != (int)m_RemainingTime) {
-            GameManager.getInstance().setUpdateFlag(UpdateFlags.Time);
-            GameManager.getInstance().setUpdateFlag(UpdateFlags.FPS);
+        m_OnUpdateEverySecondTimer += Time.getScaledDeltaTime();
+        while (m_OnUpdateEverySecondTimer >= 1f) {
+            m_OnUpdateEverySecondTimer -= 1f;
+            onUpdateEverySecond();
         }
+    }
+
+    public void onUpdateEverySecond() {
+        m_RemainingTime -= 1f;
+        if (m_RemainingTime <= 0f) {
+            m_RemainingTime = 0f;
+        }
+
+        GameManager.getInstance().setUpdateFlag(UpdateFlags.Time);
+        GameManager.getInstance().setUpdateFlag(UpdateFlags.FPS);
 
         if (m_RemainingTime == 0f) {
             getGameView().win();
@@ -98,6 +102,10 @@ public class Player extends GameObject {
 
         if (Time.getTimeScale() == 0f) {
             m_TouchEventStartPositions.clear();
+            return;
+        }
+
+        if (!isVisible()) {
             return;
         }
 
@@ -206,7 +214,7 @@ public class Player extends GameObject {
             GameManager.getInstance().setPopulation(remainingPopulation);
 
             if (remainingPopulation <= 0f) {
-                getGameView().loose();
+                getGameView().lose();
             }
         }
     }
@@ -215,7 +223,7 @@ public class Player extends GameObject {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (Pustafin.DebugMode) {
+        if (Pustafin.DebugMode && isVisible()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 float touchRadius = Pustafin.PlanetTouchRadius * SuperActivity.getScaleFactor();
                 canvas.drawOval
@@ -230,8 +238,25 @@ public class Player extends GameObject {
         }
     }
 
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+
+        if (m_Clouds != null) {
+            m_Clouds.setVisible(visible);
+        }
+
+        if (m_AlarmArea != null) {
+            m_AlarmArea.setVisible(visible);
+        }
+    }
+
     public float getRemainingTime() {
         return m_RemainingTime;
+    }
+
+    public void setRemainingTime(float remainingTime) {
+        this.m_RemainingTime = remainingTime;
     }
 
     public Weapons getSelectedWeapon() {

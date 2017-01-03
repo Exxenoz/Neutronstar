@@ -11,6 +11,7 @@ import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
+import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.view.GameView;
 
 public class EnemySpawner extends GameObject {
@@ -84,7 +85,7 @@ public class EnemySpawner extends GameObject {
         float asteroidHealth = (float) (asteroidScale * Pustafin.AsteroidBaseHealthPerScaleFactor * Math.pow(1 + asteroidScale, Math.log(randomIdx + 1)));
         float asteroidSpeed = m_AsteroidMinSpeed + m_AsteroidSpeedStep * randomIdx;
 
-        Vector2D asteroidSpawnDirection = calculateSpawnDirection(Math.random() <= Pustafin.AsteroidEasySpawnPositionProbability, m_Random.nextInt(91));
+        Vector2D asteroidSpawnDirection = calculateSpawnDirection(Math.random() <= Pustafin.AsteroidEasySpawnPositionProbability, m_Random.nextBoolean(), m_Random.nextInt(91));
 
         float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192) + 960;
         float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192) + 540;
@@ -94,25 +95,37 @@ public class EnemySpawner extends GameObject {
                 asteroidSpawnDirection.X, asteroidSpawnDirection.Y, asteroidHealth, this);
     }
 
-    public Vector2D calculateSpawnDirection(boolean easySpawnDirection, int spawnAngle) {
+    public void spawnTutorialAsteroid() {
+        float asteroidScale = 0.4f;
+
+        float asteroidHealth = 2 * Pustafin.SmallRocketHitDamageBase;
+        float asteroidSpeed = Pustafin.AsteroidMinSpeed;
+
+        Vector2D asteroidSpawnDirection = calculateSpawnDirection(true, false, 32 + m_Random.nextInt(27));
+
+        float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192) + 960;
+        float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192) + 540;
+
+        Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
+            asteroidScale, asteroidSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
+            asteroidSpawnDirection.X, asteroidSpawnDirection.Y, asteroidHealth, this);
+    }
+
+    public Vector2D calculateSpawnDirection(boolean easySpawnDirection, boolean leftOrTopSpawn, int spawnAngle) {
         Vector2D spawnDirection = new Vector2D();
 
         if (easySpawnDirection) {
-            boolean leftSpawn = m_Random.nextBoolean();
-
-            if (leftSpawn) {
+            if (leftOrTopSpawn) {
                 spawnDirection.X = (float) -Math.cos(Math.toRadians(135f + spawnAngle));
                 spawnDirection.Y = (float) -Math.sin(Math.toRadians(135f + spawnAngle));
             }
             else {
-                spawnDirection.X = (float) -Math.cos(Math.toRadians(-45f + spawnAngle));
-                spawnDirection.Y = (float) -Math.sin(Math.toRadians(-45f + spawnAngle));
+                spawnDirection.X = (float) -Math.cos(Math.toRadians(315f + spawnAngle));
+                spawnDirection.Y = (float) -Math.sin(Math.toRadians(315f + spawnAngle));
             }
         }
         else {
-            boolean topSpawn = m_Random.nextBoolean();
-
-            if (topSpawn) {
+            if (leftOrTopSpawn) {
                 spawnDirection.X = (float) -Math.cos(Math.toRadians(45f + spawnAngle));
                 spawnDirection.Y = (float) -Math.sin(Math.toRadians(45f + spawnAngle));
             }
@@ -143,6 +156,11 @@ public class EnemySpawner extends GameObject {
 
     public void onDestroyEnemy(Enemy enemy) {
         if (enemy == null) {
+            return;
+        }
+
+        if (GameManager.getInstance().isTutorialMode()) {
+            TutorialManager.getInstance().onDestroyEnemy(enemy);
             return;
         }
 
