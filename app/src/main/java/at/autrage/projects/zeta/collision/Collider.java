@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.Logger;
 
+/**
+ * Colliders are simple invisible geometric objects used by game objects for collision detection.
+ */
 public abstract class Collider {
     protected GameObject m_Owner;
 
@@ -13,6 +16,12 @@ public abstract class Collider {
         m_Owner = owner;
     }
 
+    /**
+     * This method checks for collider intersection.
+     *
+     * @param collider The other collider object.
+     * @return true if both colliders intersect, otherwise false.
+     */
     public boolean intersects(Collider collider) {
         if (this instanceof CircleCollider && collider instanceof CircleCollider) {
             CircleCollider circleCollider1 = (CircleCollider) this;
@@ -71,6 +80,11 @@ public abstract class Collider {
         return false;
     }
 
+    /**
+     * This method draws the collider.
+     *
+     * @param canvas
+     */
     public abstract void onDraw(Canvas canvas);
 
     public GameObject getOwner() {

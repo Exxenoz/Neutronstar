@@ -19,6 +19,9 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Util;
 
+/**
+ * This activity implements the behaviour of the in-game shop.
+ */
 public class ShopActivity extends SuperActivity {
     private GameManager m_GameManager;
     private TextView m_TxtViewMoneyDisplay;

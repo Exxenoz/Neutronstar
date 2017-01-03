@@ -12,6 +12,9 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
 
+/**
+ * This class represents a nuke object in the game.
+ */
 public class Nuke extends Weapon {
     private GameObject m_EngineFire;
     private float m_EngineFireLengthOffset;

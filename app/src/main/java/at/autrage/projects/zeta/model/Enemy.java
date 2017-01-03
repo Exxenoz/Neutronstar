@@ -15,6 +15,9 @@ import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.view.GameView;
 
+/**
+ * This class represents an enemy object in the game.
+ */
 public class Enemy extends GameObject {
     protected EnemySpawner m_Owner;
     protected float m_Health;

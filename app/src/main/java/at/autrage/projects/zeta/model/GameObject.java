@@ -17,7 +17,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 /**
- * WIP
+ * This class represents an object in the game.
  */
 public class GameObject {
     private GameView m_GameView;

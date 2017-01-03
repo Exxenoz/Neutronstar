@@ -21,6 +21,9 @@ import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
+/**
+ * This activity is responsible for displaying high score entries.
+ */
 public class HighscoreActivity extends SuperActivity {
 
     @Override
@@ -53,6 +56,9 @@ public class HighscoreActivity extends SuperActivity {
         m_CurrentActivity = Activities.HighscoreActivity;
     }
 
+    /**
+     * Updates the text of all high score entry text views.
+     */
     private void updateHighscoreEntries() {
         TextView[] textViewEntries = new TextView[] {
                 (TextView)findViewById(R.id.txtViewEntry1),

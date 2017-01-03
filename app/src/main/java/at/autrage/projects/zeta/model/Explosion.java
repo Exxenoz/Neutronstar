@@ -9,6 +9,9 @@ import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.view.GameView;
 
+/**
+ * This class represents an explosion object in the game.
+ */
 public class Explosion extends GameObject {
     private Weapon m_Weapon;
     private List<GameObject> m_GameObjectsImmuneToAOE;

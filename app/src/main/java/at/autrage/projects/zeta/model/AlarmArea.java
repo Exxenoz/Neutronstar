@@ -4,6 +4,9 @@ import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.view.GameView;
 
+/**
+ * This class represents the alarm area around the planet.
+ */
 public class AlarmArea extends GameObject {
     public AlarmArea(GameView gameView, float positionX, float positionY) {
         super(gameView, positionX, positionY, AnimationSet.None);
