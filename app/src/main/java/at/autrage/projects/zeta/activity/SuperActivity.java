@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Util;
 
 /**
  * This class is inherited by most project activities to enable immersive mode automatically.
@@ -192,6 +193,8 @@ public class SuperActivity extends AppCompatActivity {
             layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
             currView.setLayoutParams(layoutParams);
+
+            Util.setPadding(currView, currView.getPaddingLeft(), currView.getPaddingTop(), currView.getPaddingRight(), currView.getPaddingBottom());
 
             ++counter;
         }

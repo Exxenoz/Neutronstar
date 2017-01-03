@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.MainMenuActivity;
+import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.model.Asteroid;
 import at.autrage.projects.zeta.model.Enemy;
 import at.autrage.projects.zeta.plugin.TextViewEx;
@@ -190,7 +191,7 @@ public class TutorialManager {
         Util.setLeftAndTopMargin(m_ImgViewArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
         Util.setLeftAndTopMargin(m_TxtViewTutorialText, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
 
-        Util.setViewWidth(m_TxtViewTutorialText, tutorialEntry.TextBoxWidth);
+        Util.setViewWidth(m_TxtViewTutorialText, (int) (tutorialEntry.TextBoxWidth * SuperActivity.getScaleFactor()));
         m_TxtViewTutorialText.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId), tutorialEntry.TextJustified);
 
         m_ImgViewArrow.setVisibility(View.VISIBLE);
