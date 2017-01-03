@@ -10,7 +10,6 @@
     <at.autrage.projects.zeta.view.GameView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_game"
         android:id="@+id/gameView" />
 
     <TextView
@@ -493,14 +492,12 @@
         android:id="@+id/imgViewAlarm"
         android:alpha="0" />
 
-    <TextView
+    <at.autrage.projects.zeta.plugin.TextViewEx
         android:text="@string/tv_desc_welcome"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/txtViewTutorialPopulation"
         android:layout_height="wrap_content"
-        android:paddingTop="42px"
-        android:paddingBottom="42px"
         android:paddingRight="42px"
         android:paddingLeft="42px"
         android:textColor="@android:color/holo_blue_bright"
@@ -509,7 +506,9 @@
         android:layout_marginLeft="510px"
         android:textAllCaps="false"
         android:background="@drawable/gv_help_box"
-        android:layout_width="900px" />
+        android:layout_width="900px"
+        android:paddingBottom="42px"
+        android:paddingTop="34px" />
 
     <ImageView
         android:layout_width="128px"
@@ -519,6 +518,7 @@
         android:id="@+id/imgViewTutorialPopulationArrow"
         android:layout_height="128px"
         android:layout_marginTop="110px"
-        android:layout_marginLeft="580px" />
+        android:layout_marginLeft="580px"
+        android:alpha="0" />
 
 </RelativeLayout>

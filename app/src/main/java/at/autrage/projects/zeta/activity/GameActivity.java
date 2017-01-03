@@ -19,6 +19,7 @@ import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
+import at.autrage.projects.zeta.plugin.TextViewEx;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewUI;
 
@@ -58,7 +59,7 @@ public class GameActivity extends SuperActivity {
 
         if (GameManager.getInstance().isTutorialMode()) {
             TutorialManager.getInstance().setImgViewArrow((ImageView)findViewById(R.id.imgViewTutorialPopulationArrow));
-            TutorialManager.getInstance().setTxtViewTutorialText((TextView)findViewById(R.id.txtViewTutorialPopulation));
+            TutorialManager.getInstance().setTxtViewTutorialText((TextViewEx)findViewById(R.id.txtViewTutorialPopulation));
 
             android.view.animation.Animation arrowAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arrow_up_down);
             TutorialManager.getInstance().getImgViewArrow().startAnimation(arrowAnimation);

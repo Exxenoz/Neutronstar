@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
+import at.autrage.projects.zeta.plugin.TextViewEx;
 import at.autrage.projects.zeta.view.GameView;
 
 public class TutorialManager {
@@ -31,8 +32,9 @@ public class TutorialManager {
         public int TextPositionX;
         public int TextPositionY;
         public int TextBoxWidth;
+        public boolean TextJustified;
 
-        public TutorialEntry(int arrowPositionX, int arrowPositionY, boolean arrowDirectionDown, boolean arrowVisible, int textResourceId, int textPositionX, int textPositionY, int textBoxWidth) {
+        public TutorialEntry(int arrowPositionX, int arrowPositionY, boolean arrowDirectionDown, boolean arrowVisible, int textResourceId, int textPositionX, int textPositionY, int textBoxWidth, boolean textJustified) {
             ArrowPositionX = arrowPositionX;
             ArrowPositionY = arrowPositionY;
             ArrowDirectionDown = arrowDirectionDown;
@@ -42,18 +44,19 @@ public class TutorialManager {
             TextPositionX = textPositionX;
             TextPositionY = textPositionY;
             TextBoxWidth = textBoxWidth;
+            TextJustified = textJustified;
         }
     }
 
     private ImageView m_ImgViewArrow;
-    private TextView m_TxtViewTutorialText;
+    private TextViewEx m_TxtViewTutorialText;
 
     private TutorialEntry[] m_TutorialEntries = new TutorialEntry[] {
-        new TutorialEntry(0, 0, false, false, R.string.tv_desc_welcome, 510, 500, 900),
-        new TutorialEntry(200, 110, false, true, R.string.tv_desc_population1, 40, 250, 480),
-        new TutorialEntry(200, 110, false, true, R.string.tv_desc_population2, 40, 250, 480),
-        new TutorialEntry(580, 110, false, true, R.string.tv_desc_money1, 404, 250, 480),
-        new TutorialEntry(580, 110, false, true, R.string.tv_desc_money2, 404, 250, 480)
+        new TutorialEntry(0, 0, false, false, R.string.tv_desc_welcome, 510, 500, 900, false),
+        new TutorialEntry(200, 110, false, true, R.string.tv_desc_population1, 40, 250, 480, true),
+        new TutorialEntry(200, 110, false, true, R.string.tv_desc_population2, 40, 250, 480, true),
+        new TutorialEntry(580, 110, false, true, R.string.tv_desc_money1, 404, 250, 480, true),
+        new TutorialEntry(580, 110, false, true, R.string.tv_desc_money2, 404, 250, 480, true)
     };
 
     private int m_CurrentTutorialIndex;
@@ -115,7 +118,7 @@ public class TutorialManager {
         Util.setLeftAndTopMargin(m_TxtViewTutorialText, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
 
         Util.setViewWidth(m_TxtViewTutorialText, tutorialEntry.TextBoxWidth);
-        m_TxtViewTutorialText.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId));
+        m_TxtViewTutorialText.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId), tutorialEntry.TextJustified);
 
         m_ImgViewArrow.setVisibility(View.VISIBLE);
         m_TxtViewTutorialText.setVisibility(View.VISIBLE);
@@ -133,11 +136,11 @@ public class TutorialManager {
         this.m_ImgViewArrow = imgViewArrow;
     }
 
-    public TextView getTxtViewTutorialText() {
+    public TextViewEx getTxtViewTutorialText() {
         return m_TxtViewTutorialText;
     }
 
-    public void setTxtViewTutorialText(TextView txtViewTutorialText) {
+    public void setTxtViewTutorialText(TextViewEx txtViewTutorialText) {
         this.m_TxtViewTutorialText = txtViewTutorialText;
     }
 }
