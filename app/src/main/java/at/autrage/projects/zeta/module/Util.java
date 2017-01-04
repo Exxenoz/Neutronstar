@@ -79,7 +79,7 @@ public class Util {
         setViewSize(view, -3, height);
     }
 
-    public static void setMargin(View view, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
+    public static void setViewMargin(View view, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
 
         float scaleFactor = SuperActivity.getScaleFactor();
@@ -117,27 +117,27 @@ public class Util {
         view.setLayoutParams(layoutParams);
     }
 
-    public static void setLeftAndTopMargin(View view, int leftMargin, int topMargin) {
-        setMargin(view, leftMargin, topMargin, -1, -1);
+    public static void setViewLeftAndTopMargin(View view, int leftMargin, int topMargin) {
+        setViewMargin(view, leftMargin, topMargin, -1, -1);
     }
 
-    public static void setLeftMargin(View view, int leftMargin) {
-        setMargin(view, leftMargin, -1, -1, -1);
+    public static void setViewLeftMargin(View view, int leftMargin) {
+        setViewMargin(view, leftMargin, -1, -1, -1);
     }
 
-    public static void setTopMargin(View view, int topMargin) {
-        setMargin(view, -1, topMargin, -1, -1);
+    public static void setViewTopMargin(View view, int topMargin) {
+        setViewMargin(view, -1, topMargin, -1, -1);
     }
 
-    public static void setRightMargin(View view, int rightMargin) {
-        setMargin(view, -1, -1, rightMargin, -1);
+    public static void setViewRightMargin(View view, int rightMargin) {
+        setViewMargin(view, -1, -1, rightMargin, -1);
     }
 
-    public static void setBottomMargin(View view, int bottomMargin) {
-        setMargin(view, -1, -1, -1, bottomMargin);
+    public static void setViewBottomMargin(View view, int bottomMargin) {
+        setViewMargin(view, -1, -1, -1, bottomMargin);
     }
 
-    public static void setPadding(View view, int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
+    public static void setViewPadding(View view, int leftPadding, int topPadding, int rightPadding, int bottomPadding) {
         float scaleFactor = SuperActivity.getScaleFactor();
 
         if (leftPadding >= 0) {
@@ -171,23 +171,23 @@ public class Util {
         view.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
     }
 
-    public static void setLeftAndTopPadding(View view, int leftPadding, int topPadding) {
-        setPadding(view, leftPadding, topPadding, -1, -1);
+    public static void setViewLeftAndTopPadding(View view, int leftPadding, int topPadding) {
+        setViewPadding(view, leftPadding, topPadding, -1, -1);
     }
 
-    public static void setLeftPadding(View view, int leftPadding) {
-        setPadding(view, leftPadding, -1, -1, -1);
+    public static void setViewLeftPadding(View view, int leftPadding) {
+        setViewPadding(view, leftPadding, -1, -1, -1);
     }
 
-    public static void setTopPadding(View view, int topPadding) {
-        setPadding(view, -1, topPadding, -1, -1);
+    public static void setViewTopPadding(View view, int topPadding) {
+        setViewPadding(view, -1, topPadding, -1, -1);
     }
 
-    public static void setRightPadding(View view, int rightPadding) {
-        setPadding(view, -1, -1, rightPadding, -1);
+    public static void setViewRightPadding(View view, int rightPadding) {
+        setViewPadding(view, -1, -1, rightPadding, -1);
     }
 
-    public static void setBottomPadding(View view, int bottomPadding) {
-        setPadding(view, -1, -1, -1, bottomPadding);
+    public static void setViewBottomPadding(View view, int bottomPadding) {
+        setViewPadding(view, -1, -1, -1, bottomPadding);
     }
 }

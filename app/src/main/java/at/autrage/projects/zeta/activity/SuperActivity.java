@@ -2,10 +2,8 @@ package at.autrage.projects.zeta.activity;
 
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -160,41 +158,9 @@ public class SuperActivity extends AppCompatActivity {
             }
 
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)currView.getLayoutParams();
-
-            if (layoutParams.width > 0) {
-                layoutParams.width *= m_ScaleFactor;
-            }
-
-            if (layoutParams.height > 0) {
-                layoutParams.height *= m_ScaleFactor;
-            }
-
-            int leftMargin = layoutParams.leftMargin;
-            int rightMargin = layoutParams.rightMargin;
-            int topMargin = layoutParams.topMargin;
-            int bottomMargin = layoutParams.bottomMargin;
-
-            if (leftMargin > 0) {
-                leftMargin *= m_ScaleFactor;
-            }
-
-            if (rightMargin > 0) {
-                rightMargin *= m_ScaleFactor;
-            }
-
-            if (topMargin > 0) {
-                topMargin *= m_ScaleFactor;
-            }
-
-            if (bottomMargin > 0) {
-                bottomMargin *= m_ScaleFactor;
-            }
-
-            layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-            currView.setLayoutParams(layoutParams);
-
-            Util.setPadding(currView, currView.getPaddingLeft(), currView.getPaddingTop(), currView.getPaddingRight(), currView.getPaddingBottom());
+            Util.setViewSize(currView, layoutParams.width, layoutParams.height);
+            Util.setViewMargin(currView, layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, layoutParams.bottomMargin);
+            Util.setViewPadding(currView, currView.getPaddingLeft(), currView.getPaddingTop(), currView.getPaddingRight(), currView.getPaddingBottom());
 
             ++counter;
         }

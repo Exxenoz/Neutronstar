@@ -188,8 +188,8 @@ public class TutorialManager {
 
         m_TxtViewTutorialText.setAlpha(1f);
 
-        Util.setLeftAndTopMargin(m_ImgViewArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
-        Util.setLeftAndTopMargin(m_TxtViewTutorialText, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
+        Util.setViewLeftAndTopMargin(m_ImgViewArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
+        Util.setViewLeftAndTopMargin(m_TxtViewTutorialText, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
 
         Util.setViewWidth(m_TxtViewTutorialText, (int) (tutorialEntry.TextBoxWidth * SuperActivity.getScaleFactor()));
         m_TxtViewTutorialText.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId), tutorialEntry.TextJustified);

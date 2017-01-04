@@ -55,17 +55,14 @@ public class TextViewEx extends TextView {
         super(context, attrs, defStyle);
         // set a minimum of left and right padding so that the texts are not too
         // close to the side screen
-        // this.setPadding(10, 0, 10, 0);
     }
 
     public TextViewEx(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // this.setPadding(10, 0, 10, 0);
     }
 
     public TextViewEx(Context context) {
         super(context);
-        // this.setPadding(10, 0, 10, 0);
     }
 
     @Override
