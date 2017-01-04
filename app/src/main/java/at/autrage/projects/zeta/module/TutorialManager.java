@@ -56,9 +56,9 @@ public class TutorialManager {
 
     private TutorialEntry[] m_TutorialEntries = new TutorialEntry[] {
         /*00*/ new TutorialEntry(0, 0, false, false, R.string.tv_desc_welcome, 0, 0, ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.CENTER_VERTICAL),
-        /*01*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_planet1, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
-        /*02*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon1, 133, 475, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
-        /*03*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon2, 133, 435, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*01*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_planet1, 40, 128, ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*02*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon1, 40, 400, ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_BOTTOM),
+        /*03*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon2, 40, 400, ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_BOTTOM),
         /*04*/ new TutorialEntry(210, 725, true, true, R.string.tv_desc_small_rocket1, 40, 525, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
         /*05*/ new TutorialEntry(210, 725, true, true, R.string.tv_desc_small_rocket2, 40, 475, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
         /*06*/ new TutorialEntry(394, 795, true, true, R.string.tv_desc_big_rocket1, 218, 560, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),

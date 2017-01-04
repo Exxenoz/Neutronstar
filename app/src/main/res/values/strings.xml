@@ -30,9 +30,9 @@
     <string name="sv_population_display" formatted="false">%s Mrd.</string>
     <string name="hs_date_format">dd.MM.yy</string>
     <string name="tv_desc_welcome">Willkommen im Tutorialmodus, Verantwortlicher!\nWenn das kein Spiel wäre, dann hätten wir jetzt ein ernsthaftes Problem.\n\nBitte berühren Sie den Bildschirm wenn Sie verstehen was ich meine...</string>
-    <string name="tv_desc_planet1">Das ist Ihr Heimatplanet. Ihre Aufgabe besteht darin, diesen vor herannahenden Gefahren zu beschützen.</string>
-    <string name="tv_desc_weapon1">Zu Beginn steht Ihnen zur Verteidigung die Waffentype RAKETE zur Verfügung.</string>
-    <string name="tv_desc_weapon2">Raketen werden in eine bestimmte Richtung geradlinig abgeschossen und richten ausschließlich Schaden am getroffenen Objekt an.</string>
+    <string name="tv_desc_planet1">Das ist Ihr Heimatplanet.\n\nIhre Aufgabe besteht darin, diesen vor\nherannahenden Gefahren zu beschützen.</string>
+    <string name="tv_desc_weapon1">Zu Beginn steht Ihnen zur Verteidigung\ndie Waffentype RAKETE zur Verfügung.</string>
+    <string name="tv_desc_weapon2">Raketen werden in eine bestimmte\nRichtung geradlinig abgeschossen\nund richten ausschließlich Schaden\nam getroffenen Objekt an.</string>
     <string name="tv_desc_small_rocket1">An der roten Umrandung ist erkennbar, welche Waffe für den Einsatz ausgewählt ist.</string>
     <string name="tv_desc_small_rocket2">Die kleine Rakete ist kostenlos und in unbegrenzter Anzahl verfügbar.</string>
     <string name="tv_desc_big_rocket1">Die große Rakete ist stärker als die kleine und kann im Shop gekauft werden.</string>
