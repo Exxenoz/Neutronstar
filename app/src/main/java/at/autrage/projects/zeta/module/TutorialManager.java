@@ -1,15 +1,14 @@
 package at.autrage.projects.zeta.module;
 
 import android.content.Intent;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.MainMenuActivity;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.model.Asteroid;
 import at.autrage.projects.zeta.model.Enemy;
-import at.autrage.projects.zeta.plugin.TextViewEx;
 import at.autrage.projects.zeta.view.GameView;
 
 public class TutorialManager {
@@ -49,8 +48,8 @@ public class TutorialManager {
         }
     }
 
-    private ImageView m_ImgViewArrow;
-    private TextViewEx m_TxtViewTutorialText;
+    private ImageView m_ImgViewTutorialArrow;
+    private TextView m_TxtViewTutorial;
 
     private TutorialEntry[] m_TutorialEntries = new TutorialEntry[] {
         /*00*/ new TutorialEntry(0, 0, false, false, R.string.tv_desc_welcome, 390, 420, 1140, false),
@@ -99,8 +98,8 @@ public class TutorialManager {
             return;
         }
 
-        if (m_ImgViewArrow == null ||
-            m_TxtViewTutorialText == null) {
+        if (m_ImgViewTutorialArrow == null ||
+            m_TxtViewTutorial == null) {
             return;
         }
 
@@ -167,50 +166,50 @@ public class TutorialManager {
             return;
         }
 
-        if (m_ImgViewArrow == null ||
-            m_TxtViewTutorialText == null) {
+        if (m_ImgViewTutorialArrow == null ||
+            m_TxtViewTutorial == null) {
             return;
         }
 
         TutorialEntry tutorialEntry = m_TutorialEntries[m_CurrentTutorialIndex];
 
         if (tutorialEntry.ArrowDirectionDown) {
-            m_ImgViewArrow.setRotation(180f);
+            m_ImgViewTutorialArrow.setRotation(180f);
         }
         else {
-            m_ImgViewArrow.setRotation(0f);
+            m_ImgViewTutorialArrow.setRotation(0f);
         }
 
         if (tutorialEntry.ArrowVisible) {
-            m_ImgViewArrow.setAlpha(1f);
+            m_ImgViewTutorialArrow.setAlpha(1f);
         }
         else {
-            m_ImgViewArrow.setAlpha(0f);
+            m_ImgViewTutorialArrow.setAlpha(0f);
         }
 
-        m_TxtViewTutorialText.setAlpha(1f);
+        m_TxtViewTutorial.setAlpha(1f);
 
-        Util.setViewLeftAndTopMargin(m_ImgViewArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
-        Util.setViewLeftAndTopMargin(m_TxtViewTutorialText, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
+        Util.setViewLeftAndTopMargin(m_ImgViewTutorialArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
+        Util.setViewLeftAndTopMargin(m_TxtViewTutorial, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
 
-        Util.setViewWidth(m_TxtViewTutorialText, (int) (tutorialEntry.TextBoxWidth * SuperActivity.getScaleFactor()));
-        m_TxtViewTutorialText.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId), tutorialEntry.TextJustified);
+        Util.setViewWidth(m_TxtViewTutorial, (int) (tutorialEntry.TextBoxWidth * SuperActivity.getScaleFactor()));
+        m_TxtViewTutorial.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId));
     }
 
-    public ImageView getImgViewArrow() {
-        return m_ImgViewArrow;
+    public ImageView getImgViewTutorialArrow() {
+        return m_ImgViewTutorialArrow;
     }
 
-    public void setImgViewArrow(ImageView imgViewArrow) {
-        this.m_ImgViewArrow = imgViewArrow;
+    public void setImgViewTutorialArrow(ImageView imgViewTutorialArrow) {
+        this.m_ImgViewTutorialArrow = imgViewTutorialArrow;
     }
 
-    public TextViewEx getTxtViewTutorialText() {
-        return m_TxtViewTutorialText;
+    public TextView getTxtViewTutorial() {
+        return m_TxtViewTutorial;
     }
 
-    public void setTxtViewTutorialText(TextViewEx txtViewTutorialText) {
-        this.m_TxtViewTutorialText = txtViewTutorialText;
+    public void setTxtViewTutorial(TextView txtViewTutorial) {
+        this.m_TxtViewTutorial = txtViewTutorial;
     }
 
     public int getCurrentTutorialIndex() {

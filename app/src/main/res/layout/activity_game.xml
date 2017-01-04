@@ -492,11 +492,11 @@
         android:id="@+id/imgViewAlarm"
         android:alpha="0" />
 
-    <at.autrage.projects.zeta.plugin.TextViewEx
+    <TextView
         android:text="@string/tv_desc_welcome"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/txtViewTutorialPopulation"
+        android:id="@+id/txtViewTutorial"
         android:layout_height="wrap_content"
         android:paddingRight="42px"
         android:paddingLeft="42px"
@@ -516,7 +516,7 @@
         app:srcCompat="@drawable/gv_help_arrow"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/imgViewTutorialPopulationArrow"
+        android:id="@+id/imgViewTutorialArrow"
         android:layout_height="128px"
         android:layout_marginTop="274px"
         android:layout_marginLeft="896px"
