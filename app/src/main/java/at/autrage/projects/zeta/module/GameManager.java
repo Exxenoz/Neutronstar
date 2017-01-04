@@ -112,8 +112,6 @@ public class GameManager {
         }
 
         m_TutorialMode = false;
-
-        TutorialManager.getInstance().reset();
     }
 
     public void setUpdateFlag(int updateFlag) {

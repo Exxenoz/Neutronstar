@@ -76,20 +76,15 @@ public class TutorialManager {
     };
 
     private int m_CurrentTutorialIndex;
-
     private boolean m_Finished;
 
     private TutorialManager() {
-        reset();
     }
 
     public void startTutorial(GameView gameView) {
-        reset();
+        setCurrentTutorialIndex(0);
 
         updateTutorialEntry(gameView);
-
-        // Call game views update method to initialize UI elements
-        gameView.update();
 
         if (gameView.getPlayer() != null) {
             gameView.getPlayer().setRemainingTime(0);
@@ -104,15 +99,18 @@ public class TutorialManager {
             return;
         }
 
-        if (m_ImgViewArrow == null) {
+        if (m_ImgViewArrow == null ||
+            m_TxtViewTutorialText == null) {
             return;
         }
 
-        if (m_TxtViewTutorialText == null) {
-            return;
+        switch (m_CurrentTutorialIndex) {
+            case 7: // Asteroid state
+            case 9: // Asteroid repeat state
+                return;
         }
 
-        m_CurrentTutorialIndex++;
+        setCurrentTutorialIndex(m_CurrentTutorialIndex + 1);
 
         if (m_CurrentTutorialIndex >= m_TutorialEntries.length) {
             m_Finished = true;
@@ -131,20 +129,16 @@ public class TutorialManager {
         }
 
         switch (m_CurrentTutorialIndex) {
-            case 1:
+            case 1: // Show planet
                 if (gameView.getPlayer() != null) {
                     gameView.getPlayer().setVisible(true);
                 }
                 break;
-            case 7:
-            case 9:
+            case 7: // Asteroid state
+            case 9: // Asteroid repeat state
                 gameView.getEnemySpawner().spawnTutorialAsteroid();
                 break;
-            case 8: // Asteroid state
-            case 10:// Asteroid repeat state
-                m_CurrentTutorialIndex--;
-                return;
-            case 11:
+            case 11: // Hide planet
                 if (gameView.getPlayer() != null) {
                     gameView.getPlayer().setVisible(false);
                 }
@@ -152,17 +146,15 @@ public class TutorialManager {
         }
 
         updateTutorialEntry(gameView);
-
-        return;
     }
 
     public void onDestroyEnemy(Enemy enemy) {
         if (enemy instanceof Asteroid) {
             if (enemy.getHealth() > 0) {
-                m_CurrentTutorialIndex = 8;
+                setCurrentTutorialIndex(8);
             }
             else {
-                m_CurrentTutorialIndex = 10;
+                setCurrentTutorialIndex(10);
             }
 
             enemy.getGameView().getGameActivity().runOnUiThread(new UpdateTutorialEntryFromUIThread(enemy.getGameView()));
@@ -170,6 +162,16 @@ public class TutorialManager {
     }
 
     private void updateTutorialEntry(GameView gameView) {
+        if (m_CurrentTutorialIndex < 0 ||
+            m_CurrentTutorialIndex >= m_TutorialEntries.length) {
+            return;
+        }
+
+        if (m_ImgViewArrow == null ||
+            m_TxtViewTutorialText == null) {
+            return;
+        }
+
         TutorialEntry tutorialEntry = m_TutorialEntries[m_CurrentTutorialIndex];
 
         if (tutorialEntry.ArrowDirectionDown) {
@@ -193,13 +195,6 @@ public class TutorialManager {
 
         Util.setViewWidth(m_TxtViewTutorialText, (int) (tutorialEntry.TextBoxWidth * SuperActivity.getScaleFactor()));
         m_TxtViewTutorialText.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId), tutorialEntry.TextJustified);
-
-        m_ImgViewArrow.setVisibility(View.VISIBLE);
-        m_TxtViewTutorialText.setVisibility(View.VISIBLE);
-    }
-
-    public void reset() {
-        m_CurrentTutorialIndex = 0;
     }
 
     public ImageView getImgViewArrow() {
@@ -216,6 +211,16 @@ public class TutorialManager {
 
     public void setTxtViewTutorialText(TextViewEx txtViewTutorialText) {
         this.m_TxtViewTutorialText = txtViewTutorialText;
+    }
+
+    public int getCurrentTutorialIndex() {
+        return m_CurrentTutorialIndex;
+    }
+
+    private void setCurrentTutorialIndex(int currentTutorialIndex) {
+        this.m_CurrentTutorialIndex = currentTutorialIndex;
+
+        Logger.D("Set current tutorial index to %d", m_CurrentTutorialIndex);
     }
 
     private class UpdateTutorialEntryFromUIThread implements Runnable {
