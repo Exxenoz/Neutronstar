@@ -494,22 +494,22 @@
 
     <TextView
         android:text="@string/tv_desc_welcome"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
         android:id="@+id/txtViewTutorial"
         android:layout_height="wrap_content"
         android:paddingRight="42px"
         android:paddingLeft="42px"
         android:textColor="@android:color/holo_blue_bright"
         android:textSize="32px"
-        android:layout_marginTop="500px"
-        android:layout_marginLeft="510px"
         android:textAllCaps="false"
         android:background="@drawable/gv_help_box"
         android:layout_width="900px"
         android:paddingBottom="42px"
         android:paddingTop="34px"
-        android:alpha="0" />
+        android:alpha="0"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <ImageView
         android:layout_width="128px"

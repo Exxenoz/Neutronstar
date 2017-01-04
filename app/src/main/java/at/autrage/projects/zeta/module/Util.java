@@ -192,9 +192,18 @@ public class Util {
         setViewPadding(view, -1, -1, -1, bottomPadding);
     }
 
-    public static void replaceViewLayoutRule(View view, int oldRule, int newRule) {
+    public static void resetViewLayoutRules(View view) {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        layoutParams.removeRule(oldRule);
-        layoutParams.addRule(newRule);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        layoutParams.removeRule(RelativeLayout.CENTER_HORIZONTAL);
+        layoutParams.removeRule(RelativeLayout.CENTER_VERTICAL);
+    }
+
+    public static void addViewLayoutRule(View view, int rule) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        layoutParams.addRule(rule);
     }
 }
