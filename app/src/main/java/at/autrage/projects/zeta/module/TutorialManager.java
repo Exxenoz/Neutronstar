@@ -2,6 +2,7 @@ package at.autrage.projects.zeta.module;
 
 import android.content.Intent;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
@@ -32,9 +33,10 @@ public class TutorialManager {
         public int TextPositionX;
         public int TextPositionY;
         public int TextBoxWidth;
-        public boolean TextJustified;
+        public int TextAlignmentX;
+        public int TextAlignmentY;
 
-        public TutorialEntry(int arrowPositionX, int arrowPositionY, boolean arrowDirectionDown, boolean arrowVisible, int textResourceId, int textPositionX, int textPositionY, int textBoxWidth, boolean textJustified) {
+        public TutorialEntry(int arrowPositionX, int arrowPositionY, boolean arrowDirectionDown, boolean arrowVisible, int textResourceId, int textPositionX, int textPositionY, int textBoxWidth, int textAlignmentX, int textAlignmentY) {
             ArrowPositionX = arrowPositionX;
             ArrowPositionY = arrowPositionY;
             ArrowDirectionDown = arrowDirectionDown;
@@ -44,7 +46,8 @@ public class TutorialManager {
             TextPositionX = textPositionX;
             TextPositionY = textPositionY;
             TextBoxWidth = textBoxWidth;
-            TextJustified = textJustified;
+            TextAlignmentX = textAlignmentX;
+            TextAlignmentY = textAlignmentY;
         }
     }
 
@@ -52,26 +55,26 @@ public class TutorialManager {
     private TextView m_TxtViewTutorial;
 
     private TutorialEntry[] m_TutorialEntries = new TutorialEntry[] {
-        /*00*/ new TutorialEntry(0, 0, false, false, R.string.tv_desc_welcome, 390, 420, 1140, false),
-        /*01*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_planet1, 40, 250, 480, true),
-        /*02*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon1, 133, 475, 480, true),
-        /*03*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon2, 133, 435, 480, true),
-        /*04*/ new TutorialEntry(210, 725, true, true, R.string.tv_desc_small_rocket1, 40, 525, 480, true),
-        /*05*/ new TutorialEntry(210, 725, true, true, R.string.tv_desc_small_rocket2, 40, 475, 480, true),
-        /*06*/ new TutorialEntry(394, 795, true, true, R.string.tv_desc_big_rocket1, 218, 560, 480, true),
-        /*07*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_asteroid1, 40, 250, 480, true),
-        /*08*/ new TutorialEntry(896, 274, true, false, R.string.tv_desc_asteroid3, 40, 250, 480, true),
-        /*09*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_asteroid4, 40, 250, 480, true),
-        /*10*/ new TutorialEntry(896, 274, true, false, R.string.tv_desc_asteroid2, 40, 250, 480, true),
-        /*11*/ new TutorialEntry(200, 110, false, true, R.string.tv_desc_population1, 40, 250, 480, true),
-        /*12*/ new TutorialEntry(200, 110, false, true, R.string.tv_desc_population2, 40, 250, 480, true),
-        /*13*/ new TutorialEntry(580, 110, false, true, R.string.tv_desc_money1, 404, 250, 480, true),
-        /*14*/ new TutorialEntry(580, 110, false, true, R.string.tv_desc_money2, 404, 250, 480, true),
-        /*15*/ new TutorialEntry(1230, 110, false, true, R.string.tv_desc_score1, 1054, 250, 480, true),
-        /*16*/ new TutorialEntry(1590, 110, false, true, R.string.tv_desc_time1, 1414, 250, 480, true),
-        /*17*/ new TutorialEntry(16, 812, true, true, R.string.tv_desc_pause, 40, 542, 480, true),
-        /*18*/ new TutorialEntry(1776, 812, true, true, R.string.tv_desc_mute, 1400, 542, 480, true),
-        /*19*/ new TutorialEntry(0, 0, false, false, R.string.tv_desc_finish, 390, 420, 1140, false)
+        /*00*/ new TutorialEntry(0, 0, false, false, R.string.tv_desc_welcome, 390, 420, 1140, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*01*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_planet1, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*02*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon1, 133, 475, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*03*/ new TutorialEntry(309, 725, true, true, R.string.tv_desc_weapon2, 133, 435, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*04*/ new TutorialEntry(210, 725, true, true, R.string.tv_desc_small_rocket1, 40, 525, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*05*/ new TutorialEntry(210, 725, true, true, R.string.tv_desc_small_rocket2, 40, 475, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*06*/ new TutorialEntry(394, 795, true, true, R.string.tv_desc_big_rocket1, 218, 560, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*07*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_asteroid1, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*08*/ new TutorialEntry(896, 274, true, false, R.string.tv_desc_asteroid3, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*09*/ new TutorialEntry(896, 274, true, true, R.string.tv_desc_asteroid4, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*10*/ new TutorialEntry(896, 274, true, false, R.string.tv_desc_asteroid2, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*11*/ new TutorialEntry(200, 110, false, true, R.string.tv_desc_population1, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*12*/ new TutorialEntry(200, 110, false, true, R.string.tv_desc_population2, 40, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*13*/ new TutorialEntry(580, 110, false, true, R.string.tv_desc_money1, 404, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*14*/ new TutorialEntry(580, 110, false, true, R.string.tv_desc_money2, 404, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*15*/ new TutorialEntry(1230, 110, false, true, R.string.tv_desc_score1, 1054, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*16*/ new TutorialEntry(1590, 110, false, true, R.string.tv_desc_time1, 1414, 250, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*17*/ new TutorialEntry(16, 812, true, true, R.string.tv_desc_pause, 40, 542, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*18*/ new TutorialEntry(1776, 812, true, true, R.string.tv_desc_mute, 1400, 542, 480, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP),
+        /*19*/ new TutorialEntry(0, 0, false, false, R.string.tv_desc_finish, 390, 420, 1140, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP)
     };
 
     private int m_CurrentTutorialIndex;
@@ -190,7 +193,28 @@ public class TutorialManager {
         m_TxtViewTutorial.setAlpha(1f);
 
         Util.setViewLeftAndTopMargin(m_ImgViewTutorialArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
-        Util.setViewLeftAndTopMargin(m_TxtViewTutorial, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
+
+        if (tutorialEntry.TextAlignmentX == RelativeLayout.ALIGN_PARENT_LEFT) {
+            Util.replaceViewLayoutRule(m_TxtViewTutorial, RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_LEFT);
+            Util.setViewLeftMargin(m_TxtViewTutorial, tutorialEntry.TextPositionX);
+            Util.setViewRightMargin(m_TxtViewTutorial, 0);
+        }
+        else {
+            Util.replaceViewLayoutRule(m_TxtViewTutorial, RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_RIGHT);
+            Util.setViewLeftMargin(m_TxtViewTutorial, 0);
+            Util.setViewRightMargin(m_TxtViewTutorial, tutorialEntry.TextPositionX);
+        }
+
+        if (tutorialEntry.TextAlignmentY == RelativeLayout.ALIGN_PARENT_TOP) {
+            Util.replaceViewLayoutRule(m_TxtViewTutorial, RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.ALIGN_PARENT_TOP);
+            Util.setViewTopMargin(m_TxtViewTutorial, tutorialEntry.TextPositionY);
+            Util.setViewBottomMargin(m_TxtViewTutorial, 0);
+        }
+        else {
+            Util.replaceViewLayoutRule(m_TxtViewTutorial, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_BOTTOM);
+            Util.setViewTopMargin(m_TxtViewTutorial, 0);
+            Util.setViewBottomMargin(m_TxtViewTutorial, tutorialEntry.TextPositionY);
+        }
 
         Util.setViewWidth(m_TxtViewTutorial, tutorialEntry.TextBoxWidth);
         m_TxtViewTutorial.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId));

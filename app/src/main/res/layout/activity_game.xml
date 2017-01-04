@@ -495,7 +495,7 @@
     <TextView
         android:text="@string/tv_desc_welcome"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:id="@+id/txtViewTutorial"
         android:layout_height="wrap_content"
         android:paddingRight="42px"

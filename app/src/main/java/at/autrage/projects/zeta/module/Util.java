@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.module;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import at.autrage.projects.zeta.activity.SuperActivity;
 
@@ -189,5 +190,11 @@ public class Util {
 
     public static void setViewBottomPadding(View view, int bottomPadding) {
         setViewPadding(view, -1, -1, -1, bottomPadding);
+    }
+
+    public static void replaceViewLayoutRule(View view, int oldRule, int newRule) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        layoutParams.removeRule(oldRule);
+        layoutParams.addRule(newRule);
     }
 }
