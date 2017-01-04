@@ -192,7 +192,7 @@ public class TutorialManager {
         Util.setViewLeftAndTopMargin(m_ImgViewTutorialArrow, tutorialEntry.ArrowPositionX, tutorialEntry.ArrowPositionY);
         Util.setViewLeftAndTopMargin(m_TxtViewTutorial, tutorialEntry.TextPositionX, tutorialEntry.TextPositionY);
 
-        Util.setViewWidth(m_TxtViewTutorial, (int) (tutorialEntry.TextBoxWidth * SuperActivity.getScaleFactor()));
+        Util.setViewWidth(m_TxtViewTutorial, tutorialEntry.TextBoxWidth);
         m_TxtViewTutorial.setText(gameView.getGameActivity().getString(tutorialEntry.TextResourceId));
     }
 
