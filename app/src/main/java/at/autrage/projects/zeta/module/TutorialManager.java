@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.MainMenuActivity;
 import at.autrage.projects.zeta.model.Asteroid;
@@ -83,9 +86,11 @@ public class TutorialManager {
     };
 
     private int m_CurrentTutorialIndex;
+    private Timer m_RedirectionTimer;
     private boolean m_Finished;
 
     private TutorialManager() {
+        m_RedirectionTimer = new Timer();
     }
 
     public void startTutorial(GameView gameView) {
@@ -101,7 +106,7 @@ public class TutorialManager {
         m_Finished = false;
     }
 
-    public void onClickEvent(GameView gameView) {
+    public void onClickEvent(final GameView gameView) {
         if (m_Finished) {
             return;
         }
@@ -121,17 +126,28 @@ public class TutorialManager {
 
         if (m_CurrentTutorialIndex >= m_TutorialEntries.length) {
             m_Finished = true;
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
 
-            // Open main menu activity
-            Intent redirectIntent = new Intent(gameView.getGameActivity(), MainMenuActivity.class);
-            gameView.getGameActivity().startActivity(redirectIntent);
+            m_RedirectionTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    gameView.getGameActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Open main menu activity
+                            Intent redirectIntent = new Intent(gameView.getGameActivity(), MainMenuActivity.class);
+                            gameView.getGameActivity().startActivity(redirectIntent);
 
-            // Close game activity
-            gameView.getGameActivity().finish();
+                            // Close game activity
+                            gameView.getGameActivity().finish();
 
-            // Start slide animation
-            gameView.getGameActivity().overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+                            // Start slide animation
+                            //gameView.getGameActivity().overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+                        }
+                    });
+                }
+            }, Pustafin.GameActivityRedirectionDelayOnTutorialFinish);
+
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_new_highscore);
             return;
         }
 

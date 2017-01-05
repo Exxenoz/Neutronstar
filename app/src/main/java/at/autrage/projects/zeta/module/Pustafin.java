@@ -117,4 +117,5 @@ public class Pustafin {
 
     public static final int GameActivityRedirectionDelayOnWin = 2000; // In ms
     public static final int GameActivityRedirectionDelayOnLoose = 2000; // In ms
+    public static final int GameActivityRedirectionDelayOnTutorialFinish = 500; // In ms
 }

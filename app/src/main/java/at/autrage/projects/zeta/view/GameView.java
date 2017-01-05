@@ -375,7 +375,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         m_GameActivity.finish();
 
                         // Start slide animation
-                        m_GameActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                        //m_GameActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                     }
                 });
             }
@@ -423,7 +423,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         m_GameActivity.finish();
 
                         // Start slide animation
-                        m_GameActivity.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+                        //m_GameActivity.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
                     }
                 });
             }
