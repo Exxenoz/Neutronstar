@@ -44,10 +44,10 @@
         android:layout_marginTop="46px"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="1160px" />
+        android:layout_marginLeft="1210px" />
 
     <TextView
-        android:text="000.000.000"
+        android:text="000.000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewScore"
@@ -57,7 +57,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="48px"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="1220px" />
+        android:layout_marginLeft="1270px" />
 
     <TextView
         android:text="00"
@@ -483,15 +483,6 @@
         android:layout_alignParentLeft="false"
         android:layout_marginTop="48px" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/gv_foreground_alarm"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imgViewAlarm"
-        android:alpha="0" />
-
     <TextView
         android:text="@string/tv_desc_welcome"
         android:layout_alignParentTop="false"
@@ -519,5 +510,14 @@
         android:layout_height="128px"
         android:alpha="0"
         android:layout_alignParentStart="false" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/gv_foreground_alarm"
+        android:id="@+id/imgViewAlarm"
+        android:alpha="0"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

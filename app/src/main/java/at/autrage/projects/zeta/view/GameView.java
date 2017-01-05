@@ -264,7 +264,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.Score) && m_UI.TxtViewScore != null) {
-                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(m_GameManager.getScore(), 9, true)));
+                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(m_GameManager.getScore(), 6, true)));
                     m_GameManager.delUpdateFlag(UpdateFlags.Score);
                 }
 
