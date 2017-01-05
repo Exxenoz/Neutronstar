@@ -514,12 +514,10 @@
     <ImageView
         android:layout_width="128px"
         app:srcCompat="@drawable/gv_help_arrow"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
         android:id="@+id/imgViewTutorialArrow"
         android:layout_height="128px"
-        android:layout_marginTop="274px"
-        android:layout_marginLeft="896px"
-        android:alpha="0" />
+        android:alpha="0"
+        android:layout_alignParentStart="false" />
 
 </RelativeLayout>
