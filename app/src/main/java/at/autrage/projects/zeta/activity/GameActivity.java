@@ -61,6 +61,10 @@ public class GameActivity extends SuperActivity {
             android.view.animation.Animation arrowAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arrow_up_down);
             TutorialManager.getInstance().getImgViewTutorialArrow().startAnimation(arrowAnimation);
         }
+        else {
+            findViewById(R.id.imgViewTutorialArrow).setAlpha(0f);
+            findViewById(R.id.txtViewTutorial).setAlpha(0f);
+        }
 
         m_GameView = (GameView)findViewById(R.id.gameView);
         m_GameView.setGameViewUI(gameViewUI);
