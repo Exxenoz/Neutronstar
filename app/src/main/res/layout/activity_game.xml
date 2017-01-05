@@ -472,7 +472,7 @@
         android:layout_marginRight="10px" />
 
     <TextView
-        android:text="180s"
+        android:text="0s"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewTime"
