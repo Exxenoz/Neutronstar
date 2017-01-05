@@ -195,6 +195,8 @@ public class TutorialManager {
             m_ImgViewTutorialArrow.setAlpha(0f);
         }
 
+        Util.resetViewLayoutRules(m_ImgViewTutorialArrow);
+
         if (tutorialEntry.ArrowAlignmentX == RelativeLayout.ALIGN_PARENT_LEFT) {
             Util.addViewLayoutRule(m_ImgViewTutorialArrow, RelativeLayout.ALIGN_PARENT_LEFT);
             Util.setViewLeftMargin(m_ImgViewTutorialArrow, tutorialEntry.ArrowPositionX);
