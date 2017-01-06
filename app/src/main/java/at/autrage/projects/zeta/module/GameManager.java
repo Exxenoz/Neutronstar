@@ -3,6 +3,7 @@ package at.autrage.projects.zeta.module;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseDamage;
 import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseRadius;
@@ -123,6 +124,29 @@ public class GameManager {
         }
 
         m_TutorialMode = false;
+    }
+
+    public void onStartGame() {
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
+
+        GameManager.getInstance().reset();
+    }
+
+    public void onStartTutorialGame() {
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
+
+        reset();
+        setTutorialMode(true);
+    }
+
+    public void onStartNextLevel() {
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
+
+        setLevel(getLevel() + 1);
+
+        updateWeaponHitDamages();
+        updateWeaponSpeeds();
+        updateWeaponRadii();
     }
 
     public void setUpdateFlag(int updateFlag) {

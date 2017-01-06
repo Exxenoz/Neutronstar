@@ -146,9 +146,7 @@ public class HighscoreActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked New Game Button...");
 
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
-
-            GameManager.getInstance().reset();
+            GameManager.getInstance().onStartGame();
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);

@@ -61,9 +61,7 @@ public class MainMenuActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked New Game Button...");
 
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
-
-            GameManager.getInstance().reset();
+            GameManager.getInstance().onStartGame();
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);
@@ -107,10 +105,7 @@ public class MainMenuActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked Tutorial Game Button...");
 
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
-
-            GameManager.getInstance().reset();
-            GameManager.getInstance().setTutorialMode(true);
+            GameManager.getInstance().onStartTutorialGame();
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);

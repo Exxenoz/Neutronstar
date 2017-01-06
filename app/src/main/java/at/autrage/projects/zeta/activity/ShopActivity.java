@@ -271,13 +271,7 @@ public class ShopActivity extends SuperActivity {
 
         Logger.D("Clicked Next Level Button...");
 
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_drumhits_next_level);
-
-        m_GameManager.setLevel(m_GameManager.getLevel() + 1);
-
-        m_GameManager.updateWeaponHitDamages();
-        m_GameManager.updateWeaponSpeeds();
-        m_GameManager.updateWeaponRadii();
+        m_GameManager.onStartNextLevel();
 
         Intent redirectIntent = new Intent(this, GameActivity.class);
         startActivity(redirectIntent);
