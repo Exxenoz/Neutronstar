@@ -18,6 +18,7 @@ import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
+import at.autrage.projects.zeta.module.Util;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
@@ -97,7 +98,7 @@ public class HighscoreActivity extends SuperActivity {
 
             date.setTime((long)highscoreEntry.Date * 1000);
 
-            textViewEntry.setText(String.format("%02d | Lvl. %02d | %,07d | %s", i + 1, highscoreEntry.Level, highscoreEntry.Score, dateFormat.format(date)));
+            textViewEntry.setText(String.format("%02d | Lvl. %02d | %s | %s", i + 1, highscoreEntry.Level, Util.addLeadingZeros(highscoreEntry.Score, 6, true), dateFormat.format(date)));
         }
 
         String noentry = getString(R.string.hs_noentry);
