@@ -49,4 +49,5 @@
     <string name="tv_desc_pause">Sie können das Spiel durch\nAktivierung dieses Knopfes\njederzeit pausieren oder\nfortsetzen.</string>
     <string name="tv_desc_mute">Sie können den Sound durch\nAktivierung dieses Knopfes\njederzeit stumm- oder laut-\nschalten.</string>
     <string name="tv_desc_finish">Sie haben das Tutorial erfolgreich beendet!\n\nSie können jetzt im Hauptmenü ein neues Spiel starten.</string>
+    <string name="sv_disabled">Deaktiviert</string>
 </resources>

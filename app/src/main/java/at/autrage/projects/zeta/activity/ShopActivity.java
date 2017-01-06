@@ -217,10 +217,9 @@ public class ShopActivity extends SuperActivity {
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage);
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed);
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius);
-
-        updateWeaponResearchPrice(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke);
-        updateWeaponResearchPrice(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser);
-        updateWeaponResearchPrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb);
+        updateWeaponUpgradePrice(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke);
+        updateWeaponUpgradePrice(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser);
+        updateWeaponUpgradePrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb);
     }
 
     private void updateMoneyDisplay() {
@@ -238,29 +237,26 @@ public class ShopActivity extends SuperActivity {
             return;
         }
 
-        if (weaponUpgradeObj.isResearchable()) {
-            updateWeaponResearchPrice(textView, weaponUpgrade);
+        if (weaponUpgradeObj.getMaxLevel() <= 0) {
+            // Weapon upgrade is disabled
+            textView.setText(getString(R.string.sv_disabled));
+        }
+        else if (weaponUpgradeObj.isResearchable()) {
+            // Weapon upgrade is researchable
+            if (weaponUpgradeObj.isResearched()) {
+                textView.setText(getString(R.string.sv_researched_display));
+            }
+            else {
+                textView.setText(String.format(getString(R.string.sv_price_display), weaponUpgradeObj.getUpgradeCostsForNextLevel()));
+            }
         }
         else if (weaponUpgradeObj.getLevel() < weaponUpgradeObj.getMaxLevel()) {
             textView.setText(String.format(getString(R.string.sv_price_level_display),
                     weaponUpgradeObj.getUpgradeCostsForNextLevel(), weaponUpgradeObj.getLevel()));
         }
         else {
+            // Weapon upgrade is at its max level
             textView.setText(String.format(getString(R.string.sv_max_level_display), weaponUpgradeObj.getLevel()));
-        }
-    }
-
-    private void updateWeaponResearchPrice(TextView textView, WeaponUpgrades weaponUpgrade) {
-        WeaponUpgrade weaponUpgradeObj = m_GameManager.getWeaponUpgrade(weaponUpgrade);
-        if (weaponUpgradeObj == null) {
-            return;
-        }
-
-        if (weaponUpgradeObj.isResearched()) {
-            textView.setText(getString(R.string.sv_researched_display));
-        }
-        else {
-            textView.setText(String.format(getString(R.string.sv_price_display), weaponUpgradeObj.getUpgradeCostsForNextLevel()));
         }
     }
 
