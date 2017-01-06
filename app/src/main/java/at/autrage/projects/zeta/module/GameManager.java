@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.model.WeaponStockpile;
 import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseDamage;
 import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseRadius;
@@ -37,7 +38,7 @@ public class GameManager {
 
     private double m_Population;
 
-    private Map<Weapons, Integer> m_Weapons;
+    private Map<Weapons, WeaponStockpile> m_WeaponStockpiles;
     private Map<WeaponUpgrades, WeaponUpgrade> m_WeaponUpgrades;
     private Map<Weapons, Float> m_WeaponBaseHitDamages;
     private Map<Weapons, Float> m_WeaponHitDamages;
@@ -49,7 +50,7 @@ public class GameManager {
     private boolean m_TutorialMode;
 
     private GameManager() {
-        m_Weapons = new HashMap<Weapons, Integer>();
+        m_WeaponStockpiles = new HashMap<Weapons, WeaponStockpile>();
         m_WeaponUpgrades = new HashMap<WeaponUpgrades, WeaponUpgrade>();
         m_WeaponBaseHitDamages = new HashMap<Weapons, Float>();
         m_WeaponHitDamages = new HashMap<Weapons, Float>();
@@ -71,7 +72,7 @@ public class GameManager {
 
         m_Population = Pustafin.StartPopulation;
 
-        m_Weapons.clear();
+        m_WeaponStockpiles.clear();
         m_WeaponUpgrades.clear();
         m_WeaponBaseHitDamages.clear();
         m_WeaponHitDamages.clear();
@@ -80,8 +81,14 @@ public class GameManager {
         m_WeaponBaseRadii.clear();
         m_WeaponRadii.clear();
 
-        m_Weapons.put(Weapons.SmallRocket, -1);
-        m_Weapons.put(Weapons.BigRocket, 5);
+        m_WeaponStockpiles.put(Weapons.SmallRocket, new WeaponStockpile(Weapons.SmallRocket, Pustafin.SmallRocketStartCount, Pustafin.SmallRocketPacketCost, Pustafin.SmallRocketPacketSize, WeaponUpgrades.None, UpdateFlags.SmallRocketCount));
+        m_WeaponStockpiles.put(Weapons.BigRocket, new WeaponStockpile(Weapons.BigRocket, Pustafin.BigRocketStartCount, Pustafin.BigRocketPacketCost, Pustafin.BigRocketPacketSize, WeaponUpgrades.None, UpdateFlags.BigRocketCount));
+        m_WeaponStockpiles.put(Weapons.SmallNuke, new WeaponStockpile(Weapons.SmallNuke, Pustafin.SmallNukeStartCount, Pustafin.SmallNukePacketCost, Pustafin.SmallNukePacketSize, WeaponUpgrades.ResearchNuke, UpdateFlags.SmallNukeCount));
+        m_WeaponStockpiles.put(Weapons.BigNuke, new WeaponStockpile(Weapons.BigNuke, Pustafin.BigNukeStartCount, Pustafin.BigNukePacketCost, Pustafin.BigNukePacketSize, WeaponUpgrades.ResearchNuke, UpdateFlags.BigNukeCount));
+        // ToDo: Implement Laser
+        m_WeaponStockpiles.put(Weapons.SmallContactBomb, new WeaponStockpile(Weapons.SmallContactBomb, Pustafin.SmallContactBombStartCount, Pustafin.SmallContactBombPacketCost, Pustafin.SmallContactBombPacketSize, WeaponUpgrades.ResearchContactBomb, UpdateFlags.SmallContactBombCount));
+        m_WeaponStockpiles.put(Weapons.BigContactBomb, new WeaponStockpile(Weapons.BigContactBomb, Pustafin.BigContactBombStartCount, Pustafin.BigContactBombPacketCost, Pustafin.BigContactBombPacketSize, WeaponUpgrades.ResearchContactBomb, UpdateFlags.BigContactBombCount));
+        m_WeaponStockpiles.put(Weapons.ProBabyPill, new WeaponStockpile(Weapons.ProBabyPill, Pustafin.ProBabypillStartCount, Pustafin.ProBabypillPacketCost, Pustafin.ProBabypillPacketSize, WeaponUpgrades.None, UpdateFlags.None));
 
         m_WeaponUpgrades.put(WeaponUpgrades.IncreaseDamage, new WeaponUpgradeIncreaseDamage(Pustafin.DamageUpgradeStartLevel));
         m_WeaponUpgrades.put(WeaponUpgrades.IncreaseSpeed, new WeaponUpgradeIncreaseSpeed(Pustafin.SpeedUpgradeStartLevel));
@@ -197,46 +204,33 @@ public class GameManager {
         setUpdateFlag(UpdateFlags.Score);
     }
 
+    public WeaponStockpile getWeaponStockpile(Weapons weapon) {
+        return m_WeaponStockpiles.get(weapon);
+    }
+
     public int getWeaponCount(Weapons weapon) {
-        Integer count = m_Weapons.get(weapon);
-        return (count != null) ? count : 0;
+        WeaponStockpile weaponStockpile = m_WeaponStockpiles.get(weapon);
+        if (weaponStockpile == null) {
+            return 0;
+        }
+
+        return weaponStockpile.getCount();
     }
 
     public void setWeaponCount(Weapons weapon, int count) {
-        m_Weapons.put(weapon, count);
-
-        switch (weapon) {
-            case SmallRocket:
-                setUpdateFlag(UpdateFlags.SmallRocketCount);
-                break;
-            case BigRocket:
-                setUpdateFlag(UpdateFlags.BigRocketCount);
-                break;
-            case SmallNuke:
-                setUpdateFlag(UpdateFlags.SmallNukeCount);
-                break;
-            case BigNuke:
-                setUpdateFlag(UpdateFlags.BigNukeCount);
-                break;
-            case SmallLaser:
-                setUpdateFlag(UpdateFlags.SmallLaserCount);
-                break;
-            case BigLaser:
-                setUpdateFlag(UpdateFlags.BigLaserCount);
-                break;
-            case SmallContactBomb:
-                setUpdateFlag(UpdateFlags.SmallContactBombCount);
-                break;
-            case BigContactBomb:
-                setUpdateFlag(UpdateFlags.BigContactBombCount);
-                break;
-            default:
-                Logger.E("Could not set update flag for weapon " + weapon + ", because it is not defined!");
-                break;
+        WeaponStockpile weaponStockpile = m_WeaponStockpiles.get(weapon);
+        if (weaponStockpile == null) {
+            return;
         }
+
+        weaponStockpile.setCount(count);
     }
 
     public boolean isWeaponUpgradeResearched(WeaponUpgrades weaponUpgrade) {
+        if (weaponUpgrade == WeaponUpgrades.None) {
+            return true;
+        }
+
         WeaponUpgrade weaponUpgradeObj = m_WeaponUpgrades.get(weaponUpgrade);
         return weaponUpgradeObj != null && weaponUpgradeObj.isResearched();
     }

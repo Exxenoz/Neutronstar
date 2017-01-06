@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.model.WeaponStockpile;
 import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
@@ -102,35 +103,35 @@ public class GameActivity extends SuperActivity {
 
         Button btnAreaSmallRocket = (Button)findViewById(R.id.btnAreaSmallRocket);
         btnAreaSmallRocket.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 0f) * getScaleFactor()), Weapons.SmallRocket, WeaponUpgrades.None));
+                (int)((146f + 196f * 0f) * getScaleFactor()), Weapons.SmallRocket));
 
         Button btnAreaBigRocket = (Button)findViewById(R.id.btnAreaBigRocket);
         btnAreaBigRocket.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 1f) * getScaleFactor()), Weapons.BigRocket, WeaponUpgrades.None));
+                (int)((146f + 196f * 1f) * getScaleFactor()), Weapons.BigRocket));
 
         Button btnAreaSmallNuke = (Button)findViewById(R.id.btnAreaSmallNuke);
         btnAreaSmallNuke.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 2f) * getScaleFactor()), Weapons.SmallNuke, WeaponUpgrades.ResearchNuke));
+                (int)((146f + 196f * 2f) * getScaleFactor()), Weapons.SmallNuke));
 
         Button btnAreaBigNuke = (Button)findViewById(R.id.btnAreaBigNuke);
         btnAreaBigNuke.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 3f) * getScaleFactor()), Weapons.BigNuke, WeaponUpgrades.ResearchNuke));
+                (int)((146f + 196f * 3f) * getScaleFactor()), Weapons.BigNuke));
 
         Button btnAreaSmallLaser = (Button)findViewById(R.id.btnAreaSmallLaser);
         btnAreaSmallLaser.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 4f) * getScaleFactor()), Weapons.SmallLaser, WeaponUpgrades.ResearchLaser));
+                (int)((146f + 196f * 4f) * getScaleFactor()), Weapons.SmallLaser));
 
         Button btnAreaBigLaser = (Button)findViewById(R.id.btnAreaBigLaser);
         btnAreaBigLaser.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 5f) * getScaleFactor()), Weapons.BigLaser, WeaponUpgrades.ResearchLaser));
+                (int)((146f + 196f * 5f) * getScaleFactor()), Weapons.BigLaser));
 
         Button btnAreaSmallContactBomb = (Button)findViewById(R.id.btnAreaSmallContactBomb);
         btnAreaSmallContactBomb.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 6f) * getScaleFactor()), Weapons.SmallContactBomb, WeaponUpgrades.ResearchContactBomb));
+                (int)((146f + 196f * 6f) * getScaleFactor()), Weapons.SmallContactBomb));
 
         Button btnAreaBigContactBomb = (Button)findViewById(R.id.btnAreaBigContactBomb);
         btnAreaBigContactBomb.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
-                (int)((146f + 196f * 7f) * getScaleFactor()), Weapons.BigContactBomb, WeaponUpgrades.ResearchContactBomb));
+                (int)((146f + 196f * 7f) * getScaleFactor()), Weapons.BigContactBomb));
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
     }
@@ -197,14 +198,12 @@ public class GameActivity extends SuperActivity {
         private ImageView m_Highlighted;
         private int m_HighlightedPositionX;
         private Weapons m_Weapon;
-        private WeaponUpgrades m_RequiredUpgrade;
 
-        public HotBarButtonAreaListener(GameActivity ownerActivity, ImageView highlighted, int highlightedPositionX, Weapons weapon, WeaponUpgrades requiredUpgrade) {
+        public HotBarButtonAreaListener(GameActivity ownerActivity, ImageView highlighted, int highlightedPositionX, Weapons weapon) {
             this.m_OwnerActivity = ownerActivity;
             this.m_Highlighted = highlighted;
             this.m_HighlightedPositionX = highlightedPositionX;
             this.m_Weapon = weapon;
-            this.m_RequiredUpgrade = requiredUpgrade;
         }
 
         @Override
@@ -213,11 +212,16 @@ public class GameActivity extends SuperActivity {
                 return;
             }
 
-            if (GameManager.getInstance().getWeaponCount(m_Weapon) == 0) {
+            WeaponStockpile weaponStockpile = GameManager.getInstance().getWeaponStockpile(m_Weapon);
+            if (weaponStockpile == null) {
                 return;
             }
 
-            if (m_RequiredUpgrade == WeaponUpgrades.None || GameManager.getInstance().isWeaponUpgradeResearched(m_RequiredUpgrade)) {
+            if (weaponStockpile.getCount() == 0) {
+                return;
+            }
+
+            if (GameManager.getInstance().isWeaponUpgradeResearched(weaponStockpile.getRequiredWeaponUpgrade())) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) m_Highlighted.getLayoutParams();
 
                 int leftMargin = m_HighlightedPositionX;

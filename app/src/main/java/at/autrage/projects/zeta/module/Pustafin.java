@@ -21,6 +21,14 @@ public class Pustafin {
     public static final int StartBudget = 100000;
     public static final int StartPopulation = 7390; // As from 2016
 
+    public static final int SmallRocketStartCount = -1;
+    public static final int BigRocketStartCount = 5;
+    public static final int SmallNukeStartCount = 0;
+    public static final int BigNukeStartCount = 0;
+    public static final int SmallContactBombStartCount = 0;
+    public static final int BigContactBombStartCount = 0;
+    public static final int ProBabypillStartCount = 0;
+
     public static final int DamageUpgradeStartLevel = 0;
     public static final int SpeedUpgradeStartLevel = 0;
     public static final int RadiusUpgradeStartLevel = 0;
@@ -29,6 +37,7 @@ public class Pustafin {
     public static final int ResearchLaserUpgradeStartLevel = 0;
     public static final int ResearchContactBombUpgradeStartLevel = 0;
 
+    public static final int SmallRocketPacketSize = 0;
     public static final int BigRocketPacketSize = 5;
     public static final int SmallNukePacketSize = 10;
     public static final int BigNukePacketSize = 5;

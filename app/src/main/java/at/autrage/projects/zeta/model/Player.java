@@ -142,8 +142,13 @@ public class Player extends GameObject {
             return;
         }
 
-        Integer weaponCount = GameManager.getInstance().getWeaponCount(m_SelectedWeapon);
-        if (weaponCount == null || weaponCount == 0) {
+        WeaponStockpile weaponStockpile = GameManager.getInstance().getWeaponStockpile(m_SelectedWeapon);
+        if (weaponStockpile == null) {
+            return;
+        }
+
+        int weaponCount = weaponStockpile.getCount();
+        if (weaponCount == 0) {
             return;
         }
 
@@ -186,7 +191,7 @@ public class Player extends GameObject {
         }
 
         if (weaponCount > 0) {
-            GameManager.getInstance().setWeaponCount(m_SelectedWeapon, --weaponCount);
+            weaponStockpile.setCount(--weaponCount);
             if (weaponCount == 0) {
                 getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
             }

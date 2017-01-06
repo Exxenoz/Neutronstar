@@ -11,6 +11,7 @@ import org.w3c.dom.Text;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.model.Weapon;
+import at.autrage.projects.zeta.model.WeaponStockpile;
 import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
@@ -115,18 +116,12 @@ public class ShopActivity extends SuperActivity {
     }
 
     private void initializeShopOnClickListener() {
-        WeaponBuyOnClickListener bigRocketBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigRocket, Weapons.BigRocket,
-                Pustafin.BigRocketPacketCost, Pustafin.BigRocketPacketSize, WeaponUpgrades.None);
-        WeaponBuyOnClickListener smallNukeOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceSmallNuke, Weapons.SmallNuke,
-                Pustafin.SmallNukePacketCost, Pustafin.SmallNukePacketSize, WeaponUpgrades.ResearchNuke);
-        WeaponBuyOnClickListener bigNukeBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigNuke, Weapons.BigNuke,
-                Pustafin.BigNukePacketCost, Pustafin.BigNukePacketSize, WeaponUpgrades.ResearchNuke);
-        WeaponBuyOnClickListener smallContactBombBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb,
-                Pustafin.SmallContactBombPacketCost, Pustafin.SmallContactBombPacketSize, WeaponUpgrades.ResearchContactBomb);
-        WeaponBuyOnClickListener bigContactBombBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb,
-                Pustafin.BigContactBombPacketCost, Pustafin.BigContactBombPacketSize, WeaponUpgrades.ResearchContactBomb);
-        WeaponBuyOnClickListener proBabyPillBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceProBabypill, Weapons.ProBabyPill,
-                Pustafin.ProBabypillPacketCost, Pustafin.ProBabypillPacketSize, WeaponUpgrades.None);
+        WeaponBuyOnClickListener bigRocketBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigRocket, Weapons.BigRocket);
+        WeaponBuyOnClickListener smallNukeOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceSmallNuke, Weapons.SmallNuke);
+        WeaponBuyOnClickListener bigNukeBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigNuke, Weapons.BigNuke);
+        WeaponBuyOnClickListener smallContactBombBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb);
+        WeaponBuyOnClickListener bigContactBombBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb);
+        WeaponBuyOnClickListener proBabyPillBuyOnClickListener = new WeaponBuyOnClickListener(m_TxtViewPriceProBabypill, Weapons.ProBabyPill);
 
         Button btnAreaBigRocket = (Button) findViewById(R.id.btnAreaShopBuyBigRocket);
         Button btnAreaBigRocketIcon = (Button) findViewById(R.id.btnAreaShopBuyBigRocketIcon);
@@ -207,12 +202,12 @@ public class ShopActivity extends SuperActivity {
         initializeShopPrices();
         initializeShopOnClickListener();
 
-        updateWeaponPrice(m_TxtViewPriceBigRocket, Weapons.BigRocket, Pustafin.BigRocketPacketCost);
-        updateWeaponPrice(m_TxtViewPriceSmallNuke, Weapons.SmallNuke, Pustafin.SmallNukePacketCost);
-        updateWeaponPrice(m_TxtViewPriceBigNuke, Weapons.BigNuke, Pustafin.BigNukePacketCost);
-        updateWeaponPrice(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb, Pustafin.SmallContactBombPacketCost);
-        updateWeaponPrice(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb, Pustafin.BigContactBombPacketCost);
-        updateWeaponPrice(m_TxtViewPriceProBabypill, Weapons.ProBabyPill, Pustafin.ProBabypillPacketCost);
+        updateWeaponPrice(m_TxtViewPriceBigRocket, Weapons.BigRocket);
+        updateWeaponPrice(m_TxtViewPriceSmallNuke, Weapons.SmallNuke);
+        updateWeaponPrice(m_TxtViewPriceBigNuke, Weapons.BigNuke);
+        updateWeaponPrice(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb);
+        updateWeaponPrice(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb);
+        updateWeaponPrice(m_TxtViewPriceProBabypill, Weapons.ProBabyPill);
 
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage);
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed);
@@ -226,9 +221,14 @@ public class ShopActivity extends SuperActivity {
         m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
     }
 
-    private void updateWeaponPrice(TextView textView, Weapons weapon, int weaponPrice) {
-        int currenWeaponCount = m_GameManager.getWeaponCount(weapon);
-        textView.setText(String.format(getString(R.string.sv_price_count_display), weaponPrice, currenWeaponCount));
+    private void updateWeaponPrice(TextView textView, Weapons weapon) {
+        WeaponStockpile weaponStockpile = m_GameManager.getWeaponStockpile(weapon);
+        if (weaponStockpile != null) {
+            textView.setText(String.format(getString(R.string.sv_price_count_display), weaponStockpile.getPacketCosts(), weaponStockpile.getCount()));
+        }
+        else {
+            textView.setText(getString(R.string.sv_disabled));
+        }
     }
 
     private void updateWeaponUpgradePrice(TextView textView, WeaponUpgrades weaponUpgrade) {
@@ -284,34 +284,25 @@ public class ShopActivity extends SuperActivity {
     private class WeaponBuyOnClickListener implements View.OnClickListener {
         private TextView m_TextView;
         private Weapons m_Weapon;
-        private int m_Price;
-        private int m_Count;
-        private WeaponUpgrades m_RequiredWeaponUpgrade;
 
-        public WeaponBuyOnClickListener(TextView textView, Weapons weapon, int price, int count, WeaponUpgrades requiredWeaponUpgrade) {
+        public WeaponBuyOnClickListener(TextView textView, Weapons weapon) {
             m_TextView = textView;
             m_Weapon = weapon;
-            m_Price = price;
-            m_Count = count;
-            m_RequiredWeaponUpgrade = requiredWeaponUpgrade;
         }
 
         @Override
         public void onClick(View v) {
-            if (m_RequiredWeaponUpgrade != WeaponUpgrades.None &&
-                !GameManager.getInstance().isWeaponUpgradeResearched(m_RequiredWeaponUpgrade)) {
+            WeaponStockpile weaponStockpile = GameManager.getInstance().getWeaponStockpile(m_Weapon);
+            if (weaponStockpile == null) {
                 return;
             }
 
-            if (GameManager.getInstance().getMoney() < m_Price) {
+            if (!weaponStockpile.buy()) {
                 return;
             }
-
-            GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() - m_Price);
-            GameManager.getInstance().setWeaponCount(m_Weapon, GameManager.getInstance().getWeaponCount(m_Weapon) + m_Count);
 
             updateMoneyDisplay();
-            updateWeaponPrice(m_TextView, m_Weapon, m_Price);
+            updateWeaponPrice(m_TextView, m_Weapon);
         }
     }
 
