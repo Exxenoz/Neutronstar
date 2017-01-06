@@ -1,11 +1,15 @@
 package at.autrage.projects.zeta.module;
 
-import android.util.Pair;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import at.autrage.projects.zeta.model.Weapon;
+import at.autrage.projects.zeta.model.WeaponUpgrade;
+import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseDamage;
+import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseRadius;
+import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseSpeed;
+import at.autrage.projects.zeta.model.WeaponUpgradeResearchContactBomb;
+import at.autrage.projects.zeta.model.WeaponUpgradeResearchLaser;
+import at.autrage.projects.zeta.model.WeaponUpgradeResearchNuke;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 
@@ -33,7 +37,7 @@ public class GameManager {
     private double m_Population;
 
     private Map<Weapons, Integer> m_Weapons;
-    private Map<WeaponUpgrades, Integer> m_WeaponUpgrades;
+    private Map<WeaponUpgrades, WeaponUpgrade> m_WeaponUpgrades;
     private Map<Weapons, Float> m_WeaponBaseHitDamages;
     private Map<Weapons, Float> m_WeaponHitDamages;
     private Map<Weapons, Float> m_WeaponBaseSpeeds;
@@ -45,7 +49,7 @@ public class GameManager {
 
     private GameManager() {
         m_Weapons = new HashMap<Weapons, Integer>();
-        m_WeaponUpgrades = new HashMap<WeaponUpgrades, Integer>();
+        m_WeaponUpgrades = new HashMap<WeaponUpgrades, WeaponUpgrade>();
         m_WeaponBaseHitDamages = new HashMap<Weapons, Float>();
         m_WeaponHitDamages = new HashMap<Weapons, Float>();
         m_WeaponBaseSpeeds = new HashMap<Weapons, Float>();
@@ -77,6 +81,13 @@ public class GameManager {
 
         m_Weapons.put(Weapons.SmallRocket, -1);
         m_Weapons.put(Weapons.BigRocket, 5);
+
+        m_WeaponUpgrades.put(WeaponUpgrades.IncreaseDamage, new WeaponUpgradeIncreaseDamage(Pustafin.DamageUpgradeStartLevel));
+        m_WeaponUpgrades.put(WeaponUpgrades.IncreaseSpeed, new WeaponUpgradeIncreaseSpeed(Pustafin.SpeedUpgradeStartLevel));
+        m_WeaponUpgrades.put(WeaponUpgrades.IncreaseRadius, new WeaponUpgradeIncreaseRadius(Pustafin.RadiusUpgradeStartLevel));
+        m_WeaponUpgrades.put(WeaponUpgrades.ResearchNuke, new WeaponUpgradeResearchNuke(Pustafin.ResearchNukeUpgradeStartLevel));
+        m_WeaponUpgrades.put(WeaponUpgrades.ResearchLaser, new WeaponUpgradeResearchLaser(Pustafin.ResearchLaserUpgradeStartLevel));
+        m_WeaponUpgrades.put(WeaponUpgrades.ResearchContactBomb, new WeaponUpgradeResearchContactBomb(Pustafin.ResearchContactBombUpgradeStartLevel));
 
         setWeaponBaseHitDamage(Weapons.SmallRocket, Pustafin.SmallRocketHitDamageBase);
         setWeaponBaseHitDamage(Weapons.BigRocket, Pustafin.BigRocketHitDamageBase);
@@ -201,27 +212,39 @@ public class GameManager {
         }
     }
 
-    public int getWeaponUpgrade(WeaponUpgrades weaponUpgrade) {
-        Integer upgrade = m_WeaponUpgrades.get(weaponUpgrade);
-        return (upgrade != null) ? upgrade : 0;
+    public boolean isWeaponUpgradeResearched(WeaponUpgrades weaponUpgrade) {
+        WeaponUpgrade weaponUpgradeObj = m_WeaponUpgrades.get(weaponUpgrade);
+        return weaponUpgradeObj != null && weaponUpgradeObj.isResearched();
     }
 
-    public void setWeaponUpgradeLevel(WeaponUpgrades weaponUpgrade, int level) {
-        m_WeaponUpgrades.put(weaponUpgrade, level);
-        if (weaponUpgrade == WeaponUpgrades.IncreaseDamage) {
-            for (Weapons weapon : m_WeaponBaseHitDamages.keySet()) {
-                setWeaponHitDamage(weapon, (float) (getWeaponBaseHitDamage(weapon) * Math.pow(Pustafin.DamageUpgradeIncreaseFactor, level)));
-            }
+    public WeaponUpgrade getWeaponUpgrade(WeaponUpgrades weaponUpgrade) {
+        return m_WeaponUpgrades.get(weaponUpgrade);
+    }
+
+    public void updateWeaponHitDamages() {
+        WeaponUpgrade weaponUpgrade = getWeaponUpgrade(WeaponUpgrades.IncreaseDamage);
+        int level = (weaponUpgrade != null) ? weaponUpgrade.getLevel() : 0;
+
+        for (Weapons weapon : m_WeaponBaseHitDamages.keySet()) {
+            setWeaponHitDamage(weapon, (float) (getWeaponBaseHitDamage(weapon) * Math.pow(Pustafin.DamageUpgradeIncreaseFactor, level)));
         }
-        else if (weaponUpgrade == WeaponUpgrades.IncreaseSpeed) {
-            for (Weapons weapon : m_WeaponBaseSpeeds.keySet()) {
-                setWeaponSpeed(weapon, (float) (getWeaponBaseSpeed(weapon) * Math.pow(Pustafin.SpeedUpgradeIncreaseFactor, level)));
-            }
+    }
+
+    public void updateWeaponSpeeds() {
+        WeaponUpgrade weaponUpgrade = getWeaponUpgrade(WeaponUpgrades.IncreaseSpeed);
+        int level = (weaponUpgrade != null) ? weaponUpgrade.getLevel() : 0;
+
+        for (Weapons weapon : m_WeaponBaseSpeeds.keySet()) {
+            setWeaponSpeed(weapon, (float) (getWeaponBaseSpeed(weapon) * Math.pow(Pustafin.SpeedUpgradeIncreaseFactor, level)));
         }
-        else if (weaponUpgrade == WeaponUpgrades.IncreaseRadius) {
-            for (Weapons weapon : m_WeaponBaseRadii.keySet()) {
-                setWeaponRadius(weapon, (float) (getWeaponBaseRadius(weapon) * Math.pow(Pustafin.RadiusUpgradeIncreaseFactor, level)));
-            }
+    }
+
+    public void updateWeaponRadii() {
+        WeaponUpgrade weaponUpgrade = getWeaponUpgrade(WeaponUpgrades.IncreaseRadius);
+        int level = (weaponUpgrade != null) ? weaponUpgrade.getLevel() : 0;
+
+        for (Weapons weapon : m_WeaponBaseRadii.keySet()) {
+            setWeaponRadius(weapon, (float) (getWeaponBaseRadius(weapon) * Math.pow(Pustafin.RadiusUpgradeIncreaseFactor, level)));
         }
     }
 

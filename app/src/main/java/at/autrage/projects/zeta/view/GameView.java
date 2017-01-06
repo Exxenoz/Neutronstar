@@ -283,32 +283,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     m_GameManager.delUpdateFlag(UpdateFlags.BigRocketCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallNukeCount) && m_UI.TxtViewSmallNukeCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallNukeCount) && m_UI.TxtViewSmallNukeCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchNuke)) {
                     m_UI.TxtViewSmallNukeCount.setText("" + m_GameManager.getWeaponCount(Weapons.SmallNuke));
                     m_GameManager.delUpdateFlag(UpdateFlags.SmallNukeCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigNukeCount) && m_UI.TxtViewBigNukeCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchNuke) == 1) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigNukeCount) && m_UI.TxtViewBigNukeCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchNuke)) {
                     m_UI.TxtViewBigNukeCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigNuke));
                     m_GameManager.delUpdateFlag(UpdateFlags.BigNukeCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallLaserCount) && m_UI.TxtViewSmallLaserCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallLaserCount) && m_UI.TxtViewSmallLaserCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
                     m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(m_GameManager.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
                     m_GameManager.delUpdateFlag(UpdateFlags.SmallLaserCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigLaserCount) && m_UI.TxtViewBigLaserCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchLaser) == 1) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigLaserCount) && m_UI.TxtViewBigLaserCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
                     m_UI.TxtViewBigLaserCount.setText(Math.min((int)(m_GameManager.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
                     m_GameManager.delUpdateFlag(UpdateFlags.BigLaserCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallContactBombCount) && m_UI.TxtViewSmallContactBombCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallContactBombCount) && m_UI.TxtViewSmallContactBombCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchContactBomb)) {
                     m_UI.TxtViewSmallContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.SmallContactBomb));
                     m_GameManager.delUpdateFlag(UpdateFlags.SmallContactBombCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigContactBombCount) && m_UI.TxtViewBigContactBombCount != null && m_GameManager.getWeaponUpgrade(WeaponUpgrades.ResearchContactBomb) == 1) {
+                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigContactBombCount) && m_UI.TxtViewBigContactBombCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchContactBomb)) {
                     m_UI.TxtViewBigContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigContactBomb));
                     m_GameManager.delUpdateFlag(UpdateFlags.BigContactBombCount);
                 }

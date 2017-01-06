@@ -14,10 +14,20 @@ public class Pustafin {
 
     public static final int LevelDuration = 120;  // In seconds
     public static final int LevelSpawnTime = 100; // In seconds
-    public static final int StartBudget = 100;
-    public static final int StartPopulation = 7390; // As from 2016
+
     public static final float PopulationIncreaseFactor = 0.0005f;
     public static final float ProBabypillPopulationIncreaseFactor = 0.00015f;
+
+    public static final int StartBudget = 100000;
+    public static final int StartPopulation = 7390; // As from 2016
+
+    public static final int DamageUpgradeStartLevel = 0;
+    public static final int SpeedUpgradeStartLevel = 0;
+    public static final int RadiusUpgradeStartLevel = 0;
+
+    public static final int ResearchNukeUpgradeStartLevel = 0;
+    public static final int ResearchLaserUpgradeStartLevel = 0;
+    public static final int ResearchContactBombUpgradeStartLevel = 0;
 
     public static final int BigRocketPacketSize = 5;
     public static final int SmallNukePacketSize = 10;
@@ -37,6 +47,10 @@ public class Pustafin {
     public static final int DamageUpgradeMaxLevel = 10;
     public static final int SpeedUpgradeMaxLevel = 10;
     public static final int RadiusUpgradeMaxLevel = 10;
+
+    public static final int ResearchNukeUpgradeMaxLevel = 1;
+    public static final int ResearchLaserUpgradeMaxLevel = 0; // NYI - disabled
+    public static final int ResearchContactBombUpgradeMaxLevel = 0; // NYI - disabled
 
     public static final int StartDamageUpgradeCost = 200;
     public static final int StartSpeedUpgradeCost = 100;

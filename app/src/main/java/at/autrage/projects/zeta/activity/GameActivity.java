@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
@@ -216,8 +217,7 @@ public class GameActivity extends SuperActivity {
                 return;
             }
 
-            if (m_RequiredUpgrade == WeaponUpgrades.None || GameManager.getInstance().getWeaponUpgrade(m_RequiredUpgrade) == 1) {
-
+            if (m_RequiredUpgrade == WeaponUpgrades.None || GameManager.getInstance().isWeaponUpgradeResearched(m_RequiredUpgrade)) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) m_Highlighted.getLayoutParams();
 
                 int leftMargin = m_HighlightedPositionX;

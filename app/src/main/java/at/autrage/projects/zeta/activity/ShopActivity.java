@@ -11,6 +11,7 @@ import org.w3c.dom.Text;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.model.Weapon;
+import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
@@ -157,12 +158,12 @@ public class ShopActivity extends SuperActivity {
         btnAreaProBabyPill.setOnClickListener(proBabyPillBuyOnClickListener);
         btnAreaProBabyPillIcon.setOnClickListener(proBabyPillBuyOnClickListener);
 
-        BuyWeaponUpgradeOnClickListener buyIncreaseDamageWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage, Pustafin.DamageUpgradeMaxLevel);
-        BuyWeaponUpgradeOnClickListener buyIncreaseSpeedWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed, Pustafin.SpeedUpgradeMaxLevel);
-        BuyWeaponUpgradeOnClickListener buyIncreaseRadiusWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius, Pustafin.RadiusUpgradeMaxLevel);
-        BuyWeaponUpgradeOnClickListener buyResearchNukeWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke, 1);
-        BuyWeaponUpgradeOnClickListener buyResearchLaserWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser, 1);
-        BuyWeaponUpgradeOnClickListener buyResearchContactBombWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb, 1);
+        BuyWeaponUpgradeOnClickListener buyIncreaseDamageWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage);
+        BuyWeaponUpgradeOnClickListener buyIncreaseSpeedWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed);
+        BuyWeaponUpgradeOnClickListener buyIncreaseRadiusWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius);
+        BuyWeaponUpgradeOnClickListener buyResearchNukeWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke);
+        BuyWeaponUpgradeOnClickListener buyResearchLaserWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser);
+        BuyWeaponUpgradeOnClickListener buyResearchContactBombWeaponUpgradeOnClickListener = new BuyWeaponUpgradeOnClickListener(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb);
 
         Button btnAreaIncreaseDamage = (Button) findViewById(R.id.btnAreaShopBuyIncreaseDamage);
         Button btnAreaIncreaseDamageIcon = (Button) findViewById(R.id.btnAreaShopBuyIncreaseDamageIcon);
@@ -213,13 +214,13 @@ public class ShopActivity extends SuperActivity {
         updateWeaponPrice(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb, Pustafin.BigContactBombPacketCost);
         updateWeaponPrice(m_TxtViewPriceProBabypill, Weapons.ProBabyPill, Pustafin.ProBabypillPacketCost);
 
-        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage, Pustafin.DamageUpgradeMaxLevel);
-        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed, Pustafin.SpeedUpgradeMaxLevel);
-        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius, Pustafin.RadiusUpgradeMaxLevel);
+        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage);
+        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed);
+        updateWeaponUpgradePrice(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius);
 
-        updateWeaponResearchPrice(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke, Pustafin.ResearchNukeCost);
-        updateWeaponResearchPrice(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser, Pustafin.ResearchLaserCost);
-        updateWeaponResearchPrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb, Pustafin.ResearchContactBombCost);
+        updateWeaponResearchPrice(m_TxtViewPriceResearchNuke, WeaponUpgrades.ResearchNuke);
+        updateWeaponResearchPrice(m_TxtViewPriceResearchLaser, WeaponUpgrades.ResearchLaser);
+        updateWeaponResearchPrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb);
     }
 
     private void updateMoneyDisplay() {
@@ -231,29 +232,35 @@ public class ShopActivity extends SuperActivity {
         textView.setText(String.format(getString(R.string.sv_price_count_display), weaponPrice, currenWeaponCount));
     }
 
-    private void updateWeaponUpgradePrice(TextView textView, WeaponUpgrades weaponUpgrade, int maxUpgradeLevel) {
-        int currentWeaponUpgradeLevel = m_GameManager.getWeaponUpgrade(weaponUpgrade);
-        if (currentWeaponUpgradeLevel < maxUpgradeLevel) {
+    private void updateWeaponUpgradePrice(TextView textView, WeaponUpgrades weaponUpgrade) {
+        WeaponUpgrade weaponUpgradeObj = m_GameManager.getWeaponUpgrade(weaponUpgrade);
+        if (weaponUpgradeObj == null) {
+            return;
+        }
+
+        if (weaponUpgradeObj.isResearchable()) {
+            updateWeaponResearchPrice(textView, weaponUpgrade);
+        }
+        else if (weaponUpgradeObj.getLevel() < weaponUpgradeObj.getMaxLevel()) {
             textView.setText(String.format(getString(R.string.sv_price_level_display),
-                    calculateWeaponUpgradeCost(weaponUpgrade, currentWeaponUpgradeLevel + 1), currentWeaponUpgradeLevel));
+                    weaponUpgradeObj.getUpgradeCostsForNextLevel(), weaponUpgradeObj.getLevel()));
         }
         else {
-            if (maxUpgradeLevel == 1) {
-                textView.setText(getString(R.string.sv_researched_display));
-            }
-            else {
-                textView.setText(String.format(getString(R.string.sv_max_level_display), currentWeaponUpgradeLevel));
-            }
+            textView.setText(String.format(getString(R.string.sv_max_level_display), weaponUpgradeObj.getLevel()));
         }
     }
 
-    private void updateWeaponResearchPrice(TextView textView, WeaponUpgrades weaponUpgrade, int researchCosts) {
-        boolean researched = m_GameManager.getWeaponUpgrade(weaponUpgrade) == 1;
-        if (researched) {
+    private void updateWeaponResearchPrice(TextView textView, WeaponUpgrades weaponUpgrade) {
+        WeaponUpgrade weaponUpgradeObj = m_GameManager.getWeaponUpgrade(weaponUpgrade);
+        if (weaponUpgradeObj == null) {
+            return;
+        }
+
+        if (weaponUpgradeObj.isResearched()) {
             textView.setText(getString(R.string.sv_researched_display));
         }
         else {
-            textView.setText(String.format(getString(R.string.sv_price_display), researchCosts));
+            textView.setText(String.format(getString(R.string.sv_price_display), weaponUpgradeObj.getUpgradeCostsForNextLevel()));
         }
     }
 
@@ -268,6 +275,10 @@ public class ShopActivity extends SuperActivity {
 
         m_GameManager.setLevel(m_GameManager.getLevel() + 1);
 
+        m_GameManager.updateWeaponHitDamages();
+        m_GameManager.updateWeaponSpeeds();
+        m_GameManager.updateWeaponRadii();
+
         Intent redirectIntent = new Intent(this, GameActivity.class);
         startActivity(redirectIntent);
 
@@ -278,34 +289,6 @@ public class ShopActivity extends SuperActivity {
         overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
 
         m_Finished = true;
-    }
-
-    public static int calculateWeaponUpgradeCost(WeaponUpgrades weaponUpgrade, int level) {
-        if (level <= 0) {
-            Logger.D("Could not calculate weapon upgrade cost for weapon upgrade " + weaponUpgrade + ", because parameter level " + level + " is invalid!");
-            return 0;
-        }
-
-        int t = level - 1;
-
-        switch (weaponUpgrade) {
-            case IncreaseDamage:
-                return (int)(Pustafin.StartDamageUpgradeCost * Math.pow(Pustafin.DamageUpgradeCostIncreaseFactor, t));
-            case IncreaseSpeed:
-                return (int)(Pustafin.StartSpeedUpgradeCost * Math.pow(Pustafin.SpeedUpgradeCostIncreaseFactor, t));
-            case IncreaseRadius:
-                return (int)(Pustafin.StartRadiusUpgradeCost * Math.pow(Pustafin.RadiusUpgradeCostIncreaseFactor, t));
-            case ResearchNuke:
-                return Pustafin.ResearchNukeCost;
-            case ResearchLaser:
-                return Pustafin.ResearchLaserCost;
-            case ResearchContactBomb:
-                return Pustafin.ResearchContactBombCost;
-        }
-
-        Logger.E("Could not calculate weapon upgrade cost for weapon upgrade " + weaponUpgrade + ", because it is not defined!");
-
-        return 0;
     }
 
     private class WeaponBuyOnClickListener implements View.OnClickListener {
@@ -325,8 +308,8 @@ public class ShopActivity extends SuperActivity {
 
         @Override
         public void onClick(View v) {
-
-            if (m_RequiredWeaponUpgrade != WeaponUpgrades.None && GameManager.getInstance().getWeaponUpgrade(m_RequiredWeaponUpgrade) != 1) {
+            if (m_RequiredWeaponUpgrade != WeaponUpgrades.None &&
+                !GameManager.getInstance().isWeaponUpgradeResearched(m_RequiredWeaponUpgrade)) {
                 return;
             }
 
@@ -345,33 +328,25 @@ public class ShopActivity extends SuperActivity {
     private class BuyWeaponUpgradeOnClickListener implements View.OnClickListener {
         private TextView m_TextView;
         private WeaponUpgrades m_WeaponUpgrade;
-        private int m_MaxWeaponUpgradeLevel;
 
-        public BuyWeaponUpgradeOnClickListener(TextView textView, WeaponUpgrades weaponUpgrade, int maxWeaponUpgradeLevel) {
+        public BuyWeaponUpgradeOnClickListener(TextView textView, WeaponUpgrades weaponUpgrade) {
             m_TextView = textView;
             m_WeaponUpgrade = weaponUpgrade;
-            m_MaxWeaponUpgradeLevel = maxWeaponUpgradeLevel;
         }
 
         @Override
         public void onClick(View v) {
-            int nextLevel = GameManager.getInstance().getWeaponUpgrade(m_WeaponUpgrade) + 1;
-
-            if (nextLevel > m_MaxWeaponUpgradeLevel) {
+            WeaponUpgrade weaponUpgrade = GameManager.getInstance().getWeaponUpgrade(m_WeaponUpgrade);
+            if (weaponUpgrade == null) {
                 return;
             }
 
-            int price = ShopActivity.calculateWeaponUpgradeCost(m_WeaponUpgrade, nextLevel);
-
-            if (GameManager.getInstance().getMoney() < price) {
+            if (!weaponUpgrade.upgrade()) {
                 return;
             }
-
-            GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() - price);
-            GameManager.getInstance().setWeaponUpgradeLevel(m_WeaponUpgrade, nextLevel);
 
             updateMoneyDisplay();
-            updateWeaponUpgradePrice(m_TextView, m_WeaponUpgrade, m_MaxWeaponUpgradeLevel);
+            updateWeaponUpgradePrice(m_TextView, m_WeaponUpgrade);
         }
     }
 }
