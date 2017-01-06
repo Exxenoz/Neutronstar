@@ -11,11 +11,15 @@ import at.autrage.projects.zeta.module.SoundManager;
  * This activity represents the starting point of the application.
  */
 public class MainActivity extends SuperActivity {
+    private static String m_SeparatorForNumbers = ".";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set separator for numbers from strings.xml
+        m_SeparatorForNumbers = getString(R.string.separator_for_numbers);
 
         // Initialize database
         Database.initialize(this);
@@ -32,5 +36,9 @@ public class MainActivity extends SuperActivity {
         super.onResume();
 
         m_CurrentActivity = Activities.MainActivity;
+    }
+
+    public static String getSeparatorForNumbers() {
+        return m_SeparatorForNumbers;
     }
 }

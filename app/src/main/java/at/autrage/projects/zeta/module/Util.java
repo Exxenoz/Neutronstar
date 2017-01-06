@@ -5,16 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import at.autrage.projects.zeta.activity.MainActivity;
 import at.autrage.projects.zeta.activity.SuperActivity;
 
 public class Util {
     public static String addLeadingZeros(int src, int length, boolean seperator) {
         String out = "";
         String str = ""+src;
+        String sep = MainActivity.getSeparatorForNumbers();
 
         for (int i = 0, j = str.length() - 1; i < length; i++) {
             if (seperator && i != 0 && i % 3 == 0) {
-                out = "," + out;
+                out = sep + out;
             }
 
             if (j >= 0) {
