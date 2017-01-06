@@ -354,12 +354,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return;
         }
 
-        // Calculate remaining population increase
-        GameManager.getInstance().setPopulation(GameManager.getInstance().getPopulation() * Math.pow(1f + Pustafin.PopulationIncreaseFactor +
-                        Pustafin.ProBabypillPopulationIncreaseFactor * GameManager.getInstance().getWeaponCount(Weapons.ProBabyPill), Util.roof(m_Player.getRemainingTime())));
-        GameManager.getInstance().setWeaponCount(Weapons.ProBabyPill, 0);
-
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
+        GameManager.getInstance().onWin(this, m_Player);
 
         m_RedirectionDelayTimer.schedule(new TimerTask() {
             @Override
@@ -394,20 +389,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return;
         }
 
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_loose);
-
-        Database.getInstance().open();
-
-        HighscoreTable table = (HighscoreTable)Database.getTable(Database.Tables.HighscoreTable);
-
-        // Add highscore entry
-        HighscoreTableEntry highscoreTableEntry = new HighscoreTableEntry(table);
-        highscoreTableEntry.Level = GameManager.getInstance().getLevel();
-        highscoreTableEntry.Score = GameManager.getInstance().getScore();
-        highscoreTableEntry.Date = (int)(System.currentTimeMillis() / 1000);
-        Database.getInstance().insertTableEntry(highscoreTableEntry);
-
-        Database.getInstance().close();
+        GameManager.getInstance().onLose(this, m_Player);
 
         m_RedirectionDelayTimer.schedule(new TimerTask() {
             @Override

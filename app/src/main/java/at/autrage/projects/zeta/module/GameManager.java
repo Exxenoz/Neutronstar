@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.autrage.projects.zeta.R;
+import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponStockpile;
 import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgradeIncreaseDamage;
@@ -14,6 +15,9 @@ import at.autrage.projects.zeta.model.WeaponUpgradeResearchLaser;
 import at.autrage.projects.zeta.model.WeaponUpgradeResearchNuke;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
+import at.autrage.projects.zeta.persistence.HighscoreTable;
+import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
+import at.autrage.projects.zeta.view.GameView;
 
 public class GameManager {
     private static GameManager m_Instance;
@@ -154,6 +158,32 @@ public class GameManager {
         updateWeaponHitDamages();
         updateWeaponSpeeds();
         updateWeaponRadii();
+    }
+
+    public void onWin(GameView gameView, Player player) {
+        // Calculate remaining population increase
+        setPopulation(GameManager.getInstance().getPopulation() * Math.pow(1f + Pustafin.PopulationIncreaseFactor +
+                Pustafin.ProBabypillPopulationIncreaseFactor * getWeaponCount(Weapons.ProBabyPill), Util.roof(player.getRemainingTime())));
+        setWeaponCount(Weapons.ProBabyPill, 0);
+
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_win);
+    }
+
+    public void onLose(GameView gameView, Player player) {
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_ending_loose);
+
+        Database.getInstance().open();
+
+        HighscoreTable table = (HighscoreTable)Database.getTable(Database.Tables.HighscoreTable);
+
+        // Add highscore entry
+        HighscoreTableEntry highscoreTableEntry = new HighscoreTableEntry(table);
+        highscoreTableEntry.Level = getLevel();
+        highscoreTableEntry.Score = getScore();
+        highscoreTableEntry.Date = (int)(System.currentTimeMillis() / 1000);
+        Database.getInstance().insertTableEntry(highscoreTableEntry);
+
+        Database.getInstance().close();
     }
 
     public void setUpdateFlag(int updateFlag) {
