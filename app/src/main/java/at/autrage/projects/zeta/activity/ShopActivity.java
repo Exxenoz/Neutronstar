@@ -202,13 +202,24 @@ public class ShopActivity extends SuperActivity {
         initializeShopPrices();
         initializeShopOnClickListener();
 
+        updateWeaponPrices();
+        updateWeaponUpgradePrices();
+    }
+
+    private void updateMoneyDisplay() {
+        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
+    }
+
+    private void updateWeaponPrices() {
         updateWeaponPrice(m_TxtViewPriceBigRocket, Weapons.BigRocket);
         updateWeaponPrice(m_TxtViewPriceSmallNuke, Weapons.SmallNuke);
         updateWeaponPrice(m_TxtViewPriceBigNuke, Weapons.BigNuke);
         updateWeaponPrice(m_TxtViewPriceSmallContactBomb, Weapons.SmallContactBomb);
         updateWeaponPrice(m_TxtViewPriceBigContactBomb, Weapons.BigContactBomb);
         updateWeaponPrice(m_TxtViewPriceProBabypill, Weapons.ProBabyPill);
+    }
 
+    private void updateWeaponUpgradePrices() {
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseDamage, WeaponUpgrades.IncreaseDamage);
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseSpeed, WeaponUpgrades.IncreaseSpeed);
         updateWeaponUpgradePrice(m_TxtViewPriceIncreaseRadius, WeaponUpgrades.IncreaseRadius);
@@ -217,14 +228,15 @@ public class ShopActivity extends SuperActivity {
         updateWeaponUpgradePrice(m_TxtViewPriceResearchContactBomb, WeaponUpgrades.ResearchContactBomb);
     }
 
-    private void updateMoneyDisplay() {
-        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
-    }
-
     private void updateWeaponPrice(TextView textView, Weapons weapon) {
         WeaponStockpile weaponStockpile = m_GameManager.getWeaponStockpile(weapon);
         if (weaponStockpile != null) {
-            textView.setText(String.format(getString(R.string.sv_price_count_display), weaponStockpile.getPacketCosts(), weaponStockpile.getCount()));
+            if (GameManager.getInstance().isWeaponUpgradeResearched(weaponStockpile.getRequiredWeaponUpgrade())) {
+                textView.setText(String.format(getString(R.string.sv_price_count_display), weaponStockpile.getPacketCosts(), weaponStockpile.getCount()));
+            }
+            else {
+                textView.setText(getString(R.string.sv_researchable));
+            }
         }
         else {
             textView.setText(getString(R.string.sv_disabled));
@@ -328,6 +340,7 @@ public class ShopActivity extends SuperActivity {
 
             updateMoneyDisplay();
             updateWeaponUpgradePrice(m_TextView, m_WeaponUpgrade);
+            updateWeaponPrices(); // Update weapon prices too, because this upgrade could be set as weapon requirement
         }
     }
 }
