@@ -3,8 +3,8 @@ package at.autrage.projects.zeta.model;
 import at.autrage.projects.zeta.module.Pustafin;
 
 public class WeaponUpgradeResearchContactBomb extends WeaponUpgrade {
-    public WeaponUpgradeResearchContactBomb(int level) {
-        super(WeaponUpgrades.ResearchContactBomb, level, Pustafin.ResearchContactBombUpgradeMaxLevel);
+    public WeaponUpgradeResearchContactBomb(String name, int level) {
+        super(name, WeaponUpgrades.ResearchContactBomb, level, Pustafin.ResearchContactBombUpgradeMaxLevel);
     }
 
     @Override

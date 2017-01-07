@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import java.util.Stack;
 
 import at.autrage.projects.zeta.R;
-import at.autrage.projects.zeta.model.Weapon;
+import at.autrage.projects.zeta.model.IShopItem;
 import at.autrage.projects.zeta.model.WeaponStockpile;
 import at.autrage.projects.zeta.model.WeaponUpgrade;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
@@ -18,7 +18,6 @@ import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
-import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Util;
 
 /**
@@ -43,6 +42,9 @@ public class ShopActivity extends SuperActivity {
     private TextView m_TxtViewPriceResearchLaser;
     private TextView m_TxtViewPriceResearchContactBomb;
 
+    private TextView m_TxtViewUndoName;
+    private Stack<IShopItem> m_BoughtShopItems;
+
     private boolean m_Finished;
 
     @Override
@@ -53,6 +55,22 @@ public class ShopActivity extends SuperActivity {
         m_GameManager = GameManager.getInstance();
 
         initializeShop();
+
+        Button btnAreaUndo = (Button)findViewById(R.id.btnAreaShopUndo);
+        btnAreaUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickUndo();
+            }
+        });
+
+        Button btnAreaUndoIcon = (Button)findViewById(R.id.btnAreaShopUndoIcon);
+        btnAreaUndoIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickUndo();
+            }
+        });
 
         Button btnAreaNextLevel = (Button)findViewById(R.id.btnAreaShopNextLevel);
         btnAreaNextLevel.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +220,9 @@ public class ShopActivity extends SuperActivity {
         initializeShopPrices();
         initializeShopOnClickListener();
 
+        m_TxtViewUndoName = (TextView)findViewById(R.id.txtViewShopUndoName);
+        m_BoughtShopItems = new Stack<IShopItem>();
+
         updateWeaponPrices();
         updateWeaponUpgradePrices();
     }
@@ -272,6 +293,31 @@ public class ShopActivity extends SuperActivity {
         }
     }
 
+    private void onClickUndo() {
+        if (m_BoughtShopItems.size() == 0) {
+            return;
+        }
+
+        IShopItem shopItem = m_BoughtShopItems.pop();
+        if (shopItem != null) {
+            shopItem.sell();
+
+            updateMoneyDisplay();
+            updateWeaponPrices();
+            updateWeaponUpgradePrices();
+        }
+
+        if (m_BoughtShopItems.size() == 0) {
+            m_TxtViewUndoName.setText("-");
+        }
+        else {
+            shopItem = m_BoughtShopItems.peek();
+            if (shopItem != null) {
+                m_TxtViewUndoName.setText("(" + shopItem.getName() + ")");
+            }
+        }
+    }
+
     private void onClickNextLevel() {
         if (m_Finished) {
             return;
@@ -315,6 +361,9 @@ public class ShopActivity extends SuperActivity {
 
             updateMoneyDisplay();
             updateWeaponPrice(m_TextView, m_Weapon);
+
+            m_BoughtShopItems.push(weaponStockpile);
+            m_TxtViewUndoName.setText("(" + weaponStockpile.getName() + ")");
         }
     }
 
@@ -341,6 +390,9 @@ public class ShopActivity extends SuperActivity {
             updateMoneyDisplay();
             updateWeaponUpgradePrice(m_TextView, m_WeaponUpgrade);
             updateWeaponPrices(); // Update weapon prices too, because this upgrade could be set as weapon requirement
+
+            m_BoughtShopItems.push(weaponUpgrade);
+            m_TxtViewUndoName.setText("(" + weaponUpgrade.getName() + ")");
         }
     }
 }

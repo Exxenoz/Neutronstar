@@ -61,7 +61,7 @@ public class MainMenuActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked New Game Button...");
 
-            GameManager.getInstance().onStartGame();
+            GameManager.getInstance().onStartGame(m_OwnerActivity);
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);
@@ -105,7 +105,7 @@ public class MainMenuActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked Tutorial Game Button...");
 
-            GameManager.getInstance().onStartTutorialGame();
+            GameManager.getInstance().onStartTutorialGame(m_OwnerActivity);
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);

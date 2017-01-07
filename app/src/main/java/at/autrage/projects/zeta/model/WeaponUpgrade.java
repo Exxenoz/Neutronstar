@@ -2,12 +2,14 @@ package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.module.GameManager;
 
-public abstract class WeaponUpgrade {
+public abstract class WeaponUpgrade implements IShopItem {
+    protected String m_Name;
     protected WeaponUpgrades m_Upgrade;
     protected int m_Level;
     protected int m_MaxLevel;
 
-    public WeaponUpgrade(WeaponUpgrades upgrade, int level, int maxLevel) {
+    public WeaponUpgrade(String name, WeaponUpgrades upgrade, int level, int maxLevel) {
+        this.m_Name = name;
         this.m_Upgrade = upgrade;
         this.m_Level = level;
         this.m_MaxLevel = maxLevel;
@@ -43,6 +45,22 @@ public abstract class WeaponUpgrade {
         GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() + getUpgradeCostsForNextLevel());
 
         return true;
+    }
+
+    public boolean buy() {
+        return upgrade();
+    }
+
+    public boolean sell() {
+        return downgrade();
+    }
+
+    public String getName() {
+        return m_Name;
+    }
+
+    private void setName(String name) {
+        this.m_Name = name;
     }
 
     public abstract int getUpgradeCostsForNextLevel();

@@ -147,7 +147,7 @@ public class HighscoreActivity extends SuperActivity {
         public void onClick(View v) {
             Logger.D("Clicked New Game Button...");
 
-            GameManager.getInstance().onStartGame();
+            GameManager.getInstance().onStartGame(m_OwnerActivity);
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
             startActivity(redirectIntent);

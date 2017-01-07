@@ -2,7 +2,8 @@ package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.module.GameManager;
 
-public class WeaponStockpile {
+public class WeaponStockpile implements IShopItem {
+    private String m_Name;
     private Weapons m_Weapon;
     private int m_Count;
     private int m_PacketSize;
@@ -10,7 +11,8 @@ public class WeaponStockpile {
     private WeaponUpgrades m_RequiredWeaponUpgrade;
     private int m_UpdateFlag;
 
-    public WeaponStockpile(Weapons weapon, int count, int packetCosts, int packetSize, WeaponUpgrades requiredWeaponUpgrade, int updateFlag) {
+    public WeaponStockpile(String name, Weapons weapon, int count, int packetCosts, int packetSize, WeaponUpgrades requiredWeaponUpgrade, int updateFlag) {
+        this.m_Name = name;
         this.m_Weapon = weapon;
         this.m_Count = count;
         this.m_PacketCosts = packetCosts;
@@ -44,6 +46,14 @@ public class WeaponStockpile {
         setCount(m_Count - m_PacketSize);
 
         return true;
+    }
+
+    public String getName() {
+        return m_Name;
+    }
+
+    private void setName(String name) {
+        this.m_Name = name;
     }
 
     public Weapons getWeapon() {

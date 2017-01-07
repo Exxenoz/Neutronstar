@@ -3,8 +3,8 @@ package at.autrage.projects.zeta.model;
 import at.autrage.projects.zeta.module.Pustafin;
 
 public class WeaponUpgradeResearchNuke extends WeaponUpgrade {
-    public WeaponUpgradeResearchNuke(int level) {
-        super(WeaponUpgrades.ResearchNuke, level, Pustafin.ResearchNukeUpgradeMaxLevel);
+    public WeaponUpgradeResearchNuke(String name, int level) {
+        super(name, WeaponUpgrades.ResearchNuke, level, Pustafin.ResearchNukeUpgradeMaxLevel);
     }
 
     @Override

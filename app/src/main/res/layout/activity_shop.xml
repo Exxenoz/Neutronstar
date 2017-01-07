@@ -474,6 +474,21 @@
         android:gravity="center_vertical" />
 
     <TextView
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="false"
+        android:id="@+id/txtViewShopUndoName"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="935px"
+        android:textSize="32px"
+        android:layout_height="75px"
+        android:textAlignment="gravity"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="1125px" />
+
+    <TextView
         android:text="@string/sv_price_count_display"
         android:layout_width="wrap_content"
         android:layout_height="75px"

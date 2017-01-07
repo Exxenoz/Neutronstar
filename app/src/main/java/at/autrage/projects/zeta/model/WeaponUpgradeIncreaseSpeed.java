@@ -3,8 +3,8 @@ package at.autrage.projects.zeta.model;
 import at.autrage.projects.zeta.module.Pustafin;
 
 public class WeaponUpgradeIncreaseSpeed extends WeaponUpgrade {
-    public WeaponUpgradeIncreaseSpeed(int level) {
-        super(WeaponUpgrades.IncreaseSpeed, level, Pustafin.SpeedUpgradeMaxLevel);
+    public WeaponUpgradeIncreaseSpeed(String name, int level) {
+        super(name, WeaponUpgrades.IncreaseSpeed, level, Pustafin.SpeedUpgradeMaxLevel);
     }
 
     @Override
