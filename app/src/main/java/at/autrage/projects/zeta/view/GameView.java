@@ -81,10 +81,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /** True if the current level is finished, otherwise false. */
     private boolean m_LevelFinished;
 
-    public GameView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public GameView(GameActivity gameActivity) {
+        super(gameActivity.getApplicationContext());
         // Initialize game activity variable
-        m_GameActivity = (GameActivity)context;
+        m_GameActivity = gameActivity;
         // Cache game manager module reference
         m_GameManager = GameManager.getInstance();
         // Add callback for events

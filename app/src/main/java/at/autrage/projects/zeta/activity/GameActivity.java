@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
@@ -68,7 +69,7 @@ public class GameActivity extends SuperActivity {
             findViewById(R.id.txtViewTutorial).setAlpha(0f);
         }
 
-        m_GameView = (GameView)findViewById(R.id.gameView);
+        m_GameView = new GameView(this);
         m_GameView.setGameViewUI(gameViewUI);
 
         if (GameManager.getInstance().isTutorialMode()) {
@@ -132,6 +133,9 @@ public class GameActivity extends SuperActivity {
         Button btnAreaBigContactBomb = (Button)findViewById(R.id.btnAreaBigContactBomb);
         btnAreaBigContactBomb.setOnClickListener(new HotBarButtonAreaListener(this, imgViewHighlighted,
                 (int)((146f + 196f * 7f) * getScaleFactor()), Weapons.BigContactBomb));
+
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.activity_game);
+        layout.addView(m_GameView, 0);
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
     }
