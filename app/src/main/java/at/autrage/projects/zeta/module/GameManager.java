@@ -89,9 +89,9 @@ public class GameManager {
         m_WeaponStockpiles.put(Weapons.BigRocket, new WeaponStockpile(Weapons.BigRocket, Pustafin.BigRocketStartCount, Pustafin.BigRocketPacketCost, Pustafin.BigRocketPacketSize, WeaponUpgrades.None, UpdateFlags.BigRocketCount));
         m_WeaponStockpiles.put(Weapons.SmallNuke, new WeaponStockpile(Weapons.SmallNuke, Pustafin.SmallNukeStartCount, Pustafin.SmallNukePacketCost, Pustafin.SmallNukePacketSize, WeaponUpgrades.ResearchNuke, UpdateFlags.SmallNukeCount));
         m_WeaponStockpiles.put(Weapons.BigNuke, new WeaponStockpile(Weapons.BigNuke, Pustafin.BigNukeStartCount, Pustafin.BigNukePacketCost, Pustafin.BigNukePacketSize, WeaponUpgrades.ResearchNuke, UpdateFlags.BigNukeCount));
-        // ToDo: Implement Laser
-        m_WeaponStockpiles.put(Weapons.SmallContactBomb, new WeaponStockpile(Weapons.SmallContactBomb, Pustafin.SmallContactBombStartCount, Pustafin.SmallContactBombPacketCost, Pustafin.SmallContactBombPacketSize, WeaponUpgrades.ResearchContactBomb, UpdateFlags.SmallContactBombCount));
-        m_WeaponStockpiles.put(Weapons.BigContactBomb, new WeaponStockpile(Weapons.BigContactBomb, Pustafin.BigContactBombStartCount, Pustafin.BigContactBombPacketCost, Pustafin.BigContactBombPacketSize, WeaponUpgrades.ResearchContactBomb, UpdateFlags.BigContactBombCount));
+        // ToDo: Implement Laser and Contact Bomb
+        //m_WeaponStockpiles.put(Weapons.SmallContactBomb, new WeaponStockpile(Weapons.SmallContactBomb, Pustafin.SmallContactBombStartCount, Pustafin.SmallContactBombPacketCost, Pustafin.SmallContactBombPacketSize, WeaponUpgrades.ResearchContactBomb, UpdateFlags.SmallContactBombCount));
+        //m_WeaponStockpiles.put(Weapons.BigContactBomb, new WeaponStockpile(Weapons.BigContactBomb, Pustafin.BigContactBombStartCount, Pustafin.BigContactBombPacketCost, Pustafin.BigContactBombPacketSize, WeaponUpgrades.ResearchContactBomb, UpdateFlags.BigContactBombCount));
         m_WeaponStockpiles.put(Weapons.ProBabyPill, new WeaponStockpile(Weapons.ProBabyPill, Pustafin.ProBabypillStartCount, Pustafin.ProBabypillPacketCost, Pustafin.ProBabypillPacketSize, WeaponUpgrades.None, UpdateFlags.None));
 
         m_WeaponUpgrades.put(WeaponUpgrades.IncreaseDamage, new WeaponUpgradeIncreaseDamage(Pustafin.DamageUpgradeStartLevel));
