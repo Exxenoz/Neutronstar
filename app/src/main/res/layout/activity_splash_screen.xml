@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_splash_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="at.autrage.projects.zeta.activity.SplashScreenActivity"
+    android:background="@drawable/background_splash_screen">
+
+    <TextView
+        android:text="@string/ss_continue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewSSContinue"
+        android:layout_marginBottom="300px"
+        android:textColor="@android:color/white"
+        android:textSize="64px"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="normal|bold" />
+
+    <ImageView
+        android:layout_width="128px"
+        app:srcCompat="@drawable/ss_space_cow"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:id="@+id/imgViewSSSpaceCow"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="false"
+        android:layout_centerHorizontal="false"
+        android:layout_marginBottom="100px"
+        android:layout_alignParentLeft="true"
+        android:layout_height="128px"
+        android:layout_marginLeft="-128px" />
+</RelativeLayout>

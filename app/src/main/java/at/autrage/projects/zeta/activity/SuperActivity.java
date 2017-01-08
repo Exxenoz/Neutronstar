@@ -25,6 +25,7 @@ public class SuperActivity extends AppCompatActivity {
     public enum Activities {
         MainActivity,
         IntroActivity,
+        SplashScreenActivity,
         MainMenuActivity,
         GameActivity,
         HighscoreActivity,

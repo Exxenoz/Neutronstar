@@ -22,7 +22,7 @@
     <string name="sv_desc_research_contact_bomb">Kontaktbombe erforschen</string>
     <string name="sv_next_level">Nächster Level</string>
     <string name="sv_money_display" formatted="false">$ %s Mrd.</string>
-    <string name="sv_price_count_display" formatted="false" >$ %03d Mio. | %03d</string>
+    <string name="sv_price_count_display" formatted="false">$ %03d Mio. | %03d</string>
     <string name="sv_price_level_display" formatted="false">$ %03d Mio. | Lvl. %02d</string>
     <string name="sv_price_display" formatted="false">$ %03d Mio.</string>
     <string name="sv_max_level_display" formatted="false">Lvl. %02d</string>
@@ -53,4 +53,5 @@
     <string name="separator_for_numbers">.</string>
     <string name="sv_researchable">Erforschbar</string>
     <string name="sv_desc_small_rocket">%02d x Kleine Rakete</string>
+    <string name="ss_continue">Bitte berühren Sie den Bildschirm!</string>
 </resources>

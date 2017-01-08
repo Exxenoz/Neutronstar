@@ -41,6 +41,10 @@
             android:name=".activity.ShopActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
             android:screenOrientation="landscape" />
+        <activity android:name=".activity.SplashScreenActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|density|fontScale|layoutDirection|locale|mcc|mnc|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
+            android:noHistory="true"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

@@ -64,8 +64,8 @@ public class IntroActivity extends SuperActivity implements MediaPlayer.OnComple
         if (!m_Skipped) {
             m_Skipped = true;
 
-            // Redirect to main menu activity
-            startActivity(new Intent(this, MainMenuActivity.class));
+            // Redirect to splash screen activity
+            startActivity(new Intent(this, SplashScreenActivity.class));
 
             // Close current activity
             finish();

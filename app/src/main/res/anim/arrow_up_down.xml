@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:repeatMode="reverse">
-    <translate xmlns:android="http://schemas.android.com/apk/res/android"
-        android:duration="@android:integer/config_longAnimTime"
-        android:fromYDelta="-1%p"
-        android:toYDelta="1%p"
-        android:repeatCount="infinite" />
+android:repeatMode="reverse">
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@android:integer/config_longAnimTime"
+    android:fromYDelta="-1%p"
+    android:toYDelta="1%p"
+    android:repeatCount="infinite" />
 </set>
