@@ -24,6 +24,7 @@ public class MainMenuActivity extends SuperActivity {
         NewGameButtonAreaListener newGameButtonAreaListener = new NewGameButtonAreaListener(this);
         HighscoreButtonAreaListener highscoreButtonAreaListener = new HighscoreButtonAreaListener(this);
         TutorialGameButtonAreaListener tutorialGameButtonAreaListener = new TutorialGameButtonAreaListener(this);
+        CreditsButtonAreaListener creditsButtonAreaListener = new CreditsButtonAreaListener(this);
 
         Button btnAreaNewGame = (Button)findViewById(R.id.btnAreaNewGame);
         Button btnAreaNewGameIcon = (Button)findViewById(R.id.btnAreaNewGameIcon);
@@ -31,6 +32,8 @@ public class MainMenuActivity extends SuperActivity {
         Button btnAreaHighscoreIcon = (Button)findViewById(R.id.btnAreaHighscoreIcon);
         Button btnAreaTutorialGame = (Button)findViewById(R.id.btnAreaHelp);
         Button btnAreaTutorialGameIcon = (Button)findViewById(R.id.btnAreaHelpIcon);
+        Button btnAreaCredits = (Button)findViewById(R.id.btnAreaCredits);
+        Button btnAreaCreditsIcon = (Button)findViewById(R.id.btnAreaCreditsIcon);
 
         btnAreaNewGame.setOnClickListener(newGameButtonAreaListener);
         btnAreaNewGameIcon.setOnClickListener(newGameButtonAreaListener);
@@ -38,6 +41,8 @@ public class MainMenuActivity extends SuperActivity {
         btnAreaHighscoreIcon.setOnClickListener(highscoreButtonAreaListener);
         btnAreaTutorialGame.setOnClickListener(tutorialGameButtonAreaListener);
         btnAreaTutorialGameIcon.setOnClickListener(tutorialGameButtonAreaListener);
+        btnAreaCredits.setOnClickListener(creditsButtonAreaListener);
+        btnAreaCreditsIcon.setOnClickListener(creditsButtonAreaListener);
 
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_main_menu));
     }
@@ -108,6 +113,26 @@ public class MainMenuActivity extends SuperActivity {
             GameManager.getInstance().onStartTutorialGame(m_OwnerActivity);
 
             Intent redirectIntent = new Intent(m_OwnerActivity, GameActivity.class);
+            startActivity(redirectIntent);
+
+            // Start slide animation
+            m_OwnerActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+        }
+    }
+
+    private class CreditsButtonAreaListener implements View.OnClickListener {
+
+        private MainMenuActivity m_OwnerActivity;
+
+        public CreditsButtonAreaListener(MainMenuActivity ownerActivity) {
+            m_OwnerActivity = ownerActivity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Logger.D("Clicked Credits Button...");
+
+            Intent redirectIntent = new Intent(m_OwnerActivity, CreditsActivity.class);
             startActivity(redirectIntent);
 
             // Start slide animation

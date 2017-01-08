@@ -54,4 +54,6 @@
     <string name="sv_researchable">Erforschbar</string>
     <string name="sv_desc_small_rocket">%02d x Kleine Rakete</string>
     <string name="ss_continue">Bitte berühren Sie den Bildschirm!</string>
+    <string name="cv_credits1">Design und Programmierung</string>
+    <string name="cv_credits2">Andreas Krischke\nRaphael Beyerle</string>
 </resources>

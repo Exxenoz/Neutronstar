@@ -156,7 +156,7 @@
         android:text="@string/mm_credits"
         android:layout_width="825px"
         android:layout_height="162px"
-        android:id="@+id/txtViewCredits"
+        android:id="@+id/txtViewCredits2"
         android:textColor="@android:color/white"
         android:textSize="64px"
         android:layout_alignParentTop="true"
