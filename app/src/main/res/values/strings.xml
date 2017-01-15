@@ -56,4 +56,6 @@
     <string name="ss_continue">Bitte berühren Sie den Bildschirm!</string>
     <string name="cv_credits1">Design und Programmierung</string>
     <string name="cv_credits2">Andreas Krischke\nRaphael Beyerle</string>
+    <string name="gv_population_display">%s Mrd.</string>
+    <string name="gv_money_display">%s Mrd.</string>
 </resources>

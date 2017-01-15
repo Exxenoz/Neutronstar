@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">Neutronstar</string>
+    <string name="mm_newgame">New Game</string>
+    <string name="mm_help">Help</string>
+    <string name="mm_highscore">Highscore</string>
+    <string name="mm_credits">Credits</string>
+    <string name="hs_back">Back to Main Menu</string>
+    <string name="hs_newgame">New Game</string>
+    <string name="hs_noentry">No Entry</string>
+    <string name="sv_desc_big_rocket" formatted="false">%02d x Big Missile</string>
+    <string name="sv_desc_small_nuke" formatted="false">%02d x Small Nuke</string>
+    <string name="sv_desc_big_nuke" formatted="false">%02d x Big Nuke</string>
+    <string name="sv_desc_small_contact_bomb" formatted="false">%02d x Small Contactbomb</string>
+    <string name="sv_desc_big_contact_bomb" formatted="false">%02d x Big Contactbomb</string>
+    <string name="sv_desc_pro_babypill" formatted="false">%02d x Pro-Babypill</string>
+    <string name="sv_undo">Undo</string>
+    <string name="sv_desc_increase_damage">Increase Damage</string>
+    <string name="sv_desc_increase_speed">Increase Speed</string>
+    <string name="sv_desc_increase_radius">Increase Radius</string>
+    <string name="sv_desc_research_nuke">Reseache Nuke</string>
+    <string name="sv_desc_research_laser">Research Laser</string>
+    <string name="sv_desc_research_contact_bomb">Research Contactbomb</string>
+    <string name="sv_next_level">Next Level</string>
+    <string name="sv_money_display" formatted="false">$ %s Bio.</string>
+    <string name="sv_price_count_display" formatted="false">$ %03d Mio. | %03d</string>
+    <string name="sv_price_level_display" formatted="false">$ %03d Mio. | Lvl. %02d</string>
+    <string name="sv_price_display" formatted="false">$ %03d Mio.</string>
+    <string name="sv_max_level_display" formatted="false">Lvl. %02d</string>
+    <string name="sv_researched_display">Researched</string>
+    <string name="sv_population_display" formatted="false">%s Bio.</string>
+    <string name="hs_date_format">dd/MM/yy</string>
+    <string name="tv_desc_welcome">Welcome to the tutorial mode, Commander!\nIf this wasn\'t a game we would have serious problems.\n\nPlease touch the screen if you know what I mean...</string>
+    <string name="tv_desc_planet1">This is your home planet.\n\nYour mission is to protect it\nfrom approaching dangers.</string>
+    <string name="tv_desc_weapon1">At the beginning you will have  the\nweapontype MISSILE at your disposal.</string>
+    <string name="tv_desc_weapon2">Missiles will be launched\nstraight in one direction\nand will only deal damage\nto the object it hits.</string>
+    <string name="tv_desc_small_rocket1">The red border shows which\nweapon is selected.</string>
+    <string name="tv_desc_small_rocket2">The small missile is free\nand available in unlimited\nquantities.</string>
+    <string name="tv_desc_big_rocket1">The big missile is more effective\nthan the small one and can be\npurchased in the shop.</string>
+    <string name="tv_desc_asteroid1">An asteroid closes in to the planet.\n\nSwipe from the planet in direction\nof the asteroid repeatedly.</string>
+    <string name="tv_desc_asteroid2">Congratulation!\n\nYou saved the population of the planet,\nby successfully destroying the asteroid!</string>
+    <string name="tv_desc_asteroid3">Congratulation!\n\nYou destroyed the asteroid successfully\nbut also killed a lot of people on the\nplanet...</string>
+    <string name="tv_desc_asteroid4">Please let\'s try that again.\n\nSwipe from the planet in direction\nof the asteroid repeatedly.</string>
+    <string name="tv_desc_population1">The population of your home planet will\nincrease automatically over time. If the\npopulation gets completely  annihilated,\nthe game ends.</string>
+    <string name="tv_desc_population2">The population of your home planet will\ndecrease whenever an object hits its surface.\nThe amount depends on the size of the object.</string>
+    <string name="tv_desc_money1">The world government provides money for\nweapons, whenever an enemy object is\ndestoryed successfully.</string>
+    <string name="tv_desc_money2">After each level you have the chance to\nbuy weapons or upgrades in the shop.</string>
+    <string name="tv_desc_score1">Your mission is to score as many\npoints as possible.\n\nYou will get points by destroying\nenemy objects.</string>
+    <string name="tv_desc_time1">A level lasts for a constant amount\nof seconds.\n\nThe level ist won when the counter\nreaches zero.</string>
+    <string name="tv_desc_pause">You can pause or continue the\ngame whenever you want by\nactivating this button.</string>
+    <string name="tv_desc_mute">You can turn the sound on\nor off by activating this\nbutton.</string>
+    <string name="tv_desc_finish">You successfully completed the tutorial mode!\n\nYou can now start a new game in the main menu.</string>
+    <string name="sv_disabled">Disabled</string>
+    <string name="sv_researchable">Researchable</string>
+    <string name="sv_desc_small_rocket">%02d x Small Missile</string>
+    <string name="ss_continue">Please touch the screen!</string>
+    <string name="cv_credits1">Design und Programming</string>
+    <string name="cv_credits2">Andreas Krischke\nRaphael Beyerle</string>
+    <string name="separator_for_numbers">,</string>
+    <string name="gv_population_display">%s Bio.</string>
+    <string name="gv_money_display">%s Bio.</string>
+</resources>

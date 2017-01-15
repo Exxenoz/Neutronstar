@@ -249,12 +249,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.Population) && m_UI.TxtViewPopulation != null) {
-                    m_UI.TxtViewPopulation.setText(String.format("%s Mrd.", Util.addLeadingZeros((int)m_GameManager.getPopulation(), 5, true)));
+                    m_UI.TxtViewPopulation.setText(String.format(m_GameActivity.getString(R.string.gv_population_display), Util.addLeadingZeros((int)m_GameManager.getPopulation(), 5, true)));
                     m_GameManager.delUpdateFlag(UpdateFlags.Population);
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.Money) && m_UI.TxtViewMoney != null) {
-                    m_UI.TxtViewMoney.setText(String.format("$ %s Mrd.", Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
+                    m_UI.TxtViewMoney.setText(String.format(m_GameActivity.getString(R.string.gv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
                     m_GameManager.delUpdateFlag(UpdateFlags.Money);
                 }
 
