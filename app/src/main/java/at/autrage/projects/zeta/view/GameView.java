@@ -137,6 +137,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        super.surfaceCreated(holder);
         Logger.D("GameView::surfaceCreated()");
 
         AssetManager.getInstance().load(getResources());
@@ -151,11 +152,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        super.surfaceChanged(holder, format, width, height);
         Logger.D("GameView::surfaceChanged()");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        super.surfaceDestroyed(holder);
         Logger.D("GameView::surfaceDestroyed()");
 
         m_Loop.setRunning(false);
