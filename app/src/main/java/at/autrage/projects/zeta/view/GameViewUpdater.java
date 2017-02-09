@@ -1,18 +1,17 @@
-package at.autrage.projects.zeta.model;
+package at.autrage.projects.zeta.view;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
-import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class contains the game loop.
  *
  * <p>If started, it repeats the update and render routine all 16 milli seconds.</p>
  */
-public class GameLoop implements Runnable {
+public class GameViewUpdater implements Runnable {
 
     /** Variable for locking the canvas while rendering */
     private SurfaceHolder m_Holder;
@@ -31,13 +30,13 @@ public class GameLoop implements Runnable {
      * @param holder Reference to the canvas which has to be locked
      * @param view Reference to the {@link GameView}
      */
-    public GameLoop(SurfaceHolder holder, GameView view) {
+    public GameViewUpdater(SurfaceHolder holder, GameView view) {
         this.m_Holder = holder;
         this.m_View = view;
     }
 
     /**
-     * Set the value of {@link GameLoop#m_Running}
+     * Set the value of {@link GameViewUpdater#m_Running}
      *
      * @param running True means that the thrad is currently running. Otherwise the variable is set to false.
      */

@@ -23,7 +23,6 @@ import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.EnemySpawner;
-import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
@@ -43,17 +42,17 @@ import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
 /**
- * It is responsible for {@link GameLoop} management and drawing of the whole game view.
+ * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /** Reference to the {@link GameActivity} object. */
     private GameActivity m_GameActivity;
+    /** Reference to the {@link GameViewUpdater} object. */
+    private GameViewUpdater m_Updater;
+    /** Reference to the {@link GameViewUpdater} thread. */
+    private Thread m_UpdaterThread;
     /** Cached reference to the {@link GameManager} module.*/
     private GameManager m_GameManager;
-    /** Reference to the {@link GameLoop} object. */
-    private GameLoop m_Loop;
-    /** Reference to the {@link GameLoop} thread. */
-    private Thread m_LoopThread;
     /** Reference to the {@link GameViewUI} object, which contains UI references. */
     private GameViewUI m_UI;
     /** Reference to all updated and drawn {@link GameObject} objects. */
@@ -144,10 +143,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         // ToDo: Start BGM if there is any
 
-        // Initialize game loop and start thread
-        m_Loop = new GameLoop(holder, this);
-        m_LoopThread = new Thread(m_Loop);
-        m_LoopThread.start();
+        // Initialize game view updater and start thread
+        m_Updater = new GameViewUpdater(holder, this);
+        m_UpdaterThread = new Thread(m_Updater);
+        m_UpdaterThread.start();
     }
 
     @Override
@@ -161,10 +160,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.surfaceDestroyed(holder);
         Logger.D("GameView::surfaceDestroyed()");
 
-        m_Loop.setRunning(false);
+        m_Updater.setRunning(false);
 
         try {
-            m_LoopThread.join();
+            m_UpdaterThread.join();
         } catch (InterruptedException e) {
             Logger.E(e.getMessage());
         }
