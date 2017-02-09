@@ -37,14 +37,14 @@ public abstract class Shader {
                 body += newLine;
             }
         } catch (Exception e) {
-            Logger.E("Could not load shader \"" + shaderFile + "\": " + e.getMessage());
+            Logger.E("Could not load shader \"" + shaderFile + "\": " + e);
             return null;
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (Exception e) {
-                    Logger.E("Could not close reader for shader file \"" + shaderFile + "\": " + e.getMessage());
+                    Logger.E("Could not close reader for shader file \"" + shaderFile + "\": " + e);
                 }
             }
         }
@@ -80,6 +80,7 @@ public abstract class Shader {
         }
 
         GLES20.glDeleteShader(m_VertexShader);
+        m_VertexShader = 0;
     }
 
     public void createFragmentShader(String fragmentShaderFile) {
@@ -98,6 +99,7 @@ public abstract class Shader {
         }
 
         GLES20.glDeleteShader(m_FragmentShader);
+        m_FragmentShader = 0;
     }
 
     public boolean createProgram() {
@@ -126,6 +128,7 @@ public abstract class Shader {
         }
 
         GLES20.glDeleteProgram(m_Program);
+        m_Program = 0;
     }
 
     public abstract void draw(int coords_per_vertex, int vertexStride, int vertexCount, FloatBuffer vertexBuffer, int indexCount, ShortBuffer indexBuffer, float[] color, float[] mvpMatrix);
