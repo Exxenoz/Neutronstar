@@ -84,24 +84,6 @@ public class GameViewUpdater implements Runnable {
 
             startTime = currTime;
 
-            //**********************************
-            //* Synchronized rendering section *
-            //**********************************
-            c = null;
-
-            try {
-                c = m_Holder.lockCanvas(null);
-                synchronized (m_Holder) {
-                    if (c != null) {
-                        m_View.render(c);
-                    }
-                }
-            } finally {
-                if (c != null) {
-                    m_Holder.unlockCanvasAndPost(c);
-                }
-            }
-
             sleepTime = Pustafin.MinRenderDelta - (System.currentTimeMillis() - startTime);
             try {
                 if (sleepTime > 0) {
