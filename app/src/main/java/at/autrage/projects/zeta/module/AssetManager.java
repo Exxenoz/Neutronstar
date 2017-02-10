@@ -1,17 +1,25 @@
 package at.autrage.projects.zeta.module;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.SurfaceHolder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
+import at.autrage.projects.zeta.opengl.SpriteShader;
+import at.autrage.projects.zeta.view.GameView;
+import at.autrage.projects.zeta.view.GameViewRenderer;
 
 public class AssetManager {
     private static AssetManager m_Instance;
@@ -26,6 +34,7 @@ public class AssetManager {
 
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
+    private SpriteShader m_SpriteShader;
 
     private Paint m_HealthBarFillPaintGreen;
     private Paint m_HealthBarFillPaintOrange;
@@ -49,10 +58,14 @@ public class AssetManager {
     }
 
     public void initialize() {
-        if (!m_Initialized) {
-            m_Initialized = true;
-            loadAnimationData();
+        if (m_Initialized) {
+            return;
         }
+
+        m_Initialized = true;
+
+        loadAnimationData();
+        loadShaderData();
     }
 
     private void loadAnimationData() {
@@ -116,15 +129,47 @@ public class AssetManager {
         }}));
     }
 
-    public void load(Resources resources) {
+    private void loadShaderData() {
+        m_SpriteShader = new SpriteShader();
+    }
+
+    /**
+     * This method is called, when {@link GameView#surfaceCreated(SurfaceHolder)} is called.
+     * Do not call OpenGL methods here!
+     */
+    public void onSurfaceCreated(Resources resources) {
         for (Animation a : m_Animations.values()) {
             a.load(resources);
         }
     }
 
-    public void unLoad() {
+    /**
+     * This method is called, when {@link GameViewRenderer#onSurfaceCreated(GL10, EGLConfig)} is called.
+     * You can call OpenGL methods here.
+     */
+    public void onSurfaceCreatedFromOpenGL(Context context) {
+        if (m_SpriteShader != null) {
+            // ToDo: Is it legit to "just" reset shader ids or do we
+            // have to free resources by calling the delete methods?
+            m_SpriteShader.reset();
+
+            m_SpriteShader.createVertexShader("color_vertex_shader.glsl", context);
+            m_SpriteShader.createFragmentShader("color_fragment_shader.glsl", context);
+            m_SpriteShader.createProgram();
+        }
+    }
+
+    /**
+     * This method is called, when {@link GameView#surfaceDestroyed(SurfaceHolder)} is called.
+     * Do not call OpenGL methods here!
+     */
+    public void onSurfaceDestroyed() {
         for (Animation a : m_Animations.values()) {
             a.unLoad();
+        }
+
+        if (m_SpriteShader != null) {
+            m_SpriteShader.reset();
         }
     }
 
@@ -134,6 +179,10 @@ public class AssetManager {
 
     public AnimationSet getAnimationSet(AnimationSets animationSet) {
         return m_AnimationSets.get(animationSet);
+    }
+
+    public SpriteShader getSpriteShader() {
+        return m_SpriteShader;
     }
 
     public Paint getHealthBarFillPaintGreen() {

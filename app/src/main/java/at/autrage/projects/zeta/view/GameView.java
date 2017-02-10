@@ -1,8 +1,6 @@
 package at.autrage.projects.zeta.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -29,7 +27,6 @@ import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
-import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
@@ -38,8 +35,6 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.Util;
-import at.autrage.projects.zeta.persistence.HighscoreTable;
-import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 
 /**
  * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
@@ -84,8 +79,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(gameActivity.getApplicationContext());
         // Initialize game activity variable
         m_GameActivity = gameActivity;
-        // Cache game manager module reference
-        m_GameManager = GameManager.getInstance();
+
+        // Initialize asset manager module
+        AssetManager.getInstance().initialize();
+
         // Add callback for events
         getHolder().addCallback(this);
         // Ensure that events are generated
@@ -93,14 +90,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // Set canvas format
         getHolder().setFormat(PixelFormat.RGBA_8888);
 
+        // Cache game manager module reference
+        m_GameManager = GameManager.getInstance();
+
         // Initialize game object list
         m_GameObjects = new ArrayList<GameObject>();
         // Initialize game objects to insert queue
         m_GameObjectsToInsert = new ConcurrentLinkedQueue<GameObject>();
         // Initialize game objects to delete queue
         m_GameObjectsToDelete = new ConcurrentLinkedQueue<GameObject>();
-        // Initialize asset manager module
-        AssetManager.getInstance().initialize();
+
         // Initialize collider list
         m_ColliderList = new ArrayList<Collider>(128);
 
@@ -139,7 +138,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.surfaceCreated(holder);
         Logger.D("GameView::surfaceCreated()");
 
-        AssetManager.getInstance().load(getResources());
+        AssetManager.getInstance().onSurfaceCreated(getResources());
 
         // ToDo: Start BGM if there is any
 
@@ -170,7 +169,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         SoundManager.getInstance().StopBGM();
 
-        AssetManager.getInstance().unLoad();
+        AssetManager.getInstance().onSurfaceDestroyed();
     }
 
     public void onClick() {
@@ -336,14 +335,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * This method draws the game view to the given {@link Canvas} object.
-     *
-     * @param canvas The canvas where the game view should be drawn.
+     * This method renders the game view to the surface view.
      */
-    public void render(Canvas canvas) {
-        // Draw game objects
+    public void render() {
+        // Render game objects
         for (GameObject go : m_GameObjects) {
-            go.onDraw(canvas);
+            go.onRender();
         }
     }
 

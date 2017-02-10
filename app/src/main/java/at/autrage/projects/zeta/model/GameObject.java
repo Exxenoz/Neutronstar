@@ -171,22 +171,7 @@ public class GameObject {
     public void onCollide(Collider collider) {
     }
 
-    public void onDraw(Canvas canvas) {
-        if (!m_Visible) {
-            return;
-        }
-
-        if (m_CurrAnimationFrame != null) {
-            canvas.save(Canvas.MATRIX_SAVE_FLAG);
-            canvas.rotate(m_RotationAngle, m_ScaledPositionX, m_ScaledPositionY);
-            canvas.drawBitmap(m_CurrAnimationFrame.getSequenceImage(), m_CurrAnimationFrame.getScaledTexCoordRect(), m_DstRect, null);
-            canvas.restore();
-        }
-
-        if (Pustafin.DebugMode && m_Collider != null) {
-            m_Collider.onDraw(canvas);
-        }
-    }
+    public abstract void onRender();
 
     public void explode(GameObject target, AnimationSets animationSet) {
         explode(target, animationSet, false);
