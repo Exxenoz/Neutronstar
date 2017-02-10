@@ -1,11 +1,9 @@
 package at.autrage.projects.zeta.view;
 
 import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.util.AttributeSet;
+import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +37,11 @@ import at.autrage.projects.zeta.module.Util;
 /**
  * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
  */
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+public class GameView extends GLSurfaceView {
     /** Reference to the {@link GameActivity} object. */
     private GameActivity m_GameActivity;
+    /** Reference to the {@link GameViewRenderer} object. */
+    private GameViewRenderer m_Renderer;
     /** Reference to the {@link GameViewUpdater} object. */
     private GameViewUpdater m_Updater;
     /** Reference to the {@link GameViewUpdater} thread. */
@@ -77,6 +77,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameView(GameActivity gameActivity) {
         super(gameActivity.getApplicationContext());
+
+        // Create an OpenGL ES 2.0 context.
+        setEGLContextClientVersion(2);
+
         // Initialize game activity variable
         m_GameActivity = gameActivity;
 
@@ -84,11 +88,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         AssetManager.getInstance().initialize();
 
         // Add callback for events
-        getHolder().addCallback(this);
+        //getHolder().addCallback(this);
         // Ensure that events are generated
         setFocusable(true);
-        // Set canvas format
-        getHolder().setFormat(PixelFormat.RGBA_8888);
+        // Set pixel format
+        //getHolder().setFormat(PixelFormat.RGBA_8888);
+
+        // Create game view renderer
+        m_Renderer = new GameViewRenderer(this);
+        // Set the game view renderer for drawing on the GLSurfaceView
+        setRenderer(m_Renderer);
+        // Render the view also when there is no change in the drawing data
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
         // Cache game manager module reference
         m_GameManager = GameManager.getInstance();
