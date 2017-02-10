@@ -7,8 +7,8 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 public class SpriteShader extends Shader {
-    public SpriteShader(Context context) {
-        super(context);
+    public SpriteShader() {
+        super();
     }
 
     public void draw(int coords_per_vertex, int vertexStride, int vertexCount, FloatBuffer vertexBuffer, int indexCount, ShortBuffer indexBuffer, float[] color, float[] mvpMatrix) {

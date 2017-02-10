@@ -12,18 +12,20 @@ import java.nio.ShortBuffer;
 import at.autrage.projects.zeta.module.Logger;
 
 public abstract class Shader {
-    protected Context m_Context;
-
     protected int m_VertexShader;
     protected int m_FragmentShader;
     protected int m_Program;
 
-    public Shader(Context context) {
-        m_Context = context;
+    public Shader() {
     }
 
-    private String readShaderFileContent(String shaderFile) {
-        AssetManager am = m_Context.getAssets();
+    private String readShaderFileContent(String shaderFile, Context context) {
+        if (context == null) {
+            Logger.E("Could not onSurfaceCreated shader \"" + shaderFile + "\", because context is null!");
+            return null;
+        }
+
+        AssetManager am = context.getAssets();
         BufferedReader reader = null;
 
         String newLine = System.getProperty("line.separator");
@@ -37,7 +39,7 @@ public abstract class Shader {
                 body += newLine;
             }
         } catch (Exception e) {
-            Logger.E("Could not load shader \"" + shaderFile + "\": " + e);
+            Logger.E("Could not onSurfaceCreated shader \"" + shaderFile + "\": " + e);
             return null;
         } finally {
             if (reader != null) {
@@ -52,8 +54,8 @@ public abstract class Shader {
         return body;
     }
 
-    private int createShader(int type, String shaderFile) {
-        String shaderCode = readShaderFileContent(shaderFile);
+    private int createShader(int type, String shaderFile, Context context) {
+        String shaderCode = readShaderFileContent(shaderFile, context);
         if (shaderCode == null) {
             return 0;
         }
@@ -64,18 +66,18 @@ public abstract class Shader {
         return shader;
     }
 
-    public void createVertexShader(String vertexShaderFile) {
+    public void createVertexShader(String vertexShaderFile, Context context) {
         if (m_VertexShader != 0) {
             Logger.E("Could not create vertex shader, because it is already loaded!");
             return;
         }
 
-        m_VertexShader = createShader(GLES20.GL_VERTEX_SHADER, vertexShaderFile);
+        m_VertexShader = createShader(GLES20.GL_VERTEX_SHADER, vertexShaderFile, context);
     }
 
     public void deleteVertexShader() {
         if (m_VertexShader == 0) {
-            Logger.E("Could not delete vertex shader, because it is not loaded!");
+            Logger.W("Could not delete vertex shader, because it is not loaded!");
             return;
         }
 
@@ -83,18 +85,18 @@ public abstract class Shader {
         m_VertexShader = 0;
     }
 
-    public void createFragmentShader(String fragmentShaderFile) {
+    public void createFragmentShader(String fragmentShaderFile, Context context) {
         if (m_FragmentShader != 0) {
             Logger.E("Could not create fragment shader, because it is already loaded!");
             return;
         }
 
-        m_FragmentShader = createShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderFile);
+        m_FragmentShader = createShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderFile, context);
     }
 
     public void deleteFragmentShader() {
         if (m_FragmentShader == 0) {
-            Logger.E("Could not delete fragment shader, because it is not loaded!");
+            Logger.W("Could not delete fragment shader, because it is not loaded!");
             return;
         }
 
@@ -123,11 +125,17 @@ public abstract class Shader {
 
     public void deleteProgram() {
         if (m_Program == 0) {
-            Logger.E("Could not delete shader program, because it is not loaded!");
+            Logger.W("Could not delete shader program, because it is not loaded!");
             return;
         }
 
         GLES20.glDeleteProgram(m_Program);
+        m_Program = 0;
+    }
+
+    public void reset() {
+        m_VertexShader = 0;
+        m_FragmentShader = 0;
         m_Program = 0;
     }
 
