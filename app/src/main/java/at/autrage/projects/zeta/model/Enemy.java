@@ -18,7 +18,7 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents an enemy object in the game.
  */
-public class Enemy extends GameObject {
+public class Enemy extends Sprite {
     protected EnemySpawner m_Owner;
     protected float m_Health;
     protected float m_HealthMaximum;
@@ -56,9 +56,9 @@ public class Enemy extends GameObject {
         }
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    /*@Override
+    public void onRender(Canvas canvas) {
+        super.onRender(canvas);
 
         float scaleFactor = SuperActivity.getScaleFactor();
         float healthBarStartX = (getPositionX() - Pustafin.EnemyHealthBarHalfWidth + Pustafin.EnemyHealthBarOffsetX) * scaleFactor;
@@ -72,7 +72,7 @@ public class Enemy extends GameObject {
             healthBarStartY + Pustafin.EnemyHealthBarHalfHeight * scaleFactor,
             m_HealthBarFillPaint
         );
-    }
+    }*/
 
     public void receiveDamage(float damage) {
         setHealth(m_Health - damage);

@@ -14,7 +14,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.view.GameView;
 
-public class EnemySpawner extends GameObject {
+public class EnemySpawner extends Sprite {
     private Random m_Random;
 
     private int m_AsteroidSpawnCount;

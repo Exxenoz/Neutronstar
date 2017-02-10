@@ -1,6 +1,5 @@
 package at.autrage.projects.zeta.opengl;
 
-import android.content.Context;
 import android.opengl.GLES20;
 
 import java.nio.FloatBuffer;

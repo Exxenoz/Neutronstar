@@ -14,12 +14,13 @@ import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
+import at.autrage.projects.zeta.opengl.Shader;
 import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class represents an object in the game.
  */
-public class GameObject {
+public abstract class GameObject {
     private GameView m_GameView;
 
     private float m_PositionX;
@@ -62,10 +63,11 @@ public class GameObject {
     private float m_Speed;
 
     private Collider m_Collider;
+    private Shader m_Shader;
 
     private boolean m_Visible;
 
-    public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
+    public GameObject(GameView gameView, float positionX, float positionY, Shader shader, AnimationSet animationSet) {
         m_GameView = gameView;
 
         m_PositionX = positionX;
@@ -97,6 +99,9 @@ public class GameObject {
         m_DirectionX = 0f;
         m_DirectionY = 0f;
         setSpeed(0f);
+
+        m_Collider = null;
+        m_Shader = shader;
 
         m_Visible = true;
 

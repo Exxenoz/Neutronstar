@@ -16,14 +16,14 @@ import at.autrage.projects.zeta.view.GameView;
  * This class represents a nuke object in the game.
  */
 public class Nuke extends Weapon {
-    private GameObject m_EngineFire;
+    private Sprite m_EngineFire;
     private float m_EngineFireLengthOffset;
     private AnimationSets m_ExplosionAnimationSet;
 
     public Nuke(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        m_EngineFire = new GameObject(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
+        m_EngineFire = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
         m_EngineFire.setScaleFactor((float)this.getSizeX() / m_EngineFire.getSizeX());
         m_EngineFire.setAnimationRepeatable(true);
 
