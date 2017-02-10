@@ -160,6 +160,19 @@ public class GameActivity extends SuperActivity {
         super.onResume();
 
         m_CurrentActivity = Activities.GameActivity;
+
+        if (m_GameView != null) {
+            m_GameView.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (m_GameView != null) {
+            m_GameView.onPause();
+        }
     }
 
     @Override
