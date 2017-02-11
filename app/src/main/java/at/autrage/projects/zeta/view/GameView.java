@@ -351,7 +351,7 @@ public class GameView extends GLSurfaceView {
     public void draw(float[] mvpMatrix) {
         // Draw game objects
         for (GameObject go : m_GameObjects) {
-            go.onRender();
+            go.draw(mvpMatrix);
         }
     }
 

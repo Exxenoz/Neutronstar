@@ -1,6 +1,5 @@
 package at.autrage.projects.zeta.model;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import at.autrage.projects.zeta.activity.SuperActivity;
@@ -14,7 +13,7 @@ import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
-import at.autrage.projects.zeta.opengl.Shader;
+import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.view.GameView;
 
 /**
@@ -63,11 +62,11 @@ public abstract class GameObject {
     private float m_Speed;
 
     private Collider m_Collider;
-    private Shader m_Shader;
+    private MeshRenderer m_Renderer;
 
     private boolean m_Visible;
 
-    public GameObject(GameView gameView, float positionX, float positionY, Shader shader, AnimationSet animationSet) {
+    public GameObject(GameView gameView, float positionX, float positionY, MeshRenderer meshRenderer, AnimationSet animationSet) {
         m_GameView = gameView;
 
         m_PositionX = positionX;
@@ -101,7 +100,7 @@ public abstract class GameObject {
         setSpeed(0f);
 
         m_Collider = null;
-        m_Shader = shader;
+        m_Renderer = meshRenderer;
 
         m_Visible = true;
 
@@ -176,7 +175,11 @@ public abstract class GameObject {
     public void onCollide(Collider collider) {
     }
 
-    public abstract void onRender();
+    public void draw(float[] mvpMatrix) {
+        if (m_Renderer != null) {
+            m_Renderer.draw(mvpMatrix);
+        }
+    }
 
     public void explode(GameObject target, AnimationSets animationSet) {
         explode(target, animationSet, false);
