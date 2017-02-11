@@ -9,7 +9,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
-import at.autrage.projects.zeta.opengl.SpriteShader;
 
 public class GameViewRenderer implements GLSurfaceView.Renderer {
     /** Reference to the {@link GameView} object. */
@@ -57,6 +56,6 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(m_MVPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
 
         // Draw game objects
-        m_GameView.render();
+        m_GameView.draw(m_MVPMatrix);
     }
 }

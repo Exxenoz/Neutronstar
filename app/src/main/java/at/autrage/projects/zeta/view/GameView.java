@@ -346,10 +346,10 @@ public class GameView extends GLSurfaceView {
     }
 
     /**
-     * This method renders the game view to the surface view.
+     * This method draws the game view to the surface view.
      */
-    public void render() {
-        // Render game objects
+    public void draw(float[] mvpMatrix) {
+        // Draw game objects
         for (GameObject go : m_GameObjects) {
             go.onRender();
         }

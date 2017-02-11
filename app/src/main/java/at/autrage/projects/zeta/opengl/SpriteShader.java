@@ -2,15 +2,12 @@ package at.autrage.projects.zeta.opengl;
 
 import android.opengl.GLES20;
 
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
-
 public class SpriteShader extends Shader {
     public SpriteShader() {
         super();
     }
 
-    public void draw(int coords_per_vertex, int vertexStride, int vertexCount, FloatBuffer vertexBuffer, int indexCount, ShortBuffer indexBuffer, float[] color, float[] mvpMatrix) {
+    public void draw(Mesh mesh, float[] color, float[] mvpMatrix) {
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(m_Program);
 
@@ -21,9 +18,9 @@ public class SpriteShader extends Shader {
         GLES20.glEnableVertexAttribArray(positionHandle);
 
         // Prepare the coordinate data
-        GLES20.glVertexAttribPointer(positionHandle, coords_per_vertex,
+        GLES20.glVertexAttribPointer(positionHandle, Mesh.CoordsPerVertex,
                 GLES20.GL_FLOAT, false,
-                vertexStride, vertexBuffer);
+                Mesh.VertexStride, mesh.getVertices());
 
         // Get handle to fragment shader's v_Color member
         int colorHandle = GLES20.glGetUniformLocation(m_Program, "a_Color");
@@ -38,7 +35,7 @@ public class SpriteShader extends Shader {
         GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mvpMatrix, 0);
 
         // Draw the triangles
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, indexCount, GLES20.GL_UNSIGNED_SHORT, indexBuffer);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, mesh.getIndexCount(), GLES20.GL_UNSIGNED_SHORT, mesh.getIndices());
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionHandle);

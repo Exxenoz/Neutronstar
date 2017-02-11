@@ -139,5 +139,5 @@ public abstract class Shader {
         m_Program = 0;
     }
 
-    public abstract void draw(int coords_per_vertex, int vertexStride, int vertexCount, FloatBuffer vertexBuffer, int indexCount, ShortBuffer indexBuffer, float[] color, float[] mvpMatrix);
+    public abstract void draw(Mesh mesh, float[] color, float[] mvpMatrix);
 }
