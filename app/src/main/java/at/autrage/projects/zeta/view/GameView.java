@@ -215,39 +215,43 @@ public class GameView extends GLSurfaceView {
      * Function which updates the game models
      */
     public void update() {
-        synchronized (m_GameObjectsToInsert) {
-            while (!m_GameObjectsToInsert.isEmpty()) {
-                m_GameObjects.add(m_GameObjectsToInsert.poll());
+        // Lock game object collection
+        // ToDo: Better update/render thread synchronization...
+        synchronized (m_GameObjects) {
+            synchronized (m_GameObjectsToInsert) {
+                while (!m_GameObjectsToInsert.isEmpty()) {
+                    m_GameObjects.add(m_GameObjectsToInsert.poll());
+                }
             }
-        }
 
-        synchronized (m_GameObjectsToDelete) {
-            while (!m_GameObjectsToDelete.isEmpty()) {
-                m_GameObjects.remove(m_GameObjectsToDelete.poll());
+            synchronized (m_GameObjectsToDelete) {
+                while (!m_GameObjectsToDelete.isEmpty()) {
+                    m_GameObjects.remove(m_GameObjectsToDelete.poll());
+                }
             }
-        }
 
-        m_ColliderList.clear();
+            m_ColliderList.clear();
 
-        // Update game objects
-        for (GameObject go : m_GameObjects) {
-            go.onUpdate();
+            // Update game objects
+            for (GameObject go : m_GameObjects) {
+                go.onUpdate();
 
-            if (go.getCollider() != null) {
-                m_ColliderList.add(go.getCollider());
+                if (go.getCollider() != null) {
+                    m_ColliderList.add(go.getCollider());
+                }
             }
-        }
 
-        int i = 0;
+            int i = 0;
 
-        for (Collider co1 : m_ColliderList) {
-            i++;
+            for (Collider co1 : m_ColliderList) {
+                i++;
 
-            for (int j = i; j < m_ColliderList.size(); j++) {
-                Collider co2 = m_ColliderList.get(j);
-                if (co1.intersects(co2)) {
-                    co1.getOwner().onCollide(co2);
-                    co2.getOwner().onCollide(co1);
+                for (int j = i; j < m_ColliderList.size(); j++) {
+                    Collider co2 = m_ColliderList.get(j);
+                    if (co1.intersects(co2)) {
+                        co1.getOwner().onCollide(co2);
+                        co2.getOwner().onCollide(co1);
+                    }
                 }
             }
         }
@@ -349,9 +353,12 @@ public class GameView extends GLSurfaceView {
      * This method draws the game view to the surface view.
      */
     public void draw(float[] mvpMatrix) {
-        // Draw game objects
-        for (GameObject go : m_GameObjects) {
-            go.draw(mvpMatrix);
+        // Lock game object collection
+        synchronized (m_GameObjects) {
+            // Draw game objects
+            for (GameObject go : m_GameObjects) {
+                go.draw(mvpMatrix);
+            }
         }
     }
 
