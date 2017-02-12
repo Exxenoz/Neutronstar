@@ -50,7 +50,8 @@
     <string name="tv_desc_mute">Sie können den Sound durch\nAktivierung dieses Knopfes\njederzeit stumm- oder laut-\nschalten.</string>
     <string name="tv_desc_finish">Sie haben das Tutorial erfolgreich beendet!\n\nSie können jetzt im Hauptmenü ein neues Spiel starten.</string>
     <string name="sv_disabled">Deaktiviert</string>
-    <string name="separator_for_numbers">.</string>
+    <string name="separator_for_numbers">,</string>
+    <string name="separator_for_score">.</string>
     <string name="sv_researchable">Erforschbar</string>
     <string name="sv_desc_small_rocket">%02d x Kleine Rakete</string>
     <string name="ss_continue">Bitte berühren Sie den Bildschirm!</string>

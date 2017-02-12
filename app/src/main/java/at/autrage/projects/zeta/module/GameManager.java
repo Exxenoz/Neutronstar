@@ -36,7 +36,6 @@ public class GameManager {
      * A flagged state means that the UI must be updated for the corresponding view.
      */
     private int m_UpdateFlags;
-
     private int m_Level;
 
     private int m_Score;

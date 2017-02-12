@@ -55,7 +55,8 @@
     <string name="ss_continue">Please touch the screen!</string>
     <string name="cv_credits1">Design und Programming</string>
     <string name="cv_credits2">Andreas Krischke\nRaphael Beyerle</string>
-    <string name="separator_for_numbers">,</string>
+    <string name="separator_for_numbers">.</string>
+    <string name="separator_for_score">,</string>
     <string name="gv_population_display">%s Bio.</string>
     <string name="gv_money_display">%s Bio.</string>
 </resources>

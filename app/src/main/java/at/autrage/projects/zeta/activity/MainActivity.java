@@ -12,14 +12,16 @@ import at.autrage.projects.zeta.module.SoundManager;
  */
 public class MainActivity extends SuperActivity {
     private static String m_SeparatorForNumbers = ".";
+    private static String m_SeparatorForScore = ",";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set separator for numbers from strings.xml
+        // Set separators for numbers from strings.xml
         m_SeparatorForNumbers = getString(R.string.separator_for_numbers);
+        m_SeparatorForScore = getString(R.string.separator_for_score);
 
         // Initialize database
         Database.initialize(this);
@@ -40,5 +42,9 @@ public class MainActivity extends SuperActivity {
 
     public static String getSeparatorForNumbers() {
         return m_SeparatorForNumbers;
+    }
+
+    public static String getSeparatorForScore() {
+        return m_SeparatorForScore;
     }
 }

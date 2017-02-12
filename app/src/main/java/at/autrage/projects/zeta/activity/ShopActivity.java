@@ -214,7 +214,7 @@ public class ShopActivity extends SuperActivity {
         updateMoneyDisplay();
 
         TextView txtViewPopulationDisplay = (TextView) findViewById(R.id.txtViewShopPopulation);
-        txtViewPopulationDisplay.setText(String.format(getString(R.string.sv_population_display), Util.addLeadingZeros((int) GameManager.getInstance().getPopulation(), 5, true)));
+        txtViewPopulationDisplay.setText(String.format(getString(R.string.sv_population_display), Util.addLeadingZeros((int) GameManager.getInstance().getPopulation(), 5, true, false)));
 
         initializeShopDescriptions();
         initializeShopPrices();
@@ -228,7 +228,7 @@ public class ShopActivity extends SuperActivity {
     }
 
     private void updateMoneyDisplay() {
-        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true)));
+        m_TxtViewMoneyDisplay.setText(String.format(getString(R.string.sv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true, false)));
     }
 
     private void updateWeaponPrices() {

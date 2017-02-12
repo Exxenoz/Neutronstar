@@ -9,10 +9,10 @@ import at.autrage.projects.zeta.activity.MainActivity;
 import at.autrage.projects.zeta.activity.SuperActivity;
 
 public class Util {
-    public static String addLeadingZeros(int src, int length, boolean seperator) {
+    public static String addLeadingZeros(int src, int length, boolean seperator, boolean isScore) {
         String out = "";
         String str = ""+src;
-        String sep = MainActivity.getSeparatorForNumbers();
+        String sep = isScore?MainActivity.getSeparatorForScore():MainActivity.getSeparatorForNumbers();
 
         for (int i = 0, j = str.length() - 1; i < length; i++) {
             if (seperator && i != 0 && i % 3 == 0) {

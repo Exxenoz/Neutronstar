@@ -98,7 +98,7 @@ public class HighscoreActivity extends SuperActivity {
 
             date.setTime((long)highscoreEntry.Date * 1000);
 
-            textViewEntry.setText(String.format("%02d | Lvl. %02d | %s | %s", i + 1, highscoreEntry.Level, Util.addLeadingZeros(highscoreEntry.Score, 6, true), dateFormat.format(date)));
+            textViewEntry.setText(String.format("%02d | Lvl. %02d | %s | %s", i + 1, highscoreEntry.Level, Util.addLeadingZeros(highscoreEntry.Score, 6, true, true), dateFormat.format(date)));
         }
 
         String noentry = getString(R.string.hs_noentry);
