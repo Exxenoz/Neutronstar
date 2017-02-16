@@ -45,6 +45,7 @@ public class AssetManager {
     private AssetManager() {
         m_Animations = new HashMap<Animations, Animation>();
         m_AnimationSets = new HashMap<AnimationSets, AnimationSet>();
+        m_SpriteShader = null;
 
         m_HealthBarFillPaintGreen = new Paint();
         m_HealthBarFillPaintOrange = new Paint();
@@ -156,6 +157,8 @@ public class AssetManager {
             m_SpriteShader.createVertexShader("color_vertex_shader.glsl", context);
             m_SpriteShader.createFragmentShader("color_fragment_shader.glsl", context);
             m_SpriteShader.createProgram();
+
+            m_SpriteShader.init();
         }
     }
 

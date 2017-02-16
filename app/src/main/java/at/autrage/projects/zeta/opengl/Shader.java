@@ -16,6 +16,8 @@ public abstract class Shader {
     protected int m_FragmentShader;
     protected int m_Program;
 
+    protected static int _lastProgram = -1;
+
     public Shader() {
     }
 
@@ -139,5 +141,5 @@ public abstract class Shader {
         m_Program = 0;
     }
 
-    public abstract void draw(Mesh mesh, float[] color, float[] mvpMatrix);
+    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] color, float[] mvpMatrix);
 }

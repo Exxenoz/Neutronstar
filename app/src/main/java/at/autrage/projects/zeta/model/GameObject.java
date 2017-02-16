@@ -66,7 +66,7 @@ public abstract class GameObject {
 
     private boolean m_Visible;
 
-    public GameObject(GameView gameView, float positionX, float positionY, MeshRenderer meshRenderer, AnimationSet animationSet) {
+    public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         m_GameView = gameView;
 
         m_PositionX = positionX;
@@ -100,7 +100,7 @@ public abstract class GameObject {
         setSpeed(0f);
 
         m_Collider = null;
-        m_Renderer = meshRenderer;
+        m_Renderer = null;
 
         m_Visible = true;
 
@@ -173,12 +173,6 @@ public abstract class GameObject {
     }
 
     public void onCollide(Collider collider) {
-    }
-
-    public void draw(float[] mvpMatrix) {
-        if (m_Renderer != null) {
-            m_Renderer.draw(mvpMatrix);
-        }
     }
 
     public void explode(GameObject target, AnimationSets animationSet) {
@@ -343,8 +337,29 @@ public abstract class GameObject {
         m_SpeedY = m_DirectionY * speed;
     }
 
+    public Collider getCollider() {
+        return m_Collider;
+    }
+
     public void setCollider(Collider collider) {
         m_Collider = collider;
+    }
+
+    public MeshRenderer getRenderer() {
+        return m_Renderer;
+    }
+
+    public void setRenderer(MeshRenderer renderer) {
+        if (renderer != null && renderer.getOwner() != this) {
+            Logger.E("Could not set renderer, because owner is not equal to current game object.");
+            return;
+        }
+
+        if (m_Renderer != null && m_Renderer != renderer) {
+            m_Renderer.setEnabled(false);
+        }
+
+        m_Renderer = renderer;
     }
 
     public GameView getGameView() {
@@ -412,10 +427,6 @@ public abstract class GameObject {
         return m_ScaleFactor;
     }
 
-    public Collider getCollider() {
-        return m_Collider;
-    }
-
     public boolean isVisible() {
         return m_Visible;
     }
@@ -428,5 +439,8 @@ public abstract class GameObject {
         if (m_GameView != null) {
             m_GameView.addGameObjectToDeleteQueue(this);
         }
+
+        setRenderer(null);
+        setCollider(null);
     }
 }

@@ -16,42 +16,47 @@ public class Mesh {
     public static final int VertexStride = CoordsPerVertex * 4; // 4 bytes per coordinate
 
     public Mesh(float[] vertices, short[] indices) {
+        m_Vertices = createVertexBuffer(vertices);
+        m_Indices = createIndexBuffer(indices);
+
+        m_VertexCount = vertices.length;
+        m_IndexCount = indices.length;
+    }
+
+    public void draw(Material material, float[] mvpMatrix) {
+        material.draw(m_Vertices, m_Indices, m_IndexCount, mvpMatrix);
+    }
+
+    public FloatBuffer createVertexBuffer(float[] vertices) {
         // Initialize vertex byte buffer for shape coordinates
         // (Number of coordinate values * 4 bytes per float)
         ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
         // Use the device hardware's native byte order
         bb.order(ByteOrder.nativeOrder());
         // Create a floating point buffer from the ByteBuffer
-        m_Vertices = bb.asFloatBuffer();
+        FloatBuffer vertexBuffer = bb.asFloatBuffer();
         // Add the coordinates to the FloatBuffer
-        m_Vertices.put(vertices);
+        vertexBuffer.put(vertices);
         // Set the buffer to read the first coordinate
-        m_Vertices.position(0);
+        vertexBuffer.position(0);
 
+        return vertexBuffer;
+    }
+
+    public ShortBuffer createIndexBuffer(short[] indices) {
         // Initialize byte buffer for the draw list
         // (Number of values * 2 bytes per short)
-        bb = ByteBuffer.allocateDirect(indices.length * 2);
+        ByteBuffer bb = ByteBuffer.allocateDirect(indices.length * 2);
         // Use the device hardware's native byte order
         bb.order(ByteOrder.nativeOrder());
         // Create a short buffer from the ByteBuffer
-        m_Indices = bb.asShortBuffer();
+        ShortBuffer indexBuffer = bb.asShortBuffer();
         // Add the values to the ShortBuffer
-        m_Indices.put(indices);
+        indexBuffer.put(indices);
         // Set the buffer to read the first value
-        m_Indices.position(0);
+        indexBuffer.position(0);
 
-        // Set vertex count
-        m_VertexCount = vertices.length;
-        // Set index count
-        m_IndexCount = indices.length;
-    }
-
-    public FloatBuffer getVertices() {
-        return m_Vertices;
-    }
-
-    public ShortBuffer getIndices() {
-        return m_Indices;
+        return indexBuffer;
     }
 
     public int getVertexCount() {

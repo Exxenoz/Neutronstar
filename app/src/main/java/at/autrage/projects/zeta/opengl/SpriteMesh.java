@@ -4,8 +4,8 @@ public class SpriteMesh extends Mesh {
     public static final float BaseVertices[] = {
             -0.5f,  0.5f, 0.0f, // top left
             -0.5f, -0.5f, 0.0f, // bottom left
-            0.5f, -0.5f, 0.0f, // bottom right
-            0.5f,  0.5f, 0.0f  // top right
+             0.5f, -0.5f, 0.0f, // bottom right
+             0.5f,  0.5f, 0.0f  // top right
     };
 
     public static final short BaseIndices[] = {
