@@ -35,25 +35,25 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 notUsed, int width, int height) {
         Logger.D("GameViewRenderer::onSurfaceChanged");
+        // Set the view port to draw on the whole screen
         GLES20.glViewport(0, 0, width, height);
 
         float ratio = (float) width / height;
 
-        // this projection matrix is applied to object coordinates
-        // in the onDrawFrame() method
+        // This projection matrix is applied to object coordinates in the onDrawFrame() method
         Matrix.frustumM(m_ProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-    }
-
-    @Override
-    public void onDrawFrame(GL10 notUsed) {
-        // Redraw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(m_ViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(m_MVPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
+    }
+
+    @Override
+    public void onDrawFrame(GL10 notUsed) {
+        // Redraw background color
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         // Draw game objects
         m_GameView.draw(m_MVPMatrix);
