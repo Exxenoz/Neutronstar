@@ -18,7 +18,7 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents an enemy object in the game.
  */
-public class Enemy extends GameObject {
+public class Enemy extends Actor {
     protected EnemySpawner m_Owner;
     protected float m_Health;
     protected float m_HealthMaximum;

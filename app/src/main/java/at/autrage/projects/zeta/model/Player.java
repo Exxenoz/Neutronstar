@@ -25,7 +25,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Player extends GameObject {
+public class Player extends Actor {
     private float m_RemainingTime;
     private float m_OnUpdateEverySecondTimer;
     private Weapons m_SelectedWeapon;
