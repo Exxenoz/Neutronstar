@@ -218,16 +218,12 @@ public class GameView extends GLSurfaceView {
         // Lock game object collection
         // ToDo: Better update/render thread synchronization...
         synchronized (m_GameObjects) {
-            synchronized (m_GameObjectsToInsert) {
-                while (!m_GameObjectsToInsert.isEmpty()) {
-                    m_GameObjects.add(m_GameObjectsToInsert.poll());
-                }
+            while (!m_GameObjectsToInsert.isEmpty()) {
+                m_GameObjects.add(m_GameObjectsToInsert.poll());
             }
 
-            synchronized (m_GameObjectsToDelete) {
-                while (!m_GameObjectsToDelete.isEmpty()) {
-                    m_GameObjects.remove(m_GameObjectsToDelete.poll());
-                }
+            while (!m_GameObjectsToDelete.isEmpty()) {
+                m_GameObjects.remove(m_GameObjectsToDelete.poll());
             }
 
             m_ColliderList.clear();
