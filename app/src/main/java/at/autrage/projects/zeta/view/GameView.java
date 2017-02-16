@@ -154,7 +154,7 @@ public class GameView extends GLSurfaceView {
         // ToDo: Start BGM if there is any
 
         // Initialize game view updater and start thread
-        m_Updater = new GameViewUpdater(holder, this);
+        m_Updater = new GameViewUpdater(this);
         m_UpdaterThread = new Thread(m_Updater);
         m_UpdaterThread.start();
     }

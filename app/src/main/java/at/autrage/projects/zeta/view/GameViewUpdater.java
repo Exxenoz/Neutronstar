@@ -1,8 +1,5 @@
 package at.autrage.projects.zeta.view;
 
-import android.graphics.Canvas;
-import android.view.SurfaceHolder;
-
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
 
@@ -13,8 +10,6 @@ import at.autrage.projects.zeta.module.Time;
  */
 public class GameViewUpdater implements Runnable {
 
-    /** Variable for locking the canvas while rendering */
-    private SurfaceHolder m_Holder;
     /** Variable which stores reference to {@link GameView} */
     private GameView m_View;
     /**
@@ -27,11 +22,9 @@ public class GameViewUpdater implements Runnable {
     /**
      * Constructor
      *
-     * @param holder Reference to the canvas which has to be locked
      * @param view Reference to the {@link GameView}
      */
-    public GameViewUpdater(SurfaceHolder holder, GameView view) {
-        this.m_Holder = holder;
+    public GameViewUpdater(GameView view) {
         this.m_View = view;
     }
 
@@ -48,7 +41,6 @@ public class GameViewUpdater implements Runnable {
     public void run() {
         m_Running = true;
 
-        Canvas c = null;
         long startTime = System.currentTimeMillis();
         long currTime = 0;
         long diffTime = 0;
