@@ -18,6 +18,14 @@ public class Color {
         m_Color[3] = a;
     }
 
+    public void setColor(float[] color) {
+        setColor(color[0], color[1], color[2], color[3]);
+    }
+
+    public void setColor(Color color) {
+        setColor(color.getColor());
+    }
+
     public float[] getColor() {
         return m_Color;
     }
