@@ -6,7 +6,7 @@ import at.autrage.projects.zeta.module.Time;
 /**
  * This class contains the game loop.
  *
- * <p>If started, it repeats the update and render routine all 16 milli seconds.</p>
+ * <p>If started, it repeats the update routine all 16 milli seconds.</p>
  */
 public class GameViewUpdater implements Runnable {
 
@@ -76,7 +76,7 @@ public class GameViewUpdater implements Runnable {
 
             startTime = currTime;
 
-            sleepTime = Pustafin.MinRenderDelta - (System.currentTimeMillis() - startTime);
+            sleepTime = Pustafin.MinUpdateDelta - (System.currentTimeMillis() - startTime);
             try {
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);

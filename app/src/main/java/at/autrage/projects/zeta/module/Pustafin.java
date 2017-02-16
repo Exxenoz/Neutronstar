@@ -5,6 +5,7 @@ public class Pustafin {
     public static final boolean DebugMode = true;
 
     public static final int MaxUpdateDelta = 16; // In ms
+    public static final int MinUpdateDelta = 16; // In ms
     public static final int MinRenderDelta = 16; // In ms
     public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
 
