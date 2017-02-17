@@ -154,12 +154,12 @@ public class Player extends Sprite {
         double distance = Math.sqrt(deltaPositionX * deltaPositionX + deltaPositionY * deltaPositionY);
 
         float directionX = (float)(deltaPositionX / distance);
-        float directionY = (float)(deltaPositionY / distance);
+        float directionY = (float)(deltaPositionY / distance) * (-1); // Flip y direction
 
-        float radius = 128f;
+        float radius = m_Transform.getHalfScaleX();
 
-        float spawnPositionX = 960 + directionX * radius;
-        float spawnPositionY = 540 + directionY * radius;
+        float spawnPositionX = directionX * radius;
+        float spawnPositionY = directionY * radius;
 
         Weapon weapon = null;
         switch (m_SelectedWeapon) {

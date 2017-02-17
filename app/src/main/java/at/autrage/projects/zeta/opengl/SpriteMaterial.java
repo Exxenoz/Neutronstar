@@ -27,4 +27,8 @@ public class SpriteMaterial extends Material {
     public void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] modelMatrix, float[] vpMatrix) {
         _shader.draw(vertices, indices, indexCount, _color.getColor(), modelMatrix, vpMatrix);
     }
+
+    public Color getColor() {
+        return m_Color;
+    }
 }

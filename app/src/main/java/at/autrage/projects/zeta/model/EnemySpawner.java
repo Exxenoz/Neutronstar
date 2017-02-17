@@ -87,8 +87,8 @@ public class EnemySpawner extends Sprite {
 
         Vector2D asteroidSpawnDirection = calculateSpawnDirection(Math.random() <= Pustafin.AsteroidEasySpawnPositionProbability, m_Random.nextBoolean(), m_Random.nextInt(91));
 
-        float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192) + 960;
-        float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192) + 540;
+        float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192);
+        float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192);
 
         return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
                 asteroidScale, asteroidSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
@@ -103,8 +103,8 @@ public class EnemySpawner extends Sprite {
 
         Vector2D asteroidSpawnDirection = calculateSpawnDirection(true, false, 32 + m_Random.nextInt(27));
 
-        float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192) + 960;
-        float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192) + 540;
+        float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192);
+        float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192);
 
         Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
             asteroidScale, asteroidSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,

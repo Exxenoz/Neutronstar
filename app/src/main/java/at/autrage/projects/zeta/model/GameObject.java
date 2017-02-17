@@ -57,8 +57,8 @@ public abstract class GameObject {
         m_Transform.update();
 
         // Check for lost objects and destroy them
-        if (Math.abs(m_Transform.getPositionX() - 960) >= Pustafin.GameObjectAutoDestroyDistance ||
-            Math.abs(m_Transform.getPositionY() - 540) >= Pustafin.GameObjectAutoDestroyDistance) {
+        if (Math.abs(m_Transform.getPositionX()) >= Pustafin.GameObjectAutoDestroyDistance ||
+            Math.abs(m_Transform.getPositionY()) >= Pustafin.GameObjectAutoDestroyDistance) {
             Logger.D("Auto destroyed game object due to distance from planet.");
             destroy();
         }

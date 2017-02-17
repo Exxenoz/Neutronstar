@@ -15,7 +15,6 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
-import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.EnemySpawner;
@@ -128,12 +127,9 @@ public class GameView extends GLSurfaceView {
 
         m_ColliderList = new ArrayList<Collider>(128);
 
-        m_EnemySpawner = new EnemySpawner(this, 0, 0, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+        m_EnemySpawner = new EnemySpawner(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
-        float realScaledPositionCenterX = SuperActivity.getCurrentResolutionX() / (2f * SuperActivity.getScaleFactor());
-        float realScaledPositionCenterY = SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor());
-
-        m_Player = new Player(this, realScaledPositionCenterX, realScaledPositionCenterY, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
+        m_Player = new Player(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
         m_Player.setAnimationRepeatable(true);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
 

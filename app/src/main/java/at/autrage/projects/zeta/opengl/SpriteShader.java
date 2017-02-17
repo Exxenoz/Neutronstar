@@ -5,8 +5,6 @@ import android.opengl.GLES20;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-import at.autrage.projects.zeta.module.Logger;
-
 public class SpriteShader extends Shader {
     private int _positionHandle;
     private int _colorHandle;
