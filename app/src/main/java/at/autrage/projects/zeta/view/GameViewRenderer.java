@@ -46,7 +46,7 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         Matrix.frustumM(m_ProjectionMatrix, 0, -halfReferenceResolutionX, halfReferenceResolutionX, -halfReferenceResolutionY, halfReferenceResolutionY, 3, 7);
 
         // Set the camera position (View matrix)
-        Matrix.setLookAtM(m_ViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(m_ViewMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(m_VPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
