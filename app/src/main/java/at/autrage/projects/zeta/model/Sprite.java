@@ -7,6 +7,7 @@ import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.opengl.SpriteMaterial;
@@ -23,6 +24,8 @@ public class Sprite extends GameObject {
     private boolean m_AnimationRepeatable;
     private boolean m_AnimationPaused;
 
+    private float m_ScaleFactor;
+
     public Sprite(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY);
 
@@ -34,6 +37,8 @@ public class Sprite extends GameObject {
         m_AnimationReversed = false;
         m_AnimationRepeatable = false;
         m_AnimationPaused = false;
+
+        m_ScaleFactor = 1f;
 
         if (m_AnimationSet != null) {
             playAnimationFromSet(AnimationType.Default);
@@ -116,11 +121,11 @@ public class Sprite extends GameObject {
         if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
             Weapon weapon = (Weapon)this;
             explosion.setWeapon(weapon);
-            //explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getTransform().getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
-            //explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
+            explosion.setScaleFactor((m_Transform.getScaleX() / explosion.getTransform().getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
         }
 
         destroy();
@@ -164,8 +169,8 @@ public class Sprite extends GameObject {
         }
 
         m_CurrAnimationFrame = animationFrame;
-        m_Transform.setScaleX(m_CurrAnimationFrame.getSizeX());
-        m_Transform.setScaleY(m_CurrAnimationFrame.getSizeY());
+        m_Transform.setScaleX(m_CurrAnimationFrame.getSizeX() * m_ScaleFactor);
+        m_Transform.setScaleY(m_CurrAnimationFrame.getSizeY() * m_ScaleFactor);
     }
 
     public void setAnimationReversed(boolean animationReversed) {
@@ -178,5 +183,10 @@ public class Sprite extends GameObject {
 
     public void setAnimationPaused(boolean animationPaused) {
         this.m_AnimationPaused = animationPaused;
+    }
+
+    public void setScaleFactor(float scaleFactor) {
+        m_ScaleFactor = scaleFactor;
+        setCurrentAnimationFrame(m_CurrAnimationFrame);
     }
 }

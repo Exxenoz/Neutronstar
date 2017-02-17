@@ -48,6 +48,7 @@ public class Player extends Sprite {
         m_PlanetTouchColliderPaint.setStrokeWidth(2f);
 
         m_Clouds = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
+        m_Clouds.setScaleFactor(2.56f);
         m_Clouds.setAnimationReversed(true);
         m_Clouds.setAnimationRepeatable(true);
 

@@ -24,7 +24,7 @@ public class Nuke extends Weapon {
         super(gameView, positionX, positionY, animationSet);
 
         m_EngineFire = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
-        //m_EngineFire.setScale((float)this.getSizeX() / m_EngineFire.getSizeX());
+        m_EngineFire.setScaleFactor(m_Transform.getScaleX() / m_EngineFire.getTransform().getScaleX());
         m_EngineFire.setAnimationRepeatable(true);
 
         m_ExplosionAnimationSet = AnimationSets.Explosion1;

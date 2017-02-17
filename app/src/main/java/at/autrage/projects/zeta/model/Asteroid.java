@@ -31,7 +31,7 @@ public class Asteroid extends Enemy {
     public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed,
                                           float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner owner) {
         Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
-        //asteroid.setScaleFactor(scale);
+        asteroid.setScaleFactor(scale);
         asteroid.setDirection(directionX, directionY);
         asteroid.setSpeed(moveSpeed);
         asteroid.setRandomRotationSpeed();
