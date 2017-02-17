@@ -134,7 +134,6 @@ public class GameView extends GLSurfaceView {
         float realScaledPositionCenterY = SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor());
 
         m_Player = new Player(this, realScaledPositionCenterX, realScaledPositionCenterY, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
-        m_Player.setScaleFactor(2.56f);
         m_Player.setAnimationRepeatable(true);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
 

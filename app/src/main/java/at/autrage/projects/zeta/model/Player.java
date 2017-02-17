@@ -1,10 +1,7 @@
 package at.autrage.projects.zeta.model;
 
-
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.view.MotionEvent;
 
 import java.util.HashMap;
@@ -51,7 +48,6 @@ public class Player extends Sprite {
         m_PlanetTouchColliderPaint.setStrokeWidth(2f);
 
         m_Clouds = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
-        m_Clouds.setScaleFactor(2.56f);
         m_Clouds.setAnimationReversed(true);
         m_Clouds.setAnimationRepeatable(true);
 

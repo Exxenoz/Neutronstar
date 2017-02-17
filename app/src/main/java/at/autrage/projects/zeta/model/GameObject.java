@@ -1,8 +1,7 @@
 package at.autrage.projects.zeta.model;
 
-import android.graphics.Rect;
+import android.opengl.Matrix;
 
-import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationFrame;
 import at.autrage.projects.zeta.animation.AnimationSet;
@@ -22,18 +21,32 @@ import at.autrage.projects.zeta.view.GameView;
 public abstract class GameObject {
     private GameView m_GameView;
 
+    /** The model matrix transforms a position in a model to the position in the world. */
+    private float[] m_ModelMatrix;
+    /** The rotation/translation matrix cache. */
+    private float[] m_RTMatrix;
+    /** The translation matrix translates a position. */
+    private float[] m_TranslationMatrix;
+    /** The rotation matrix rotates a position. */
+    private float[] m_RotationMatrix;
+    /** The scale matrix scales a position. */
+    private float[] m_ScaleMatrix;
+
     private float m_PositionX;
     private float m_PositionY;
+    private float m_PositionZ;
 
-    private float m_RotationAngle;
+    private float m_RotationX;
+    private float m_RotationY;
+    private float m_RotationZ;
 
-    private int m_SizeX;
-    private int m_SizeY;
+    private float m_ScaleX;
+    private float m_ScaleY;
+    private float m_ScaleZ;
 
-    private float m_HalfSizeX;
-    private float m_HalfSizeY;
-
-    private float m_ScaleFactor;
+    private float m_HalfScaleX;
+    private float m_HalfScaleY;
+    private float m_HalfScaleZ;
 
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;
@@ -58,15 +71,15 @@ public abstract class GameObject {
     public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         m_GameView = gameView;
 
-        m_PositionX = positionX;
-        m_PositionY = positionY;
+        m_ModelMatrix = new float[16];
+        m_RTMatrix = new float[16];
+        m_TranslationMatrix = new float[16];
+        m_RotationMatrix = new float[16];
+        m_ScaleMatrix = new float[16];
 
-        m_RotationAngle = 0f;
-
-        m_SizeX = m_SizeY = 0;
-        m_HalfSizeX = m_HalfSizeY = 0;
-
-        m_ScaleFactor = 1f;
+        setPosition(positionX, positionY, 1f);
+        setRotation(0f, 0f, 0f);
+        setScale(1f, 1f, 1f);
 
         m_Animation = null;
         m_AnimationSet = animationSet;
@@ -133,6 +146,11 @@ public abstract class GameObject {
             m_PositionY += m_SpeedY * Time.getScaledDeltaTime();
         }
 
+        updateTranslationMatrix();
+        updateRotationMatrix();
+        updateScaleMatrix();
+        updateModelMatrix();
+
         // Check for lost objects and destroy them
         if (Math.abs(m_PositionX - 960) >= Pustafin.GameObjectAutoDestroyDistance ||
             Math.abs(m_PositionY - 540) >= Pustafin.GameObjectAutoDestroyDistance) {
@@ -165,8 +183,8 @@ public abstract class GameObject {
             float targetDirectionX = (float)(positionDeltaX / distance);
             float targetDirectionY = (float)(positionDeltaY / distance);
 
-            explosionSpawnPositionX = getPositionX() + targetDirectionX * getHalfSizeX() / 2f;
-            explosionSpawnPositionY = getPositionY() + targetDirectionY * getHalfSizeY() / 2f;
+            explosionSpawnPositionX = getPositionX() + targetDirectionX * getHalfScaleX() / 2f;
+            explosionSpawnPositionY = getPositionY() + targetDirectionY * getHalfScaleY() / 2f;
         }
         else {
             explosionSpawnPositionX = getPositionX();
@@ -179,11 +197,11 @@ public abstract class GameObject {
         if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
             Weapon weapon = (Weapon)this;
             explosion.setWeapon(weapon);
-            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            //explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
-            explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
+            //explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
         }
 
         destroy();
@@ -224,11 +242,11 @@ public abstract class GameObject {
         }
 
         m_CurrAnimationFrame = animationFrame;
-        m_SizeX = (int)(m_CurrAnimationFrame.getSizeX() * m_ScaleFactor);
-        m_SizeY = (int)(m_CurrAnimationFrame.getSizeY() * m_ScaleFactor);
+        m_ScaleX = m_CurrAnimationFrame.getSizeX();
+        m_ScaleY = m_CurrAnimationFrame.getSizeY();
 
-        m_HalfSizeX = m_SizeX / 2f;
-        m_HalfSizeY = m_SizeY / 2f;
+        m_HalfScaleX = m_ScaleX / 2f;
+        m_HalfScaleY = m_ScaleY / 2f;
     }
 
     public void setAnimationReversed(boolean animationReversed) {
@@ -241,23 +259,6 @@ public abstract class GameObject {
 
     public void setAnimationPaused(boolean animationPaused) {
         this.m_AnimationPaused = animationPaused;
-    }
-
-    public void setRotationAngle(float rotationAngle) {
-        m_RotationAngle = rotationAngle;
-    }
-
-    public void setScaleFactor(float scaleFactor) {
-        m_ScaleFactor = scaleFactor;
-        setCurrentAnimationFrame(m_CurrAnimationFrame);
-    }
-
-    public void setHalfSizeX(float halfSizeX) {
-        this.m_HalfSizeX = halfSizeX;
-    }
-
-    public void setHalfSizeY(float halfSizeY) {
-        this.m_HalfSizeY = halfSizeY;
     }
 
     public float getDirectionX() {
@@ -323,6 +324,53 @@ public abstract class GameObject {
         return m_GameView;
     }
 
+    private void updateModelMatrix() {
+        Matrix.multiplyMM(m_RTMatrix, 0, m_RotationMatrix, 0, m_TranslationMatrix, 0);
+        Matrix.multiplyMM(m_ModelMatrix, 0, m_RTMatrix, 0, m_ScaleMatrix, 0);
+    }
+
+    public float[] getModelMatrix() {
+        return m_ModelMatrix;
+    }
+
+    private void updateTranslationMatrix() {
+        Matrix.setIdentityM(m_TranslationMatrix, 0);
+        Matrix.translateM(m_TranslationMatrix, 0, m_PositionX, m_PositionY, m_PositionZ);
+    }
+
+    public float[] getTranslationMatrix() {
+        return m_TranslationMatrix;
+    }
+
+    private void updateRotationMatrix() {
+        Matrix.setIdentityM(m_RotationMatrix, 0);
+
+        if (m_RotationX != 0f) {
+            Matrix.rotateM(m_RotationMatrix, 0, m_RotationX, 1f, 0f, 0f);
+        }
+
+        if (m_RotationY != 0f) {
+            Matrix.rotateM(m_RotationMatrix, 0, m_RotationY, 0f, 1f, 0f);
+        }
+
+        if (m_RotationZ != 0f) {
+            Matrix.rotateM(m_RotationMatrix, 0, m_RotationZ, 0f, 0f, 1f);
+        }
+    }
+
+    public float[] getRotationMatrix() {
+        return m_RotationMatrix;
+    }
+
+    private void updateScaleMatrix() {
+        Matrix.setIdentityM(m_ScaleMatrix, 0);
+        Matrix.scaleM(m_ScaleMatrix, 0, m_ScaleX, m_ScaleY, m_ScaleZ);
+    }
+
+    public float[] getScaleMatrix() {
+        return m_ScaleMatrix;
+    }
+
     public float getPositionX() {
         return m_PositionX;
     }
@@ -331,41 +379,121 @@ public abstract class GameObject {
         return m_PositionY;
     }
 
+    public float getPositionZ() {
+        return m_PositionZ;
+    }
+
     public void setPositionX(float positionX) {
-        this.m_PositionX = positionX;
+        m_PositionX = positionX;
     }
 
     public void setPositionY(float positionY) {
-        this.m_PositionY = positionY;
+        m_PositionY = positionY;
+    }
+
+    public void setPositionZ(float positionZ) {
+        m_PositionZ = positionZ;
     }
 
     public void setPosition(float positionX, float positionY) {
-        this.m_PositionX = positionX;
-        this.m_PositionY = positionY;
+        m_PositionX = positionX;
+        m_PositionY = positionY;
     }
 
-    public float getRotationAngle() {
-        return m_RotationAngle;
+    public void setPosition(float positionX, float positionY, float positionZ) {
+        m_PositionX = positionX;
+        m_PositionY = positionY;
+        m_PositionZ = positionZ;
     }
 
-    public int getSizeX() {
-        return m_SizeX;
+    public float getRotationX() {
+        return m_RotationX;
     }
 
-    public int getSizeY() {
-        return m_SizeY;
+    public float getRotationY() {
+        return m_RotationY;
     }
 
-    public float getHalfSizeX() {
-        return m_HalfSizeX;
+    public float getRotationZ() {
+        return m_RotationZ;
     }
 
-    public float getHalfSizeY() {
-        return m_HalfSizeY;
+    public void setRotationX(float rotationX) {
+        m_RotationX = rotationX;
     }
 
-    public float getScaleFactor() {
-        return m_ScaleFactor;
+    public void setRotationY(float rotationY) {
+        m_RotationY = rotationY;
+    }
+
+    public void setRotationZ(float rotationZ) {
+        m_RotationZ = rotationZ;
+    }
+
+    public void setRotation(float rotationX, float rotationY) {
+        m_RotationX = rotationX;
+        m_RotationY = rotationY;
+    }
+
+    public void setRotation(float rotationX, float rotationY, float rotationZ) {
+        m_RotationX = rotationX;
+        m_RotationY = rotationY;
+        m_RotationZ = rotationZ;
+    }
+
+    public float getScaleX() {
+        return m_ScaleX;
+    }
+
+    public float getScaleY() {
+        return m_ScaleY;
+    }
+
+    public float getScaleZ() {
+        return m_ScaleZ;
+    }
+
+    public float getHalfScaleX() {
+        return m_HalfScaleX;
+    }
+
+    public float getHalfScaleY() {
+        return m_HalfScaleY;
+    }
+
+    public float getHalfScaleZ() {
+        return m_HalfScaleZ;
+    }
+
+    public void setScaleX(float scaleX) {
+        m_ScaleX = scaleX;
+        m_HalfScaleX = scaleX / 2f;
+    }
+
+    public void setScaleY(float scaleY) {
+        m_ScaleY = scaleY;
+        m_HalfScaleY = scaleY / 2f;
+    }
+
+    public void setScaleZ(float scaleZ) {
+        m_ScaleZ = scaleZ;
+        m_HalfScaleZ = scaleZ / 2f;
+    }
+
+    public void setScale(float scaleX, float scaleY) {
+        m_ScaleX = scaleX;
+        m_ScaleY = scaleY;
+        m_HalfScaleX = scaleX / 2f;
+        m_HalfScaleY = scaleY / 2f;
+    }
+
+    public void setScale(float scaleX, float scaleY, float scaleZ) {
+        m_ScaleX = scaleX;
+        m_ScaleY = scaleY;
+        m_ScaleZ = scaleZ;
+        m_HalfScaleX = scaleX / 2f;
+        m_HalfScaleY = scaleY / 2f;
+        m_HalfScaleZ = scaleZ / 2f;
     }
 
     public boolean isVisible() {
