@@ -141,5 +141,5 @@ public abstract class Shader {
         m_Program = 0;
     }
 
-    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] color, float[] mvpMatrix);
+    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] color, float[] modelMatrix, float[] vpMatrix);
 }

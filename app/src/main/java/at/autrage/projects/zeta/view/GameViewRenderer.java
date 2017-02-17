@@ -15,7 +15,7 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
     /** Reference to the {@link GameView} object. */
     private GameView m_GameView;
 
-    private final float[] m_MVPMatrix = new float[16];
+    private final float[] m_VPMatrix = new float[16];
     private final float[] m_ProjectionMatrix = new float[16];
     private final float[] m_ViewMatrix = new float[16];
 
@@ -49,7 +49,7 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         Matrix.setLookAtM(m_ViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
         // Calculate the projection and view transformation
-        Matrix.multiplyMM(m_MVPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
+        Matrix.multiplyMM(m_VPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
     }
 
     @Override
@@ -58,6 +58,6 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         // Draw game objects
-        m_GameView.draw(m_MVPMatrix);
+        m_GameView.draw(m_VPMatrix);
     }
 }

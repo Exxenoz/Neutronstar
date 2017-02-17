@@ -1,5 +1,7 @@
 package at.autrage.projects.zeta.opengl;
 
+import android.opengl.Matrix;
+
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.Logger;
 
@@ -13,12 +15,23 @@ public class MeshRenderer {
     /** The reference to the {@link Mesh} that is used. */
     private Mesh m_Mesh;
 
+    /** The model matrix transforms a position in a model to the position in the world. */
+    private float[] m_ModelMatrix;
+    /** The translation matrix translates a position. */
+    private float[] m_TranslationMatrix;
+    /** The rotation matrix rotates a position. */
+    private float[] m_RotationMatrix;
+    /** The scale matrix scales a position. */
+    private float[] m_ScaleMatrix;
+
     /** The same as {@link MeshRenderer#m_Enabled}, but safely accessible from the render thread. */
     private boolean _enabled;
     /** The same as {@link MeshRenderer#m_Material}, but safely accessible from the render thread. */
     private Material _material;
     /** The same as {@link MeshRenderer#m_Mesh}, but safely accessible from the render thread. */
     private Mesh _mesh;
+    /** The same as {@link MeshRenderer#m_ModelMatrix}, but safely accessible from the render thread. */
+    private float[] _modelMatrix;
 
     public MeshRenderer(GameObject owner) {
         m_Owner = owner;
@@ -26,9 +39,16 @@ public class MeshRenderer {
         m_Material = null;
         m_Mesh = null;
 
+        m_ModelMatrix = new float[16];
+        m_TranslationMatrix = new float[16];
+        m_RotationMatrix = new float[16];
+        m_ScaleMatrix = new float[16];
+
         _enabled = false;
         _material = null;
         _mesh = null;
+
+        _modelMatrix = new float[16];
     }
 
     public void shift() {
@@ -40,9 +60,11 @@ public class MeshRenderer {
         }
 
         _mesh = m_Mesh;
+
+        System.arraycopy(m_ModelMatrix, 0, _modelMatrix, 0, 16);
     }
 
-    public void draw(float[] mvpMatrix) {
+    public void draw(float[] vpMatrix) {
         if (!_enabled) {
             return;
         }
@@ -57,7 +79,7 @@ public class MeshRenderer {
             return;
         }
 
-        _mesh.draw(_material, mvpMatrix);
+        _mesh.draw(_material, _modelMatrix, vpMatrix);
     }
 
     public void setEnabled(boolean enabled) {

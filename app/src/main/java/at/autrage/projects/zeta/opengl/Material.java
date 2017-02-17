@@ -11,7 +11,7 @@ public abstract class Material {
     }
 
     public abstract void shift();
-    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] mvpMatrix);
+    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] modelMatrix, float[] vpMatrix);
 
     public Shader getShader() {
         return _shader;

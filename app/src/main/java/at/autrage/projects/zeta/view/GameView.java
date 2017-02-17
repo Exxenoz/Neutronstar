@@ -379,10 +379,10 @@ public class GameView extends GLSurfaceView {
     /**
      * This method draws the game view to the surface view.
      */
-    public void draw(float[] mvpMatrix) {
+    public void draw(float[] vpMatrix) {
         synchronized (m_MeshRenderers) {
             for (MeshRenderer renderer : m_MeshRenderers) {
-                renderer.draw(mvpMatrix);
+                renderer.draw(vpMatrix);
             }
         }
     }
