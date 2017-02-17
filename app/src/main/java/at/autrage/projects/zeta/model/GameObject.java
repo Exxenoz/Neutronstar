@@ -25,9 +25,6 @@ public abstract class GameObject {
     private float m_PositionX;
     private float m_PositionY;
 
-    private float m_ScaledPositionX;
-    private float m_ScaledPositionY;
-
     private float m_RotationAngle;
 
     private int m_SizeX;
@@ -36,15 +33,7 @@ public abstract class GameObject {
     private float m_HalfSizeX;
     private float m_HalfSizeY;
 
-    private float m_ScaledSizeX;
-    private float m_ScaledSizeY;
-
-    private float m_ScaledHalfSizeX;
-    private float m_ScaledHalfSizeY;
-
     private float m_ScaleFactor;
-
-    protected Rect m_DstRect;
 
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;
@@ -72,19 +61,12 @@ public abstract class GameObject {
         m_PositionX = positionX;
         m_PositionY = positionY;
 
-        m_ScaledPositionX = 0;
-        m_ScaledPositionY = 0;
-
         m_RotationAngle = 0f;
 
         m_SizeX = m_SizeY = 0;
         m_HalfSizeX = m_HalfSizeY = 0;
-        m_ScaledSizeX = m_ScaledSizeY = 0;
-        m_ScaledHalfSizeX = m_ScaledHalfSizeY = 0;
 
         m_ScaleFactor = 1f;
-
-        m_DstRect = new Rect();
 
         m_Animation = null;
         m_AnimationSet = animationSet;
@@ -157,16 +139,6 @@ public abstract class GameObject {
             Logger.D("Auto destroyed game object due to distance from planet.");
             destroy();
         }
-
-        float scaleFactor = SuperActivity.getScaleFactor();
-        m_ScaledPositionX = m_PositionX * scaleFactor;
-        m_ScaledPositionY = m_PositionY * scaleFactor;
-
-        float scaledPivotPositionX = m_ScaledPositionX - m_ScaledHalfSizeX;
-        float scaledPivotPositionY = m_ScaledPositionY - m_ScaledHalfSizeY;
-
-        m_DstRect.set((int)(scaledPivotPositionX), (int)(scaledPivotPositionY),
-                (int)(scaledPivotPositionX + m_ScaledSizeX), (int)(scaledPivotPositionY + m_ScaledSizeY));
     }
 
     protected void onAnimationFinished() {
@@ -257,13 +229,6 @@ public abstract class GameObject {
 
         m_HalfSizeX = m_SizeX / 2f;
         m_HalfSizeY = m_SizeY / 2f;
-
-        float scaleFactor = SuperActivity.getScaleFactor();
-        m_ScaledSizeX = m_SizeX * scaleFactor;
-        m_ScaledSizeY = m_SizeY * scaleFactor;
-
-        m_ScaledHalfSizeX = m_HalfSizeX * scaleFactor;
-        m_ScaledHalfSizeY = m_HalfSizeY * scaleFactor;
     }
 
     public void setAnimationReversed(boolean animationReversed) {
@@ -293,14 +258,6 @@ public abstract class GameObject {
 
     public void setHalfSizeY(float halfSizeY) {
         this.m_HalfSizeY = halfSizeY;
-    }
-
-    public void setScaledHalfSizeX(float scaledHalfSizeX) {
-        this.m_ScaledHalfSizeX = scaledHalfSizeX;
-    }
-
-    public void setScaledHalfSizeY(float scaledHalfSizeY) {
-        this.m_ScaledHalfSizeY = scaledHalfSizeY;
     }
 
     public float getDirectionX() {
@@ -387,14 +344,6 @@ public abstract class GameObject {
         this.m_PositionY = positionY;
     }
 
-    public float getScaledPositionX() {
-        return m_ScaledPositionX;
-    }
-
-    public float getScaledPositionY() {
-        return m_ScaledPositionY;
-    }
-
     public float getRotationAngle() {
         return m_RotationAngle;
     }
@@ -413,14 +362,6 @@ public abstract class GameObject {
 
     public float getHalfSizeY() {
         return m_HalfSizeY;
-    }
-
-    public float getScaledHalfSizeX() {
-        return m_ScaledHalfSizeX;
-    }
-
-    public float getScaledHalfSizeY() {
-        return m_ScaledHalfSizeY;
     }
 
     public float getScaleFactor() {

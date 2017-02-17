@@ -150,8 +150,6 @@ public class EnemySpawner extends Sprite {
                 }
             }
         }
-
-        m_DstRect.set(0, 0, SuperActivity.getCurrentResolutionX(), SuperActivity.getCurrentResolutionY());
     }
 
     public void onDestroyEnemy(Enemy enemy) {
