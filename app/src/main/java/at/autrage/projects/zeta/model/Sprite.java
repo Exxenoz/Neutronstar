@@ -10,7 +10,7 @@ public class Sprite extends GameObject {
     public Sprite(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        setRenderer(new MeshRenderer(this));
+        setRenderer(new MeshRenderer(m_Transform));
         if (getRenderer() != null) {
             getRenderer().setMaterial(new SpriteMaterial());
             getRenderer().setMesh(new SpriteMesh());

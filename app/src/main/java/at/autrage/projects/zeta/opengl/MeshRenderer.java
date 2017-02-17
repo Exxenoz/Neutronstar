@@ -1,11 +1,11 @@
 package at.autrage.projects.zeta.opengl;
 
-import at.autrage.projects.zeta.model.GameObject;
+import at.autrage.projects.zeta.model.Transform;
 import at.autrage.projects.zeta.module.Logger;
 
 public class MeshRenderer {
-    /** The owner of the mesh renderer. */
-    private GameObject m_Owner;
+    /** The transform object used by the mesh renderer. */
+    private Transform m_Transform;
     /** Determines whether the mesh is drawn or not. */
     private boolean m_Enabled;
     /** The reference to the {@link Material} that is used. */
@@ -19,11 +19,11 @@ public class MeshRenderer {
     private Material _material;
     /** The same as {@link MeshRenderer#m_Mesh}, but safely accessible from the render thread. */
     private Mesh _mesh;
-    /** The same as {@link GameObject#m_ModelMatrix}, but safely accessible from the render thread. */
+    /** The same as {@link Transform#m_ModelMatrix}, but safely accessible from the render thread. */
     private float[] _modelMatrix;
 
-    public MeshRenderer(GameObject owner) {
-        m_Owner = owner;
+    public MeshRenderer(Transform transform) {
+        m_Transform = transform;
         m_Enabled = false;
         m_Material = null;
         m_Mesh = null;
@@ -45,7 +45,7 @@ public class MeshRenderer {
 
         _mesh = m_Mesh;
 
-        System.arraycopy(m_Owner.getModelMatrix(), 0, _modelMatrix, 0, 16);
+        System.arraycopy(m_Transform.getModelMatrix(), 0, _modelMatrix, 0, 16);
     }
 
     public void draw(float[] vpMatrix) {
@@ -69,11 +69,11 @@ public class MeshRenderer {
     public void setEnabled(boolean enabled) {
         if (m_Enabled && !enabled)
         {
-            m_Owner.getGameView().addMeshRendererToDeleteQueue(this);
+            m_Transform.getOwner().getGameView().addMeshRendererToDeleteQueue(this);
         }
         else if (!m_Enabled && enabled)
         {
-            m_Owner.getGameView().addMeshRendererToInsertQueue(this);
+            m_Transform.getOwner().getGameView().addMeshRendererToInsertQueue(this);
         }
 
         m_Enabled = enabled;
@@ -87,8 +87,8 @@ public class MeshRenderer {
         m_Mesh = mesh;
     }
 
-    public GameObject getOwner() {
-        return m_Owner;
+    public Transform getTransform() {
+        return m_Transform;
     }
 
     public boolean isEnabled() {
