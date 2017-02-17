@@ -8,8 +8,8 @@ public class Transform {
 
     /** The model matrix transforms a position in a model to the position in the world. */
     private float[] m_ModelMatrix;
-    /** The rotation/translation matrix cache. */
-    private float[] m_RTMatrix;
+    /** The translation/rotation matrix cache. */
+    private float[] m_TRMatrix;
     /** The translation matrix translates a position. */
     private float[] m_TranslationMatrix;
     /** The rotation matrix rotates a position. */
@@ -37,7 +37,7 @@ public class Transform {
         m_Owner = owner;
 
         m_ModelMatrix = new float[16];
-        m_RTMatrix = new float[16];
+        m_TRMatrix = new float[16];
         m_TranslationMatrix = new float[16];
         m_RotationMatrix = new float[16];
         m_ScaleMatrix = new float[16];
@@ -65,8 +65,8 @@ public class Transform {
         Matrix.setIdentityM(m_ScaleMatrix, 0);
         Matrix.scaleM(m_ScaleMatrix, 0, m_ScaleX, m_ScaleY, m_ScaleZ);
         // Update model matrix
-        Matrix.multiplyMM(m_RTMatrix, 0, m_RotationMatrix, 0, m_TranslationMatrix, 0);
-        Matrix.multiplyMM(m_ModelMatrix, 0, m_RTMatrix, 0, m_ScaleMatrix, 0);
+        Matrix.multiplyMM(m_TRMatrix, 0, m_TranslationMatrix, 0, m_RotationMatrix, 0);
+        Matrix.multiplyMM(m_ModelMatrix, 0, m_TRMatrix, 0, m_ScaleMatrix, 0);
     }
 
     public GameObject getOwner() {
