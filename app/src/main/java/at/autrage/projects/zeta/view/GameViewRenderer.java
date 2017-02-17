@@ -7,6 +7,7 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 
@@ -38,10 +39,11 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         // Set the view port to draw on the whole screen
         GLES20.glViewport(0, 0, width, height);
 
-        float ratio = (float) width / height;
+        float halfReferenceResolutionX = SuperActivity.ReferenceResolutionX / 2f;
+        float halfReferenceResolutionY = SuperActivity.ReferenceResolutionY / 2f;
 
         // This projection matrix is applied to object coordinates in the onDrawFrame() method
-        Matrix.frustumM(m_ProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        Matrix.frustumM(m_ProjectionMatrix, 0, -halfReferenceResolutionX, halfReferenceResolutionX, -halfReferenceResolutionY, halfReferenceResolutionY, 3, 7);
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(m_ViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
