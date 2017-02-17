@@ -1,14 +1,6 @@
 package at.autrage.projects.zeta.model;
 
-import android.opengl.Matrix;
-
-import at.autrage.projects.zeta.animation.Animation;
-import at.autrage.projects.zeta.animation.AnimationFrame;
-import at.autrage.projects.zeta.animation.AnimationSet;
-import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.module.AnimationSets;
-import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
@@ -23,15 +15,6 @@ public abstract class GameObject {
 
     protected Transform m_Transform;
 
-    private Animation m_Animation;
-    private AnimationSet m_AnimationSet;
-    private AnimationFrame m_CurrAnimationFrame;
-    private AnimationFrame m_NextAnimationFrame;
-    private float m_AnimationTimer;
-    private boolean m_AnimationReversed;
-    private boolean m_AnimationRepeatable;
-    private boolean m_AnimationPaused;
-
     private float m_DirectionX;
     private float m_DirectionY;
     private float m_SpeedX;
@@ -43,20 +26,11 @@ public abstract class GameObject {
 
     private boolean m_Visible;
 
-    public GameObject(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
+    public GameObject(GameView gameView, float positionX, float positionY) {
         m_GameView = gameView;
 
         m_Transform = new Transform(this);
         m_Transform.setPosition(positionX, positionY);
-
-        m_Animation = null;
-        m_AnimationSet = animationSet;
-        m_CurrAnimationFrame = null;
-        m_NextAnimationFrame = null;
-        m_AnimationTimer = 0;
-        m_AnimationReversed = false;
-        m_AnimationRepeatable = false;
-        m_AnimationPaused = false;
 
         m_DirectionX = 0f;
         m_DirectionY = 0f;
@@ -67,48 +41,12 @@ public abstract class GameObject {
 
         m_Visible = true;
 
-        if (m_AnimationSet != null) {
-            playAnimationFromSet(AnimationType.Default);
-        }
-
         if (m_GameView != null) {
             m_GameView.addGameObjectToInsertQueue(this);
         }
     }
 
     public void onUpdate() {
-        if (m_CurrAnimationFrame != null && !m_AnimationPaused &&
-            m_CurrAnimationFrame != m_CurrAnimationFrame.getNextFrame())
-        {
-            m_AnimationTimer += Time.getScaledDeltaTime();
-
-            if (m_AnimationTimer >= m_CurrAnimationFrame.getDuration())
-            {
-                m_AnimationTimer -= m_CurrAnimationFrame.getDuration();
-
-                if (m_AnimationReversed) {
-                    m_NextAnimationFrame = m_CurrAnimationFrame.getLastFrame();
-                }
-                else {
-                    m_NextAnimationFrame = m_CurrAnimationFrame.getNextFrame();
-                }
-
-                if (m_NextAnimationFrame == m_Animation.getFirstAnimationFrame()) {
-                    onAnimationFinished();
-
-                    if (!m_AnimationRepeatable) {
-                        m_AnimationPaused = true;
-                    }
-                    else {
-                        setCurrentAnimationFrame(m_NextAnimationFrame);
-                    }
-                }
-                else {
-                    setCurrentAnimationFrame(m_NextAnimationFrame);
-                }
-            }
-        }
-
         if (m_Speed != 0f) {
             m_Transform.setPosition(
                 m_Transform.getPositionX() + m_SpeedX * Time.getScaledDeltaTime(),
@@ -126,103 +64,7 @@ public abstract class GameObject {
         }
     }
 
-    protected void onAnimationFinished() {
-    }
-
     public void onCollide(Collider collider) {
-    }
-
-    public void explode(GameObject target, AnimationSets animationSet) {
-        explode(target, animationSet, false);
-    }
-
-    public void explode(GameObject target, AnimationSets animationSet, boolean disableAOEDamage) {
-        float explosionSpawnPositionX = 0f;
-        float explosionSpawnPositionY = 0f;
-
-        // Move explosion center near target if there is any
-        if (target != null) {
-            float positionDeltaX = target.getTransform().getPositionX() - m_Transform.getPositionX();
-            float positionDeltaY = target.getTransform().getPositionY() - m_Transform.getPositionY();
-
-            double distance = Math.sqrt(positionDeltaX * positionDeltaX + positionDeltaY * positionDeltaY);
-
-            float targetDirectionX = (float)(positionDeltaX / distance);
-            float targetDirectionY = (float)(positionDeltaY / distance);
-
-            explosionSpawnPositionX = m_Transform.getPositionX() + targetDirectionX * m_Transform.getHalfScaleX() / 2f;
-            explosionSpawnPositionY = m_Transform.getPositionY() + targetDirectionY * m_Transform.getHalfScaleY() / 2f;
-        }
-        else {
-            explosionSpawnPositionX = m_Transform.getPositionX();
-            explosionSpawnPositionY = m_Transform.getPositionY();
-        }
-
-        Explosion explosion = new Explosion(getGameView(), explosionSpawnPositionX, explosionSpawnPositionY,
-                AssetManager.getInstance().getAnimationSet(animationSet));
-
-        if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
-            Weapon weapon = (Weapon)this;
-            explosion.setWeapon(weapon);
-            //explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactorAOE);
-            explosion.addImmuneToAOEGameObject(target);
-        }
-        else {
-            //explosion.setScaleFactor((getSizeX() / explosion.getSizeX()) * Pustafin.ExplosionSizeScaleFactor);
-        }
-
-        destroy();
-    }
-
-    public void playAnimationFromSet(AnimationType animationType) {
-        if (m_AnimationSet == null)
-        {
-            Logger.W("Could not play animation type " + animationType + ", because animation set reference is null.");
-            return;
-        }
-
-        Animation animation = m_AnimationSet.getAnimation(animationType);
-        if (animation == null)
-        {
-            Logger.W("Could not play animation type " + animationType + ", because it could not be found in animation set %i.",
-                    m_AnimationSet.getID());
-            return;
-        }
-
-        AnimationFrame animationFrame = animation.getFirstAnimationFrame();
-        if (animationFrame == null)
-        {
-            Logger.W("Could not play animation %i, because it contains no animation frames.",
-                    animation.getID());
-            return;
-        }
-
-        m_Animation = animation;
-        setCurrentAnimationFrame(animationFrame);
-        m_AnimationTimer = 0;
-        m_AnimationPaused = false;
-    }
-
-    private void setCurrentAnimationFrame(AnimationFrame animationFrame) {
-        if (animationFrame == null) {
-            return;
-        }
-
-        m_CurrAnimationFrame = animationFrame;
-        m_Transform.setScaleX(m_CurrAnimationFrame.getSizeX());
-        m_Transform.setScaleY(m_CurrAnimationFrame.getSizeY());
-    }
-
-    public void setAnimationReversed(boolean animationReversed) {
-        this.m_AnimationReversed = animationReversed;
-    }
-
-    public void setAnimationRepeatable(boolean animationRepeatable) {
-        this.m_AnimationRepeatable = animationRepeatable;
-    }
-
-    public void setAnimationPaused(boolean animationPaused) {
-        this.m_AnimationPaused = animationPaused;
     }
 
     public GameView getGameView() {
