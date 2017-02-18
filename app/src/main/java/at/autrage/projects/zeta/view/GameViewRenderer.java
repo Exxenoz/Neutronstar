@@ -10,6 +10,7 @@ import javax.microedition.khronos.opengles.GL10;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Time;
 
 public class GameViewRenderer implements GLSurfaceView.Renderer {
     /** Reference to the {@link GameView} object. */
@@ -18,6 +19,9 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
     private final float[] m_VPMatrix = new float[16];
     private final float[] m_ProjectionMatrix = new float[16];
     private final float[] m_ViewMatrix = new float[16];
+
+    private long m_LastTime;
+    private long m_DiffTime;
 
     public GameViewRenderer(GameView gameView) {
         m_GameView = gameView;
@@ -54,10 +58,15 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 notUsed) {
+        m_LastTime = System.currentTimeMillis();
+
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         // Draw game objects
         m_GameView.draw(m_VPMatrix);
+
+        m_DiffTime = System.currentTimeMillis() - m_LastTime;
+        Time.setDeltaTimeGL(m_DiffTime);
     }
 }
