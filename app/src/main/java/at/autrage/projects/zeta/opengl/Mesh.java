@@ -23,8 +23,12 @@ public class Mesh {
         m_IndexCount = indices.length;
     }
 
-    public void draw(Material material, float[] modelMatrix, float[] vpMatrix) {
-        material.draw(m_Vertices, m_Indices, m_IndexCount, modelMatrix, vpMatrix);
+    public void draw(Material material, ShaderParams shaderParams) {
+        shaderParams.Vertices = m_Vertices;
+        shaderParams.Indices = m_Indices;
+        shaderParams.IndexCount = m_IndexCount;
+
+        material.draw(shaderParams);
     }
 
     public FloatBuffer createVertexBuffer(float[] vertices) {

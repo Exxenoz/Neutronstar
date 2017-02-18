@@ -1,8 +1,5 @@
 package at.autrage.projects.zeta.opengl;
 
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
-
 public abstract class Material {
     protected Shader _shader;
 
@@ -11,9 +8,5 @@ public abstract class Material {
     }
 
     public abstract void shift();
-    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] modelMatrix, float[] vpMatrix);
-
-    public Shader getShader() {
-        return _shader;
-    }
+    public abstract void draw(ShaderParams shaderParams);
 }

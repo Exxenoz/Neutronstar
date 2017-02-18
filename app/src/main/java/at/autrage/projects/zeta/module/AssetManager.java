@@ -199,8 +199,8 @@ public class AssetManager {
             // have to free resources by calling the delete methods?
             m_SpriteShader.reset();
 
-            m_SpriteShader.createVertexShader("color_vertex_shader.glsl", context);
-            m_SpriteShader.createFragmentShader("color_fragment_shader.glsl", context);
+            m_SpriteShader.createVertexShader("sprite_vertex_shader.glsl", context);
+            m_SpriteShader.createFragmentShader("sprite_fragment_shader.glsl", context);
             m_SpriteShader.createProgram();
 
             m_SpriteShader.init();

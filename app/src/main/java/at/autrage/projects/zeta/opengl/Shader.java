@@ -17,9 +17,12 @@ public abstract class Shader {
     protected int m_Program;
 
     protected static int _lastProgram = -1;
+    protected static int _lastTextureDataHandle = -1;
 
     public Shader() {
     }
+
+    public abstract void init();
 
     private String readShaderFileContent(String shaderFile, Context context) {
         if (context == null) {
@@ -141,7 +144,8 @@ public abstract class Shader {
         m_Program = 0;
 
         _lastProgram = -1;
+        _lastTextureDataHandle = -1;
     }
 
-    public abstract void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] color, float[] modelMatrix, float[] vpMatrix);
+    public abstract void draw(ShaderParams shaderParams);
 }

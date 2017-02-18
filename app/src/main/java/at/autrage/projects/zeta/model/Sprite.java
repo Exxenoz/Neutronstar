@@ -17,14 +17,19 @@ import at.autrage.projects.zeta.view.GameView;
 public class Sprite extends GameObject {
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;
+
     private AnimationFrame m_CurrAnimationFrame;
     private AnimationFrame m_NextAnimationFrame;
+
     private float m_AnimationTimer;
+
     private boolean m_AnimationReversed;
     private boolean m_AnimationRepeatable;
     private boolean m_AnimationPaused;
 
     private float m_ScaleFactor;
+
+    private SpriteMaterial m_SpriteMaterial;
 
     public Sprite(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY);
@@ -40,13 +45,15 @@ public class Sprite extends GameObject {
 
         m_ScaleFactor = 1f;
 
+        m_SpriteMaterial = new SpriteMaterial();
+
         if (m_AnimationSet != null) {
             playAnimationFromSet(AnimationType.Default);
         }
 
         setRenderer(new MeshRenderer(m_Transform));
         if (getRenderer() != null) {
-            getRenderer().setMaterial(new SpriteMaterial());
+            getRenderer().setMaterial(m_SpriteMaterial);
             getRenderer().setMesh(new SpriteMesh());
             getRenderer().setEnabled(true);
         }
@@ -171,6 +178,9 @@ public class Sprite extends GameObject {
         m_CurrAnimationFrame = animationFrame;
         m_Transform.setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
         m_Transform.setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
+
+        m_SpriteMaterial.setTextureDataHandle(m_CurrAnimationFrame.getTexture().getTextureDataHandle());
+        m_SpriteMaterial.setTextureCoordinates(m_CurrAnimationFrame.getNormalisedTexCoordinates());
     }
 
     public void setAnimationReversed(boolean animationReversed) {

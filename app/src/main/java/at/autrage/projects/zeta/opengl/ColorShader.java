@@ -2,9 +2,6 @@ package at.autrage.projects.zeta.opengl;
 
 import android.opengl.GLES20;
 
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
-
 public class ColorShader extends Shader {
     /** This will be used to pass in the vertices. */
     private int _positionHandle;
@@ -34,7 +31,7 @@ public class ColorShader extends Shader {
     }
 
     @Override
-    public void draw(FloatBuffer vertices, ShortBuffer indices, int indexCount, float[] color, float[] modelMatrix, float[] vpMatrix) {
+    public void draw(ShaderParams shaderParams) {
         if (m_Program != _lastProgram) {
             // Add program to OpenGL ES environment
             GLES20.glUseProgram(m_Program);
@@ -45,18 +42,18 @@ public class ColorShader extends Shader {
         // Prepare the coordinate data
         GLES20.glVertexAttribPointer(_positionHandle, Mesh.CoordsPerVertex,
                 GLES20.GL_FLOAT, false,
-                Mesh.VertexStride, vertices);
+                Mesh.VertexStride, shaderParams.Vertices);
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(_colorHandle, 1, color, 0);
+        GLES20.glUniform4fv(_colorHandle, 1, shaderParams.Color, 0);
 
         // Pass the model transformation to the shader
-        GLES20.glUniformMatrix4fv(_modelMatrixHandle, 1, false, modelMatrix, 0);
+        GLES20.glUniformMatrix4fv(_modelMatrixHandle, 1, false, shaderParams.ModelMatrix, 0);
 
         // Pass the projection and view transformation to the shader
-        GLES20.glUniformMatrix4fv(_vpMatrixHandle, 1, false, vpMatrix, 0);
+        GLES20.glUniformMatrix4fv(_vpMatrixHandle, 1, false, shaderParams.VPMatrix, 0);
 
         // Draw the triangles
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, indexCount, GLES20.GL_UNSIGNED_SHORT, indices);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexCount, GLES20.GL_UNSIGNED_SHORT, shaderParams.Indices);
     }
 }

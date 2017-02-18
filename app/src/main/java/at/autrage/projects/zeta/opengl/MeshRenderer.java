@@ -21,6 +21,8 @@ public class MeshRenderer {
     private Mesh _mesh;
     /** The same as {@link Transform#m_ModelMatrix}, but safely accessible from the render thread. */
     private float[] _modelMatrix;
+    /** The reference to the {@link ShaderParams} object. */
+    private ShaderParams _shaderParams;
 
     public MeshRenderer(Transform transform) {
         m_Transform = transform;
@@ -33,6 +35,8 @@ public class MeshRenderer {
         _mesh = null;
 
         _modelMatrix = new float[16];
+
+        _shaderParams = new ShaderParams();
     }
 
     public void shift() {
@@ -63,7 +67,10 @@ public class MeshRenderer {
             return;
         }
 
-        _mesh.draw(_material, _modelMatrix, vpMatrix);
+        _shaderParams.ModelMatrix = _modelMatrix;
+        _shaderParams.VPMatrix = vpMatrix;
+
+        _mesh.draw(_material, _shaderParams);
     }
 
     public void setEnabled(boolean enabled) {
