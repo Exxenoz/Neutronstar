@@ -21,6 +21,8 @@ public class Time {
     private static float timeScale = 1f;
     /** Passed time in milli seconds */
     private static long deltaTimeInMs;
+    /** Passed time in seconds */
+    private static float deltaTimeGL;
 
     /**
      * Sets the {@link Time#realDeltaTime} variable to a new value.
@@ -81,6 +83,20 @@ public class Time {
     }
 
     /**
+     * Sets the {@link Time#deltaTimeGL} variable to a new value.
+     *
+     * @param deltaTimeGL must be positive
+     */
+    public static void setDeltaTimeGL(float deltaTimeGL) {
+        if (deltaTimeGL < 0) {
+            Logger.E("Couldn't set delta time GL, because value must not be negative.");
+            return;
+        }
+
+        Time.deltaTimeGL = deltaTimeGL;
+    }
+
+    /**
      * Returns the value of {@link Time#realDeltaTime}
      *
      * @return the value of {@link Time#realDeltaTime}
@@ -126,11 +142,20 @@ public class Time {
     }
 
     /**
+     * Returns the value of {@link Time#deltaTimeGL}
+     *
+     * @return the value of {@link Time#deltaTimeGL}
+     */
+    public static float getDeltaTimeGL() {
+        return Time.deltaTimeGL;
+    }
+
+    /**
      * Returns the estimated amount of frames per second
      *
      * @return the value of estimated frames per second
      */
     public static long getFPS() {
-        return (long)(1000f / Math.max(Time.realDeltaTime, 1f /* 1000 FPS display limit */));
+        return (long)(1000f / Math.max(Time.deltaTimeGL, 1f /* 1000 FPS display limit */));
     }
 }

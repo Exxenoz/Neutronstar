@@ -1,5 +1,8 @@
 package at.autrage.projects.zeta.activity;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.pm.ConfigurationInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,12 @@ public class GameActivity extends SuperActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        if (!hasGLES20()) {
+            // OpenGL ES 2.0 not supported
+            Logger.E("Could not create game view, because OpenGL ES 2.0 is not supported.");
+            return;
+        }
 
         // Initialize all displays
         GameManager.getInstance().setUpdateFlag(UpdateFlags.All);
@@ -140,11 +149,30 @@ public class GameActivity extends SuperActivity {
         scaleChildViewsToCurrentResolution((ViewGroup)findViewById(R.id.activity_game));
     }
 
+    private boolean hasGLES20() {
+        ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        ConfigurationInfo info = am.getDeviceConfigurationInfo();
+        return info.reqGlEsVersion >= 0x20000;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
         m_CurrentActivity = Activities.GameActivity;
+
+        if (m_GameView != null) {
+            m_GameView.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (m_GameView != null) {
+            m_GameView.onPause();
+        }
     }
 
     @Override

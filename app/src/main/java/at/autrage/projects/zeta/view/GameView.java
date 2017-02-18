@@ -1,13 +1,9 @@
 package at.autrage.projects.zeta.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.PixelFormat;
-import android.util.AttributeSet;
+import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +15,15 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
-import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.model.EnemySpawner;
-import at.autrage.projects.zeta.model.GameLoop;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
-import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
@@ -39,41 +32,55 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.Util;
-import at.autrage.projects.zeta.persistence.HighscoreTable;
-import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
+import at.autrage.projects.zeta.opengl.MeshRenderer;
 
 /**
- * It is responsible for {@link GameLoop} management and drawing of the whole game view.
+ * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
  */
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+public class GameView extends GLSurfaceView {
     /** Reference to the {@link GameActivity} object. */
     private GameActivity m_GameActivity;
-    /** Cached reference to the {@link GameManager} module.*/
-    private GameManager m_GameManager;
-    /** Reference to the {@link GameLoop} object. */
-    private GameLoop m_Loop;
-    /** Reference to the {@link GameLoop} thread. */
-    private Thread m_LoopThread;
+    /** Reference to the {@link GameViewRenderer} object. */
+    private GameViewRenderer m_Renderer;
+    /** Reference to the {@link GameViewUpdater} object. */
+    private GameViewUpdater m_Updater;
+    /** Reference to the {@link GameViewUpdater} thread. */
+    private Thread m_UpdaterThread;
     /** Reference to the {@link GameViewUI} object, which contains UI references. */
     private GameViewUI m_UI;
-    /** Reference to all updated and drawn {@link GameObject} objects. */
+
+    /** Cached reference to the {@link GameManager} module.*/
+    private GameManager m_GameManager;
+
+    /** Reference to all updated {@link GameObject} objects. */
     private List<GameObject> m_GameObjects;
     /** Reference to the game objects which will be inserted into {@link GameView#m_GameObjects}. */
     private ConcurrentLinkedQueue<GameObject> m_GameObjectsToInsert;
     /** Reference to the game objects which will be deleted from {@link GameView#m_GameObjects}. */
     private ConcurrentLinkedQueue<GameObject> m_GameObjectsToDelete;
+
+    /** Reference to all enabled {@link MeshRenderer} objects. */
+    private List<MeshRenderer> m_MeshRenderers;
+    /** Reference to the mesh renderers which will be inserted into {@link GameView#m_MeshRenderers}. */
+    private ConcurrentLinkedQueue<MeshRenderer> m_MeshRenderersToInsert;
+    /** Reference to the mesh renderers which will be deleted from {@link GameView#m_MeshRenderers}. */
+    private ConcurrentLinkedQueue<MeshRenderer> m_MeshRenderersToDelete;
+
     /** Contains active colliders - most of the time, at least. (Cache) */
     private List<Collider> m_ColliderList;
+
     /** Reference to (@link EnemySpawner) object. */
     private EnemySpawner m_EnemySpawner;
     /** Reference to (@link Player) object. */
     private Player m_Player;
+
     /** Indicates whether the alarm is enabled or not. */
     private boolean m_AlarmEnabled;
     /** True if the alarm should be stopped automatically, otherwise false. */
     private boolean m_AlarmAutoStop;
     /** Timer for smooth alarm foreground blinking. */
     private float m_AlarmTimer;
+
     /** True if a click event is in progress, otherwise false. */
     private boolean m_ClickEventActive;
     /** Timer to delay redirection to the next activity. */
@@ -83,35 +90,46 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameView(GameActivity gameActivity) {
         super(gameActivity.getApplicationContext());
+
+        // Create an OpenGL ES 2.0 context.
+        setEGLContextClientVersion(2);
+
         // Initialize game activity variable
         m_GameActivity = gameActivity;
-        // Cache game manager module reference
-        m_GameManager = GameManager.getInstance();
-        // Add callback for events
-        getHolder().addCallback(this);
-        // Ensure that events are generated
-        setFocusable(true);
-        // Set canvas format
-        getHolder().setFormat(PixelFormat.RGBA_8888);
 
-        // Initialize game object list
-        m_GameObjects = new ArrayList<GameObject>();
-        // Initialize game objects to insert queue
-        m_GameObjectsToInsert = new ConcurrentLinkedQueue<GameObject>();
-        // Initialize game objects to delete queue
-        m_GameObjectsToDelete = new ConcurrentLinkedQueue<GameObject>();
         // Initialize asset manager module
         AssetManager.getInstance().initialize();
-        // Initialize collider list
+
+        // Add callback for events
+        //getHolder().addCallback(this);
+        // Ensure that events are generated
+        setFocusable(true);
+        // Set pixel format
+        //getHolder().setFormat(PixelFormat.RGBA_8888);
+
+        // Create game view renderer
+        m_Renderer = new GameViewRenderer(this);
+        // Set the game view renderer for drawing on the GLSurfaceView
+        setRenderer(m_Renderer);
+        // Render the view also when there is no change in the drawing data
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        // Cache game manager module reference
+        m_GameManager = GameManager.getInstance();
+
+        m_GameObjects = new ArrayList<>();
+        m_GameObjectsToInsert = new ConcurrentLinkedQueue<>();
+        m_GameObjectsToDelete = new ConcurrentLinkedQueue<>();
+
+        m_MeshRenderers = new ArrayList<>(256);
+        m_MeshRenderersToInsert = new ConcurrentLinkedQueue<>();
+        m_MeshRenderersToDelete = new ConcurrentLinkedQueue<>();
+
         m_ColliderList = new ArrayList<Collider>(128);
 
-        m_EnemySpawner = new EnemySpawner(this, 0, 0, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+        m_EnemySpawner = new EnemySpawner(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
-        float realScaledPositionCenterX = SuperActivity.getCurrentResolutionX() / (2f * SuperActivity.getScaleFactor());
-        float realScaledPositionCenterY = SuperActivity.getCurrentResolutionY() / (2f * SuperActivity.getScaleFactor());
-
-        // Initialize player
-        m_Player = new Player(this, realScaledPositionCenterX, realScaledPositionCenterY, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
+        m_Player = new Player(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.Planet));
         m_Player.setScaleFactor(2.56f);
         m_Player.setAnimationRepeatable(true);
         m_Player.setCollider(new CircleCollider(m_Player, 128f));
@@ -135,40 +153,51 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         m_GameObjectsToDelete.add(gameObject);
     }
 
+    public void addMeshRendererToInsertQueue(MeshRenderer meshRenderer) {
+        m_MeshRenderersToInsert.add(meshRenderer);
+    }
+
+    public void addMeshRendererToDeleteQueue(MeshRenderer meshRenderer) {
+        m_MeshRenderersToDelete.add(meshRenderer);
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        super.surfaceCreated(holder);
         Logger.D("GameView::surfaceCreated()");
 
-        AssetManager.getInstance().load(getResources());
+        AssetManager.getInstance().onSurfaceCreated(getResources());
 
         // ToDo: Start BGM if there is any
 
-        // Initialize game loop and start thread
-        m_Loop = new GameLoop(holder, this);
-        m_LoopThread = new Thread(m_Loop);
-        m_LoopThread.start();
+        // Initialize game view updater and start thread
+        m_Updater = new GameViewUpdater(this);
+        m_UpdaterThread = new Thread(m_Updater);
+        m_UpdaterThread.start();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        super.surfaceChanged(holder, format, width, height);
         Logger.D("GameView::surfaceChanged()");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        super.surfaceDestroyed(holder);
         Logger.D("GameView::surfaceDestroyed()");
 
-        m_Loop.setRunning(false);
+        m_Updater.setRunning(false);
 
         try {
-            m_LoopThread.join();
+            m_UpdaterThread.join();
         } catch (InterruptedException e) {
             Logger.E(e.getMessage());
         }
 
         SoundManager.getInstance().StopBGM();
 
-        AssetManager.getInstance().unLoad();
+        AssetManager.getInstance().onSurfaceDestroyed();
     }
 
     public void onClick() {
@@ -203,16 +232,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * Function which updates the game models
      */
     public void update() {
-        synchronized (m_GameObjectsToInsert) {
-            while (!m_GameObjectsToInsert.isEmpty()) {
-                m_GameObjects.add(m_GameObjectsToInsert.poll());
-            }
+        while (!m_GameObjectsToInsert.isEmpty()) {
+            m_GameObjects.add(m_GameObjectsToInsert.poll());
         }
 
-        synchronized (m_GameObjectsToDelete) {
-            while (!m_GameObjectsToDelete.isEmpty()) {
-                m_GameObjects.remove(m_GameObjectsToDelete.poll());
-            }
+        while (!m_GameObjectsToDelete.isEmpty()) {
+            m_GameObjects.remove(m_GameObjectsToDelete.poll());
         }
 
         m_ColliderList.clear();
@@ -331,17 +356,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         });
+
+        synchronized (m_MeshRenderers) {
+            while (!m_MeshRenderersToInsert.isEmpty()) {
+                m_MeshRenderers.add(m_MeshRenderersToInsert.poll());
+            }
+
+            while (!m_MeshRenderersToDelete.isEmpty()) {
+                m_MeshRenderers.remove(m_MeshRenderersToDelete.poll());
+            }
+
+            for (MeshRenderer renderer : m_MeshRenderers) {
+                renderer.shift();
+            }
+        }
     }
 
     /**
-     * This method draws the game view to the given {@link Canvas} object.
-     *
-     * @param canvas The canvas where the game view should be drawn.
+     * This method draws the game view to the surface view.
      */
-    public void render(Canvas canvas) {
-        // Draw game objects
-        for (GameObject go : m_GameObjects) {
-            go.onDraw(canvas);
+    public void draw(float[] vpMatrix) {
+        synchronized (m_MeshRenderers) {
+            for (MeshRenderer renderer : m_MeshRenderers) {
+                renderer.draw(vpMatrix);
+            }
         }
     }
 

@@ -1,17 +1,28 @@
 package at.autrage.projects.zeta.module;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.opengl.GLES20;
+import android.view.SurfaceHolder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
+import at.autrage.projects.zeta.opengl.ColorShader;
+import at.autrage.projects.zeta.opengl.SpriteShader;
+import at.autrage.projects.zeta.opengl.Texture;
+import at.autrage.projects.zeta.view.GameView;
+import at.autrage.projects.zeta.view.GameViewRenderer;
 
 public class AssetManager {
     private static AssetManager m_Instance;
@@ -26,6 +37,9 @@ public class AssetManager {
 
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
+    private ColorShader m_ColorShader;
+    private SpriteShader m_SpriteShader;
+    private Map<Integer /* ResId */, Texture> m_Textures;
 
     private Paint m_HealthBarFillPaintGreen;
     private Paint m_HealthBarFillPaintOrange;
@@ -34,8 +48,11 @@ public class AssetManager {
     private boolean m_Initialized;
 
     private AssetManager() {
-        m_Animations = new HashMap<Animations, Animation>();
-        m_AnimationSets = new HashMap<AnimationSets, AnimationSet>();
+        m_Animations = new HashMap<>();
+        m_AnimationSets = new HashMap<>();
+        m_ColorShader = null;
+        m_SpriteShader = null;
+        m_Textures = new HashMap<>();
 
         m_HealthBarFillPaintGreen = new Paint();
         m_HealthBarFillPaintOrange = new Paint();
@@ -49,16 +66,48 @@ public class AssetManager {
     }
 
     public void initialize() {
-        if (!m_Initialized) {
-            m_Initialized = true;
-            loadAnimationData();
+        if (m_Initialized) {
+            return;
+        }
+
+        m_Initialized = true;
+
+        loadTextureData();
+        loadAnimationData();
+        loadShaderData();
+    }
+
+    private void loadTextureData() {
+        m_Textures.clear();
+
+        int[] textureResIds = new int[] {
+                R.drawable.background_game,
+                R.drawable.gv_planet_sheet_100p,
+                R.drawable.gv_planet_cloud_sheet_100p,
+                R.drawable.gv_weapon_small_rocket,
+                R.drawable.gv_weapon_big_rocket,
+                R.drawable.gv_enemy_asteroid1,
+                R.drawable.gv_enemy_asteroid2,
+                R.drawable.gv_enemy_asteroid3,
+                R.drawable.gv_explosion_sheet1,
+                R.drawable.gv_engine_fire,
+                R.drawable.gv_weapon_small_nuke,
+                R.drawable.gv_weapon_big_nuke,
+                R.drawable.gv_explosion2,
+                R.drawable.gv_explosion3
+        };
+
+        for (int textureResId : textureResIds) {
+            m_Textures.put(textureResId, new Texture(textureResId));
         }
     }
 
     private void loadAnimationData() {
+        m_Animations.clear();
+
         m_Animations.put(Animations.BackgroundGameDefault, new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 1920, 1080, 1920, 1080, 0, 0, 1920, 1080, 0f));
         m_Animations.put(Animations.PlanetSheet, new Animation(1, R.drawable.gv_planet_sheet_100p, "PlanetSheet", 2000, 1800, 100, 100, 0, 0, 2000, 1800, 0.032f));
-        m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 2000, 1800, 100, 100, 0, 0 , 2000, 1800, 0.04f));
+        m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 2000, 1800, 100, 100, 0, 0, 2000, 1800, 0.04f));
         m_Animations.put(Animations.SmallRocket, new Animation(3, R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
         m_Animations.put(Animations.BigRocket, new Animation(4, R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 80, 80, 80, 80, 0, 0, 80, 80, 0f));
         m_Animations.put(Animations.Asteroid1, new Animation(5, R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
@@ -71,6 +120,8 @@ public class AssetManager {
         m_Animations.put(Animations.Explosion2, new Animation(12, R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
         m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
 
+
+        m_AnimationSets.clear();
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
@@ -116,16 +167,72 @@ public class AssetManager {
         }}));
     }
 
-    public void load(Resources resources) {
-        for (Animation a : m_Animations.values()) {
-            a.load(resources);
+    private void loadShaderData() {
+        m_ColorShader = new ColorShader();
+        m_SpriteShader = new SpriteShader();
+    }
+
+    /**
+     * This method is called, when {@link GameView#surfaceCreated(SurfaceHolder)} is called.
+     * Do not call OpenGL methods here!
+     */
+    public void onSurfaceCreated(Resources resources) {
+    }
+
+    /**
+     * This method is called, when {@link GameViewRenderer#onSurfaceCreated(GL10, EGLConfig)} is called.
+     * You can call OpenGL methods here.
+     */
+    public void onSurfaceCreatedFromOpenGL(Context context) {
+        if (m_ColorShader != null) {
+            m_ColorShader.reset();
+
+            m_ColorShader.createVertexShader("color_vertex_shader.glsl", context);
+            m_ColorShader.createFragmentShader("color_fragment_shader.glsl", context);
+            m_ColorShader.createProgram();
+
+            m_ColorShader.init();
+        }
+
+        if (m_SpriteShader != null) {
+            // ToDo: Is it legit to "just" reset shader ids or do we
+            // have to free resources by calling the delete methods?
+            m_SpriteShader.reset();
+
+            m_SpriteShader.createVertexShader("sprite_vertex_shader.glsl", context);
+            m_SpriteShader.createFragmentShader("sprite_fragment_shader.glsl", context);
+            m_SpriteShader.createProgram();
+
+            m_SpriteShader.init();
+        }
+
+        final int[] textureHandles = new int[m_Textures.size()];
+
+        GLES20.glGenTextures(textureHandles.length, textureHandles, 0);
+
+        int i = 0;
+        for (Texture texture : m_Textures.values()) {
+            texture.load(context, textureHandles[i]);
+            i++;
         }
     }
 
-    public void unLoad() {
-        for (Animation a : m_Animations.values()) {
-            a.unLoad();
+    /**
+     * This method is called, when {@link GameView#surfaceDestroyed(SurfaceHolder)} is called.
+     * Do not call OpenGL methods here!
+     */
+    public void onSurfaceDestroyed() {
+        if (m_ColorShader != null) {
+            m_ColorShader.reset();
         }
+
+        if (m_SpriteShader != null) {
+            m_SpriteShader.reset();
+        }
+    }
+
+    public Texture getTexture(int resId) {
+        return m_Textures.get(resId);
     }
 
     public Animation getAnimation(Animations animation) {
@@ -134,6 +241,14 @@ public class AssetManager {
 
     public AnimationSet getAnimationSet(AnimationSets animationSet) {
         return m_AnimationSets.get(animationSet);
+    }
+
+    public ColorShader getColorShader() {
+        return m_ColorShader;
+    }
+
+    public SpriteShader getSpriteShader() {
+        return m_SpriteShader;
     }
 
     public Paint getHealthBarFillPaintGreen() {

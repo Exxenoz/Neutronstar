@@ -45,8 +45,8 @@ public class SuperActivity extends AppCompatActivity {
         return m_CurrentActivity;
     }
 
-    public final int ReferenceResolutionX = 1920;
-    public final int ReferenceResolutionY = 1080;
+    public static final int ReferenceResolutionX = 1920;
+    public static final int ReferenceResolutionY = 1080;
 
     private static int m_CurrentResolutionX;
     private static int m_CurrentResolutionY;

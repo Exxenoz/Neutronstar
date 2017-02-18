@@ -13,14 +13,14 @@ import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Rocket extends Weapon {
-    private GameObject m_EngineFire;
+    private Sprite m_EngineFire;
     private float m_EngineFireLengthOffset;
 
     public Rocket(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        m_EngineFire = new GameObject(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
-        m_EngineFire.setScaleFactor((float)this.getSizeX() / m_EngineFire.getSizeX());
+        m_EngineFire = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
+        m_EngineFire.setScaleFactor(m_Transform.getScaleX() / m_EngineFire.getTransform().getScaleX());
         m_EngineFire.setAnimationRepeatable(true);
     }
 
@@ -29,9 +29,10 @@ public class Rocket extends Weapon {
         super.onUpdate();
 
         if (m_EngineFire != null) {
-            m_EngineFire.setPositionX(this.getPositionX() - (this.getDirectionX() * (this.getHalfSizeX() + getHalfSizeX() + m_EngineFireLengthOffset)));
-            m_EngineFire.setPositionY(this.getPositionY() - (this.getDirectionY() * (this.getHalfSizeY() + getHalfSizeY() + m_EngineFireLengthOffset)));
-            m_EngineFire.setRotationAngle(180f + this.getRotationAngle());
+            Transform engineFireTransform = m_EngineFire.getTransform();
+            engineFireTransform.setPositionX(m_Transform.getPositionX() - (this.getDirectionX() * (m_Transform.getScaleX() + m_EngineFireLengthOffset)));
+            engineFireTransform.setPositionY(m_Transform.getPositionY() - (this.getDirectionY() * (m_Transform.getScaleY() + m_EngineFireLengthOffset)));
+            engineFireTransform.setRotationZ(180f + m_Transform.getRotationZ());
         }
     }
 
@@ -66,7 +67,7 @@ public class Rocket extends Weapon {
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
         Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket));
-        rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        rocket.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
@@ -78,7 +79,7 @@ public class Rocket extends Weapon {
     public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
         Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket));
-        rocket.setRotationAngle((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        rocket.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));

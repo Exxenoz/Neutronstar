@@ -1,62 +1,70 @@
 package at.autrage.projects.zeta.animation;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.util.Log;
-
-import at.autrage.projects.zeta.R;
-import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.opengl.Texture;
 
 public class AnimationFrame {
     private Animation m_Owner;
-    private Rect m_TexCoordRect;
-    private Rect m_ScaledTexCoordRect;
+
     private int m_TexCoordX;
     private int m_TexCoordY;
-    private int m_SizeX;
-    private int m_SizeY;
+
+    private int m_FrameSizeX;
+    private int m_FrameSizeY;
+
     private float m_Duration;
+
     private AnimationFrame m_LastFrame;
     private AnimationFrame m_NextFrame;
 
-    public AnimationFrame(Animation owner, int texCoordX, int texCoordY, int sizeX, int sizeY, float duration) {
+    private FloatBuffer m_NormalisedTexCoordinates;
+
+    public AnimationFrame(Animation owner, int texCoordX, int texCoordY, int frameSizeX, int frameSizeY, int textureSizeX, int textureSizeY, float duration) {
         this.m_Owner = owner;
+
         this.m_TexCoordX = texCoordX;
         this.m_TexCoordY = texCoordY;
-        this.m_SizeX = sizeX;
-        this.m_SizeY = sizeY;
+
+        this.m_FrameSizeX = frameSizeX;
+        this.m_FrameSizeY = frameSizeY;
+
         this.m_Duration = duration;
+
         this.m_LastFrame = null;
         this.m_NextFrame = null;
 
-        m_TexCoordRect = new Rect(texCoordX, texCoordY, texCoordX + sizeX, texCoordY + sizeY);
-        m_ScaledTexCoordRect = new Rect();
+        calculateNormalisedTexCoordinates(textureSizeX, textureSizeY);
     }
 
-    public void initializeScaledTexCoordRect(float scaleFactorX, float scaleFactorY) {
-        m_ScaledTexCoordRect.set
-        (
-                (int)(m_TexCoordRect.left * scaleFactorX),
-                (int)(m_TexCoordRect.top * scaleFactorY),
-                (int)(m_TexCoordRect.right * scaleFactorX),
-                (int)(m_TexCoordRect.bottom * scaleFactorY)
-        );
+    private void calculateNormalisedTexCoordinates(int textureSizeX, int textureSizeY) {
+        float texCoordTopLeftX = m_TexCoordX;
+        float texCoordTopLeftY = textureSizeY - m_TexCoordY;
+
+        float texCoordBottomLeftX = m_TexCoordX;
+        float texCoordBottomLeftY = texCoordTopLeftY - m_FrameSizeY;
+
+        float texCoordBottomRightX = texCoordBottomLeftX + m_FrameSizeX;
+        float texCoordBottomRightY = texCoordBottomLeftY;
+
+        float texCoordTopRightX = texCoordTopLeftX + m_FrameSizeX;
+        float texCoordTopRightY = texCoordTopLeftY;
+
+        float[] normalisedTexCoordinates = new float[] {
+                texCoordTopLeftX / textureSizeX, texCoordTopLeftY / textureSizeY,           // Top left
+                texCoordBottomLeftX / textureSizeX, texCoordBottomLeftY / textureSizeY,     // Bottom left
+                texCoordBottomRightX / textureSizeX, texCoordBottomRightY / textureSizeY,   // Bottom right
+                texCoordTopRightX / textureSizeX, texCoordTopRightY / textureSizeY          // Top right
+        };
+
+        m_NormalisedTexCoordinates = ByteBuffer.allocateDirect(normalisedTexCoordinates.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        m_NormalisedTexCoordinates.put(normalisedTexCoordinates).position(0);
     }
 
-    public Bitmap getSequenceImage() {
-        return m_Owner.getSequenceImage();
-    }
-
-    public Rect getTexCoordRect() {
-        return m_TexCoordRect;
-    }
-
-    public Rect getScaledTexCoordRect() {
-        return m_ScaledTexCoordRect;
+    public Texture getTexture() {
+        return m_Owner.getTexture();
     }
 
     public int getTexCoordX() {
@@ -67,12 +75,12 @@ public class AnimationFrame {
         return m_TexCoordY;
     }
 
-    public int getSizeX() {
-        return m_SizeX;
+    public int getFrameSizeX() {
+        return m_FrameSizeX;
     }
 
-    public int getSizeY() {
-        return m_SizeY;
+    public int getFrameSizeY() {
+        return m_FrameSizeY;
     }
 
     public float getDuration() {
@@ -93,5 +101,9 @@ public class AnimationFrame {
 
     public void setNextFrame(AnimationFrame nextFrame) {
         this.m_NextFrame = nextFrame;
+    }
+
+    public FloatBuffer getNormalisedTexCoordinates() {
+        return m_NormalisedTexCoordinates;
     }
 }

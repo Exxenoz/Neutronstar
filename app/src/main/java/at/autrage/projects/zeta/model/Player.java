@@ -1,10 +1,7 @@
 package at.autrage.projects.zeta.model;
 
-
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.view.MotionEvent;
 
 import java.util.HashMap;
@@ -25,7 +22,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Player extends GameObject {
+public class Player extends Sprite {
     private float m_RemainingTime;
     private float m_OnUpdateEverySecondTimer;
     private Weapons m_SelectedWeapon;
@@ -34,7 +31,7 @@ public class Player extends GameObject {
     private Map<Integer, Vector2D> m_TouchEventStartPositions;
     private Paint m_PlanetTouchColliderPaint;
 
-    private GameObject m_Clouds;
+    private Sprite m_Clouds;
     private AlarmArea m_AlarmArea;
 
     public Player(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
@@ -50,7 +47,7 @@ public class Player extends GameObject {
         m_PlanetTouchColliderPaint.setStyle(Paint.Style.STROKE);
         m_PlanetTouchColliderPaint.setStrokeWidth(2f);
 
-        m_Clouds = new GameObject(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
+        m_Clouds = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
         m_Clouds.setScaleFactor(2.56f);
         m_Clouds.setAnimationReversed(true);
         m_Clouds.setAnimationRepeatable(true);
@@ -158,12 +155,12 @@ public class Player extends GameObject {
         double distance = Math.sqrt(deltaPositionX * deltaPositionX + deltaPositionY * deltaPositionY);
 
         float directionX = (float)(deltaPositionX / distance);
-        float directionY = (float)(deltaPositionY / distance);
+        float directionY = (float)(deltaPositionY / distance) * (-1); // Flip y direction
 
-        float radius = 128f;
+        float radius = m_Transform.getHalfScaleX();
 
-        float spawnPositionX = 960 + directionX * radius;
-        float spawnPositionY = 540 + directionY * radius;
+        float spawnPositionX = directionX * radius;
+        float spawnPositionY = directionY * radius;
 
         Weapon weapon = null;
         switch (m_SelectedWeapon) {
@@ -224,9 +221,9 @@ public class Player extends GameObject {
         }
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    /*@Override
+    public void onRender(Canvas canvas) {
+        super.onRender(canvas);
 
         if (Pustafin.DebugMode && isVisible()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -241,7 +238,7 @@ public class Player extends GameObject {
                 );
             }
         }
-    }
+    }*/
 
     @Override
     public void setVisible(boolean visible) {

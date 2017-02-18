@@ -1,9 +1,7 @@
 package at.autrage.projects.zeta.collision;
 
-
-import android.graphics.Canvas;
-
 import at.autrage.projects.zeta.model.GameObject;
+import at.autrage.projects.zeta.model.Transform;
 import at.autrage.projects.zeta.module.Logger;
 
 /**
@@ -11,9 +9,11 @@ import at.autrage.projects.zeta.module.Logger;
  */
 public abstract class Collider {
     protected GameObject m_Owner;
+    protected Transform m_Transform;
 
     public Collider(GameObject owner) {
         m_Owner = owner;
+        m_Transform = owner.getTransform();
     }
 
     /**
@@ -80,22 +80,19 @@ public abstract class Collider {
         return false;
     }
 
-    /**
-     * This method draws the collider.
-     *
-     * @param canvas
-     */
-    public abstract void onDraw(Canvas canvas);
-
     public GameObject getOwner() {
         return m_Owner;
     }
 
+    public Transform getTransform() {
+        return m_Transform;
+    }
+
     public float getPositionX() {
-        return m_Owner.getPositionX();
+        return m_Transform.getPositionX();
     }
 
     public float getPositionY() {
-        return m_Owner.getPositionY();
+        return m_Transform.getPositionY();
     }
 }

@@ -7,7 +7,7 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents the alarm area around the planet.
  */
-public class AlarmArea extends GameObject {
+public class AlarmArea extends Sprite {
     public AlarmArea(GameView gameView, float positionX, float positionY) {
         super(gameView, positionX, positionY, AnimationSet.None);
     }

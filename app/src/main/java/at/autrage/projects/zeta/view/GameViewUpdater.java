@@ -1,21 +1,15 @@
-package at.autrage.projects.zeta.model;
-
-import android.graphics.Canvas;
-import android.view.SurfaceHolder;
+package at.autrage.projects.zeta.view;
 
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
-import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class contains the game loop.
  *
- * <p>If started, it repeats the update and render routine all 16 milli seconds.</p>
+ * <p>If started, it repeats the update routine all 16 milli seconds.</p>
  */
-public class GameLoop implements Runnable {
+public class GameViewUpdater implements Runnable {
 
-    /** Variable for locking the canvas while rendering */
-    private SurfaceHolder m_Holder;
     /** Variable which stores reference to {@link GameView} */
     private GameView m_View;
     /**
@@ -28,16 +22,14 @@ public class GameLoop implements Runnable {
     /**
      * Constructor
      *
-     * @param holder Reference to the canvas which has to be locked
      * @param view Reference to the {@link GameView}
      */
-    public GameLoop(SurfaceHolder holder, GameView view) {
-        this.m_Holder = holder;
+    public GameViewUpdater(GameView view) {
         this.m_View = view;
     }
 
     /**
-     * Set the value of {@link GameLoop#m_Running}
+     * Set the value of {@link GameViewUpdater#m_Running}
      *
      * @param running True means that the thrad is currently running. Otherwise the variable is set to false.
      */
@@ -49,7 +41,6 @@ public class GameLoop implements Runnable {
     public void run() {
         m_Running = true;
 
-        Canvas c = null;
         long startTime = System.currentTimeMillis();
         long currTime = 0;
         long diffTime = 0;
@@ -85,25 +76,7 @@ public class GameLoop implements Runnable {
 
             startTime = currTime;
 
-            //**********************************
-            //* Synchronized rendering section *
-            //**********************************
-            c = null;
-
-            try {
-                c = m_Holder.lockCanvas(null);
-                synchronized (m_Holder) {
-                    if (c != null) {
-                        m_View.render(c);
-                    }
-                }
-            } finally {
-                if (c != null) {
-                    m_Holder.unlockCanvasAndPost(c);
-                }
-            }
-
-            sleepTime = Pustafin.MinRenderDelta - (System.currentTimeMillis() - startTime);
+            sleepTime = Pustafin.MinUpdateDelta - (System.currentTimeMillis() - startTime);
             try {
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
