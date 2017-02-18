@@ -54,6 +54,10 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(m_VPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
+
+        // Enable blending
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA );
     }
 
     @Override
