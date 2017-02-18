@@ -18,6 +18,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
+import at.autrage.projects.zeta.opengl.ColorShader;
 import at.autrage.projects.zeta.opengl.SpriteShader;
 import at.autrage.projects.zeta.opengl.Texture;
 import at.autrage.projects.zeta.view.GameView;
@@ -36,6 +37,7 @@ public class AssetManager {
 
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
+    private ColorShader m_ColorShader;
     private SpriteShader m_SpriteShader;
     private Map<Integer /* ResId */, Texture> m_Textures;
 
@@ -48,6 +50,7 @@ public class AssetManager {
     private AssetManager() {
         m_Animations = new HashMap<>();
         m_AnimationSets = new HashMap<>();
+        m_ColorShader = null;
         m_SpriteShader = null;
         m_Textures = new HashMap<>();
 
@@ -165,6 +168,7 @@ public class AssetManager {
     }
 
     private void loadShaderData() {
+        m_ColorShader = new ColorShader();
         m_SpriteShader = new SpriteShader();
     }
 
@@ -173,9 +177,6 @@ public class AssetManager {
      * Do not call OpenGL methods here!
      */
     public void onSurfaceCreated(Resources resources) {
-        for (Animation a : m_Animations.values()) {
-            a.load(resources);
-        }
     }
 
     /**
@@ -183,6 +184,16 @@ public class AssetManager {
      * You can call OpenGL methods here.
      */
     public void onSurfaceCreatedFromOpenGL(Context context) {
+        if (m_ColorShader != null) {
+            m_ColorShader.reset();
+
+            m_ColorShader.createVertexShader("color_vertex_shader.glsl", context);
+            m_ColorShader.createFragmentShader("color_fragment_shader.glsl", context);
+            m_ColorShader.createProgram();
+
+            m_ColorShader.init();
+        }
+
         if (m_SpriteShader != null) {
             // ToDo: Is it legit to "just" reset shader ids or do we
             // have to free resources by calling the delete methods?
@@ -211,8 +222,8 @@ public class AssetManager {
      * Do not call OpenGL methods here!
      */
     public void onSurfaceDestroyed() {
-        for (Animation a : m_Animations.values()) {
-            a.unLoad();
+        if (m_ColorShader != null) {
+            m_ColorShader.reset();
         }
 
         if (m_SpriteShader != null) {
@@ -230,6 +241,10 @@ public class AssetManager {
 
     public AnimationSet getAnimationSet(AnimationSets animationSet) {
         return m_AnimationSets.get(animationSet);
+    }
+
+    public ColorShader getColorShader() {
+        return m_ColorShader;
     }
 
     public SpriteShader getSpriteShader() {
