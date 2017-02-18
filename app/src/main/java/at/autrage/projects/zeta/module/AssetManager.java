@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.opengl.GLES20;
 import android.view.SurfaceHolder;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.opengl.SpriteShader;
+import at.autrage.projects.zeta.opengl.Texture;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewRenderer;
 
@@ -35,6 +37,7 @@ public class AssetManager {
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
     private SpriteShader m_SpriteShader;
+    private Map<Integer /* ResId */, Texture> m_Textures;
 
     private Paint m_HealthBarFillPaintGreen;
     private Paint m_HealthBarFillPaintOrange;
@@ -43,9 +46,10 @@ public class AssetManager {
     private boolean m_Initialized;
 
     private AssetManager() {
-        m_Animations = new HashMap<Animations, Animation>();
-        m_AnimationSets = new HashMap<AnimationSets, AnimationSet>();
+        m_Animations = new HashMap<>();
+        m_AnimationSets = new HashMap<>();
         m_SpriteShader = null;
+        m_Textures = new HashMap<>();
 
         m_HealthBarFillPaintGreen = new Paint();
         m_HealthBarFillPaintOrange = new Paint();
@@ -65,14 +69,42 @@ public class AssetManager {
 
         m_Initialized = true;
 
+        loadTextureData();
         loadAnimationData();
         loadShaderData();
     }
 
+    private void loadTextureData() {
+        m_Textures.clear();
+
+        int[] textureResIds = new int[] {
+                R.drawable.background_game,
+                R.drawable.gv_planet_sheet_100p,
+                R.drawable.gv_planet_cloud_sheet_100p,
+                R.drawable.gv_weapon_small_rocket,
+                R.drawable.gv_weapon_big_rocket,
+                R.drawable.gv_enemy_asteroid1,
+                R.drawable.gv_enemy_asteroid2,
+                R.drawable.gv_enemy_asteroid3,
+                R.drawable.gv_explosion_sheet1,
+                R.drawable.gv_engine_fire,
+                R.drawable.gv_weapon_small_nuke,
+                R.drawable.gv_weapon_big_nuke,
+                R.drawable.gv_explosion2,
+                R.drawable.gv_explosion3
+        };
+
+        for (int textureResId : textureResIds) {
+            m_Textures.put(textureResId, new Texture(textureResId));
+        }
+    }
+
     private void loadAnimationData() {
+        m_Animations.clear();
+
         m_Animations.put(Animations.BackgroundGameDefault, new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 1920, 1080, 1920, 1080, 0, 0, 1920, 1080, 0f));
         m_Animations.put(Animations.PlanetSheet, new Animation(1, R.drawable.gv_planet_sheet_100p, "PlanetSheet", 2000, 1800, 100, 100, 0, 0, 2000, 1800, 0.032f));
-        m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 2000, 1800, 100, 100, 0, 0 , 2000, 1800, 0.04f));
+        m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 2000, 1800, 100, 100, 0, 0, 2000, 1800, 0.04f));
         m_Animations.put(Animations.SmallRocket, new Animation(3, R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
         m_Animations.put(Animations.BigRocket, new Animation(4, R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 80, 80, 80, 80, 0, 0, 80, 80, 0f));
         m_Animations.put(Animations.Asteroid1, new Animation(5, R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
@@ -85,6 +117,8 @@ public class AssetManager {
         m_Animations.put(Animations.Explosion2, new Animation(12, R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
         m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
 
+
+        m_AnimationSets.clear();
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
@@ -160,6 +194,16 @@ public class AssetManager {
 
             m_SpriteShader.init();
         }
+
+        final int[] textureHandles = new int[m_Textures.size()];
+
+        GLES20.glGenTextures(textureHandles.length, textureHandles, 0);
+
+        int i = 0;
+        for (Texture texture : m_Textures.values()) {
+            texture.load(context, textureHandles[i]);
+            i++;
+        }
     }
 
     /**
@@ -174,6 +218,10 @@ public class AssetManager {
         if (m_SpriteShader != null) {
             m_SpriteShader.reset();
         }
+    }
+
+    public Texture getTexture(int resId) {
+        return m_Textures.get(resId);
     }
 
     public Animation getAnimation(Animations animation) {
