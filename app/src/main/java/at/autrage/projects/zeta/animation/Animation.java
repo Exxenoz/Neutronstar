@@ -56,11 +56,11 @@ public class Animation {
     }
 
     private void generateAnimationFrames() {
-        for (int texCoordY = m_StartTexCoordY; texCoordY < m_EndTexCoordY; texCoordY += m_FrameSizeY)
+        for (int texCoordY = m_EndTexCoordY; texCoordY > m_StartTexCoordY; texCoordY -= m_FrameSizeY)
         {
             for (int texCoordX = m_StartTexCoordX; texCoordX < m_EndTexCoordX; texCoordX += m_FrameSizeX)
             {
-                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, texCoordY, m_FrameSizeX, m_FrameSizeY, m_Duration));
+                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, texCoordY, m_FrameSizeX, m_FrameSizeY, m_TextureSizeX, m_TextureSizeY, m_Duration));
             }
         }
 
