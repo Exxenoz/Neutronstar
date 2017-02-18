@@ -169,8 +169,8 @@ public class Sprite extends GameObject {
         }
 
         m_CurrAnimationFrame = animationFrame;
-        m_Transform.setScaleX(m_CurrAnimationFrame.getSizeX() * m_ScaleFactor);
-        m_Transform.setScaleY(m_CurrAnimationFrame.getSizeY() * m_ScaleFactor);
+        m_Transform.setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
+        m_Transform.setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
     }
 
     public void setAnimationReversed(boolean animationReversed) {
