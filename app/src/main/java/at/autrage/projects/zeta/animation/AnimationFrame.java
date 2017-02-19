@@ -43,20 +43,20 @@ public class AnimationFrame {
         float texCoordTopLeftX = m_TexCoordX;
         float texCoordTopLeftY = textureSizeY - m_TexCoordY;
 
+        float texCoordTopRightX = texCoordTopLeftX + m_FrameSizeX;
+        float texCoordTopRightY = texCoordTopLeftY;
+
         float texCoordBottomLeftX = m_TexCoordX;
         float texCoordBottomLeftY = texCoordTopLeftY - m_FrameSizeY;
 
         float texCoordBottomRightX = texCoordBottomLeftX + m_FrameSizeX;
         float texCoordBottomRightY = texCoordBottomLeftY;
 
-        float texCoordTopRightX = texCoordTopLeftX + m_FrameSizeX;
-        float texCoordTopRightY = texCoordTopLeftY;
-
         float[] normalisedTexCoordinates = new float[] {
-                texCoordTopLeftX / textureSizeX, texCoordTopLeftY / textureSizeY,           // Top left
-                texCoordBottomLeftX / textureSizeX, texCoordBottomLeftY / textureSizeY,     // Bottom left
-                texCoordBottomRightX / textureSizeX, texCoordBottomRightY / textureSizeY,   // Bottom right
-                texCoordTopRightX / textureSizeX, texCoordTopRightY / textureSizeY          // Top right
+                texCoordBottomLeftX / textureSizeX, texCoordBottomLeftY / textureSizeY,     // Bottom Left
+                texCoordBottomRightX / textureSizeX, texCoordBottomRightY / textureSizeY,   // Bottom Right
+                texCoordTopLeftX / textureSizeX, texCoordTopLeftY / textureSizeY,           // Top Left
+                texCoordTopRightX / textureSizeX, texCoordTopRightY / textureSizeY          // Top Right
         };
 
         m_NormalisedTexCoordinates = ByteBuffer.allocateDirect(normalisedTexCoordinates.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
