@@ -5,8 +5,7 @@ import java.util.Random;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
-import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;

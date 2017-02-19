@@ -22,7 +22,7 @@ import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
-import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.TutorialManager;

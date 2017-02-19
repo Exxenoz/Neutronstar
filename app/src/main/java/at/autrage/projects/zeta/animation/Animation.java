@@ -60,7 +60,7 @@ public class Animation {
         {
             for (int texCoordX = m_StartTexCoordX; texCoordX < m_EndTexCoordX; texCoordX += m_FrameSizeX)
             {
-                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, m_TextureSizeY - texCoordY, m_FrameSizeX, m_FrameSizeY, m_TextureSizeX, m_TextureSizeY, m_Duration));
+                m_AnimationFrames.add(new AnimationFrame(this, texCoordX, texCoordY, m_FrameSizeX, m_FrameSizeY, m_TextureSizeX, m_TextureSizeY, m_Duration));
             }
         }
 

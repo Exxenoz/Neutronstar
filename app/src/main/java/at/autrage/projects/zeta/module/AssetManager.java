@@ -17,7 +17,9 @@ import javax.microedition.khronos.opengles.GL10;
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.animation.AnimationType;
+import at.autrage.projects.zeta.animation.Animations;
 import at.autrage.projects.zeta.opengl.ColorShader;
 import at.autrage.projects.zeta.opengl.SpriteShader;
 import at.autrage.projects.zeta.opengl.Texture;
@@ -94,7 +96,8 @@ public class AssetManager {
                 R.drawable.gv_weapon_small_nuke,
                 R.drawable.gv_weapon_big_nuke,
                 R.drawable.gv_explosion2,
-                R.drawable.gv_explosion3
+                R.drawable.gv_explosion3,
+                R.drawable.debug
         };
 
         for (int textureResId : textureResIds) {
@@ -119,6 +122,7 @@ public class AssetManager {
         m_Animations.put(Animations.BigNuke, new Animation(11, R.drawable.gv_weapon_big_nuke, "WeaponBigNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
         m_Animations.put(Animations.Explosion2, new Animation(12, R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
         m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
+        m_Animations.put(Animations.Debug, new Animation(14, R.drawable.debug, "Debug", 192, 192, 64, 64, 0, 0, 192, 192, 1f));
 
 
         m_AnimationSets.clear();
@@ -164,6 +168,9 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.Explosion3, new AnimationSet(13, "Explosion3", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Explosion3));
+        }}));
+        m_AnimationSets.put(AnimationSets.Debug, new AnimationSet(14, "Debug", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Debug));
         }}));
     }
 

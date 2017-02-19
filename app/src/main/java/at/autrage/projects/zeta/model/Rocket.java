@@ -5,10 +5,9 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
-import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -67,7 +66,7 @@ public class Rocket extends Weapon {
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
         Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket));
-        rocket.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        rocket.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
@@ -79,7 +78,7 @@ public class Rocket extends Weapon {
     public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
         Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket));
-        rocket.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        rocket.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));

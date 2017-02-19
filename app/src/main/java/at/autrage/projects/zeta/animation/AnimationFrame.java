@@ -41,13 +41,13 @@ public class AnimationFrame {
 
     private void calculateNormalisedTexCoordinates(int textureSizeX, int textureSizeY) {
         float texCoordTopLeftX = m_TexCoordX;
-        float texCoordTopLeftY = textureSizeY - m_TexCoordY;
+        float texCoordTopLeftY = m_TexCoordY;
 
         float texCoordTopRightX = texCoordTopLeftX + m_FrameSizeX;
         float texCoordTopRightY = texCoordTopLeftY;
 
         float texCoordBottomLeftX = m_TexCoordX;
-        float texCoordBottomLeftY = texCoordTopLeftY - m_FrameSizeY;
+        float texCoordBottomLeftY = texCoordTopLeftY + m_FrameSizeY;
 
         float texCoordBottomRightX = texCoordBottomLeftX + m_FrameSizeX;
         float texCoordBottomRightY = texCoordBottomLeftY;

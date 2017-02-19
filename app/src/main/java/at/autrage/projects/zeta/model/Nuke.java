@@ -5,7 +5,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.module.AnimationSets;
+import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -82,7 +82,7 @@ public class Nuke extends Weapon {
     public static Nuke createSmallNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
         Nuke nuke = new Nuke(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallNuke));
-        nuke.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        nuke.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         nuke.setDirection(directionX, directionY);
         nuke.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallNuke));
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallNuke));
@@ -97,7 +97,7 @@ public class Nuke extends Weapon {
     public static Nuke createBigNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
         Nuke nuke = new Nuke(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigNuke));
-        nuke.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) + 90f);
+        nuke.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         nuke.setDirection(directionX, directionY);
         nuke.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigNuke));
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigNuke));
