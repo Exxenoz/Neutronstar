@@ -12,7 +12,7 @@ public class Actor extends GameObject {
     private List<Behaviour> behaviours;
 
     public Actor(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
+        super(gameView, positionX, positionY);
 
         behaviours = new ArrayList<>();
     }
