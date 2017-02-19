@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.autrage.projects.zeta.module.Logger;
+import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Util;
 
 /**
@@ -44,9 +45,6 @@ public class SuperActivity extends AppCompatActivity {
     public static Activities getCurrentActivity() {
         return m_CurrentActivity;
     }
-
-    public static final int ReferenceResolutionX = 1920;
-    public static final int ReferenceResolutionY = 1080;
 
     private static int m_CurrentResolutionX;
     private static int m_CurrentResolutionY;
@@ -126,12 +124,12 @@ public class SuperActivity extends AppCompatActivity {
         m_CurrentResolutionX = size.x;
         m_CurrentResolutionY = size.y;
 
-        float scaleFactorX = m_CurrentResolutionX / (float)ReferenceResolutionX;
-        float scaleFactorY = m_CurrentResolutionY / (float)ReferenceResolutionY;
+        float scaleFactorX = m_CurrentResolutionX / (float)Pustafin.ReferenceResolutionX;
+        float scaleFactorY = m_CurrentResolutionY / (float)Pustafin.ReferenceResolutionY;
 
         m_ScaleFactor = Math.min(scaleFactorX, scaleFactorY);
 
-        Logger.D("Reference Resolution: " + ReferenceResolutionX + "x" + ReferenceResolutionY);
+        Logger.D("Reference Resolution: " + Pustafin.ReferenceResolutionX + "x" + Pustafin.ReferenceResolutionY);
         Logger.D("Current Resolution: " + m_CurrentResolutionX + "x" + m_CurrentResolutionY);
         Logger.D("ScaleFactor (to current Resolution): " + m_ScaleFactor);
 
