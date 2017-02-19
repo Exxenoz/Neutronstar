@@ -41,7 +41,7 @@ public class Player extends Sprite {
         m_OnUpdateEverySecondTimer = 1f;
         m_SelectedWeapon = Weapons.SmallRocket;
 
-        m_TouchEventStartPositions = new HashMap<Integer, Vector2D>();
+        m_TouchEventStartPositions = new HashMap<>();
         m_PlanetTouchColliderPaint = new Paint();
         m_PlanetTouchColliderPaint.setColor(Color.BLUE);
         m_PlanetTouchColliderPaint.setStyle(Paint.Style.STROKE);

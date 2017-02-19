@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
@@ -39,7 +38,7 @@ public class EnemySpawner extends Sprite {
             initializeAsteroidGenerator();
         }
         else {
-            m_AsteroidSpawnScales = new ArrayList<Float>();
+            m_AsteroidSpawnScales = new ArrayList<>();
         }
     }
 
@@ -140,6 +139,8 @@ public class EnemySpawner extends Sprite {
 
     @Override
     public void onUpdate() {
+        super.onUpdate();
+
         if (!m_AsteroidSpawnScales.isEmpty()) {
             m_AsteroidSpawnTimer += Time.getScaledDeltaTime();
 
