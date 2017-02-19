@@ -34,22 +34,23 @@ public class SpriteShader extends Shader {
         _modelMatrixHandle = GLES20.glGetUniformLocation(m_Program, "u_ModelMatrix");
         // Get handle to vertex shader's view projection matrix
         _vpMatrixHandle = GLES20.glGetUniformLocation(m_Program, "u_VPMatrix");
-        // Enable a handle to the vertices
-        GLES20.glEnableVertexAttribArray(_positionHandle);
-        // Enable a handle to the texture coordinates
-        GLES20.glEnableVertexAttribArray(_textureCoordinateHandle);
     }
 
     @Override
     public void draw(ShaderParams shaderParams) {
-        if (m_Program != _lastProgram) {
+        // Do not draw elements with invalid texture data handle
+        if (shaderParams.TextureDataHandle <= 0) {
+            return;
+        }
+
+        if (m_Program != _currProgram) {
             // Add program to OpenGL ES environment
             GLES20.glUseProgram(m_Program);
 
-            _lastProgram = m_Program;
+            _currProgram = m_Program;
         }
 
-        if (shaderParams.TextureDataHandle > 0 && shaderParams.TextureDataHandle != _lastTextureDataHandle) {
+        if (shaderParams.TextureDataHandle != _currTextureDataHandle) {
             // Set the active texture unit to texture unit 0.
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
@@ -59,18 +60,25 @@ public class SpriteShader extends Shader {
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
             GLES20.glUniform1i(_textureHandle, 0);
 
-            GLES20.glVertexAttribPointer(_textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, shaderParams.TextureCoordinates);
-
-            _lastTextureDataHandle = shaderParams.TextureDataHandle;
+            _currTextureDataHandle = shaderParams.TextureDataHandle;
         }
+
+        // Prepare the texture coordinate data
+        GLES20.glVertexAttribPointer(_textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, shaderParams.TextureCoordinates);
+
+        // Enable the handle to the texture coordinates
+        GLES20.glEnableVertexAttribArray(_textureCoordinateHandle);
 
         // Prepare the coordinate data
         GLES20.glVertexAttribPointer(_positionHandle, Mesh.CoordsPerVertex,
                 GLES20.GL_FLOAT, false,
                 Mesh.VertexStride, shaderParams.Vertices);
 
+        // Enable the handle to the vertices
+        GLES20.glEnableVertexAttribArray(_positionHandle);
+
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(_colorHandle, 1, shaderParams.Color, 0);
+        GLES20.glUniform4fv(_colorHandle, 1, shaderParams.Color.getColor(), 0);
 
         // Pass the model transformation to the shader
         GLES20.glUniformMatrix4fv(_modelMatrixHandle, 1, false, shaderParams.ModelMatrix, 0);
@@ -80,5 +88,11 @@ public class SpriteShader extends Shader {
 
         // Draw the triangles
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexCount, GLES20.GL_UNSIGNED_SHORT, shaderParams.Indices);
+
+        // Disable the handle to the vertices
+        GLES20.glDisableVertexAttribArray(_positionHandle);
+
+        // Disable the handle to the texture coordinates
+        GLES20.glDisableVertexAttribArray(_textureCoordinateHandle);
     }
 }

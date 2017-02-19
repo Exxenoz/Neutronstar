@@ -179,8 +179,10 @@ public class Sprite extends GameObject {
         m_Transform.setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
         m_Transform.setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
 
-        m_SpriteMaterial.setTextureDataHandle(m_CurrAnimationFrame.getTexture().getTextureDataHandle());
-        m_SpriteMaterial.setTextureCoordinates(m_CurrAnimationFrame.getNormalisedTexCoordinates());
+        if (m_CurrAnimationFrame.getTexture() != null) {
+            m_SpriteMaterial.setTexture(m_CurrAnimationFrame.getTexture());
+            m_SpriteMaterial.setTextureCoordinates(m_CurrAnimationFrame.getNormalisedTexCoordinates());
+        }
     }
 
     public void setAnimationReversed(boolean animationReversed) {

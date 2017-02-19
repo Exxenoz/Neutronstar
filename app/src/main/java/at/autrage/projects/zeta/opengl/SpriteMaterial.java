@@ -7,39 +7,22 @@ import at.autrage.projects.zeta.module.AssetManager;
 public class SpriteMaterial extends Material {
     /** Color attribute used by the update thread. */
     private Color m_Color;
-    /** Texture data handle attribute used by the update thread. */
-    private int m_TextureDataHandle;
+    /** Texture attribute used by the update thread. */
+    private Texture m_Texture;
     /** Texture coordinates attribute used by the update thread. */
     private FloatBuffer m_TextureCoordinates;
-
-    /** Color attribute used by the render thread. */
-    private Color _color;
-    /** Texture data handle attribute used by the render thread. */
-    private int _textureDataHandle;
-    /** Texture coordinates attribute used by the render thread. */
-    private FloatBuffer _textureCoordinates;
 
     public SpriteMaterial() {
         super(AssetManager.getInstance().getSpriteShader());
 
         m_Color = new Color();
-        _color = new Color();
     }
 
     @Override
-    public void shift() {
-        _color.setColor(m_Color);
-        _textureDataHandle = m_TextureDataHandle;
-        _textureCoordinates = m_TextureCoordinates;
-    }
-
-    @Override
-    public void draw(ShaderParams shaderParams) {
-        shaderParams.Color = _color.getColor();
-        shaderParams.TextureDataHandle = _textureDataHandle;
-        shaderParams.TextureCoordinates = _textureCoordinates;
-
-        _shader.draw(shaderParams);
+    public void shift(ShaderParams shaderParams) {
+        shaderParams.Color.setColor(m_Color);
+        shaderParams.TextureDataHandle = m_Texture != null ? m_Texture.getTextureDataHandle() : 0;
+        shaderParams.TextureCoordinates = m_TextureCoordinates;
     }
 
     public void setColor(Color color) {
@@ -50,8 +33,8 @@ public class SpriteMaterial extends Material {
         return m_Color;
     }
 
-    public void setTextureDataHandle(int textureDataHandle) {
-        m_TextureDataHandle = textureDataHandle;
+    public void setTexture(Texture texture) {
+        m_Texture = texture;
     }
 
     public void setTextureCoordinates(FloatBuffer textureCoordinates) {

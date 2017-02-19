@@ -13,14 +13,6 @@ public class MeshRenderer {
     /** The reference to the {@link Mesh} that is used. */
     private Mesh m_Mesh;
 
-    /** The same as {@link MeshRenderer#m_Enabled}, but safely accessible from the render thread. */
-    private boolean _enabled;
-    /** The same as {@link MeshRenderer#m_Material}, but safely accessible from the render thread. */
-    private Material _material;
-    /** The same as {@link MeshRenderer#m_Mesh}, but safely accessible from the render thread. */
-    private Mesh _mesh;
-    /** The same as {@link Transform#m_ModelMatrix}, but safely accessible from the render thread. */
-    private float[] _modelMatrix;
     /** The reference to the {@link ShaderParams} object. */
     private ShaderParams _shaderParams;
 
@@ -30,47 +22,46 @@ public class MeshRenderer {
         m_Material = null;
         m_Mesh = null;
 
-        _enabled = false;
-        _material = null;
-        _mesh = null;
-
-        _modelMatrix = new float[16];
-
         _shaderParams = new ShaderParams();
     }
 
     public void shift() {
-        _enabled = m_Enabled;
+        _shaderParams.Enabled = m_Enabled;
 
-        _material = m_Material;
-        if (_material != null) {
-            _material.shift();
+        _shaderParams.Material = m_Material;
+        if (_shaderParams.Material != null) {
+            _shaderParams.Material.shift(_shaderParams);
         }
 
-        _mesh = m_Mesh;
+        _shaderParams.Mesh = m_Mesh;
+        if (_shaderParams.Mesh != null) {
+            _shaderParams.Mesh.shift(_shaderParams);
+        }
 
-        System.arraycopy(m_Transform.getModelMatrix(), 0, _modelMatrix, 0, 16);
+        System.arraycopy(m_Transform.getModelMatrix(), 0, _shaderParams.ModelMatrix, 0, 16);
     }
 
     public void draw(float[] vpMatrix) {
-        if (!_enabled) {
+        if (!_shaderParams.Enabled) {
             return;
         }
 
-        if (_material == null) {
+        if (_shaderParams.Material == null) {
             Logger.W("Could not draw mesh, because material member is null.");
             return;
         }
 
-        if (_mesh == null) {
+        if (_shaderParams.Mesh == null) {
             Logger.W("Could not draw mesh, because mesh member is null.");
             return;
         }
 
-        _shaderParams.ModelMatrix = _modelMatrix;
+        // Copy of reference is OK, because
+        // the matrix is only accessible by
+        // the render thread.
         _shaderParams.VPMatrix = vpMatrix;
 
-        _mesh.draw(_material, _shaderParams);
+        _shaderParams.Material._shader.draw(_shaderParams);
     }
 
     public void setEnabled(boolean enabled) {

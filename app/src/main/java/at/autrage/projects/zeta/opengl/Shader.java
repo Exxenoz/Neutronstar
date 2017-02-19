@@ -6,8 +6,6 @@ import android.opengl.GLES20;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 import at.autrage.projects.zeta.module.Logger;
 
@@ -16,8 +14,8 @@ public abstract class Shader {
     protected int m_FragmentShader;
     protected int m_Program;
 
-    protected static int _lastProgram = -1;
-    protected static int _lastTextureDataHandle = -1;
+    protected static int _currProgram = -1;
+    protected static int _currTextureDataHandle = -1;
 
     public Shader() {
     }
@@ -143,8 +141,8 @@ public abstract class Shader {
         m_FragmentShader = 0;
         m_Program = 0;
 
-        _lastProgram = -1;
-        _lastTextureDataHandle = -1;
+        _currProgram = -1;
+        _currTextureDataHandle = -1;
     }
 
     public abstract void draw(ShaderParams shaderParams);

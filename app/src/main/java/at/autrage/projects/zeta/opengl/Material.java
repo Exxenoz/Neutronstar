@@ -7,6 +7,5 @@ public abstract class Material {
         _shader = shader;
     }
 
-    public abstract void shift();
-    public abstract void draw(ShaderParams shaderParams);
+    public abstract void shift(ShaderParams shaderParams);
 }

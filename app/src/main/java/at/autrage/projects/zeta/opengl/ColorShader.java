@@ -26,17 +26,15 @@ public class ColorShader extends Shader {
         _modelMatrixHandle = GLES20.glGetUniformLocation(m_Program, "u_ModelMatrix");
         // Get handle to shape's view projection matrix
         _vpMatrixHandle = GLES20.glGetUniformLocation(m_Program, "u_VPMatrix");
-        // Enable a handle to the vertices
-        GLES20.glEnableVertexAttribArray(_positionHandle);
     }
 
     @Override
     public void draw(ShaderParams shaderParams) {
-        if (m_Program != _lastProgram) {
+        if (m_Program != _currProgram) {
             // Add program to OpenGL ES environment
             GLES20.glUseProgram(m_Program);
 
-            _lastProgram = m_Program;
+            _currProgram = m_Program;
         }
 
         // Prepare the coordinate data
@@ -44,8 +42,11 @@ public class ColorShader extends Shader {
                 GLES20.GL_FLOAT, false,
                 Mesh.VertexStride, shaderParams.Vertices);
 
+        // Enable a handle to the vertices
+        GLES20.glEnableVertexAttribArray(_positionHandle);
+
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(_colorHandle, 1, shaderParams.Color, 0);
+        GLES20.glUniform4fv(_colorHandle, 1, shaderParams.Color.getColor(), 0);
 
         // Pass the model transformation to the shader
         GLES20.glUniformMatrix4fv(_modelMatrixHandle, 1, false, shaderParams.ModelMatrix, 0);
@@ -55,5 +56,8 @@ public class ColorShader extends Shader {
 
         // Draw the triangles
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexCount, GLES20.GL_UNSIGNED_SHORT, shaderParams.Indices);
+
+        // Disable the handle to the vertices
+        GLES20.glDisableVertexAttribArray(_positionHandle);
     }
 }
