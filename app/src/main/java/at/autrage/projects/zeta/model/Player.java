@@ -7,6 +7,7 @@ import java.util.Map;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.SuperActivity;
+import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AssetManager;
@@ -16,6 +17,7 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.UpdateFlags;
+import at.autrage.projects.zeta.opengl.Color;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.opengl.SphereMesh;
 import at.autrage.projects.zeta.opengl.SpriteMaterial;
@@ -33,6 +35,7 @@ public class Player extends GameObject {
     private SpriteMaterial m_Material;
 
     private AlarmArea m_AlarmArea;
+    private Sprite m_TouchRadiusDebugCircle;
 
     public Player(GameView gameView, float positionX, float positionY) {
         super(gameView, positionX, positionY);
@@ -59,6 +62,13 @@ public class Player extends GameObject {
 
         m_AlarmArea = new AlarmArea(gameView, positionX, positionY);
         m_AlarmArea.setCollider(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));
+
+        if (Pustafin.DebugMode) {
+            m_TouchRadiusDebugCircle = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
+            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / m_TouchRadiusDebugCircle.getTransform().getScaleX());
+            m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
+            m_TouchRadiusDebugCircle.getTransform().setParent(m_Transform);
+        }
     }
 
     public void onUpdate() {
@@ -227,25 +237,6 @@ public class Player extends GameObject {
             }
         }
     }
-
-    /*@Override
-    public void onRender(Canvas canvas) {
-        super.onRender(canvas);
-
-        if (Pustafin.DebugMode && isVisible()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                float touchRadius = Pustafin.PlanetTouchRadius * SuperActivity.getScaleFactor();
-                canvas.drawOval
-                (
-                    SuperActivity.getCurrentResolutionX() / 2f - touchRadius,
-                    SuperActivity.getCurrentResolutionY() / 2f - touchRadius,
-                    SuperActivity.getCurrentResolutionX() / 2f + touchRadius,
-                    SuperActivity.getCurrentResolutionY() / 2f + touchRadius,
-                    m_PlanetTouchColliderPaint
-                );
-            }
-        }
-    }*/
 
     @Override
     public void setVisible(boolean visible) {
