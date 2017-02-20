@@ -45,10 +45,14 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         GLES20.glViewport(0, 0, width, height);
 
         // This projection matrix is applied to object coordinates in the onDrawFrame() method
-        Matrix.frustumM(m_ProjectionMatrix, 0, -Pustafin.HalfReferenceResolutionX, Pustafin.HalfReferenceResolutionX, -Pustafin.HalfReferenceResolutionY, Pustafin.HalfReferenceResolutionY, 3, 7);
+        Matrix.orthoM(m_ProjectionMatrix, 0,
+                -Pustafin.HalfReferenceResolutionX, Pustafin.HalfReferenceResolutionX,  // Left / Right
+                -Pustafin.HalfReferenceResolutionY, Pustafin.HalfReferenceResolutionY,  // Bottom / Top
+                -Pustafin.HalfReferenceResolutionX, Pustafin.HalfReferenceResolutionX   // Near / Far
+        );
 
         // Set the camera position (View matrix)
-        Matrix.setLookAtM(m_ViewMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(m_ViewMatrix, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(m_VPMatrix, 0, m_ProjectionMatrix, 0, m_ViewMatrix, 0);
@@ -56,6 +60,10 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         // Enable blending
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA );
+
+        // Enable culling
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glCullFace(GLES20.GL_BACK);
     }
 
     @Override
