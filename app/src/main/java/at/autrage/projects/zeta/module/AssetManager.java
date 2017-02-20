@@ -43,10 +43,6 @@ public class AssetManager {
     private SpriteShader m_SpriteShader;
     private Map<Integer /* ResId */, Texture> m_Textures;
 
-    private Paint m_HealthBarFillPaintGreen;
-    private Paint m_HealthBarFillPaintOrange;
-    private Paint m_HealthBarFillPaintRed;
-
     private boolean m_Initialized;
 
     private AssetManager() {
@@ -55,14 +51,6 @@ public class AssetManager {
         m_ColorShader = null;
         m_SpriteShader = null;
         m_Textures = new HashMap<>();
-
-        m_HealthBarFillPaintGreen = new Paint();
-        m_HealthBarFillPaintOrange = new Paint();
-        m_HealthBarFillPaintRed = new Paint();
-
-        m_HealthBarFillPaintGreen.setColor(Color.GREEN);
-        m_HealthBarFillPaintOrange.setColor(Color.rgb(255, 200, 0));
-        m_HealthBarFillPaintRed.setColor(Color.RED);
 
         m_Initialized = false;
     }
@@ -256,17 +244,5 @@ public class AssetManager {
 
     public SpriteShader getSpriteShader() {
         return m_SpriteShader;
-    }
-
-    public Paint getHealthBarFillPaintGreen() {
-        return m_HealthBarFillPaintGreen;
-    }
-
-    public Paint getHealthBarFillPaintOrange() {
-        return m_HealthBarFillPaintOrange;
-    }
-
-    public Paint getHealthBarFillPaintRed() {
-        return m_HealthBarFillPaintRed;
     }
 }

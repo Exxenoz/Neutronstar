@@ -117,7 +117,7 @@ public class Pustafin {
     public static final float EnemyHealthBarHalfWidth = EnemyHealthBarWidth / 2f;
     public static final float EnemyHealthBarHalfHeight = EnemyHealthBarHeight / 2f;
     public static final float EnemyHealthBarOffsetX = 0f;
-    public static final float EnemyHealthBarOffsetY = -10f;
+    public static final float EnemyHealthBarOffsetY = 10f;
     public static final float EnemyHealthBarMinPercentageColorGreen = 0.66f;
     public static final float EnemyHealthBarMinPercentageColorOrange = 0.33f;
 

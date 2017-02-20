@@ -1,12 +1,8 @@
 package at.autrage.projects.zeta.model;
 
-
-import android.graphics.Paint;
-
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.animation.AnimationSets;
-import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.view.GameView;
@@ -16,6 +12,7 @@ import at.autrage.projects.zeta.view.GameView;
  */
 public class Enemy extends Sprite {
     protected EnemySpawner m_Owner;
+    protected HealthBar m_HealthBar;
     protected float m_Health;
     protected float m_HealthMaximum;
     protected float m_HealthPercent;
@@ -23,20 +20,17 @@ public class Enemy extends Sprite {
     protected int m_Bounty;
     protected int m_Points;
 
-    private Paint m_HealthBarFillPaint;
-
     public Enemy(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
         m_Owner = null;
+        m_HealthBar = new HealthBar(gameView, getTransform(), Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
         m_Health = 1f;
         m_HealthMaximum = 1f;
         m_HealthPercent = 1f;
         m_HitDamage = 0f;
         m_Bounty = 0;
         m_Points = 0;
-
-        m_HealthBarFillPaint = AssetManager.getInstance().getHealthBarFillPaintGreen();
     }
 
     @Override
@@ -51,24 +45,6 @@ public class Enemy extends Sprite {
             explode(collider.getOwner(), AnimationSets.Explosion1);
         }
     }
-
-    /*@Override
-    public void onRender(Canvas canvas) {
-        super.onRender(canvas);
-
-        float scaleFactor = SuperActivity.getScaleFactor();
-        float healthBarStartX = (getPositionX() - Pustafin.EnemyHealthBarHalfWidth + Pustafin.EnemyHealthBarOffsetX) * scaleFactor;
-        float healthBarStartY = (getPositionY() - Pustafin.EnemyHealthBarHeight - getHalfSizeY() + Pustafin.EnemyHealthBarOffsetY) * scaleFactor;
-
-        canvas.drawRect
-        (
-            healthBarStartX,
-            healthBarStartY,
-            healthBarStartX + Pustafin.EnemyHealthBarWidth * m_HealthPercent * scaleFactor,
-            healthBarStartY + Pustafin.EnemyHealthBarHalfHeight * scaleFactor,
-            m_HealthBarFillPaint
-        );
-    }*/
 
     public void receiveDamage(float damage) {
         setHealth(m_Health - damage);
@@ -86,6 +62,11 @@ public class Enemy extends Sprite {
 
         if (m_Owner != null) {
             m_Owner.onDestroyEnemy(this);
+        }
+
+        if (m_HealthBar != null) {
+            m_HealthBar.destroy();
+            m_HealthBar = null;
         }
     }
 
@@ -117,14 +98,9 @@ public class Enemy extends Sprite {
         }
 
         m_HealthPercent = m_Health / m_HealthMaximum;
-        if (m_HealthPercent < Pustafin.EnemyHealthBarMinPercentageColorOrange) {
-            m_HealthBarFillPaint = AssetManager.getInstance().getHealthBarFillPaintRed();
-        }
-        else if (m_HealthPercent < Pustafin.EnemyHealthBarMinPercentageColorGreen) {
-            m_HealthBarFillPaint = AssetManager.getInstance().getHealthBarFillPaintOrange();
-        }
-        else {
-            m_HealthBarFillPaint = AssetManager.getInstance().getHealthBarFillPaintGreen();
+
+        if (m_HealthBar != null) {
+            m_HealthBar.setHealthPercent(m_HealthPercent);
         }
     }
 
