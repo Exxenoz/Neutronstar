@@ -9,11 +9,11 @@ import at.autrage.projects.zeta.module.Logger;
  */
 public abstract class Collider {
     protected GameObject m_Owner;
-    protected Transform m_Transform;
+    protected Transform m_OwnerTransform;
 
     public Collider(GameObject owner) {
         m_Owner = owner;
-        m_Transform = owner.getTransform();
+        m_OwnerTransform = owner.getTransform();
     }
 
     /**
@@ -84,15 +84,15 @@ public abstract class Collider {
         return m_Owner;
     }
 
-    public Transform getTransform() {
-        return m_Transform;
+    public Transform getOwnerTransform() {
+        return m_OwnerTransform;
     }
 
     public float getPositionX() {
-        return m_Transform.getPositionX();
+        return m_OwnerTransform.getPositionX();
     }
 
     public float getPositionY() {
-        return m_Transform.getPositionY();
+        return m_OwnerTransform.getPositionY();
     }
 }
