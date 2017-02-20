@@ -19,5 +19,6 @@ public enum Animations {
     EngineFire,
     Explosion2,
     Explosion3,
-    Debug
+    Debug,
+    DebugCircle
 }

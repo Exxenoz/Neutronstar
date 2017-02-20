@@ -3,8 +3,6 @@ package at.autrage.projects.zeta.module;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.view.SurfaceHolder;
 
@@ -110,7 +108,8 @@ public class AssetManager {
         m_Animations.put(Animations.BigNuke, new Animation(11, R.drawable.gv_weapon_big_nuke, "WeaponBigNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
         m_Animations.put(Animations.Explosion2, new Animation(12, R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
         m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
-        m_Animations.put(Animations.Debug, new Animation(14, R.drawable.debug, "Debug", 192, 192, 64, 64, 0, 0, 192, 192, 1f));
+        m_Animations.put(Animations.Debug, new Animation(14, R.drawable.debug, "Debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f));
+        m_Animations.put(Animations.DebugCircle, new Animation(15, R.drawable.debug, "DebugCircle", 300, 192, 100, 100, 200, 0, 300, 100, 0f));
 
 
         m_AnimationSets.clear();
@@ -159,6 +158,9 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.Debug, new AnimationSet(14, "Debug", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Debug));
+        }}));
+        m_AnimationSets.put(AnimationSets.DebugCircle, new AnimationSet(15, "DebugCircle", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.DebugCircle));
         }}));
     }
 

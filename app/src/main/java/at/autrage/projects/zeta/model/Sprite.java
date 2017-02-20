@@ -201,4 +201,12 @@ public class Sprite extends GameObject {
         m_ScaleFactor = scaleFactor;
         setCurrentAnimationFrame(m_CurrAnimationFrame);
     }
+
+    public float getScaleFactor() {
+        return m_ScaleFactor;
+    }
+
+    public SpriteMaterial getSpriteMaterial() {
+        return m_SpriteMaterial;
+    }
 }

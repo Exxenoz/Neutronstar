@@ -19,7 +19,7 @@ public class Explosion extends Sprite {
     public Explosion(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
         super(gameView, positionX, positionY, animationSet);
 
-        m_GameObjectsImmuneToAOE = new ArrayList<GameObject>();
+        m_GameObjectsImmuneToAOE = new ArrayList<>();
     }
 
     @Override

@@ -20,5 +20,6 @@ public enum AnimationSets {
     EngineFire,
     Explosion2,
     Explosion3,
-    Debug
+    Debug,
+    DebugCircle
 }

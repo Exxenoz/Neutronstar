@@ -1,7 +1,5 @@
 package at.autrage.projects.zeta.animation;
 
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class AnimationSet {
