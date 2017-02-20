@@ -5,8 +5,6 @@ import android.opengl.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.autrage.projects.zeta.module.Logger;
-
 public class Transform {
     /** The owner of the transform object. */
     private GameObject m_Owner;
@@ -356,8 +354,6 @@ public class Transform {
         if (m_Parent != null) {
             m_Parent.addChild(this);
         }
-
-        Logger.D("setParent(): LocPos(" + m_LocalPositionX + ", " + m_LocalPositionY + ", " + m_LocalPositionZ);
     }
 
     public Transform getParent() {
