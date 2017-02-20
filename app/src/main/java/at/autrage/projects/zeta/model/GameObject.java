@@ -138,6 +138,12 @@ public abstract class GameObject {
     }
 
     public void destroy() {
+        Transform child = null;
+        for (int i = 0, size = m_Transform.getChildCount(); i < size; i++) {
+            child = m_Transform.getChild(i);
+            child.getOwner().destroy();
+        }
+
         if (m_GameView != null) {
             m_GameView.addGameObjectToDeleteQueue(this);
         }

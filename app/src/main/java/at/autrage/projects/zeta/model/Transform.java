@@ -2,6 +2,11 @@ package at.autrage.projects.zeta.model;
 
 import android.opengl.Matrix;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import at.autrage.projects.zeta.module.Logger;
+
 public class Transform {
     /** The owner of the transform object. */
     private GameObject m_Owner;
@@ -21,6 +26,10 @@ public class Transform {
     private float m_PositionY;
     private float m_PositionZ;
 
+    private float m_LocalPositionX;
+    private float m_LocalPositionY;
+    private float m_LocalPositionZ;
+
     private float m_RotationX;
     private float m_RotationY;
     private float m_RotationZ;
@@ -33,6 +42,9 @@ public class Transform {
     private float m_HalfScaleY;
     private float m_HalfScaleZ;
 
+    private Transform m_Parent;
+    private List<Transform> m_Childs;
+
     public Transform(GameObject owner) {
         m_Owner = owner;
 
@@ -41,6 +53,9 @@ public class Transform {
         m_TranslationMatrix = new float[16];
         m_RotationMatrix = new float[16];
         m_ScaleMatrix = new float[16];
+
+        m_Parent = null;
+        m_Childs = new ArrayList<>();
     }
 
     public void update() {
@@ -103,25 +118,138 @@ public class Transform {
 
     public void setPositionX(float positionX) {
         m_PositionX = positionX;
+
+        if (m_Parent != null) {
+            m_LocalPositionX = m_PositionX - m_Parent.getPositionX();
+        }
+        else {
+            m_LocalPositionX = m_PositionX;
+        }
+
+        Transform child = null;
+        for (int i = 0, size = m_Childs.size(); i < size; i++) {
+            child = m_Childs.get(i);
+            child.setLocalPositionX(child.getLocalPositionX());
+        }
     }
 
     public void setPositionY(float positionY) {
         m_PositionY = positionY;
+
+        if (m_Parent != null) {
+            m_LocalPositionY = m_PositionY - m_Parent.getPositionY();
+        }
+        else {
+            m_LocalPositionY = m_PositionY;
+        }
+
+        Transform child = null;
+        for (int i = 0, size = m_Childs.size(); i < size; i++) {
+            child = m_Childs.get(i);
+            child.setLocalPositionY(child.getLocalPositionY());
+        }
     }
 
     public void setPositionZ(float positionZ) {
         m_PositionZ = positionZ;
+
+        if (m_Parent != null) {
+            m_LocalPositionZ = m_PositionZ - m_Parent.getPositionZ();
+        }
+        else {
+            m_LocalPositionZ = m_PositionZ;
+        }
+
+        Transform child = null;
+        for (int i = 0, size = m_Childs.size(); i < size; i++) {
+            child = m_Childs.get(i);
+            child.setLocalPositionZ(child.getLocalPositionZ());
+        }
     }
 
     public void setPosition(float positionX, float positionY) {
-        m_PositionX = positionX;
-        m_PositionY = positionY;
+        setPositionX(positionX);
+        setPositionY(positionY);
     }
 
     public void setPosition(float positionX, float positionY, float positionZ) {
-        m_PositionX = positionX;
-        m_PositionY = positionY;
-        m_PositionZ = positionZ;
+        setPositionX(positionX);
+        setPositionY(positionY);
+        setPositionZ(positionZ);
+    }
+
+    public float getLocalPositionX() {
+        return m_LocalPositionX;
+    }
+
+    public float getLocalPositionY() {
+        return m_LocalPositionY;
+    }
+
+    public float getLocalPositionZ() {
+        return m_LocalPositionZ;
+    }
+
+    public void setLocalPositionX(float localPositionX) {
+        m_LocalPositionX = localPositionX;
+
+        if (m_Parent != null) {
+            m_PositionX = m_Parent.getPositionX() + m_LocalPositionX;
+        }
+        else {
+            m_PositionX = m_LocalPositionX;
+        }
+
+        Transform child = null;
+        for (int i = 0, size = m_Childs.size(); i < size; i++) {
+            child = m_Childs.get(i);
+            child.setLocalPositionX(child.getLocalPositionX());
+        }
+    }
+
+    public void setLocalPositionY(float localPositionY) {
+        m_LocalPositionY = localPositionY;
+
+        if (m_Parent != null) {
+            m_PositionY = m_Parent.getPositionY() + m_LocalPositionY;
+        }
+        else {
+            m_PositionY = m_LocalPositionY;
+        }
+
+        Transform child = null;
+        for (int i = 0, size = m_Childs.size(); i < size; i++) {
+            child = m_Childs.get(i);
+            child.setLocalPositionY(child.getLocalPositionY());
+        }
+    }
+
+    public void setLocalPositionZ(float localPositionZ) {
+        m_LocalPositionZ = localPositionZ;
+
+        if (m_Parent != null) {
+            m_PositionZ = m_Parent.getPositionZ() + m_LocalPositionZ;
+        }
+        else {
+            m_PositionZ = m_LocalPositionZ;
+        }
+
+        Transform child = null;
+        for (int i = 0, size = m_Childs.size(); i < size; i++) {
+            child = m_Childs.get(i);
+            child.setLocalPositionZ(child.getLocalPositionZ());
+        }
+    }
+
+    public void setLocalPosition(float localPositionX, float localPositionY) {
+        setLocalPositionX(localPositionX);
+        setLocalPositionY(localPositionY);
+    }
+
+    public void setLocalPosition(float localPositionX, float localPositionY, float localPositionZ) {
+        setLocalPositionX(localPositionX);
+        setLocalPositionY(localPositionY);
+        setLocalPositionZ(localPositionZ);
     }
 
     public float getRotationX() {
@@ -212,5 +340,71 @@ public class Transform {
         m_HalfScaleX = scaleX / 2f;
         m_HalfScaleY = scaleY / 2f;
         m_HalfScaleZ = scaleZ / 2f;
+    }
+
+    public void setParent(Transform transform) {
+        if (transform == this) {
+            return;
+        }
+
+        if (m_Parent != null) {
+            m_Parent.removeChild(this);
+        }
+
+        m_Parent = transform;
+
+        if (m_Parent != null) {
+            m_Parent.addChild(this);
+        }
+
+        Logger.D("setParent(): LocPos(" + m_LocalPositionX + ", " + m_LocalPositionY + ", " + m_LocalPositionZ);
+    }
+
+    public Transform getParent() {
+        return m_Parent;
+    }
+
+    public void addChild(Transform transform) {
+        if (transform == null) {
+            return;
+        }
+
+        if (transform == this) {
+            return;
+        }
+
+        if (transform.m_Parent != null) {
+            transform.m_Parent.removeChild(transform);
+        }
+
+        transform.m_Parent = this;
+
+        m_Childs.add(transform);
+
+        // Update local position
+        transform.setLocalPosition(
+                m_PositionX - transform.getPositionX(),
+                m_PositionY - transform.getPositionY(),
+                m_PositionZ - transform.getPositionZ()
+        );
+    }
+
+    public void removeChild(Transform transform) {
+        if (!m_Childs.remove(transform)) {
+            return;
+        }
+
+        transform.m_Parent = null;
+
+        // Update position
+        transform.setPosition(transform.getPositionX(), transform.getPositionY(), transform.getPositionZ());
+    }
+
+    public Transform getChild(int index) {
+        return m_Childs.get(index);
+    }
+
+    public int getChildCount() {
+        return m_Childs.size();
     }
 }
