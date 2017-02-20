@@ -70,9 +70,9 @@ public class SpriteShader extends Shader {
         GLES20.glEnableVertexAttribArray(_textureCoordinateHandle);
 
         // Prepare the coordinate data
-        GLES20.glVertexAttribPointer(_positionHandle, Mesh.CoordsPerVertex,
+        GLES20.glVertexAttribPointer(_positionHandle, PustafinGL.FLOATS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                Mesh.VertexStride, shaderParams.Vertices);
+                PustafinGL.BYTES_PER_VERTEX, shaderParams.VertexBuffer);
 
         // Enable the handle to the vertices
         GLES20.glEnableVertexAttribArray(_positionHandle);
@@ -87,7 +87,7 @@ public class SpriteShader extends Shader {
         GLES20.glUniformMatrix4fv(_vpMatrixHandle, 1, false, shaderParams.VPMatrix, 0);
 
         // Draw the triangles
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexCount, GLES20.GL_UNSIGNED_SHORT, shaderParams.Indices);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexBufferSize, GLES20.GL_UNSIGNED_SHORT, shaderParams.IndexBuffer);
 
         // Disable the handle to the vertices
         GLES20.glDisableVertexAttribArray(_positionHandle);

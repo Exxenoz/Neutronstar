@@ -3,8 +3,6 @@ package at.autrage.projects.zeta.animation;
 
 public enum AnimationSets {
     BackgroundGame,
-    Planet,
-    Clouds,
     Asteroid1,
     Asteroid2,
     Asteroid3,
@@ -21,5 +19,6 @@ public enum AnimationSets {
     Explosion2,
     Explosion3,
     Debug,
-    DebugCircle
+    DebugCircle,
+    Planet
 }

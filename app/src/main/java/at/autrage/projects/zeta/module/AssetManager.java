@@ -70,8 +70,6 @@ public class AssetManager {
 
         int[] textureResIds = new int[] {
                 R.drawable.background_game,
-                R.drawable.gv_planet_sheet_100p,
-                R.drawable.gv_planet_cloud_sheet_100p,
                 R.drawable.gv_weapon_small_rocket,
                 R.drawable.gv_weapon_big_rocket,
                 R.drawable.gv_enemy_asteroid1,
@@ -83,7 +81,8 @@ public class AssetManager {
                 R.drawable.gv_weapon_big_nuke,
                 R.drawable.gv_explosion2,
                 R.drawable.gv_explosion3,
-                R.drawable.debug
+                R.drawable.debug,
+                R.drawable.gv_planet
         };
 
         for (int textureResId : textureResIds) {
@@ -95,8 +94,6 @@ public class AssetManager {
         m_Animations.clear();
 
         m_Animations.put(Animations.BackgroundGameDefault, new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 1920, 1080, 1920, 1080, 0, 0, 1920, 1080, 0f));
-        m_Animations.put(Animations.PlanetSheet, new Animation(1, R.drawable.gv_planet_sheet_100p, "PlanetSheet", 2000, 1800, 100, 100, 0, 0, 2000, 1800, 0.032f));
-        m_Animations.put(Animations.CloudSheet, new Animation(2, R.drawable.gv_planet_cloud_sheet_100p, "CloudSheet", 2000, 1800, 100, 100, 0, 0, 2000, 1800, 0.04f));
         m_Animations.put(Animations.SmallRocket, new Animation(3, R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
         m_Animations.put(Animations.BigRocket, new Animation(4, R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 80, 80, 80, 80, 0, 0, 80, 80, 0f));
         m_Animations.put(Animations.Asteroid1, new Animation(5, R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
@@ -110,18 +107,13 @@ public class AssetManager {
         m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
         m_Animations.put(Animations.Debug, new Animation(14, R.drawable.debug, "Debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f));
         m_Animations.put(Animations.DebugCircle, new Animation(15, R.drawable.debug, "DebugCircle", 300, 192, 100, 100, 200, 0, 300, 100, 0f));
+        m_Animations.put(Animations.Planet, new Animation(16, R.drawable.gv_planet, "Planet", 1024, 512, 1024, 512, 0, 0, 1024, 512, 0f));
 
 
         m_AnimationSets.clear();
 
         m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
-        }}));
-        m_AnimationSets.put(AnimationSets.Planet, new AnimationSet(1, "Planet", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.PlanetSheet));
-        }}));
-        m_AnimationSets.put(AnimationSets.Clouds, new AnimationSet(2, "Clouds", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.CloudSheet));
         }}));
         m_AnimationSets.put(AnimationSets.SmallRocket, new AnimationSet(3, "SmallRocket", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.SmallRocket));
@@ -161,6 +153,9 @@ public class AssetManager {
         }}));
         m_AnimationSets.put(AnimationSets.DebugCircle, new AnimationSet(15, "DebugCircle", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.DebugCircle));
+        }}));
+        m_AnimationSets.put(AnimationSets.Planet, new AnimationSet(16, "Planet", new HashMap<AnimationType, Animation>() {{
+            put(AnimationType.Default, m_Animations.get(Animations.Planet));
         }}));
     }
 

@@ -1,7 +1,5 @@
 package at.autrage.projects.zeta.model;
 
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import java.util.HashMap;
@@ -9,10 +7,8 @@ import java.util.Map;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.SuperActivity;
-import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.Collider;
-import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
@@ -20,43 +16,54 @@ import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.UpdateFlags;
+import at.autrage.projects.zeta.opengl.MeshRenderer;
+import at.autrage.projects.zeta.opengl.SphereMesh;
+import at.autrage.projects.zeta.opengl.SpriteMaterial;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Player extends Sprite {
+public class Player extends GameObject {
     private float m_RemainingTime;
     private float m_OnUpdateEverySecondTimer;
     private Weapons m_SelectedWeapon;
     private float m_PopulationIncreaseTimer;
 
     private Map<Integer, Vector2D> m_TouchEventStartPositions;
-    private Paint m_PlanetTouchColliderPaint;
 
-    private Sprite m_Clouds;
+    private SphereMesh m_SphereMesh;
+    private SpriteMaterial m_Material;
+
     private AlarmArea m_AlarmArea;
 
-    public Player(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
+    public Player(GameView gameView, float positionX, float positionY) {
+        super(gameView, positionX, positionY);
+
+        m_Transform.setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
 
         m_RemainingTime = Pustafin.LevelDuration;
         m_OnUpdateEverySecondTimer = 1f;
         m_SelectedWeapon = Weapons.SmallRocket;
 
         m_TouchEventStartPositions = new HashMap<>();
-        m_PlanetTouchColliderPaint = new Paint();
-        m_PlanetTouchColliderPaint.setColor(Color.BLUE);
-        m_PlanetTouchColliderPaint.setStyle(Paint.Style.STROKE);
-        m_PlanetTouchColliderPaint.setStrokeWidth(2f);
 
-        m_Clouds = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.Clouds));
-        m_Clouds.setScaleFactor(2.56f);
-        m_Clouds.setAnimationReversed(true);
-        m_Clouds.setAnimationRepeatable(true);
+        m_SphereMesh = new SphereMesh(Pustafin.PlanetMeshStacks, Pustafin.PlanetMeshSlices);
+        m_Material = new SpriteMaterial();
+        m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
+        m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
+
+        setRenderer(new MeshRenderer(m_Transform));
+        if (getRenderer() != null) {
+            getRenderer().setMaterial(m_Material);
+            getRenderer().setMesh(m_SphereMesh);
+            getRenderer().setEnabled(true);
+        }
 
         m_AlarmArea = new AlarmArea(gameView, positionX, positionY);
         m_AlarmArea.setCollider(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));
     }
 
     public void onUpdate() {
+        m_Transform.setRotationY(m_Transform.getRotationY() + Pustafin.PlanetTurnSpeed * Time.getDeltaTime());
+
         super.onUpdate();
 
         if (getGameView().isLevelFinished()) {
@@ -243,10 +250,6 @@ public class Player extends Sprite {
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-
-        if (m_Clouds != null) {
-            m_Clouds.setVisible(visible);
-        }
 
         if (m_AlarmArea != null) {
             m_AlarmArea.setVisible(visible);

@@ -9,9 +9,9 @@ public class ShaderParams {
     public Material Material;
     public Mesh Mesh;
 
-    public FloatBuffer Vertices;
-    public ShortBuffer Indices;
-    public int IndexCount;
+    public FloatBuffer VertexBuffer;
+    public ShortBuffer IndexBuffer;
+    public int IndexBufferSize;
 
     public Color Color = new Color();
 

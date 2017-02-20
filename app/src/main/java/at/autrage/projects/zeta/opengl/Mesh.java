@@ -6,37 +6,46 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 public class Mesh {
-    private FloatBuffer m_Vertices;
-    private ShortBuffer m_Indices;
+    protected FloatBuffer m_VertexBuffer;
+    protected ShortBuffer m_IndexBuffer;
 
-    private int m_VertexCount;
-    private int m_IndexCount;
+    protected int m_VertexBufferSize;
+    protected int m_IndexBufferSize;
 
-    public static final int CoordsPerVertex = 3;
-    public static final int VertexStride = CoordsPerVertex * 4; // 4 bytes per coordinate
+    protected Mesh() {
+        m_VertexBuffer = null;
+        m_IndexBuffer = null;
+
+        m_VertexBufferSize = 0;
+        m_IndexBufferSize = 0;
+    }
 
     public Mesh(float[] vertices, short[] indices) {
-        m_Vertices = createVertexBuffer(vertices);
-        m_Indices = createIndexBuffer(indices);
+        m_VertexBuffer = createVertexBuffer(vertices);
+        m_IndexBuffer = createIndexBuffer(indices);
 
-        m_VertexCount = vertices.length;
-        m_IndexCount = indices.length;
+        m_VertexBufferSize = vertices.length;
+        m_IndexBufferSize = indices.length;
     }
 
     public void shift(ShaderParams shaderParams) {
-        shaderParams.Vertices = m_Vertices;
-        shaderParams.Indices = m_Indices;
-        shaderParams.IndexCount = m_IndexCount;
+        shaderParams.VertexBuffer = m_VertexBuffer;
+        shaderParams.IndexBuffer = m_IndexBuffer;
+        shaderParams.IndexBufferSize = m_IndexBufferSize;
     }
 
-    public FloatBuffer createVertexBuffer(float[] vertices) {
-        // Initialize vertex byte buffer for shape coordinates
-        // (Number of coordinate values * 4 bytes per float)
-        ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
+    public FloatBuffer createFloatBuffer(int capacity) {
+        // Allocate bytes
+        ByteBuffer bb = ByteBuffer.allocateDirect(capacity * PustafinGL.BYTES_PER_FLOAT);
         // Use the device hardware's native byte order
         bb.order(ByteOrder.nativeOrder());
         // Create a floating point buffer from the ByteBuffer
-        FloatBuffer vertexBuffer = bb.asFloatBuffer();
+        return bb.asFloatBuffer();
+    }
+
+    public FloatBuffer createVertexBuffer(float[] vertices) {
+        // Create a floating point buffer
+        FloatBuffer vertexBuffer = createFloatBuffer(vertices.length);
         // Add the coordinates to the FloatBuffer
         vertexBuffer.put(vertices);
         // Set the buffer to read the first coordinate
@@ -45,14 +54,18 @@ public class Mesh {
         return vertexBuffer;
     }
 
-    public ShortBuffer createIndexBuffer(short[] indices) {
-        // Initialize byte buffer for the draw list
-        // (Number of values * 2 bytes per short)
-        ByteBuffer bb = ByteBuffer.allocateDirect(indices.length * 2);
+    public ShortBuffer createShortBuffer(int capacity) {
+        // Allocate bytes
+        ByteBuffer bb = ByteBuffer.allocateDirect(capacity * PustafinGL.BYTES_PER_SHORT);
         // Use the device hardware's native byte order
         bb.order(ByteOrder.nativeOrder());
         // Create a short buffer from the ByteBuffer
-        ShortBuffer indexBuffer = bb.asShortBuffer();
+        return bb.asShortBuffer();
+    }
+
+    public ShortBuffer createIndexBuffer(short[] indices) {
+        // Create a short buffer
+        ShortBuffer indexBuffer = createShortBuffer(indices.length);
         // Add the values to the ShortBuffer
         indexBuffer.put(indices);
         // Set the buffer to read the first value
@@ -61,11 +74,11 @@ public class Mesh {
         return indexBuffer;
     }
 
-    public int getVertexCount() {
-        return m_VertexCount;
+    public int getVertexBufferSize() {
+        return m_VertexBufferSize;
     }
 
-    public int getIndexCount() {
-        return m_IndexCount;
+    public int getIndexBufferSize() {
+        return m_IndexBufferSize;
     }
 }

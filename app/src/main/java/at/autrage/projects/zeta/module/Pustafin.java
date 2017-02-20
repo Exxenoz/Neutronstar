@@ -15,7 +15,13 @@ public class Pustafin {
     public static final int MinRenderDelta = 16; // In ms
     public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
 
+    public static final int PlanetMeshStacks = 10;
+    public static final int PlanetMeshSlices = 10;
+
+    public static final float PlanetScale = 256f;
+    public static final float PlanetTurnSpeed = 360f / 30f;
     public static final float PlanetTouchRadius = 200f;
+
     public static final float AlarmAreaRadius = 280f;
     public static final float AlarmForegroundBlinkDuration = 2f;
 
