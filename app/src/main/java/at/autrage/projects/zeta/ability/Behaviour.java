@@ -2,46 +2,19 @@ package at.autrage.projects.zeta.ability;
 
 import java.util.List;
 
-import at.autrage.projects.zeta.model.Actor;
+import at.autrage.projects.zeta.model.Component;
+import at.autrage.projects.zeta.model.GameObject;
 
-public abstract class Behaviour {
-    public enum State {
-        None,
-        Started,
-        Updated,
-        Completed,
-        Cancelled,
-        Ended
-    }
+public abstract class Behaviour extends Component {
+    protected List<Pattern> patterns;
 
-    private Actor actor;
-    private State state;
-    protected List<Operation> operations;
-
-    public Behaviour(Actor actor) {
-        if (actor == null) {
-            throw new IllegalArgumentException("actor can not be null!");
-        }
-
-        this.actor = actor;
-        state = State.None;
-    }
-
-    public Actor getActor() {
-        return actor;
-    }
-
-    public State getState() {
-        return state;
+    public Behaviour(GameObject gameObject) {
+        super(gameObject);
     }
 
     public final boolean canStart() {
-        if (state != State.None) {
-            return false;
-        }
-
-        for (Operation operation : operations) {
-            if (!operation.canStart()) {
+        for (Pattern pattern : patterns) {
+            if (!pattern.canStart()) {
                 return false;
             }
         }
@@ -50,12 +23,8 @@ public abstract class Behaviour {
     }
 
     public final boolean canUpdate() {
-        if (state != State.Started && state != State.Updated) {
-            return false;
-        }
-
-        for (Operation operation : operations) {
-            if (!operation.canUpdate()) {
+        for (Pattern pattern : patterns) {
+            if (!pattern.canUpdate()) {
                 return false;
             }
         }
@@ -64,8 +33,8 @@ public abstract class Behaviour {
     }
 
     public final boolean shouldComplete() {
-        for (Operation operation : operations) {
-            if (operation.shouldComplete()) {
+        for (Pattern pattern : patterns) {
+            if (pattern.shouldComplete()) {
                 return true;
             }
         }
@@ -74,8 +43,8 @@ public abstract class Behaviour {
     }
 
     public final boolean shouldCancel() {
-        for (Operation operation : operations) {
-            if (operation.shouldCancel()) {
+        for (Pattern pattern : patterns) {
+            if (pattern.shouldCancel()) {
                 return true;
             }
         }
@@ -83,21 +52,27 @@ public abstract class Behaviour {
         return false;
     }
 
+    @Override
+    protected void onStart() {
+        if (canStart()){
+
+        }
+    }
+
     public final boolean start() {
         if (!canStart()) {
             return false;
         }
 
-        for (Operation operation : operations) {
-            operation.start();
+        for (Pattern pattern : patterns) {
+            pattern.start();
         }
-
-        state = State.Started;
 
         return true;
     }
 
-    public final void update() {
+    @Override
+    public final void onUpdate() {
         if (!canUpdate()) {
             return;
         }
@@ -112,34 +87,28 @@ public abstract class Behaviour {
             return;
         }
 
-        for (Operation operation : operations) {
-            operation.update();
+        for (Pattern pattern : patterns) {
+            pattern.update();
         }
-
-        state = State.Updated;
     }
 
     private final void complete() {
-        for (Operation operation : operations) {
-            operation.complete();
+        for (Pattern pattern : patterns) {
+            pattern.complete();
         }
-
-        state = State.Completed;
     }
 
     private final void cancel() {
-        for (Operation operation : operations) {
-            operation.cancel();
+        for (Pattern pattern : patterns) {
+            pattern.cancel();
         }
-
-        state = State.Cancelled;
     }
 
     private final void end() {
-        for (Operation operation : operations) {
-            operation.end();
+        for (Pattern pattern : patterns) {
+            pattern.end();
         }
 
-        state = State.Ended;
+        destroy();
     }
 }

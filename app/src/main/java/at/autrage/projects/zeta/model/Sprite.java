@@ -14,7 +14,7 @@ import at.autrage.projects.zeta.opengl.SpriteMaterial;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Sprite extends Actor {
+public class Sprite extends GameObject {
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;
 

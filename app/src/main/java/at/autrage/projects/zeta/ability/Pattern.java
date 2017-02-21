@@ -1,12 +1,12 @@
 package at.autrage.projects.zeta.ability;
 
-import at.autrage.projects.zeta.model.Actor;
+import at.autrage.projects.zeta.model.GameObject;
 
-public abstract class Operation {
+public abstract class Pattern {
     private Behaviour behaviour;
 
-    public Operation(Behaviour behaviour) {
-        if (behaviour==null){
+    public Pattern(Behaviour behaviour) {
+        if (behaviour == null) {
             throw new IllegalArgumentException("behaviour can not be null!");
         }
 
@@ -17,8 +17,8 @@ public abstract class Operation {
         return behaviour;
     }
 
-    public final Actor getActor() {
-        return behaviour.getActor();
+    public final GameObject getGameObject() {
+        return behaviour.getGameObject();
     }
 
     public boolean canStart() {
