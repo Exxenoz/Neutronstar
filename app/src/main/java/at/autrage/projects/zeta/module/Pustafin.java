@@ -2,7 +2,7 @@ package at.autrage.projects.zeta.module;
 
 
 public class Pustafin {
-    public static final boolean DebugMode = true;
+    public static final boolean DebugMode = false;
 
     public static final int ReferenceResolutionX = 1920;
     public static final int ReferenceResolutionY = 1080;

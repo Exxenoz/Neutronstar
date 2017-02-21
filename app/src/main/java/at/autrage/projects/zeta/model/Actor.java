@@ -5,13 +5,12 @@ import java.util.List;
 
 import at.autrage.projects.zeta.ability.Behaviour;
 import at.autrage.projects.zeta.ability.Behaviours;
-import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Actor extends GameObject {
     private List<Behaviour> behaviours;
 
-    public Actor(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
+    public Actor(GameView gameView, float positionX, float positionY) {
         super(gameView, positionX, positionY);
 
         behaviours = new ArrayList<>();
