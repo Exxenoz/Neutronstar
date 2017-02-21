@@ -1,5 +1,9 @@
 package at.autrage.projects.zeta.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import at.autrage.projects.zeta.ability.Behaviour;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -26,6 +30,8 @@ public abstract class GameObject {
 
     private boolean m_Visible;
 
+    private List<Component> components;
+
     public GameObject(GameView gameView, float positionX, float positionY) {
         m_GameView = gameView;
 
@@ -41,24 +47,71 @@ public abstract class GameObject {
 
         m_Visible = true;
 
+        components = new ArrayList<>();
+
         if (m_GameView != null) {
             m_GameView.addGameObjectToInsertQueue(this);
         }
     }
 
+    public boolean addComponent(Component component) {
+        if (component == null) {
+            return false;
+        }
+
+        components.add(component);
+
+        return true;
+    }
+
+    public boolean removeComponent(Component component) {
+        if (components.remove(component)) {
+            component.destroy();
+            return true;
+        }
+
+        return false;
+    }
+
+    public <T> T getComponent(Class<T> componentClass) {
+        for (Component component : components) {
+            if (componentClass.isAssignableFrom(component.getClass())) {
+                return (T) component;
+            }
+        }
+
+        return null;
+    }
+
+    public <T> List<T> getComponents(Class<T> componentClass) {
+        ArrayList<T> components = new ArrayList<>();
+
+        for (Component component : this.components) {
+            if (componentClass.isAssignableFrom(component.getClass())) {
+                components.add((T) component);
+            }
+        }
+
+        return components;
+    }
+
     public void onUpdate() {
         if (m_Speed != 0f) {
             m_Transform.setPosition(
-                m_Transform.getPositionX() + m_SpeedX * Time.getScaledDeltaTime(),
-                m_Transform.getPositionY() + m_SpeedY * Time.getScaledDeltaTime()
+                    m_Transform.getPositionX() + m_SpeedX * Time.getScaledDeltaTime(),
+                    m_Transform.getPositionY() + m_SpeedY * Time.getScaledDeltaTime()
             );
+        }
+
+        for (int i = 0; i < components.size(); i++) {
+            components.get(i).update();
         }
 
         m_Transform.update();
 
         // Check for lost objects and destroy them
         if (Math.abs(m_Transform.getPositionX()) >= Pustafin.GameObjectAutoDestroyDistance ||
-            Math.abs(m_Transform.getPositionY()) >= Pustafin.GameObjectAutoDestroyDistance) {
+                Math.abs(m_Transform.getPositionY()) >= Pustafin.GameObjectAutoDestroyDistance) {
             Logger.D("Auto destroyed game object due to distance from planet.");
             destroy();
         }
@@ -142,6 +195,10 @@ public abstract class GameObject {
         for (int i = 0, size = m_Transform.getChildCount(); i < size; i++) {
             child = m_Transform.getChild(i);
             child.getOwner().destroy();
+        }
+
+        while (components.size() > 0) {
+            components.get(0).destroy();
         }
 
         if (m_GameView != null) {
