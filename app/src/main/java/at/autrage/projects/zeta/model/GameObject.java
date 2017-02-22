@@ -25,7 +25,6 @@ public abstract class GameObject {
     private float m_SpeedY;
     private float m_Speed;
 
-    private Collider m_Collider;
     private MeshRenderer m_Renderer;
 
     private boolean m_Visible;
@@ -42,7 +41,6 @@ public abstract class GameObject {
         m_DirectionY = 0f;
         setSpeed(0f);
 
-        m_Collider = null;
         m_Renderer = null;
 
         m_Visible = true;
@@ -162,14 +160,6 @@ public abstract class GameObject {
         m_SpeedY = m_DirectionY * speed;
     }
 
-    public Collider getCollider() {
-        return m_Collider;
-    }
-
-    public void setCollider(Collider collider) {
-        m_Collider = collider;
-    }
-
     public MeshRenderer getRenderer() {
         return m_Renderer;
     }
@@ -206,6 +196,5 @@ public abstract class GameObject {
         }
 
         setRenderer(null);
-        setCollider(null);
     }
 }

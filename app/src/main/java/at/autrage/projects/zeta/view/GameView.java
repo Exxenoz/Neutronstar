@@ -16,7 +16,7 @@ import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
-import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.collision.ColliderManager;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
@@ -66,8 +66,8 @@ public class GameView extends GLSurfaceView {
     /** Reference to the mesh renderers which will be deleted from {@link GameView#m_MeshRenderers}. */
     private ConcurrentLinkedQueue<MeshRenderer> m_MeshRenderersToDelete;
 
-    /** Contains active colliders - most of the time, at least. (Cache) */
-    private List<Collider> m_ColliderList;
+    /** Reference to (@link ColliderManager) object. */
+    public final ColliderManager ColliderManager;
 
     /** Reference to (@link EnemySpawner) object. */
     private EnemySpawner m_EnemySpawner;
@@ -125,12 +125,12 @@ public class GameView extends GLSurfaceView {
         m_MeshRenderersToInsert = new ConcurrentLinkedQueue<>();
         m_MeshRenderersToDelete = new ConcurrentLinkedQueue<>();
 
-        m_ColliderList = new ArrayList<Collider>(128);
+        ColliderManager = new ColliderManager();
 
         m_EnemySpawner = new EnemySpawner(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
         m_Player = new Player(this, 0f, 0f);
-        m_Player.setCollider(new CircleCollider(m_Player, m_Player.getTransform().getHalfScaleX()));
+        m_Player.addComponent(new CircleCollider(m_Player, m_Player.getTransform().getHalfScaleX()));
 
         m_AlarmEnabled = false;
         m_AlarmAutoStop = true;
@@ -238,30 +238,13 @@ public class GameView extends GLSurfaceView {
             m_GameObjects.remove(m_GameObjectsToDelete.poll());
         }
 
-        m_ColliderList.clear();
-
         // Update game objects
         for (GameObject go : m_GameObjects) {
             go.onUpdate();
-
-            if (go.getCollider() != null) {
-                m_ColliderList.add(go.getCollider());
-            }
         }
 
-        int i = 0;
-
-        for (Collider co1 : m_ColliderList) {
-            i++;
-
-            for (int j = i; j < m_ColliderList.size(); j++) {
-                Collider co2 = m_ColliderList.get(j);
-                if (co1.intersects(co2)) {
-                    co1.getOwner().onCollide(co2);
-                    co2.getOwner().onCollide(co1);
-                }
-            }
-        }
+        // Update colliders
+        ColliderManager.update();
 
         // Update user interface states
         m_GameActivity.runOnUiThread(new Runnable() {

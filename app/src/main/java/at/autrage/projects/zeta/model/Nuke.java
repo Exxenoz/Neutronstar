@@ -46,10 +46,10 @@ public class Nuke extends Weapon {
     public void onCollide(Collider collider) {
         super.onCollide(collider);
 
-        if (collider.getOwner() instanceof Enemy) {
+        if (collider.getGameObject() instanceof Enemy) {
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float)Math.random());
-            explode(collider.getOwner(), AnimationSets.Explosion1, true);
-            explode(collider.getOwner(), m_ExplosionAnimationSet);
+            explode(collider.getGameObject(), AnimationSets.Explosion1, true);
+            explode(collider.getGameObject(), m_ExplosionAnimationSet);
         }
     }
 
@@ -89,7 +89,7 @@ public class Nuke extends Weapon {
         nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.SmallNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion2);
-        nuke.setCollider(new CircleCollider(nuke, nuke.getTransform().getHalfScaleX()));
+        nuke.addComponent(new CircleCollider(nuke, nuke.getTransform().getHalfScaleX()));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return nuke;
     }
@@ -104,7 +104,7 @@ public class Nuke extends Weapon {
         nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.BigNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion3);
-        nuke.setCollider(new CircleCollider(nuke, nuke.getTransform().getHalfScaleX()));
+        nuke.addComponent(new CircleCollider(nuke, nuke.getTransform().getHalfScaleX()));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return nuke;
     }

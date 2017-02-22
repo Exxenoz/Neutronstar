@@ -22,6 +22,9 @@ public class Pustafin {
     public static final float PlanetTurnSpeed = 360f / 30f;
     public static final float PlanetTouchRadius = 200f;
 
+    public static final int ColliderGridSizeBits = 8;
+    public static final int ColliderGridSize = 1 << ColliderGridSizeBits;
+
     public static final float AlarmAreaRadius = 280f;
     public static final float AlarmForegroundBlinkDuration = 2f;
 

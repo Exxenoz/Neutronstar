@@ -39,9 +39,9 @@ public class Rocket extends Weapon {
     public void onCollide(Collider collider) {
         super.onCollide(collider);
 
-        if (collider.getOwner() instanceof Enemy) {
+        if (collider.getGameObject() instanceof Enemy) {
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float)Math.random());
-            explode(collider.getOwner(), AnimationSets.Explosion1);
+            explode(collider.getGameObject(), AnimationSets.Explosion1);
         }
     }
 
@@ -70,7 +70,7 @@ public class Rocket extends Weapon {
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
-        rocket.setCollider(new CircleCollider(rocket, rocket.getTransform().getHalfScaleX()));
+        rocket.addComponent(new CircleCollider(rocket, rocket.getTransform().getHalfScaleX()));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return rocket;
     }
@@ -82,7 +82,7 @@ public class Rocket extends Weapon {
         rocket.setDirection(directionX, directionY);
         rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket));
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));
-        rocket.setCollider(new CircleCollider(rocket, rocket.getTransform().getHalfScaleX()));
+        rocket.addComponent(new CircleCollider(rocket, rocket.getTransform().getHalfScaleX()));
         rocket.setEngineFireLengthOffset(-10f);
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return rocket;

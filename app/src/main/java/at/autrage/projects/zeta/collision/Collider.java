@@ -1,5 +1,8 @@
 package at.autrage.projects.zeta.collision;
 
+import java.util.List;
+
+import at.autrage.projects.zeta.model.Component;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Transform;
 import at.autrage.projects.zeta.module.Logger;
@@ -7,13 +10,17 @@ import at.autrage.projects.zeta.module.Logger;
 /**
  * Colliders are simple invisible geometric objects used by game objects for collision detection.
  */
-public abstract class Collider {
-    protected GameObject m_Owner;
-    protected Transform m_OwnerTransform;
+public abstract class Collider extends Component {
+    protected Transform transform;
 
-    public Collider(GameObject owner) {
-        m_Owner = owner;
-        m_OwnerTransform = owner.getTransform();
+    protected long cellID;
+    protected List<Collider> cellList;
+
+    public Collider(GameObject gameObject) {
+        super(gameObject);
+        transform = gameObject.getTransform();
+
+        gameObject.getGameView().ColliderManager.addColliderToInsertQueue(this);
     }
 
     /**
@@ -80,19 +87,25 @@ public abstract class Collider {
         return false;
     }
 
-    public GameObject getOwner() {
-        return m_Owner;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        gameObject.getGameView().ColliderManager.addColliderToRemoveQueue(this);
     }
 
-    public Transform getOwnerTransform() {
-        return m_OwnerTransform;
+    public Transform getTransform() {
+        return transform;
     }
 
     public float getPositionX() {
-        return m_OwnerTransform.getPositionX();
+        return transform.getPositionX();
     }
 
     public float getPositionY() {
-        return m_OwnerTransform.getPositionY();
+        return transform.getPositionY();
     }
+
+    public abstract float getApproximatedHalfRectWidth();
+    public abstract float getApproximatedHalfRectHeight();
 }

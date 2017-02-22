@@ -30,12 +30,12 @@ public class Explosion extends Sprite {
             return;
         }
 
-        if (!(collider.getOwner() instanceof Enemy)) {
+        if (!(collider.getGameObject() instanceof Enemy)) {
             return;
         }
 
-        if (!m_GameObjectsImmuneToAOE.contains(collider.getOwner())) {
-            Enemy enemy = (Enemy) collider.getOwner();
+        if (!m_GameObjectsImmuneToAOE.contains(collider.getGameObject())) {
+            Enemy enemy = (Enemy) collider.getGameObject();
             enemy.receiveDamage(m_Weapon.getAOEDamage());
 
             if (enemy.isAlive()) {
@@ -70,7 +70,7 @@ public class Explosion extends Sprite {
             return;
         }
 
-        setCollider(new CircleCollider(this, weapon.getAOERadius()));
+        addComponent(new CircleCollider(this, weapon.getAOERadius()));
     }
 
     public void addImmuneToAOEGameObject(GameObject gameObject) {

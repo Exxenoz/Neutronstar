@@ -16,7 +16,7 @@ public class AlarmArea extends Sprite {
     public void onCollide(Collider collider) {
         super.onCollide(collider);
 
-        if (collider.getOwner() instanceof Enemy) {
+        if (collider.getGameObject() instanceof Enemy) {
             if (!getGameView().isAlarmEnabled()) {
                 getGameView().setAlarmEnabled(true);
             }

@@ -61,7 +61,7 @@ public class Player extends GameObject {
         }
 
         m_AlarmArea = new AlarmArea(gameView, positionX, positionY);
-        m_AlarmArea.setCollider(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));
+        m_AlarmArea.addComponent(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));
 
         if (Pustafin.DebugMode) {
             m_TouchRadiusDebugCircle = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
@@ -220,8 +220,8 @@ public class Player extends GameObject {
             return;
         }
 
-        if (collider.getOwner() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
-            Enemy enemy = (Enemy)collider.getOwner();
+        if (collider.getGameObject() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
+            Enemy enemy = (Enemy)collider.getGameObject();
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float)Math.random());
 

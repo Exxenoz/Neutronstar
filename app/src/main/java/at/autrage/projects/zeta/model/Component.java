@@ -1,7 +1,7 @@
 package at.autrage.projects.zeta.model;
 
 public abstract class Component {
-    private GameObject gameObject;
+    protected GameObject gameObject;
 
     private boolean started;
     private boolean enabled;
