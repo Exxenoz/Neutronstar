@@ -36,12 +36,12 @@ public class Rocket extends Weapon {
     }
 
     @Override
-    public void onCollide(Collider collider) {
-        super.onCollide(collider);
+    public void onCollide(Collider other) {
+        super.onCollide(other);
 
-        if (collider.getGameObject() instanceof Enemy) {
+        if (other.getGameObject() instanceof Enemy) {
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float)Math.random());
-            explode(collider.getGameObject(), AnimationSets.Explosion1);
+            explode(other.getGameObject(), AnimationSets.Explosion1);
         }
     }
 

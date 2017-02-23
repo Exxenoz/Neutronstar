@@ -2,6 +2,8 @@ package at.autrage.projects.zeta.collision;
 
 import java.util.List;
 
+import at.autrage.projects.zeta.event.Event;
+import at.autrage.projects.zeta.exception.ArgumentNullException;
 import at.autrage.projects.zeta.model.Component;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Transform;
@@ -13,14 +15,18 @@ import at.autrage.projects.zeta.module.Logger;
 public abstract class Collider extends Component {
     protected Transform transform;
 
-    protected long cellID;
-    protected List<Collider> cellList;
-
     public Collider(GameObject gameObject) {
         super(gameObject);
         transform = gameObject.getTransform();
 
-        gameObject.getGameView().ColliderManager.addColliderToInsertQueue(this);
+        gameObject.getGameView().ColliderManager.addCollider(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        gameObject.getGameView().ColliderManager.removeCollider(this);
     }
 
     /**
@@ -39,8 +45,7 @@ public abstract class Collider extends Component {
             float minDistance = circleCollider1.getRadius() + circleCollider2.getRadius();
 
             return (distanceX * distanceX + distanceY * distanceY) <= (minDistance * minDistance);
-        }
-        else if (this instanceof RectCollider && collider instanceof RectCollider) {
+        } else if (this instanceof RectCollider && collider instanceof RectCollider) {
             RectCollider rectCollider1 = (RectCollider) this;
             RectCollider rectCollider2 = (RectCollider) collider;
 
@@ -57,9 +62,8 @@ public abstract class Collider extends Component {
             float height2 = rectCollider2.getRect().height();
 
             return x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2;
-        }
-        else if (this instanceof RectCollider && collider instanceof CircleCollider ||
-                 this instanceof CircleCollider && collider instanceof RectCollider) {
+        } else if (this instanceof RectCollider && collider instanceof CircleCollider ||
+                this instanceof CircleCollider && collider instanceof RectCollider) {
             CircleCollider circleCollider = (CircleCollider) (collider instanceof CircleCollider ? collider : this);
             RectCollider rectCollider = (RectCollider) (collider instanceof RectCollider ? collider : this);
 
@@ -68,11 +72,19 @@ public abstract class Collider extends Component {
             float halfWidth = rectCollider.getRect().width() / 2f;
             float halfHeight = rectCollider.getRect().height() / 2f;
 
-            if (circleDistanceX > (halfWidth + circleCollider.getRadius())) { return false; }
-            if (circleDistanceY > (halfHeight + circleCollider.getRadius())) { return false; }
+            if (circleDistanceX > (halfWidth + circleCollider.getRadius())) {
+                return false;
+            }
+            if (circleDistanceY > (halfHeight + circleCollider.getRadius())) {
+                return false;
+            }
 
-            if (circleDistanceX <= (halfWidth)) { return true; }
-            if (circleDistanceY <= (halfHeight)) { return true; }
+            if (circleDistanceX <= (halfWidth)) {
+                return true;
+            }
+            if (circleDistanceY <= (halfHeight)) {
+                return true;
+            }
 
             float d1 = circleDistanceX - halfWidth;
             float d2 = circleDistanceY - halfHeight;
@@ -87,13 +99,6 @@ public abstract class Collider extends Component {
         return false;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        gameObject.getGameView().ColliderManager.addColliderToRemoveQueue(this);
-    }
-
     public Transform getTransform() {
         return transform;
     }
@@ -105,7 +110,4 @@ public abstract class Collider extends Component {
     public float getPositionY() {
         return transform.getPositionY();
     }
-
-    public abstract float getApproximatedHalfRectWidth();
-    public abstract float getApproximatedHalfRectHeight();
 }

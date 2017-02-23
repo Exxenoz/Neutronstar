@@ -27,14 +27,4 @@ public class CircleCollider extends Collider {
     public float getRadius() {
         return m_Radius;
     }
-
-    @Override
-    public float getApproximatedHalfRectWidth() {
-        return m_Radius;
-    }
-
-    @Override
-    public float getApproximatedHalfRectHeight() {
-        return m_Radius;
-    }
 }

@@ -115,7 +115,7 @@ public abstract class GameObject {
         }
     }
 
-    public void onCollide(Collider collider) {
+    public void onCollide(Collider other) {
     }
 
     public GameView getGameView() {

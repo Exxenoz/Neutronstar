@@ -213,15 +213,15 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void onCollide(Collider collider) {
-        super.onCollide(collider);
+    public void onCollide(Collider other) {
+        super.onCollide(other);
 
         if (getGameView().isLevelFinished()) {
             return;
         }
 
-        if (collider.getGameObject() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
-            Enemy enemy = (Enemy)collider.getGameObject();
+        if (other.getGameObject() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
+            Enemy enemy = (Enemy) other.getGameObject();
 
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float)Math.random());
 

@@ -23,19 +23,19 @@ public class Explosion extends Sprite {
     }
 
     @Override
-    public void onCollide(Collider collider) {
-        super.onCollide(collider);
+    public void onCollide(Collider other) {
+        super.onCollide(other);
 
         if (m_Weapon == null) {
             return;
         }
 
-        if (!(collider.getGameObject() instanceof Enemy)) {
+        if (!(other.getGameObject() instanceof Enemy)) {
             return;
         }
 
-        if (!m_GameObjectsImmuneToAOE.contains(collider.getGameObject())) {
-            Enemy enemy = (Enemy) collider.getGameObject();
+        if (!m_GameObjectsImmuneToAOE.contains(other.getGameObject())) {
+            Enemy enemy = (Enemy) other.getGameObject();
             enemy.receiveDamage(m_Weapon.getAOEDamage());
 
             if (enemy.isAlive()) {

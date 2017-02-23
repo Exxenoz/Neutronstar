@@ -34,15 +34,15 @@ public class Enemy extends Sprite {
     }
 
     @Override
-    public void onCollide(Collider collider) {
-        super.onCollide(collider);
+    public void onCollide(Collider other) {
+        super.onCollide(other);
 
-        if (collider.getGameObject() instanceof Weapon) {
-            Weapon weapon = (Weapon)collider.getGameObject();
+        if (other.getGameObject() instanceof Weapon) {
+            Weapon weapon = (Weapon) other.getGameObject();
             receiveDamage(weapon.getHitDamage());
         }
-        else if (collider.getGameObject() instanceof Player) {
-            explode(collider.getGameObject(), AnimationSets.Explosion1);
+        else if (other.getGameObject() instanceof Player) {
+            explode(other.getGameObject(), AnimationSets.Explosion1);
         }
     }
 
