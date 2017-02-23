@@ -13,6 +13,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.MainMenuActivity;
 import at.autrage.projects.zeta.model.Asteroid;
 import at.autrage.projects.zeta.model.Enemy;
+import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.view.GameView;
 
 public class TutorialManager {
@@ -100,7 +101,7 @@ public class TutorialManager {
 
         if (gameView.getPlayer() != null) {
             gameView.getPlayer().setRemainingTime(0);
-            gameView.getPlayer().setVisible(false);
+            gameView.getPlayer().getComponent(MeshRenderer.class).disable();
         }
 
         m_Finished = false;
@@ -154,7 +155,7 @@ public class TutorialManager {
         switch (m_CurrentTutorialIndex) {
             case 1: // Show planet
                 if (gameView.getPlayer() != null) {
-                    gameView.getPlayer().setVisible(true);
+                    gameView.getPlayer().getComponent(MeshRenderer.class).enable();
                 }
                 break;
             case 7: // Asteroid state
@@ -163,7 +164,7 @@ public class TutorialManager {
                 break;
             case 11: // Hide planet
                 if (gameView.getPlayer() != null) {
-                    gameView.getPlayer().setVisible(false);
+                    gameView.getPlayer().getComponent(MeshRenderer.class).disable();
                 }
                 break;
         }

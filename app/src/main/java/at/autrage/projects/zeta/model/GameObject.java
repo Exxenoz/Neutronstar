@@ -25,8 +25,6 @@ public abstract class GameObject {
     private float m_SpeedY;
     private float m_Speed;
 
-    private boolean m_Visible;
-
     private List<Component> components;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
@@ -38,8 +36,6 @@ public abstract class GameObject {
         m_DirectionX = 0f;
         m_DirectionY = 0f;
         setSpeed(0f);
-
-        m_Visible = true;
 
         components = new ArrayList<>();
 
@@ -154,14 +150,6 @@ public abstract class GameObject {
         m_Speed = speed;
         m_SpeedX = m_DirectionX * speed;
         m_SpeedY = m_DirectionY * speed;
-    }
-
-    public boolean isVisible() {
-        return m_Visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.m_Visible = visible;
     }
 
     public void destroy() {

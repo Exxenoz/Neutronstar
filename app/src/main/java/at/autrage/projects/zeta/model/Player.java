@@ -33,6 +33,7 @@ public class Player extends GameObject {
 
     private SphereMesh m_SphereMesh;
     private SpriteMaterial m_Material;
+    private MeshRenderer meshRenderer;
 
     private AlarmArea m_AlarmArea;
     private Sprite m_TouchRadiusDebugCircle;
@@ -53,7 +54,7 @@ public class Player extends GameObject {
         m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
         m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
 
-        MeshRenderer meshRenderer = new MeshRenderer(this);
+        meshRenderer = new MeshRenderer(this);
         meshRenderer.setMaterial(m_Material);
         meshRenderer.setMesh(m_SphereMesh);
         meshRenderer.setEnabled(true);
@@ -118,7 +119,7 @@ public class Player extends GameObject {
             return;
         }
 
-        if (!isVisible()) {
+        if (!meshRenderer.isEnabled()) {
             return;
         }
 
@@ -234,15 +235,6 @@ public class Player extends GameObject {
             if (remainingPopulation <= 0f) {
                 getGameView().lose();
             }
-        }
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-
-        if (m_AlarmArea != null) {
-            m_AlarmArea.setVisible(visible);
         }
     }
 
