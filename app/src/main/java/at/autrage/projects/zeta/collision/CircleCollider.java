@@ -17,10 +17,10 @@ public class CircleCollider extends Collider {
         m_Radius = radius;
 
         if (Pustafin.DebugMode) {
-            m_DebugCircle = new Sprite(owner.getGameView(), transform.getPositionX(), transform.getPositionY(), AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
-            m_DebugCircle.setScaleFactor(2f * m_Radius / m_DebugCircle.getTransform().getScaleX());
+            m_DebugCircle = new Sprite(owner.getGameView(), getPositionX(), getPositionY(), AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
+            m_DebugCircle.setScaleFactor(2f * m_Radius / m_DebugCircle.getScaleX());
             m_DebugCircle.getSpriteMaterial().getColor().setColor(Color.Green);
-            m_DebugCircle.getTransform().setParent(transform);
+            m_DebugCircle.setParent(gameObject);
         }
     }
 

@@ -24,7 +24,7 @@ public class Enemy extends Sprite {
         super(gameView, positionX, positionY, animationSet);
 
         m_Owner = null;
-        m_HealthBar = new HealthBar(gameView, getTransform(), Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
+        m_HealthBar = new HealthBar(gameView, this, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
         m_Health = 1f;
         m_HealthMaximum = 1f;
         m_HealthPercent = 1f;

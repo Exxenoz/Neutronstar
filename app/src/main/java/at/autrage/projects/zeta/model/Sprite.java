@@ -105,20 +105,20 @@ public class Sprite extends GameObject {
 
         // Move explosion center near target if there is any
         if (target != null) {
-            float positionDeltaX = target.getTransform().getPositionX() - m_Transform.getPositionX();
-            float positionDeltaY = target.getTransform().getPositionY() - m_Transform.getPositionY();
+            float positionDeltaX = target.getPositionX() - getPositionX();
+            float positionDeltaY = target.getPositionY() - getPositionY();
 
             double distance = Math.sqrt(positionDeltaX * positionDeltaX + positionDeltaY * positionDeltaY);
 
             float targetDirectionX = (float)(positionDeltaX / distance);
             float targetDirectionY = (float)(positionDeltaY / distance);
 
-            explosionSpawnPositionX = m_Transform.getPositionX() + targetDirectionX * m_Transform.getHalfScaleX() / 2f;
-            explosionSpawnPositionY = m_Transform.getPositionY() + targetDirectionY * m_Transform.getHalfScaleY() / 2f;
+            explosionSpawnPositionX = getPositionX() + targetDirectionX * getHalfScaleX() / 2f;
+            explosionSpawnPositionY = getPositionY() + targetDirectionY * getHalfScaleY() / 2f;
         }
         else {
-            explosionSpawnPositionX = m_Transform.getPositionX();
-            explosionSpawnPositionY = m_Transform.getPositionY();
+            explosionSpawnPositionX = getPositionX();
+            explosionSpawnPositionY = getPositionY();
         }
 
         Explosion explosion = new Explosion(getGameView(), explosionSpawnPositionX, explosionSpawnPositionY,
@@ -127,11 +127,11 @@ public class Sprite extends GameObject {
         if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
             Weapon weapon = (Weapon)this;
             explosion.setWeapon(weapon);
-            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getTransform().getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
-            explosion.setScaleFactor((m_Transform.getScaleX() / explosion.getTransform().getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
+            explosion.setScaleFactor((getScaleX() / explosion.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
         }
 
         destroy();
@@ -175,8 +175,8 @@ public class Sprite extends GameObject {
         }
 
         m_CurrAnimationFrame = animationFrame;
-        m_Transform.setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
-        m_Transform.setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
+        setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
+        setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
 
         if (m_CurrAnimationFrame.getTexture() != null) {
             m_SpriteMaterial.setTexture(m_CurrAnimationFrame.getTexture());

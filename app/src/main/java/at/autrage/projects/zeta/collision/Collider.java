@@ -1,23 +1,15 @@
 package at.autrage.projects.zeta.collision;
 
-import java.util.List;
-
-import at.autrage.projects.zeta.event.Event;
-import at.autrage.projects.zeta.exception.ArgumentNullException;
 import at.autrage.projects.zeta.model.Component;
 import at.autrage.projects.zeta.model.GameObject;
-import at.autrage.projects.zeta.model.Transform;
 import at.autrage.projects.zeta.module.Logger;
 
 /**
  * Colliders are simple invisible geometric objects used by game objects for collision detection.
  */
 public abstract class Collider extends Component {
-    protected Transform transform;
-
     public Collider(GameObject gameObject) {
         super(gameObject);
-        transform = gameObject.getTransform();
 
         gameObject.getGameView().ColliderManager.addCollider(this);
     }
@@ -99,15 +91,11 @@ public abstract class Collider extends Component {
         return false;
     }
 
-    public Transform getTransform() {
-        return transform;
-    }
-
     public float getPositionX() {
-        return transform.getPositionX();
+        return gameObject.getPositionX();
     }
 
     public float getPositionY() {
-        return transform.getPositionY();
+        return gameObject.getPositionY();
     }
 }

@@ -8,16 +8,16 @@ import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.view.GameView;
 
 public class HealthBar extends GameObject {
-    private Transform m_OwnerTransform;
+    private GameObject owner;
     private ColorMaterial m_ColorMaterial;
     private float m_FullWidth;
     private float m_FullHeight;
     private float m_HealthPercent;
 
-    public HealthBar(GameView gameView, Transform ownerTransform, float width, float height) {
+    public HealthBar(GameView gameView, GameObject owner, float width, float height) {
         super(gameView, 0f, 0f);
 
-        m_OwnerTransform = ownerTransform;
+        this.owner = owner;
         m_ColorMaterial = new ColorMaterial();
         m_FullWidth = width;
         m_FullHeight = height;
@@ -34,14 +34,14 @@ public class HealthBar extends GameObject {
     }
 
     private void updatePosition() {
-        m_Transform.setPosition(
-                m_OwnerTransform.getPositionX() + Pustafin.EnemyHealthBarOffsetX - (m_FullWidth - m_Transform.getScaleX()) / 2f,
-                m_OwnerTransform.getPositionY() + m_OwnerTransform.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
+        setPosition(
+                owner.getPositionX() + Pustafin.EnemyHealthBarOffsetX - (m_FullWidth - getScaleX()) / 2f,
+                owner.getPositionY() + owner.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
         );
     }
 
     private void updateScale() {
-        m_Transform.setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
+        setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
     }
 
     @Override

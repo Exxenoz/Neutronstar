@@ -2,12 +2,9 @@ package at.autrage.projects.zeta.opengl;
 
 import at.autrage.projects.zeta.model.Component;
 import at.autrage.projects.zeta.model.GameObject;
-import at.autrage.projects.zeta.model.Transform;
 import at.autrage.projects.zeta.module.Logger;
 
 public class MeshRenderer extends Component {
-    /** The transform object used by the mesh renderer. */
-    private Transform m_Transform;
     /** The reference to the {@link Material} that is used. */
     private Material m_Material;
     /** The reference to the {@link Mesh} that is used. */
@@ -19,7 +16,6 @@ public class MeshRenderer extends Component {
     public MeshRenderer(GameObject gameObject) {
         super(gameObject);
 
-        m_Transform = gameObject.getTransform();
         m_Material = null;
         m_Mesh = null;
 
@@ -28,12 +24,12 @@ public class MeshRenderer extends Component {
 
     @Override
     protected void onEnable() {
-        m_Transform.getOwner().getGameView().addMeshRendererToInsertQueue(this);
+        gameObject.getGameView().addMeshRendererToInsertQueue(this);
     }
 
     @Override
     protected void onDisable() {
-        m_Transform.getOwner().getGameView().addMeshRendererToDeleteQueue(this);
+        gameObject.getGameView().addMeshRendererToDeleteQueue(this);
     }
 
     public void shift() {
@@ -49,7 +45,7 @@ public class MeshRenderer extends Component {
             _shaderParams.Mesh.shift(_shaderParams);
         }
 
-        System.arraycopy(m_Transform.getModelMatrix(), 0, _shaderParams.ModelMatrix, 0, 16);
+        System.arraycopy(gameObject.getModelMatrix(), 0, _shaderParams.ModelMatrix, 0, 16);
     }
 
     public void draw(float[] vpMatrix) {
@@ -81,10 +77,6 @@ public class MeshRenderer extends Component {
 
     public void setMesh(Mesh mesh) {
         m_Mesh = mesh;
-    }
-
-    public Transform getTransform() {
-        return m_Transform;
     }
 
     public Material getMaterial() {
