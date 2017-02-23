@@ -51,12 +51,11 @@ public class Sprite extends GameObject {
             playAnimationFromSet(AnimationType.Default);
         }
 
-        setRenderer(new MeshRenderer(m_Transform));
-        if (getRenderer() != null) {
-            getRenderer().setMaterial(m_SpriteMaterial);
-            getRenderer().setMesh(new SpriteMesh());
-            getRenderer().setEnabled(true);
-        }
+        MeshRenderer meshRenderer = new MeshRenderer(this);
+        meshRenderer.setMaterial(m_SpriteMaterial);
+        meshRenderer.setMesh(new SpriteMesh());
+        meshRenderer.setEnabled(true);
+        addComponent(meshRenderer);
     }
 
     @Override

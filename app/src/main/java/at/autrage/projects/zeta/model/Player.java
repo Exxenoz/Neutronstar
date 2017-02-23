@@ -53,12 +53,11 @@ public class Player extends GameObject {
         m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
         m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
 
-        setRenderer(new MeshRenderer(m_Transform));
-        if (getRenderer() != null) {
-            getRenderer().setMaterial(m_Material);
-            getRenderer().setMesh(m_SphereMesh);
-            getRenderer().setEnabled(true);
-        }
+        MeshRenderer meshRenderer = new MeshRenderer(this);
+        meshRenderer.setMaterial(m_Material);
+        meshRenderer.setMesh(m_SphereMesh);
+        meshRenderer.setEnabled(true);
+        addComponent(meshRenderer);
 
         m_AlarmArea = new AlarmArea(gameView, positionX, positionY);
         m_AlarmArea.addComponent(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));

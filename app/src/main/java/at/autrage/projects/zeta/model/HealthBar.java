@@ -26,12 +26,11 @@ public class HealthBar extends GameObject {
         updateScale();
         updatePosition();
 
-        setRenderer(new MeshRenderer(m_Transform));
-        if (getRenderer() != null) {
-            getRenderer().setMaterial(m_ColorMaterial);
-            getRenderer().setMesh(new SpriteMesh());
-            getRenderer().setEnabled(true);
-        }
+        MeshRenderer meshRenderer = new MeshRenderer(this);
+        meshRenderer.setMaterial(m_ColorMaterial);
+        meshRenderer.setMesh(new SpriteMesh());
+        meshRenderer.setEnabled(true);
+        addComponent(meshRenderer);
     }
 
     private void updatePosition() {

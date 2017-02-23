@@ -25,8 +25,6 @@ public abstract class GameObject {
     private float m_SpeedY;
     private float m_Speed;
 
-    private MeshRenderer m_Renderer;
-
     private boolean m_Visible;
 
     private List<Component> components;
@@ -40,8 +38,6 @@ public abstract class GameObject {
         m_DirectionX = 0f;
         m_DirectionY = 0f;
         setSpeed(0f);
-
-        m_Renderer = null;
 
         m_Visible = true;
 
@@ -160,18 +156,6 @@ public abstract class GameObject {
         m_SpeedY = m_DirectionY * speed;
     }
 
-    public MeshRenderer getRenderer() {
-        return m_Renderer;
-    }
-
-    public void setRenderer(MeshRenderer renderer) {
-        if (m_Renderer != null && m_Renderer != renderer) {
-            m_Renderer.setEnabled(false);
-        }
-
-        m_Renderer = renderer;
-    }
-
     public boolean isVisible() {
         return m_Visible;
     }
@@ -194,7 +178,5 @@ public abstract class GameObject {
         if (m_GameView != null) {
             m_GameView.addGameObjectToDeleteQueue(this);
         }
-
-        setRenderer(null);
     }
 }

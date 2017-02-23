@@ -1,13 +1,13 @@
 package at.autrage.projects.zeta.opengl;
 
+import at.autrage.projects.zeta.model.Component;
+import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Transform;
 import at.autrage.projects.zeta.module.Logger;
 
-public class MeshRenderer {
+public class MeshRenderer extends Component {
     /** The transform object used by the mesh renderer. */
     private Transform m_Transform;
-    /** Determines whether the mesh is drawn or not. */
-    private boolean m_Enabled;
     /** The reference to the {@link Material} that is used. */
     private Material m_Material;
     /** The reference to the {@link Mesh} that is used. */
@@ -16,17 +16,28 @@ public class MeshRenderer {
     /** The reference to the {@link ShaderParams} object. */
     private ShaderParams _shaderParams;
 
-    public MeshRenderer(Transform transform) {
-        m_Transform = transform;
-        m_Enabled = false;
+    public MeshRenderer(GameObject gameObject) {
+        super(gameObject);
+
+        m_Transform = gameObject.getTransform();
         m_Material = null;
         m_Mesh = null;
 
         _shaderParams = new ShaderParams();
     }
 
+    @Override
+    protected void onEnable() {
+        m_Transform.getOwner().getGameView().addMeshRendererToInsertQueue(this);
+    }
+
+    @Override
+    protected void onDisable() {
+        m_Transform.getOwner().getGameView().addMeshRendererToDeleteQueue(this);
+    }
+
     public void shift() {
-        _shaderParams.Enabled = m_Enabled;
+        _shaderParams.Enabled = isEnabled();
 
         _shaderParams.Material = m_Material;
         if (_shaderParams.Material != null) {
@@ -64,19 +75,6 @@ public class MeshRenderer {
         _shaderParams.Material._shader.draw(_shaderParams);
     }
 
-    public void setEnabled(boolean enabled) {
-        if (m_Enabled && !enabled)
-        {
-            m_Transform.getOwner().getGameView().addMeshRendererToDeleteQueue(this);
-        }
-        else if (!m_Enabled && enabled)
-        {
-            m_Transform.getOwner().getGameView().addMeshRendererToInsertQueue(this);
-        }
-
-        m_Enabled = enabled;
-    }
-
     public void setMaterial(Material material) {
         m_Material = material;
     }
@@ -87,10 +85,6 @@ public class MeshRenderer {
 
     public Transform getTransform() {
         return m_Transform;
-    }
-
-    public boolean isEnabled() {
-        return m_Enabled;
     }
 
     public Material getMaterial() {
