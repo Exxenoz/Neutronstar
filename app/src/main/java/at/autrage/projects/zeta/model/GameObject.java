@@ -81,6 +81,8 @@ public abstract class GameObject {
         parent = null;
         children = new ArrayList<>();
 
+        setPosition(positionX, positionY);
+
         m_DirectionX = 0f;
         m_DirectionY = 0f;
         setSpeed(0f);
