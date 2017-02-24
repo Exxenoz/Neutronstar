@@ -17,7 +17,15 @@ public class ColorShader extends Shader {
     }
 
     @Override
-    public void init() {
+    public void bindAttribLocations() {
+        GLES20.glBindAttribLocation(m_Program, 0, "a_Position");
+        GLES20.glBindAttribLocation(m_Program, 1, "a_Color");
+        GLES20.glBindAttribLocation(m_Program, 2, "u_ModelMatrix");
+        GLES20.glBindAttribLocation(m_Program, 3, "u_VPMatrix");
+    }
+
+    @Override
+    public void getAttribLocations() {
         // Get handle to vertex shader's a_Position member
         _positionHandle = GLES20.glGetAttribLocation(m_Program, "a_Position");
         // Get handle to fragment shader's v_Color member
@@ -30,6 +38,10 @@ public class ColorShader extends Shader {
 
     @Override
     public void draw(ShaderParams shaderParams) {
+        if (m_Program == 0){
+            return;
+        }
+
         if (m_Program != _currProgram) {
             // Add program to OpenGL ES environment
             GLES20.glUseProgram(m_Program);

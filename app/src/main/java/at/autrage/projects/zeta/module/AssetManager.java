@@ -182,8 +182,6 @@ public class AssetManager {
             m_ColorShader.createVertexShader("color_vertex_shader.glsl", context);
             m_ColorShader.createFragmentShader("color_fragment_shader.glsl", context);
             m_ColorShader.createProgram();
-
-            m_ColorShader.init();
         }
 
         if (m_SpriteShader != null) {
@@ -194,8 +192,6 @@ public class AssetManager {
             m_SpriteShader.createVertexShader("sprite_vertex_shader.glsl", context);
             m_SpriteShader.createFragmentShader("sprite_fragment_shader.glsl", context);
             m_SpriteShader.createProgram();
-
-            m_SpriteShader.init();
         }
 
         final int[] textureHandles = new int[m_Textures.size()];

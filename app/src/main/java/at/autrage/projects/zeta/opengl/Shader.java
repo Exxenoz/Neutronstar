@@ -20,7 +20,9 @@ public abstract class Shader {
     public Shader() {
     }
 
-    public abstract void init();
+    public abstract void bindAttribLocations();
+
+    public abstract void getAttribLocations();
 
     private String readShaderFileContent(String shaderFile, Context context) {
         if (context == null) {
@@ -66,6 +68,15 @@ public abstract class Shader {
         int shader = GLES20.glCreateShader(type);
         GLES20.glShaderSource(shader, shaderCode);
         GLES20.glCompileShader(shader);
+
+        // Now see if the compilation worked.
+        int[] compiled = new int[1];
+        GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
+        if (compiled[0] == 0) {
+            Logger.E("Load Shader Failed, Compilation\n" + GLES20.glGetShaderInfoLog(shader));
+            return 0;
+        }
+
         return shader;
     }
 
@@ -121,7 +132,25 @@ public abstract class Shader {
         m_Program = GLES20.glCreateProgram();               // Create empty OpenGL ES program
         GLES20.glAttachShader(m_Program, m_VertexShader);   // Add the vertex shader to program
         GLES20.glAttachShader(m_Program, m_FragmentShader); // Add the fragment shader to program
+
+        bindAttribLocations();
+
         GLES20.glLinkProgram(m_Program);                    // Creates OpenGL ES program executables
+
+        // Get the link status.
+        final int[] linkStatus = new int[1];
+        GLES20.glGetProgramiv(m_Program, GLES20.GL_LINK_STATUS, linkStatus, 0);
+
+        // If the link failed, delete the program.
+        if (linkStatus[0] == 0) {
+            Logger.E("Could not link shader program!");
+            GLES20.glDeleteProgram(m_Program);
+            m_Program = 0;
+
+            return false;
+        }
+
+        getAttribLocations();
 
         return true;
     }

@@ -3,17 +3,29 @@ package at.autrage.projects.zeta.opengl;
 import android.opengl.GLES20;
 
 public class SpriteShader extends Shader {
-    /** This will be used to pass in the vertices. */
+    /**
+     * This will be used to pass in the vertices.
+     */
     private int _positionHandle;
-    /** This will be used to pass in the color. */
+    /**
+     * This will be used to pass in the color.
+     */
     private int _colorHandle;
-    /** This will be used to pass in the texture. */
+    /**
+     * This will be used to pass in the texture.
+     */
     private int _textureHandle;
-    /** This will be used to pass in model texture coordinate information. */
+    /**
+     * This will be used to pass in model texture coordinate information.
+     */
     private int _textureCoordinateHandle;
-    /** This will be used to pass in the model matrix. */
+    /**
+     * This will be used to pass in the model matrix.
+     */
     private int _modelMatrixHandle;
-    /** This will be used to pass in the view/projection matrix. */
+    /**
+     * This will be used to pass in the view/projection matrix.
+     */
     private int _vpMatrixHandle;
 
     public SpriteShader() {
@@ -21,7 +33,17 @@ public class SpriteShader extends Shader {
     }
 
     @Override
-    public void init() {
+    public void bindAttribLocations() {
+        GLES20.glBindAttribLocation(m_Program, 0, "a_Position");
+        GLES20.glBindAttribLocation(m_Program, 1, "a_Color");
+        GLES20.glBindAttribLocation(m_Program, 2, "u_Texture");
+        GLES20.glBindAttribLocation(m_Program, 3, "a_TexCoordinate");
+        GLES20.glBindAttribLocation(m_Program, 4, "u_ModelMatrix");
+        GLES20.glBindAttribLocation(m_Program, 5, "u_VPMatrix");
+    }
+
+    @Override
+    public void getAttribLocations() {
         // Get handle to vertex shader's a_Position member
         _positionHandle = GLES20.glGetAttribLocation(m_Program, "a_Position");
         // Get handle to fragment shader's v_Color member
@@ -38,6 +60,10 @@ public class SpriteShader extends Shader {
 
     @Override
     public void draw(ShaderParams shaderParams) {
+        if (m_Program == 0) {
+            return;
+        }
+
         // Do not draw elements with invalid texture data handle
         if (shaderParams.TextureDataHandle <= 0) {
             return;
