@@ -32,6 +32,11 @@ public class MeshRenderer extends Component {
         gameObject.getGameView().addMeshRendererToDeleteQueue(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        gameObject.getGameView().addMeshRendererToDeleteQueue(this);
+    }
+
     public void shift() {
         _shaderParams.Enabled = isEnabled();
 
