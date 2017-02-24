@@ -38,7 +38,7 @@ public class Asteroid extends Enemy {
         asteroid.setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
         asteroid.setBounty((int)(scale * Pustafin.AsteroidMoneyPerScaleFactor));
         asteroid.setPoints((int)(health * Pustafin.AsteroidPointsPerHealthFactor));
-        asteroid.addComponent(new CircleCollider(asteroid, asteroid.getTransform().getHalfScaleX()));
+        asteroid.addComponent(new CircleCollider(asteroid, asteroid.getHalfScaleX()));
         asteroid.setOwner(owner);
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
@@ -52,7 +52,7 @@ public class Asteroid extends Enemy {
         super.onUpdate();
 
         if (m_RotationSpeed != 0f) {
-            m_Transform.setRotationZ(m_Transform.getRotationZ() + m_RotationSpeed * Time.getScaledDeltaTime());
+            setRotationZ(getRotationZ() + m_RotationSpeed * Time.getScaledDeltaTime());
         }
     }
 

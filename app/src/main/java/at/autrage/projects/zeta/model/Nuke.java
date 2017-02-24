@@ -24,7 +24,7 @@ public class Nuke extends Weapon {
         super(gameView, positionX, positionY, animationSet);
 
         m_EngineFire = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
-        m_EngineFire.setScaleFactor(m_Transform.getScaleX() / m_EngineFire.getTransform().getScaleX());
+        m_EngineFire.setScaleFactor(getScaleX() / m_EngineFire.getScaleX());
         m_EngineFire.setAnimationRepeatable(true);
 
         m_ExplosionAnimationSet = AnimationSets.Explosion1;
@@ -35,10 +35,9 @@ public class Nuke extends Weapon {
         super.onUpdate();
 
         if (m_EngineFire != null) {
-            Transform engineFireTransform = m_EngineFire.getTransform();
-            engineFireTransform.setPositionX(m_Transform.getPositionX() - (this.getDirectionX() * (m_Transform.getScaleX() + m_EngineFireLengthOffset)));
-            engineFireTransform.setPositionY(m_Transform.getPositionY() - (this.getDirectionY() * (m_Transform.getScaleY() + m_EngineFireLengthOffset)));
-            engineFireTransform.setRotationZ(180f + m_Transform.getRotationZ());
+            m_EngineFire.setPositionX(getPositionX() - (this.getDirectionX() * (getScaleX() + m_EngineFireLengthOffset)));
+            m_EngineFire.setPositionY(getPositionY() - (this.getDirectionY() * (getScaleY() + m_EngineFireLengthOffset)));
+            m_EngineFire.setRotationZ(180f + getRotationZ());
         }
     }
 
@@ -82,14 +81,14 @@ public class Nuke extends Weapon {
     public static Nuke createSmallNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
         Nuke nuke = new Nuke(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallNuke));
-        nuke.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        nuke.setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         nuke.setDirection(directionX, directionY);
         nuke.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallNuke));
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallNuke));
         nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.SmallNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion2);
-        nuke.addComponent(new CircleCollider(nuke, nuke.getTransform().getHalfScaleX()));
+        nuke.addComponent(new CircleCollider(nuke, nuke.getHalfScaleX()));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return nuke;
     }
@@ -97,14 +96,14 @@ public class Nuke extends Weapon {
     public static Nuke createBigNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
         Nuke nuke = new Nuke(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigNuke));
-        nuke.getTransform().setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        nuke.setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         nuke.setDirection(directionX, directionY);
         nuke.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigNuke));
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigNuke));
         nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.BigNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion3);
-        nuke.addComponent(new CircleCollider(nuke, nuke.getTransform().getHalfScaleX()));
+        nuke.addComponent(new CircleCollider(nuke, nuke.getHalfScaleX()));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
         return nuke;
     }

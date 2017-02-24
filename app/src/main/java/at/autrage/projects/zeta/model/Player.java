@@ -41,7 +41,7 @@ public class Player extends GameObject {
     public Player(GameView gameView, float positionX, float positionY) {
         super(gameView, positionX, positionY);
 
-        m_Transform.setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
+        setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
 
         m_RemainingTime = Pustafin.LevelDuration;
         m_OnUpdateEverySecondTimer = 1f;
@@ -65,14 +65,14 @@ public class Player extends GameObject {
 
         if (Pustafin.DebugMode) {
             m_TouchRadiusDebugCircle = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
-            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / m_TouchRadiusDebugCircle.getTransform().getScaleX());
+            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / m_TouchRadiusDebugCircle.getScaleX());
             m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
-            m_TouchRadiusDebugCircle.getTransform().setParent(m_Transform);
+            m_TouchRadiusDebugCircle.setParent(this);
         }
     }
 
     public void onUpdate() {
-        m_Transform.setRotationY(m_Transform.getRotationY() + Pustafin.PlanetTurnSpeed * Time.getDeltaTime());
+        setRotationY(getRotationY() + Pustafin.PlanetTurnSpeed * Time.getDeltaTime());
 
         super.onUpdate();
 
@@ -174,7 +174,7 @@ public class Player extends GameObject {
         float directionX = (float)(deltaPositionX / distance);
         float directionY = (float)(deltaPositionY / distance) * (-1); // Flip y direction
 
-        float radius = m_Transform.getHalfScaleX();
+        float radius = getHalfScaleX();
 
         float spawnPositionX = directionX * radius;
         float spawnPositionY = directionY * radius;
