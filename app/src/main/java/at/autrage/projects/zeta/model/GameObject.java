@@ -17,12 +17,6 @@ import at.autrage.projects.zeta.view.GameView;
 public abstract class GameObject {
     private GameView m_GameView;
 
-    private float m_DirectionX;
-    private float m_DirectionY;
-    private float m_SpeedX;
-    private float m_SpeedY;
-    private float m_Speed;
-
     /**
      * The model matrix transforms a position in a model to the position in the world.
      */
@@ -83,10 +77,6 @@ public abstract class GameObject {
 
         setPosition(positionX, positionY);
 
-        m_DirectionX = 0f;
-        m_DirectionY = 0f;
-        setSpeed(0f);
-
         components = new ArrayList<>();
 
         if (m_GameView != null) {
@@ -95,11 +85,19 @@ public abstract class GameObject {
     }
 
     public boolean addComponent(Component component) {
+        return addComponent(component, true);
+    }
+
+    public boolean addComponent(Component component, boolean enable) {
         if (component == null) {
             return false;
         }
 
         components.add(component);
+
+        if (enable) {
+            component.enable();
+        }
 
         return true;
     }
@@ -136,13 +134,6 @@ public abstract class GameObject {
     }
 
     public void onUpdate() {
-        if (m_Speed != 0f) {
-            setPosition(
-                    getPositionX() + m_SpeedX * Time.getScaledDeltaTime(),
-                    getPositionY() + m_SpeedY * Time.getScaledDeltaTime()
-            );
-        }
-
         for (int i = 0; i < components.size(); i++) {
             components.get(i).update();
         }
@@ -496,40 +487,6 @@ public abstract class GameObject {
 
     public int getChildCount() {
         return children.size();
-    }
-
-    public float getDirectionX() {
-        return m_DirectionX;
-    }
-
-    public float getDirectionY() {
-        return m_DirectionY;
-    }
-
-    public void setDirectionX(float directionX) {
-        this.m_DirectionX = directionX;
-        setSpeed(m_Speed);
-    }
-
-    public void setDirectionY(float directionY) {
-        this.m_DirectionY = directionY;
-        setSpeed(m_Speed);
-    }
-
-    public void setDirection(float directionX, float directionY) {
-        this.m_DirectionX = directionX;
-        this.m_DirectionY = directionY;
-        setSpeed(m_Speed);
-    }
-
-    public float getSpeed() {
-        return m_Speed;
-    }
-
-    public void setSpeed(float speed) {
-        m_Speed = speed;
-        m_SpeedX = m_DirectionX * speed;
-        m_SpeedY = m_DirectionY * speed;
     }
 
     public void destroy() {

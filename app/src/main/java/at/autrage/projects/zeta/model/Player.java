@@ -201,7 +201,7 @@ public class Player extends GameObject {
 
         if (weapon != null) {
             Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f), hit damage %f and speed %f",
-                    m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage(), weapon.getSpeed());
+                    m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage(), weapon.getComponent(LinearMovement.class).getSpeed());
         }
 
         if (weaponCount > 0) {

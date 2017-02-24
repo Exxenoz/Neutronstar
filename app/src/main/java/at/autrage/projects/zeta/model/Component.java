@@ -1,5 +1,7 @@
 package at.autrage.projects.zeta.model;
 
+import at.autrage.projects.zeta.module.Logger;
+
 public abstract class Component {
     protected GameObject gameObject;
 
@@ -12,6 +14,8 @@ public abstract class Component {
         }
 
         this.gameObject = gameObject;
+        this.started = false;
+        this.enabled = false;
     }
 
     public GameObject getGameObject() {
@@ -33,6 +37,7 @@ public abstract class Component {
     private void start() {
         if (!started) {
             onStart();
+            started = true;
         }
     }
 
@@ -43,7 +48,11 @@ public abstract class Component {
     public final void enable() {
         if (!enabled) {
             enabled = true;
-            start();
+
+            if (!started) {
+                start();
+            }
+
             onEnable();
         }
     }

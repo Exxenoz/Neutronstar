@@ -27,12 +27,10 @@ public class Asteroid extends Enemy {
         m_RotationSpeed = 0f;
     }
 
-    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float moveSpeed,
+    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float speed,
                                           float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner owner) {
         Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
         asteroid.setScaleFactor(scale);
-        asteroid.setDirection(directionX, directionY);
-        asteroid.setSpeed(moveSpeed);
         asteroid.setRandomRotationSpeed();
         asteroid.setHealth(health);
         asteroid.setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
@@ -41,8 +39,10 @@ public class Asteroid extends Enemy {
         asteroid.addComponent(new CircleCollider(asteroid, asteroid.getHalfScaleX()));
         asteroid.setOwner(owner);
 
+        asteroid.addComponent(new LinearMovement(asteroid, directionX, directionY,  speed));
+
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
-                positionX, positionY, directionX, directionY, scale, moveSpeed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());
+                positionX, positionY, directionX, directionY, scale, speed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());
 
         return asteroid;
     }

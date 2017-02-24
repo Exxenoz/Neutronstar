@@ -8,6 +8,7 @@ import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
+import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.view.GameView;
 
@@ -27,9 +28,10 @@ public class Rocket extends Weapon {
     public void onUpdate() {
         super.onUpdate();
 
-        if (m_EngineFire != null) {
-            m_EngineFire.setPositionX(getPositionX() - (this.getDirectionX() * (getScaleX() + m_EngineFireLengthOffset)));
-            m_EngineFire.setPositionY(getPositionY() - (this.getDirectionY() * (getScaleY() + m_EngineFireLengthOffset)));
+        LinearMovement movement = getComponent(LinearMovement.class);
+        if (m_EngineFire != null && movement != null) {
+            m_EngineFire.setPositionX(getPositionX() - (movement.getDirectionX() * (getScaleX() + m_EngineFireLengthOffset)));
+            m_EngineFire.setPositionY(getPositionY() - (movement.getDirectionY() * (getScaleY() + m_EngineFireLengthOffset)));
             m_EngineFire.setRotationZ(180f + getRotationZ());
         }
     }
@@ -39,7 +41,7 @@ public class Rocket extends Weapon {
         super.onCollide(other);
 
         if (other.getGameObject() instanceof Enemy) {
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float)Math.random());
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float) Math.random());
             explode(other.getGameObject(), AnimationSets.Explosion1);
         }
     }
@@ -65,25 +67,27 @@ public class Rocket extends Weapon {
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
         Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket));
-        rocket.setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
-        rocket.setDirection(directionX, directionY);
-        rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
+        rocket.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
         rocket.addComponent(new CircleCollider(rocket, rocket.getHalfScaleX()));
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
+
+        rocket.addComponent(new LinearMovement(rocket, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket)));
+
         return rocket;
     }
 
     public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
         Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
                 AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket));
-        rocket.setRotationZ((float)(Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
-        rocket.setDirection(directionX, directionY);
-        rocket.setSpeed(GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket));
+        rocket.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));
         rocket.addComponent(new CircleCollider(rocket, rocket.getHalfScaleX()));
         rocket.setEngineFireLengthOffset(-10f);
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
+
+        rocket.addComponent(new LinearMovement(rocket, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket)));
+
         return rocket;
     }
 }
