@@ -22,6 +22,10 @@ public abstract class GameObject {
      */
     private float[] modelMatrix;
     /**
+     * The rotation/translation matrix cache.
+     */
+    private float[] RTMatrix;
+    /**
      * The translation/rotation matrix cache.
      */
     private float[] TRMatrix;
@@ -50,6 +54,10 @@ public abstract class GameObject {
     private float rotationY;
     private float rotationZ;
 
+    private float localRotationX;
+    private float localRotationY;
+    private float localRotationZ;
+
     private float scaleX;
     private float scaleY;
     private float scaleZ;
@@ -67,6 +75,7 @@ public abstract class GameObject {
         m_GameView = gameView;
 
         modelMatrix = new float[16];
+        RTMatrix = new float[16];
         TRMatrix = new float[16];
         translationMatrix = new float[16];
         rotationMatrix = new float[16];
@@ -140,26 +149,32 @@ public abstract class GameObject {
 
         // Update translation matrix
         Matrix.setIdentityM(translationMatrix, 0);
-        Matrix.translateM(translationMatrix, 0, positionX, positionY, positionZ);
-        // Update rotation matrix
         Matrix.setIdentityM(rotationMatrix, 0);
+        Matrix.setIdentityM(scaleMatrix, 0);
 
         if (rotationX != 0f) {
             Matrix.rotateM(rotationMatrix, 0, rotationX, 1f, 0f, 0f);
         }
-
         if (rotationY != 0f) {
             Matrix.rotateM(rotationMatrix, 0, rotationY, 0f, 1f, 0f);
         }
-
         if (rotationZ != 0f) {
             Matrix.rotateM(rotationMatrix, 0, rotationZ, 0f, 0f, 1f);
         }
-        // Update scale matrix
-        Matrix.setIdentityM(scaleMatrix, 0);
+
+        if (parent != null) {
+            Matrix.translateM(translationMatrix, 0, localPositionX, localPositionY, localPositionZ);
+            Matrix.multiplyMM(RTMatrix, 0, rotationMatrix, 0, translationMatrix, 0);
+            Matrix.setIdentityM(translationMatrix, 0);
+            Matrix.translateM(translationMatrix, 0, parent.getPositionX(), parent.getPositionY(), parent.getPositionZ());
+            Matrix.multiplyMM(TRMatrix, 0, translationMatrix, 0, RTMatrix, 0);
+
+        } else {
+            Matrix.translateM(translationMatrix, 0, positionX, positionY, positionZ);
+            Matrix.multiplyMM(TRMatrix, 0, translationMatrix, 0, rotationMatrix, 0);
+        }
+
         Matrix.scaleM(scaleMatrix, 0, scaleX, scaleY, scaleZ);
-        // Update model matrix
-        Matrix.multiplyMM(TRMatrix, 0, translationMatrix, 0, rotationMatrix, 0);
         Matrix.multiplyMM(modelMatrix, 0, TRMatrix, 0, scaleMatrix, 0);
 
         // Check for lost objects and destroy them
@@ -349,25 +364,122 @@ public abstract class GameObject {
 
     public void setRotationX(float rotationX) {
         this.rotationX = rotationX;
+
+        if (parent != null) {
+            localRotationX = this.rotationX - parent.getRotationX();
+        } else {
+            localRotationX = this.rotationX;
+        }
+
+        GameObject child = null;
+        for (int i = 0, size = children.size(); i < size; i++) {
+            child = children.get(i);
+            child.setLocalRotationX(child.getLocalRotationX());
+        }
     }
 
     public void setRotationY(float rotationY) {
         this.rotationY = rotationY;
+
+        if (parent != null) {
+            localRotationY = this.rotationY - parent.getRotationY();
+        } else {
+            localRotationY = this.rotationY;
+        }
+
+        GameObject child = null;
+        for (int i = 0, size = children.size(); i < size; i++) {
+            child = children.get(i);
+            child.setLocalRotationY(child.getLocalRotationY());
+        }
     }
 
     public void setRotationZ(float rotationZ) {
         this.rotationZ = rotationZ;
-    }
 
-    public void setRotation(float rotationX, float rotationY) {
-        this.rotationX = rotationX;
-        this.rotationY = rotationY;
+        if (parent != null) {
+            localRotationZ = this.rotationZ - parent.getRotationZ();
+        } else {
+            localRotationZ = this.rotationZ;
+        }
+
+        GameObject child = null;
+        for (int i = 0, size = children.size(); i < size; i++) {
+            child = children.get(i);
+            child.setLocalRotationZ(child.getLocalRotationZ());
+        }
     }
 
     public void setRotation(float rotationX, float rotationY, float rotationZ) {
-        this.rotationX = rotationX;
-        this.rotationY = rotationY;
-        this.rotationZ = rotationZ;
+        setRotationX(rotationX);
+        setRotationY(rotationY);
+        setRotationZ(rotationZ);
+    }
+
+    public float getLocalRotationX() {
+        return localRotationX;
+    }
+
+    public float getLocalRotationY() {
+        return localRotationY;
+    }
+
+    public float getLocalRotationZ() {
+        return localRotationZ;
+    }
+
+    public void setLocalRotationX(float localRotationX) {
+        this.localRotationX = localRotationX;
+
+        if (parent != null) {
+            rotationX = parent.getRotationX() + this.localRotationX;
+        } else {
+            rotationX = this.localRotationX;
+        }
+
+        GameObject child = null;
+        for (int i = 0, size = children.size(); i < size; i++) {
+            child = children.get(i);
+            child.setLocalRotationX(child.getLocalRotationX());
+        }
+    }
+
+    public void setLocalRotationY(float localRotationY) {
+        this.localRotationY = localRotationY;
+
+        if (parent != null) {
+            rotationY = parent.getRotationY() + this.localRotationY;
+        } else {
+            rotationY = this.localRotationY;
+        }
+
+        GameObject child = null;
+        for (int i = 0, size = children.size(); i < size; i++) {
+            child = children.get(i);
+            child.setLocalRotationY(child.getLocalRotationY());
+        }
+    }
+
+    public void setLocalRotationZ(float localRotationZ) {
+        this.localRotationZ = localRotationZ;
+
+        if (parent != null) {
+            rotationZ = parent.getRotationZ() + this.localRotationZ;
+        } else {
+            rotationZ = this.localRotationZ;
+        }
+
+        GameObject child = null;
+        for (int i = 0, size = children.size(); i < size; i++) {
+            child = children.get(i);
+            child.setLocalRotationZ(child.getLocalRotationZ());
+        }
+    }
+
+    public void setLocalRotation(float localRotationX, float localRotationY, float localRotationZ) {
+        setLocalRotationX(localRotationX);
+        setLocalRotationY(localRotationY);
+        setLocalRotationZ(localRotationZ);
     }
 
     public float getScaleX() {
@@ -468,6 +580,13 @@ public abstract class GameObject {
                 positionY - gameObject.getPositionY(),
                 positionZ - gameObject.getPositionZ()
         );
+
+        // Update local rotation
+        gameObject.setLocalRotation(
+                rotationX - gameObject.getRotationX(),
+                rotationY - gameObject.getRotationY(),
+                rotationZ - gameObject.getRotationZ()
+        );
     }
 
     public void removeChild(GameObject gameObject) {
@@ -479,6 +598,9 @@ public abstract class GameObject {
 
         // Update position
         gameObject.setPosition(gameObject.getPositionX(), gameObject.getPositionY(), gameObject.getPositionZ());
+
+        // Update rotation
+        gameObject.setRotation(gameObject.getPositionX(), gameObject.getRotationY(), gameObject.getRotationZ());
     }
 
     public GameObject getChild(int index) {
