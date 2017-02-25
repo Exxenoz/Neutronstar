@@ -197,14 +197,8 @@ public class Player extends GameObject {
                 break;
         }
 
-        LinearMovement movement = weapon.getComponent(LinearMovement.class);
-        if (weapon != null && movement != null) {
-            Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f), hit damage %f and speed %f",
-                    m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage(), movement.getSpeed());
-        } else if (weapon != null && movement == null) {
-            Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f), hit damage %f and unknown speed.",
-                    m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage());
-        }
+        Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f), hit damage %f.",
+                m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage());
 
         if (weaponCount > 0) {
             weaponStockpile.setCount(--weaponCount);
