@@ -6,15 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.autrage.projects.zeta.collision.Collider;
+import at.autrage.projects.zeta.event.Action;
+import at.autrage.projects.zeta.exception.ArgumentNullException;
+import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
-import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class represents an object in the game.
  */
 public abstract class GameObject {
+    private class WaitingComponent {
+        public boolean enable;
+        public Component component;
+
+        public WaitingComponent(boolean enable, Component component) {
+            this.enable = enable;
+            this.component = component;
+        }
+    }
+
     private GameView m_GameView;
 
     /**
@@ -69,7 +81,7 @@ public abstract class GameObject {
     private GameObject parent;
     private List<GameObject> children;
 
-    private List<Component> components;
+    private Synchronitron<Component> components;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
         m_GameView = gameView;
@@ -86,38 +98,29 @@ public abstract class GameObject {
 
         setPosition(positionX, positionY);
 
-        components = new ArrayList<>();
+        components = new Synchronitron<Component>(Component.class);
+        components.elementAdded.add(new Action<Component>() {
+            @Override
+            public void invoke(Component arg) {
+                arg.enable();
+            }
+        });
 
         if (m_GameView != null) {
-            m_GameView.addGameObjectToInsertQueue(this);
+            m_GameView.addGameObject(this);
         }
     }
 
     public boolean addComponent(Component component) {
-        return addComponent(component, true);
-    }
-
-    public boolean addComponent(Component component, boolean enable) {
         if (component == null) {
-            return false;
+            throw new ArgumentNullException();
         }
 
-        components.add(component);
-
-        if (enable) {
-            component.enable();
-        }
-
-        return true;
+        return components.add(component);
     }
 
     public boolean removeComponent(Component component) {
-        if (components.remove(component)) {
-            component.destroy();
-            return true;
-        }
-
-        return false;
+        return components.remove(component);
     }
 
     public <T> T getComponent(Class<T> componentClass) {
@@ -143,8 +146,10 @@ public abstract class GameObject {
     }
 
     public void onUpdate() {
-        for (int i = 0; i < components.size(); i++) {
-            components.get(i).update();
+        components.synchronize();
+
+        for (Component component : components) {
+            component.update();
         }
 
         // Update translation matrix
@@ -623,7 +628,7 @@ public abstract class GameObject {
         }
 
         if (m_GameView != null) {
-            m_GameView.addGameObjectToDeleteQueue(this);
+            m_GameView.removeGameObject(this);
         }
     }
 }

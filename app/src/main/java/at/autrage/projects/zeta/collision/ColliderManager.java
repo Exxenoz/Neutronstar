@@ -1,43 +1,26 @@
 package at.autrage.projects.zeta.collision;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 import at.autrage.projects.zeta.exception.ArgumentNullException;
-import at.autrage.projects.zeta.module.Pustafin;
+import at.autrage.projects.zeta.framework.Synchronitron;
 
 public class ColliderManager {
     /**
      * Contains all active colliders
      */
-    private List<Collider> colliderList;
-
-    private Queue<Collider> collidersToAdd;
-    private Queue<Collider> collidersToRemove;
+    private Synchronitron<Collider> colliders;
 
     public ColliderManager() {
-        colliderList = new ArrayList<>(256);
-
-        collidersToAdd = new LinkedList<>();
-        collidersToRemove = new LinkedList<>();
+        colliders = new Synchronitron<Collider>(Collider.class, 256);
     }
 
     public void update() {
-        while (collidersToAdd.size() > 0) {
-            colliderList.add(collidersToAdd.poll());
-        }
+        colliders.synchronize();
 
-        while (collidersToRemove.size() > 0) {
-            colliderList.remove(collidersToRemove.poll());
-        }
-
-        for (int i = 0, size = colliderList.size(); i < size; i++) {
-            Collider colliderI = colliderList.get(i);
+        for (int i = 0, size = colliders.size(); i < size; i++) {
+            Collider colliderI = colliders.get(i);
 
             for (int j = 0; j < i; j++) {
-                Collider colliderJ = colliderList.get(j);
+                Collider colliderJ = colliders.get(j);
 
                 if (colliderI.intersects(colliderJ)) {
                     colliderI.getGameObject().onCollide(colliderJ);
@@ -52,11 +35,7 @@ public class ColliderManager {
             throw new ArgumentNullException();
         }
 
-        if (colliderList.contains(collider)) {
-            throw new IllegalArgumentException();
-        }
-
-        collidersToAdd.add(collider);
+        colliders.add(collider);
     }
 
     public void removeCollider(Collider collider) {
@@ -64,6 +43,6 @@ public class ColliderManager {
             throw new ArgumentNullException();
         }
 
-        collidersToRemove.add(collider);
+        colliders.remove(collider);
     }
 }
