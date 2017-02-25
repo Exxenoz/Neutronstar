@@ -17,16 +17,6 @@ import at.autrage.projects.zeta.view.GameView;
  * This class represents an object in the game.
  */
 public abstract class GameObject {
-    private class WaitingComponent {
-        public boolean enable;
-        public Component component;
-
-        public WaitingComponent(boolean enable, Component component) {
-            this.enable = enable;
-            this.component = component;
-        }
-    }
-
     private GameView m_GameView;
 
     /**
@@ -623,8 +613,8 @@ public abstract class GameObject {
             child.destroy();
         }
 
-        while (components.size() > 0) {
-            components.get(0).destroy();
+        for (int i = 0; i < components.size(); i++) {
+            components.get(i).destroy();
         }
 
         if (m_GameView != null) {
