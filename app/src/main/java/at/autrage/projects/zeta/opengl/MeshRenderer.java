@@ -24,17 +24,17 @@ public class MeshRenderer extends Component {
 
     @Override
     protected void onEnable() {
-        gameObject.getGameView().addMeshRendererToInsertQueue(this);
+        gameObject.getGameView().addMeshRenderer(this);
     }
 
     @Override
     protected void onDisable() {
-        gameObject.getGameView().addMeshRendererToDeleteQueue(this);
+        gameObject.getGameView().removeMeshRenderer(this);
     }
 
     @Override
     protected void onDestroy() {
-        gameObject.getGameView().addMeshRendererToDeleteQueue(this);
+        gameObject.getGameView().removeMeshRenderer(this);
     }
 
     public void shift() {

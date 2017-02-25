@@ -17,6 +17,7 @@ import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.ColliderManager;
+import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
@@ -38,54 +39,80 @@ import at.autrage.projects.zeta.opengl.MeshRenderer;
  * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
  */
 public class GameView extends GLSurfaceView {
-    /** Reference to the {@link GameActivity} object. */
+    /**
+     * Reference to the {@link GameActivity} object.
+     */
     private GameActivity m_GameActivity;
-    /** Reference to the {@link GameViewRenderer} object. */
+    /**
+     * Reference to the {@link GameViewRenderer} object.
+     */
     private GameViewRenderer m_Renderer;
-    /** Reference to the {@link GameViewUpdater} object. */
+    /**
+     * Reference to the {@link GameViewUpdater} object.
+     */
     private GameViewUpdater m_Updater;
-    /** Reference to the {@link GameViewUpdater} thread. */
+    /**
+     * Reference to the {@link GameViewUpdater} thread.
+     */
     private Thread m_UpdaterThread;
-    /** Reference to the {@link GameViewUI} object, which contains UI references. */
+    /**
+     * Reference to the {@link GameViewUI} object, which contains UI references.
+     */
     private GameViewUI m_UI;
 
-    /** Cached reference to the {@link GameManager} module.*/
+    /**
+     * Cached reference to the {@link GameManager} module.
+     */
     private GameManager m_GameManager;
 
-    /** Reference to all updated {@link GameObject} objects. */
-    private List<GameObject> m_GameObjects;
-    /** Reference to the game objects which will be inserted into {@link GameView#m_GameObjects}. */
-    private ConcurrentLinkedQueue<GameObject> m_GameObjectsToInsert;
-    /** Reference to the game objects which will be deleted from {@link GameView#m_GameObjects}. */
-    private ConcurrentLinkedQueue<GameObject> m_GameObjectsToDelete;
+    /**
+     * Reference to all updated {@link GameObject} objects.
+     */
+    private Synchronitron<GameObject> m_GameObjects;
 
-    /** Reference to all enabled {@link MeshRenderer} objects. */
-    private List<MeshRenderer> m_MeshRenderers;
-    /** Reference to the mesh renderers which will be inserted into {@link GameView#m_MeshRenderers}. */
-    private ConcurrentLinkedQueue<MeshRenderer> m_MeshRenderersToInsert;
-    /** Reference to the mesh renderers which will be deleted from {@link GameView#m_MeshRenderers}. */
-    private ConcurrentLinkedQueue<MeshRenderer> m_MeshRenderersToDelete;
+    /**
+     * Reference to all enabled {@link MeshRenderer} objects.
+     */
+    private Synchronitron<MeshRenderer> m_MeshRenderers;
 
-    /** Reference to (@link ColliderManager) object. */
+    /**
+     * Reference to (@link ColliderManager) object.
+     */
     public final ColliderManager ColliderManager;
 
-    /** Reference to (@link EnemySpawner) object. */
+    /**
+     * Reference to (@link EnemySpawner) object.
+     */
     private EnemySpawner m_EnemySpawner;
-    /** Reference to (@link Player) object. */
+    /**
+     * Reference to (@link Player) object.
+     */
     private Player m_Player;
 
-    /** Indicates whether the alarm is enabled or not. */
+    /**
+     * Indicates whether the alarm is enabled or not.
+     */
     private boolean m_AlarmEnabled;
-    /** True if the alarm should be stopped automatically, otherwise false. */
+    /**
+     * True if the alarm should be stopped automatically, otherwise false.
+     */
     private boolean m_AlarmAutoStop;
-    /** Timer for smooth alarm foreground blinking. */
+    /**
+     * Timer for smooth alarm foreground blinking.
+     */
     private float m_AlarmTimer;
 
-    /** True if a click event is in progress, otherwise false. */
+    /**
+     * True if a click event is in progress, otherwise false.
+     */
     private boolean m_ClickEventActive;
-    /** Timer to delay redirection to the next activity. */
+    /**
+     * Timer to delay redirection to the next activity.
+     */
     private Timer m_RedirectionDelayTimer;
-    /** True if the current level is finished, otherwise false. */
+    /**
+     * True if the current level is finished, otherwise false.
+     */
     private boolean m_LevelFinished;
 
     public GameView(GameActivity gameActivity) {
@@ -117,13 +144,9 @@ public class GameView extends GLSurfaceView {
         // Cache game manager module reference
         m_GameManager = GameManager.getInstance();
 
-        m_GameObjects = new ArrayList<>();
-        m_GameObjectsToInsert = new ConcurrentLinkedQueue<>();
-        m_GameObjectsToDelete = new ConcurrentLinkedQueue<>();
+        m_GameObjects = new Synchronitron<>(GameObject.class, 256);
 
-        m_MeshRenderers = new ArrayList<>(256);
-        m_MeshRenderersToInsert = new ConcurrentLinkedQueue<>();
-        m_MeshRenderersToDelete = new ConcurrentLinkedQueue<>();
+        m_MeshRenderers = new Synchronitron<>(MeshRenderer.class, 256);
 
         ColliderManager = new ColliderManager();
 
@@ -143,20 +166,20 @@ public class GameView extends GLSurfaceView {
         m_LevelFinished = false;
     }
 
-    public void addGameObjectToInsertQueue(GameObject gameObject) {
-        m_GameObjectsToInsert.add(gameObject);
+    public void addGameObject(GameObject gameObject) {
+        m_GameObjects.add(gameObject);
     }
 
-    public void addGameObjectToDeleteQueue(GameObject gameObject) {
-        m_GameObjectsToDelete.add(gameObject);
+    public void removeGameObject(GameObject gameObject) {
+        m_GameObjects.remove(gameObject);
     }
 
-    public void addMeshRendererToInsertQueue(MeshRenderer meshRenderer) {
-        m_MeshRenderersToInsert.add(meshRenderer);
+    public void addMeshRenderer(MeshRenderer meshRenderer) {
+        m_MeshRenderers.add(meshRenderer);
     }
 
-    public void addMeshRendererToDeleteQueue(MeshRenderer meshRenderer) {
-        m_MeshRenderersToDelete.add(meshRenderer);
+    public void removeMeshRenderer(MeshRenderer meshRenderer) {
+        m_MeshRenderers.remove(meshRenderer);
     }
 
     @Override
@@ -230,13 +253,7 @@ public class GameView extends GLSurfaceView {
      * Function which updates the game models
      */
     public void update() {
-        while (!m_GameObjectsToInsert.isEmpty()) {
-            m_GameObjects.add(m_GameObjectsToInsert.poll());
-        }
-
-        while (!m_GameObjectsToDelete.isEmpty()) {
-            m_GameObjects.remove(m_GameObjectsToDelete.poll());
-        }
+        m_GameObjects.synchronize();
 
         // Update game objects
         for (GameObject go : m_GameObjects) {
@@ -255,7 +272,7 @@ public class GameView extends GLSurfaceView {
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.Population) && m_UI.TxtViewPopulation != null) {
-                    m_UI.TxtViewPopulation.setText(String.format(m_GameActivity.getString(R.string.gv_population_display), Util.addLeadingZeros((int)m_GameManager.getPopulation(), 5, true, false)));
+                    m_UI.TxtViewPopulation.setText(String.format(m_GameActivity.getString(R.string.gv_population_display), Util.addLeadingZeros((int) m_GameManager.getPopulation(), 5, true, false)));
                     m_GameManager.delUpdateFlag(UpdateFlags.Population);
                 }
 
@@ -270,7 +287,7 @@ public class GameView extends GLSurfaceView {
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.Score) && m_UI.TxtViewScore != null) {
-                    m_UI.TxtViewScore.setText(String.format("%s",Util.addLeadingZeros(m_GameManager.getScore(), 6, true, true)));
+                    m_UI.TxtViewScore.setText(String.format("%s", Util.addLeadingZeros(m_GameManager.getScore(), 6, true, true)));
                     m_GameManager.delUpdateFlag(UpdateFlags.Score);
                 }
 
@@ -300,12 +317,12 @@ public class GameView extends GLSurfaceView {
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallLaserCount) && m_UI.TxtViewSmallLaserCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
-                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int)(m_GameManager.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
+                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int) (m_GameManager.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
                     m_GameManager.delUpdateFlag(UpdateFlags.SmallLaserCount);
                 }
 
                 if (m_GameManager.hasUpdateFlag(UpdateFlags.BigLaserCount) && m_UI.TxtViewBigLaserCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
-                    m_UI.TxtViewBigLaserCount.setText(Math.min((int)(m_GameManager.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
+                    m_UI.TxtViewBigLaserCount.setText(Math.min((int) (m_GameManager.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
                     m_GameManager.delUpdateFlag(UpdateFlags.BigLaserCount);
                 }
 
@@ -333,19 +350,13 @@ public class GameView extends GLSurfaceView {
                         m_AlarmTimer = 0f;
                     }
 
-                    m_UI.ImgViewAlarm.setAlpha((float)Math.sin(Math.PI * m_AlarmTimer / Pustafin.AlarmForegroundBlinkDuration));
+                    m_UI.ImgViewAlarm.setAlpha((float) Math.sin(Math.PI * m_AlarmTimer / Pustafin.AlarmForegroundBlinkDuration));
                 }
             }
         });
 
         synchronized (m_MeshRenderers) {
-            while (!m_MeshRenderersToInsert.isEmpty()) {
-                m_MeshRenderers.add(m_MeshRenderersToInsert.poll());
-            }
-
-            while (!m_MeshRenderersToDelete.isEmpty()) {
-                m_MeshRenderers.remove(m_MeshRenderersToDelete.poll());
-            }
+            m_MeshRenderers.synchronize();
 
             for (MeshRenderer renderer : m_MeshRenderers) {
                 renderer.shift();

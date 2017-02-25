@@ -136,9 +136,7 @@ public class Player extends GameObject {
                 pos.Y = event.getY();
                 m_TouchEventStartPositions.put(event.getActionIndex(), pos);
             }
-        }
-        else if (event.getAction() == MotionEvent.ACTION_UP)
-        {
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
             Vector2D pos = m_TouchEventStartPositions.get(event.getActionIndex());
             if (pos != null) {
                 onTouchRelease(event, pos);
@@ -151,7 +149,7 @@ public class Player extends GameObject {
 
     private void onTouchRelease(MotionEvent event, Vector2D startTouchPosition) {
         if (m_SelectedWeapon == Weapons.SmallLaser ||
-            m_SelectedWeapon == Weapons.BigLaser) {
+                m_SelectedWeapon == Weapons.BigLaser) {
             // Laser weapon handled in onGlobalTouch function
             return;
         }
@@ -171,8 +169,8 @@ public class Player extends GameObject {
 
         double distance = Math.sqrt(deltaPositionX * deltaPositionX + deltaPositionY * deltaPositionY);
 
-        float directionX = (float)(deltaPositionX / distance);
-        float directionY = (float)(deltaPositionY / distance) * (-1); // Flip y direction
+        float directionX = (float) (deltaPositionX / distance);
+        float directionY = (float) (deltaPositionY / distance) * (-1); // Flip y direction
 
         float radius = getHalfScaleX();
 
@@ -199,10 +197,8 @@ public class Player extends GameObject {
                 break;
         }
 
-        if (weapon != null) {
-            Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f), hit damage %f and speed %f",
-                    m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage(), weapon.getComponent(LinearMovement.class).getSpeed());
-        }
+        Logger.D("Spawned selected weapon %s at (%f, %f) with direction (%f, %f), hit damage %f.",
+                m_SelectedWeapon.toString(), spawnPositionX, spawnPositionY, directionX, directionY, weapon.getHitDamage());
 
         if (weaponCount > 0) {
             weaponStockpile.setCount(--weaponCount);
@@ -223,10 +219,10 @@ public class Player extends GameObject {
         if (other.getGameObject() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
             Enemy enemy = (Enemy) other.getGameObject();
 
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float)Math.random());
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float) Math.random());
 
             double remainingPopulation = GameManager.getInstance().getPopulation() - enemy.getHitDamage();
-            if ((int)remainingPopulation <= 0f) {
+            if ((int) remainingPopulation <= 0f) {
                 remainingPopulation = 0f;
             }
 
