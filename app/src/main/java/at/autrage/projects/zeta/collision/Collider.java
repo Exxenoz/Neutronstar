@@ -10,14 +10,20 @@ import at.autrage.projects.zeta.module.Logger;
 public abstract class Collider extends Component {
     public Collider(GameObject gameObject) {
         super(gameObject);
+    }
 
+    @Override
+    protected void onEnable() {
         gameObject.getGameView().ColliderManager.addCollider(this);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onDisable() {
+        gameObject.getGameView().ColliderManager.removeCollider(this);
+    }
 
+    @Override
+    protected void onDestroy() {
         gameObject.getGameView().ColliderManager.removeCollider(this);
     }
 
@@ -28,6 +34,10 @@ public abstract class Collider extends Component {
      * @return true if both colliders intersect, otherwise false.
      */
     public boolean intersects(Collider collider) {
+        if (!isEnabled()){
+            return false;
+        }
+
         if (this instanceof CircleCollider && collider instanceof CircleCollider) {
             CircleCollider circleCollider1 = (CircleCollider) this;
             CircleCollider circleCollider2 = (CircleCollider) collider;
