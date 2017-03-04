@@ -7,18 +7,16 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents the alarm area around the planet.
  */
-public class AlarmArea extends Sprite {
-    public AlarmArea(GameView gameView, float positionX, float positionY) {
-        super(gameView, positionX, positionY, AnimationSet.None);
+public class AlarmArea extends Component {
+    public AlarmArea(GameObject gameObject) {
+        super(gameObject);
     }
 
     @Override
     public void onCollide(Collider other) {
-        super.onCollide(other);
-
-        if (other.getGameObject() instanceof Enemy) {
-            if (!getGameView().isAlarmEnabled()) {
-                getGameView().setAlarmEnabled(true);
+        if (other.getGameObject().getComponent(Enemy.class) != null) {
+            if (!gameObject.getGameView().isAlarmEnabled()) {
+                gameObject.getGameView().setAlarmEnabled(true);
             }
         }
     }

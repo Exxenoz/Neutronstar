@@ -10,7 +10,7 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents an enemy object in the game.
  */
-public class Enemy extends Sprite {
+public class Enemy extends Component {
     protected EnemySpawner m_Owner;
     protected HealthBar m_HealthBar;
     protected float m_Health;
@@ -20,11 +20,11 @@ public class Enemy extends Sprite {
     protected int m_Bounty;
     protected int m_Points;
 
-    public Enemy(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
+    public Enemy(GameObject gameObject) {
+        super(gameObject);
 
         m_Owner = null;
-        m_HealthBar = new HealthBar(gameView, this, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
+        m_HealthBar = new HealthBar(gameObject.getGameView(), this, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
         m_Health = 1f;
         m_HealthMaximum = 1f;
         m_HealthPercent = 1f;

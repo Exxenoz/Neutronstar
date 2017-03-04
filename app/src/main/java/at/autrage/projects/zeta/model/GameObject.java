@@ -71,7 +71,7 @@ public abstract class GameObject {
     private GameObject parent;
     private List<GameObject> children;
 
-    private Synchronitron<Component> components;
+    protected Synchronitron<Component> components;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
         m_GameView = gameView;
@@ -181,6 +181,9 @@ public abstract class GameObject {
     }
 
     public void onCollide(Collider other) {
+        for (Component component : components) {
+            component.collide(other);
+        }
     }
 
     public GameView getGameView() {
