@@ -16,7 +16,7 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents an object in the game.
  */
-public abstract class GameObject {
+public final class GameObject {
     private GameView m_GameView;
 
     /**

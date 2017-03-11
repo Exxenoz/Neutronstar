@@ -17,6 +17,8 @@ public abstract class Component {
         this.gameObject = gameObject;
         this.started = false;
         this.enabled = false;
+
+        gameObject.addComponent(this);
     }
 
     public GameObject getGameObject() {

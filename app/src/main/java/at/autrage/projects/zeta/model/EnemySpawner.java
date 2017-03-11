@@ -13,7 +13,7 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.TutorialManager;
 import at.autrage.projects.zeta.view.GameView;
 
-public class EnemySpawner extends Sprite {
+public class EnemySpawner extends Component {
     private Random m_Random;
 
     private int m_AsteroidSpawnCount;
@@ -29,8 +29,8 @@ public class EnemySpawner extends Sprite {
     private float m_AsteroidSpawnTimeDelta;
     private int m_AsteroidCountDestroyed;
 
-    public EnemySpawner(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
+    public EnemySpawner(GameObject gameObject) {
+        super(gameObject);
 
         m_Random = new Random();
 
@@ -89,7 +89,7 @@ public class EnemySpawner extends Sprite {
         float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192);
         float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192);
 
-        return Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
+        return Asteroid.createAsteroid(gameObject.getGameView(), Asteroid.getRandomAnimationSet(m_Random),
                 asteroidScale, asteroidSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
                 asteroidSpawnDirection.X, asteroidSpawnDirection.Y, asteroidHealth, this);
     }
@@ -105,7 +105,7 @@ public class EnemySpawner extends Sprite {
         float asteroidSpawnPositionX = -asteroidSpawnDirection.X * (960 + 192);
         float asteroidSpawnPositionY = -asteroidSpawnDirection.Y * (960 + 192);
 
-        Asteroid.createAsteroid(getGameView(), Asteroid.getRandomAnimationSet(m_Random),
+        Asteroid.createAsteroid(gameObject.getGameView(), Asteroid.getRandomAnimationSet(m_Random),
             asteroidScale, asteroidSpeed, asteroidSpawnPositionX, asteroidSpawnPositionY,
             asteroidSpawnDirection.X, asteroidSpawnDirection.Y, asteroidHealth, this);
     }
@@ -163,12 +163,12 @@ public class EnemySpawner extends Sprite {
             return;
         }
 
-        if (enemy instanceof Asteroid) {
+        if (enemy.gameObject.getComponent(Enemy.class) != null) {
             m_AsteroidCountDestroyed++;
         }
 
         if (m_AsteroidCountDestroyed >= m_AsteroidSpawnCount) {
-            getGameView().win();
+            gameObject.getGameView().win();
         }
     }
 }

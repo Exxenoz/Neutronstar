@@ -153,7 +153,6 @@ public class GameView extends GLSurfaceView {
         m_EnemySpawner = new EnemySpawner(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
         m_Player = new Player(this, 0f, 0f);
-        m_Player.addComponent(new CircleCollider(m_Player, m_Player.getHalfScaleX()));
 
         m_AlarmEnabled = false;
         m_AlarmAutoStop = true;

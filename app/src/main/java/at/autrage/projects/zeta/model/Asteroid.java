@@ -21,21 +21,26 @@ public class Asteroid extends Enemy {
             AnimationSets.Asteroid3
     };
 
-    public Asteroid(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
-
+    public Asteroid(GameObject gameObject, AnimationSets animationSet, float scaleFactor, float speed,
+                    float directionX, float directionY, float health, EnemySpawner owner) {
+        super(gameObject);
+        setRandomRotationSpeed();
+        setHealth(health);
+        setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
+        setBounty((int)(scaleFactor * Pustafin.AsteroidMoneyPerScaleFactor));
+        setPoints((int)(health * Pustafin.AsteroidPointsPerHealthFactor));
         m_RotationSpeed = 0f;
+
+        Sprite sprite = new Sprite(gameObject, AssetManager.getInstance().getAnimationSet(animationSet));
+        sprite.setScaleFactor(scaleFactor);
+        gameObject.
     }
 
-    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float speed,
+    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scaleFactor, float speed,
                                           float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner owner) {
-        Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
-        asteroid.setScaleFactor(scale);
-        asteroid.setRandomRotationSpeed();
-        asteroid.setHealth(health);
-        asteroid.setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
-        asteroid.setBounty((int)(scale * Pustafin.AsteroidMoneyPerScaleFactor));
-        asteroid.setPoints((int)(health * Pustafin.AsteroidPointsPerHealthFactor));
+        GameObject asteroidGameObject = new GameObject(gameView, positionX, positionY);
+        Asteroid asteroid = new Asteroid(asteroidGameObject);
+
         asteroid.addComponent(new CircleCollider(asteroid, asteroid.getHalfScaleX()));
         asteroid.setOwner(owner);
 

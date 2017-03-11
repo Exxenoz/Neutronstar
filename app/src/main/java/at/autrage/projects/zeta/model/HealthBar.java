@@ -23,32 +23,15 @@ public class HealthBar extends Component {
         m_HealthPercent = 1f;
 
         updateScale();
-        updatePosition();
 
         meshRenderer = new MeshRenderer(gameObject);
         meshRenderer.setMaterial(m_ColorMaterial);
         meshRenderer.setMesh(new SpriteMesh());
         meshRenderer.setEnabled(true);
-        gameObject.addComponent(meshRenderer);
-    }
-
-    private void updatePosition() {
-        // WIP, Healthbar needs his own GameObject
-        gameObject.setPosition(
-                gameObject.getPositionX() + Pustafin.EnemyHealthBarOffsetX - (m_FullWidth - gameObject.getScaleX()) / 2f,
-                gameObject.getPositionY() + gameObject.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
-        );
     }
 
     private void updateScale() {
-        setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
-    }
-
-    @Override
-    public void onUpdate() {
-        updatePosition();
-
-        super.onUpdate();
+        gameObject.setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
     }
 
     public void setHealthPercent(float healthPercent) {
@@ -73,6 +56,5 @@ public class HealthBar extends Component {
         m_HealthPercent = healthPercent;
 
         updateScale();
-        updatePosition();
     }
 }

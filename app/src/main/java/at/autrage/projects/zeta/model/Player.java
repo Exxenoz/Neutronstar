@@ -23,7 +23,7 @@ import at.autrage.projects.zeta.opengl.SphereMesh;
 import at.autrage.projects.zeta.opengl.SpriteMaterial;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Player extends GameObject {
+public class Player extends Component {
     private float m_RemainingTime;
     private float m_OnUpdateEverySecondTimer;
     private Weapons m_SelectedWeapon;
@@ -38,10 +38,10 @@ public class Player extends GameObject {
     private AlarmArea m_AlarmArea;
     private Sprite m_TouchRadiusDebugCircle;
 
-    public Player(GameView gameView, float positionX, float positionY) {
-        super(gameView, positionX, positionY);
+    public Player(GameObject gameObject) {
+        super(gameObject);
 
-        setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
+        gameObject.setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
 
         m_RemainingTime = Pustafin.LevelDuration;
         m_OnUpdateEverySecondTimer = 1f;
@@ -54,29 +54,28 @@ public class Player extends GameObject {
         m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
         m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
 
-        meshRenderer = new MeshRenderer(this);
+        meshRenderer = new MeshRenderer(gameObject);
         meshRenderer.setMaterial(m_Material);
         meshRenderer.setMesh(m_SphereMesh);
         meshRenderer.setEnabled(true);
-        addComponent(meshRenderer);
 
-        m_AlarmArea = new AlarmArea(gameView, positionX, positionY);
-        m_AlarmArea.addComponent(new CircleCollider(m_AlarmArea, Pustafin.AlarmAreaRadius));
+        m_AlarmArea = new AlarmArea(gameObject);
+        new CircleCollider(gameObject, Pustafin.AlarmAreaRadius);
+        new CircleCollider(gameObject, gameObject.getHalfScaleX());
 
         if (Pustafin.DebugMode) {
-            m_TouchRadiusDebugCircle = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
-            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / m_TouchRadiusDebugCircle.getScaleX());
+            m_TouchRadiusDebugCircle = new Sprite(gameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
+            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / gameObject.getScaleX());
             m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
-            m_TouchRadiusDebugCircle.setParent(this);
         }
     }
 
     public void onUpdate() {
-        setRotationY(getRotationY() + Pustafin.PlanetTurnSpeed * Time.getDeltaTime());
+        gameObject.setRotationY(gameObject.getRotationY() + Pustafin.PlanetTurnSpeed * Time.getDeltaTime());
 
         super.onUpdate();
 
-        if (getGameView().isLevelFinished()) {
+        if (gameObject.getGameView().isLevelFinished()) {
             return;
         }
 
@@ -105,12 +104,12 @@ public class Player extends GameObject {
         GameManager.getInstance().setUpdateFlag(UpdateFlags.FPS);
 
         if (m_RemainingTime == 0f) {
-            getGameView().win();
+            gameObject.getGameView().win();
         }
     }
 
     public void onGlobalTouch(MotionEvent event) {
-        if (getGameView().isLevelFinished()) {
+        if (gameObject.getGameView().isLevelFinished()) {
             return;
         }
 
@@ -172,7 +171,7 @@ public class Player extends GameObject {
         float directionX = (float) (deltaPositionX / distance);
         float directionY = (float) (deltaPositionY / distance) * (-1); // Flip y direction
 
-        float radius = getHalfScaleX();
+        float radius = gameObject.getHalfScaleX();
 
         float spawnPositionX = directionX * radius;
         float spawnPositionY = directionY * radius;
@@ -203,7 +202,7 @@ public class Player extends GameObject {
         if (weaponCount > 0) {
             weaponStockpile.setCount(--weaponCount);
             if (weaponCount == 0) {
-                getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
+                gameObject.getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
             }
         }
     }
@@ -212,13 +211,12 @@ public class Player extends GameObject {
     public void onCollide(Collider other) {
         super.onCollide(other);
 
-        if (getGameView().isLevelFinished()) {
+        if (gameObject.getGameView().isLevelFinished()) {
             return;
         }
 
-        if (other.getGameObject() instanceof Enemy && GameManager.getInstance().getPopulation() > 0) {
-            Enemy enemy = (Enemy) other.getGameObject();
-
+        Enemy enemy = other.gameObject.getComponent(Enemy.class);
+        if (enemy != null && GameManager.getInstance().getPopulation() > 0) {
             SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float) Math.random());
 
             double remainingPopulation = GameManager.getInstance().getPopulation() - enemy.getHitDamage();
@@ -229,7 +227,7 @@ public class Player extends GameObject {
             GameManager.getInstance().setPopulation(remainingPopulation);
 
             if (remainingPopulation <= 0f) {
-                getGameView().lose();
+                gameObject.getGameView().lose();
             }
         }
     }

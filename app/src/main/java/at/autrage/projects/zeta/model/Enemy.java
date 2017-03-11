@@ -1,4 +1,4 @@
-package at.autrage.projects.zeta.model;
+    package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
@@ -23,8 +23,15 @@ public class Enemy extends Component {
     public Enemy(GameObject gameObject) {
         super(gameObject);
 
+        GameObject healthBarGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+        healthBarGameObject.setParent(gameObject);
+        healthBarGameObject.setLocalPosition(
+                Pustafin.EnemyHealthBarOffsetX - (Pustafin.EnemyHealthBarWidth - gameObject.getScaleX()) / 2f,
+                gameObject.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
+        );
+
         m_Owner = null;
-        m_HealthBar = new HealthBar(gameObject.getGameView(), this, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
+        m_HealthBar = new HealthBar(healthBarGameObject, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
         m_Health = 1f;
         m_HealthMaximum = 1f;
         m_HealthPercent = 1f;
@@ -35,14 +42,15 @@ public class Enemy extends Component {
 
     @Override
     public void onCollide(Collider other) {
-        super.onCollide(other);
-
-        if (other.getGameObject() instanceof Weapon) {
-            Weapon weapon = (Weapon) other.getGameObject();
+        Weapon weapon = other.gameObject.getComponent(Weapon.class);
+        if (weapon != null) {
             receiveDamage(weapon.getHitDamage());
         }
-        else if (other.getGameObject() instanceof Player) {
-            explode(other.getGameObject(), AnimationSets.Explosion1);
+        else if (other.gameObject.getComponent(Player.class) != null) {
+            Sprite sprite = other.gameObject.getComponent(Sprite.class);
+            if (sprite != null) {
+                sprite.explode(other.getGameObject(), AnimationSets.Explosion1);
+            }
         }
     }
 
@@ -57,16 +65,9 @@ public class Enemy extends Component {
     }
 
     @Override
-    public void destroy() {
-        super.destroy();
-
+    protected void onDestroy() {
         if (m_Owner != null) {
             m_Owner.onDestroyEnemy(this);
-        }
-
-        if (m_HealthBar != null) {
-            m_HealthBar.destroy();
-            m_HealthBar = null;
         }
     }
 

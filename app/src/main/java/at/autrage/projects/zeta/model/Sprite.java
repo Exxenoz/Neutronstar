@@ -57,7 +57,6 @@ public class Sprite extends Component {
         this.meshRenderer = new MeshRenderer(gameObject);
         this.meshRenderer.setMaterial(m_SpriteMaterial);
         this.meshRenderer.setMesh(new SpriteMesh());
-        gameObject.addComponent(this.meshRenderer);
     }
 
     @Override
@@ -126,8 +125,8 @@ public class Sprite extends Component {
         Explosion explosion = new Explosion(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY,
                 AssetManager.getInstance().getAnimationSet(animationSet));
 
-        if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
-            Weapon weapon = (Weapon)this;
+        Weapon weapon = gameObject.getComponent(Weapon.class);
+        if (!disableAOEDamage && weapon != null && weapon.getAOERadius() > 0f) {
             explosion.setWeapon(weapon);
             explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
