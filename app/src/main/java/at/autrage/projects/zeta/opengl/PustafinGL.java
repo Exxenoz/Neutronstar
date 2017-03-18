@@ -14,4 +14,6 @@ public class PustafinGL {
     public static final int BYTES_PER_TRIANGLE_INDEX = SHORTS_PER_TRIANGLE_INDEX * BYTES_PER_SHORT;
     public static final int BYTES_PER_COLOR = FLOATS_PER_COLOR * BYTES_PER_FLOAT;
     public static final int BYTES_PER_TEXTURE_COORD = FLOATS_PER_TEXTURE_COORD * BYTES_PER_FLOAT;
+
+    public static final int VERTICES_PER_RADIUS_IN_PIXEL = 3;
 }

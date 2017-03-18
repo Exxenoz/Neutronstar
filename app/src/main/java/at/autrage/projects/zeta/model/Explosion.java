@@ -16,8 +16,8 @@ public class Explosion extends Sprite {
     private Weapon m_Weapon;
     private List<GameObject> m_GameObjectsImmuneToAOE;
 
-    public Explosion(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
+    public Explosion(GameObject gameObject, AnimationSet animationSet) {
+        super(gameObject, animationSet);
 
         m_GameObjectsImmuneToAOE = new ArrayList<>();
     }
@@ -30,16 +30,16 @@ public class Explosion extends Sprite {
             return;
         }
 
-        if (!(other.getGameObject() instanceof Enemy)) {
+        if (other.gameObject.getComponent(Enemy.class) != null) {
             return;
         }
 
         if (!m_GameObjectsImmuneToAOE.contains(other.getGameObject())) {
-            Enemy enemy = (Enemy) other.getGameObject();
+            Enemy enemy = (Enemy) other.gameObject.getComponent(Enemy.class);
             enemy.receiveDamage(m_Weapon.getAOEDamage());
 
             if (enemy.isAlive()) {
-                m_GameObjectsImmuneToAOE.add(enemy);
+                m_GameObjectsImmuneToAOE.add(enemy.gameObject);
             }
         }
     }
@@ -48,7 +48,7 @@ public class Explosion extends Sprite {
     protected void onAnimationFinished() {
         super.onAnimationFinished();
 
-        destroy();
+        gameObject.destroy();
     }
 
     public Weapon getWeapon() {
@@ -70,7 +70,7 @@ public class Explosion extends Sprite {
             return;
         }
 
-        addComponent(new CircleCollider(this, weapon.getAOERadius()));
+        new CircleCollider(gameObject, weapon.getAOERadius());
     }
 
     public void addImmuneToAOEGameObject(GameObject gameObject) {

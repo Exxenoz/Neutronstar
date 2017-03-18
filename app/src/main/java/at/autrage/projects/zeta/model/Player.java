@@ -57,17 +57,25 @@ public class Player extends Component {
         meshRenderer = new MeshRenderer(gameObject);
         meshRenderer.setMaterial(m_Material);
         meshRenderer.setMesh(m_SphereMesh);
-        meshRenderer.setEnabled(true);
 
-        m_AlarmArea = new AlarmArea(gameObject);
-        new CircleCollider(gameObject, Pustafin.AlarmAreaRadius);
         new CircleCollider(gameObject, gameObject.getHalfScaleX());
 
+        GameObject alarmAreaGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+        alarmAreaGameObject.setIgnoreParentRotation(true);
+        alarmAreaGameObject.setParent(gameObject);
+        m_AlarmArea = new AlarmArea(alarmAreaGameObject);
+        new CircleCollider(alarmAreaGameObject, Pustafin.AlarmAreaRadius);
+
         if (Pustafin.DebugMode) {
-            m_TouchRadiusDebugCircle = new Sprite(gameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
-            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / gameObject.getScaleX());
+            GameObject debugCircleGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+            debugCircleGameObject.setIgnoreParentRotation(true);
+            debugCircleGameObject.setParent(gameObject);
+            m_TouchRadiusDebugCircle = new Sprite(debugCircleGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
+            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / debugCircleGameObject.getScaleX());
             m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
         }
+
+        Logger.D("Initialized player");
     }
 
     public void onUpdate() {

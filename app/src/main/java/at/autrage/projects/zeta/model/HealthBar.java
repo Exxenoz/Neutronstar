@@ -20,14 +20,13 @@ public class HealthBar extends Component {
         m_ColorMaterial = new ColorMaterial();
         m_FullWidth = width;
         m_FullHeight = height;
-        m_HealthPercent = 1f;
+        setHealthPercent(1f);
 
         updateScale();
 
         meshRenderer = new MeshRenderer(gameObject);
         meshRenderer.setMaterial(m_ColorMaterial);
         meshRenderer.setMesh(new SpriteMesh());
-        meshRenderer.setEnabled(true);
     }
 
     private void updateScale() {

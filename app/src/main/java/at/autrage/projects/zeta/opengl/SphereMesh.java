@@ -2,6 +2,8 @@ package at.autrage.projects.zeta.opengl;
 
 import java.nio.FloatBuffer;
 
+import at.autrage.projects.zeta.module.Logger;
+
 public class SphereMesh extends Mesh {
     private FloatBuffer m_TextureCoordBuffer;
 
@@ -82,6 +84,8 @@ public class SphereMesh extends Mesh {
         m_IndexBuffer.rewind();
         //m_NormalBuffer.rewind();
         m_TextureCoordBuffer.rewind();
+
+        Logger.D("New SphereMesh created.");
     }
 
     public FloatBuffer getTextureCoordBuffer() {

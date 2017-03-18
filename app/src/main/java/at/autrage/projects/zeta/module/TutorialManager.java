@@ -101,7 +101,7 @@ public class TutorialManager {
 
         if (gameView.getPlayer() != null) {
             gameView.getPlayer().setRemainingTime(0);
-            gameView.getPlayer().getComponent(MeshRenderer.class).disable();
+            gameView.getPlayer().getGameObject().getComponent(MeshRenderer.class).disable();
         }
 
         m_Finished = false;
@@ -155,7 +155,7 @@ public class TutorialManager {
         switch (m_CurrentTutorialIndex) {
             case 1: // Show planet
                 if (gameView.getPlayer() != null) {
-                    gameView.getPlayer().getComponent(MeshRenderer.class).enable();
+                    gameView.getPlayer().getGameObject().getComponent(MeshRenderer.class).enable();
                 }
                 break;
             case 7: // Asteroid state
@@ -164,7 +164,7 @@ public class TutorialManager {
                 break;
             case 11: // Hide planet
                 if (gameView.getPlayer() != null) {
-                    gameView.getPlayer().getComponent(MeshRenderer.class).disable();
+                    gameView.getPlayer().getGameObject().getComponent(MeshRenderer.class).disable();
                 }
                 break;
         }
@@ -181,7 +181,7 @@ public class TutorialManager {
                 setCurrentTutorialIndex(10);
             }
 
-            enemy.getGameView().getGameActivity().runOnUiThread(new UpdateTutorialEntryFromUIThread(enemy.getGameView()));
+            enemy.getGameObject().getGameView().getGameActivity().runOnUiThread(new UpdateTutorialEntryFromUIThread(enemy.getGameObject().getGameView()));
         }
     }
 

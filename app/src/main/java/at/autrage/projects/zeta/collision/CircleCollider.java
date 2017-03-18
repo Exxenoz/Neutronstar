@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.collision;
 
+import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Sprite;
@@ -17,10 +18,12 @@ public class CircleCollider extends Collider {
         m_Radius = radius;
 
         if (Pustafin.DebugMode) {
-            m_DebugCircle = new Sprite(owner.getGameView(), getPositionX(), getPositionY(), AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
-            m_DebugCircle.setScaleFactor(2f * m_Radius / m_DebugCircle.getScaleX());
+            GameObject debugCircleGameObject = new GameObject(owner.getGameView(), owner.getPositionX(), owner.getPositionY());
+            debugCircleGameObject.setIgnoreParentRotation(true);
+            debugCircleGameObject.setParent(owner);
+            m_DebugCircle = new Sprite(debugCircleGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
+            m_DebugCircle.setScaleFactor(2 * m_Radius / debugCircleGameObject.getScaleX());
             m_DebugCircle.getSpriteMaterial().getColor().setColor(Color.Green);
-            m_DebugCircle.setParent(gameObject);
         }
     }
 

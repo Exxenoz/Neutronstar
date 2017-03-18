@@ -163,7 +163,7 @@ public class EnemySpawner extends Component {
             return;
         }
 
-        if (enemy.gameObject.getComponent(Enemy.class) != null) {
+        if (enemy instanceof Asteroid) {
             m_AsteroidCountDestroyed++;
         }
 

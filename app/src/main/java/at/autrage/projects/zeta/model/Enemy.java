@@ -3,6 +3,7 @@
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.animation.AnimationSets;
+import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.view.GameView;
@@ -19,25 +20,32 @@ public class Enemy extends Component {
     protected float m_HitDamage;
     protected int m_Bounty;
     protected int m_Points;
+    protected Sprite sprite;
 
-    public Enemy(GameObject gameObject) {
+    public Enemy(GameObject gameObject, AnimationSet animationSet) {
         super(gameObject);
 
-        GameObject healthBarGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
-        healthBarGameObject.setParent(gameObject);
-        healthBarGameObject.setLocalPosition(
-                Pustafin.EnemyHealthBarOffsetX - (Pustafin.EnemyHealthBarWidth - gameObject.getScaleX()) / 2f,
-                gameObject.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
-        );
-
         m_Owner = null;
-        m_HealthBar = new HealthBar(healthBarGameObject, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHalfHeight);
+        m_HealthBar = null;
         m_Health = 1f;
         m_HealthMaximum = 1f;
         m_HealthPercent = 1f;
         m_HitDamage = 0f;
         m_Bounty = 0;
         m_Points = 0;
+        sprite = new Sprite(gameObject, animationSet);
+    }
+
+    protected void createHealthbar() {
+        GameObject healthBarGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+        healthBarGameObject.setIgnoreParentRotation(true);
+        healthBarGameObject.setParent(gameObject);
+        healthBarGameObject.setLocalPosition(
+                Pustafin.EnemyHealthBarOffsetX,
+                gameObject.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
+        );
+
+        m_HealthBar = new HealthBar(healthBarGameObject, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHeight);
     }
 
     @Override
@@ -47,7 +55,7 @@ public class Enemy extends Component {
             receiveDamage(weapon.getHitDamage());
         }
         else if (other.gameObject.getComponent(Player.class) != null) {
-            Sprite sprite = other.gameObject.getComponent(Sprite.class);
+            Sprite sprite = gameObject.getComponent(Sprite.class);
             if (sprite != null) {
                 sprite.explode(other.getGameObject(), AnimationSets.Explosion1);
             }
@@ -60,7 +68,7 @@ public class Enemy extends Component {
             GameManager.getInstance().setMoney(GameManager.getInstance().getMoney() + m_Bounty);
             GameManager.getInstance().setScore(GameManager.getInstance().getScore() + m_Points);
 
-            destroy();
+            gameObject.destroy();
         }
     }
 

@@ -2,7 +2,7 @@ package at.autrage.projects.zeta.module;
 
 
 public class Pustafin {
-    public static final boolean DebugMode = false;
+    public static final boolean DebugMode = true;
 
     public static final int ReferenceResolutionX = 1920;
     public static final int ReferenceResolutionY = 1080;
@@ -122,7 +122,7 @@ public class Pustafin {
     public static final float BigContactBombRadiusBase = 100f;
 
     public static final float EnemyHealthBarWidth = 80f;
-    public static final float EnemyHealthBarHeight = 15f;
+    public static final float EnemyHealthBarHeight = 7.5f;
     public static final float EnemyHealthBarHalfWidth = EnemyHealthBarWidth / 2f;
     public static final float EnemyHealthBarHalfHeight = EnemyHealthBarHeight / 2f;
     public static final float EnemyHealthBarOffsetX = 0f;
