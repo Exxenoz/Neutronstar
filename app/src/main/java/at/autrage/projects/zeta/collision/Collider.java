@@ -14,18 +14,32 @@ public abstract class Collider extends Component {
 
     @Override
     protected void onEnable() {
-        gameObject.getGameView().ColliderManager.addCollider(this);
+        if (gameObject.getLayer() == GameObject.Layer.GameView) {
+            gameObject.getGameView().ColliderManager.addGameViewCollider(this);
+        } else if (gameObject.getLayer() == GameObject.Layer.UI) {
+            gameObject.getGameView().ColliderManager.addUICollider(this);
+        }
     }
 
     @Override
     protected void onDisable() {
-        gameObject.getGameView().ColliderManager.removeCollider(this);
+        if (gameObject.getLayer() == GameObject.Layer.GameView) {
+            gameObject.getGameView().ColliderManager.removeGameViewCollider(this);
+        } else if (gameObject.getLayer() == GameObject.Layer.UI) {
+            gameObject.getGameView().ColliderManager.removeUICollider(this);
+        }
     }
 
     @Override
     protected void onDestroy() {
-        gameObject.getGameView().ColliderManager.removeCollider(this);
+        if (gameObject.getLayer() == GameObject.Layer.GameView) {
+            gameObject.getGameView().ColliderManager.removeGameViewCollider(this);
+        } else if (gameObject.getLayer() == GameObject.Layer.UI) {
+            gameObject.getGameView().ColliderManager.removeUICollider(this);
+        }
     }
+
+    public abstract boolean intersects(float x, float y);
 
     /**
      * This method checks for collider intersection.
@@ -34,7 +48,7 @@ public abstract class Collider extends Component {
      * @return true if both colliders intersect, otherwise false.
      */
     public boolean intersects(Collider collider) {
-        if (!isEnabled()){
+        if (!isEnabled()) {
             return false;
         }
 

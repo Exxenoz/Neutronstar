@@ -245,6 +245,8 @@ public class GameView extends GLSurfaceView {
             m_Player.onGlobalTouch(e);
         }
 
+        ColliderManager.touch(e);
+
         // Always handle touch events
         return true;
     }

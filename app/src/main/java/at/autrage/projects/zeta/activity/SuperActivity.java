@@ -68,6 +68,8 @@ public class SuperActivity extends AppCompatActivity {
     }
 
     private static float m_ScaleFactor;
+    private static float scaleFactorX;
+    private static float scaleFactorY;
 
     /**
      * Returns the value of {@link SuperActivity#m_ScaleFactor}
@@ -76,6 +78,13 @@ public class SuperActivity extends AppCompatActivity {
      */
     public static float getScaleFactor() {
         return m_ScaleFactor;
+    }
+
+    public static float getScaleFactorX() {
+        return scaleFactorX;
+    }
+    public static float getScaleFactorY() {
+        return scaleFactorY;
     }
 
     /**
@@ -124,8 +133,8 @@ public class SuperActivity extends AppCompatActivity {
         m_CurrentResolutionX = size.x;
         m_CurrentResolutionY = size.y;
 
-        float scaleFactorX = m_CurrentResolutionX / (float)Pustafin.ReferenceResolutionX;
-        float scaleFactorY = m_CurrentResolutionY / (float)Pustafin.ReferenceResolutionY;
+        scaleFactorX = m_CurrentResolutionX / (float)Pustafin.ReferenceResolutionX;
+        scaleFactorY = m_CurrentResolutionY / (float)Pustafin.ReferenceResolutionY;
 
         m_ScaleFactor = Math.min(scaleFactorX, scaleFactorY);
 
