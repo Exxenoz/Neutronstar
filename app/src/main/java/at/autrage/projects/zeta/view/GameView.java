@@ -17,6 +17,7 @@ import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.ColliderManager;
+import at.autrage.projects.zeta.exception.ArgumentNullException;
 import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
@@ -69,12 +70,13 @@ public class GameView extends GLSurfaceView {
     /**
      * Reference to all updated {@link GameObject} objects.
      */
-    private Synchronitron<GameObject> m_GameObjects;
+    private List<GameObject> m_GameObjects;
+    private int currGameObjectIdx;
 
     /**
      * Reference to all enabled {@link MeshRenderer} objects.
      */
-    private Synchronitron<MeshRenderer> m_MeshRenderers;
+    private List<MeshRenderer> m_MeshRenderers;
 
     /**
      * Reference to (@link ColliderManager) object.
@@ -145,9 +147,10 @@ public class GameView extends GLSurfaceView {
         // Cache game manager module reference
         m_GameManager = GameManager.getInstance();
 
-        m_GameObjects = new Synchronitron<>(GameObject.class, 256);
+        m_GameObjects = new ArrayList<>(256);
+        currGameObjectIdx = -1;
 
-        m_MeshRenderers = new Synchronitron<>(MeshRenderer.class, 256);
+        m_MeshRenderers = new ArrayList<>(256);
 
         ColliderManager = new ColliderManager();
 
@@ -172,18 +175,43 @@ public class GameView extends GLSurfaceView {
     }
 
     public void addGameObject(GameObject gameObject) {
+        if (gameObject == null) {
+            throw new ArgumentNullException();
+        }
+
         m_GameObjects.add(gameObject);
     }
 
     public void removeGameObject(GameObject gameObject) {
-        m_GameObjects.remove(gameObject);
+        if (gameObject == null) {
+            throw new ArgumentNullException();
+        }
+
+        if (currGameObjectIdx > -1) {
+            int gameObjectIndex = m_GameObjects.indexOf(gameObject);
+            if (gameObjectIndex > -1 && gameObjectIndex <= currGameObjectIdx) {
+                m_GameObjects.remove(gameObjectIndex);
+                currGameObjectIdx--;
+            }
+        }
+        else {
+            m_GameObjects.remove(gameObject);
+        }
     }
 
     public void addMeshRenderer(MeshRenderer meshRenderer) {
+        if (meshRenderer == null) {
+            throw new ArgumentNullException();
+        }
+
         m_MeshRenderers.add(meshRenderer);
     }
 
     public void removeMeshRenderer(MeshRenderer meshRenderer) {
+        if (meshRenderer == null) {
+            throw new ArgumentNullException();
+        }
+
         m_MeshRenderers.remove(meshRenderer);
     }
 
@@ -260,12 +288,12 @@ public class GameView extends GLSurfaceView {
      * Function which updates the game models
      */
     public void update() {
-        m_GameObjects.synchronize();
-
         // Update game objects
-        for (GameObject go : m_GameObjects) {
-            go.onUpdate();
+        for (currGameObjectIdx = 0; currGameObjectIdx < m_GameObjects.size(); currGameObjectIdx++) {
+            m_GameObjects.get(currGameObjectIdx).onUpdate();
         }
+
+        currGameObjectIdx = -1;
 
         // Update colliders
         ColliderManager.update();
@@ -363,8 +391,6 @@ public class GameView extends GLSurfaceView {
         });
 
         synchronized (m_MeshRenderers) {
-            m_MeshRenderers.synchronize();
-
             for (MeshRenderer renderer : m_MeshRenderers) {
                 renderer.shift();
             }

@@ -174,8 +174,7 @@ public final class GameObject {
 
     public void onUpdate() {
         for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
-            Component component = components.get(currComponentIdx);
-            component.update();
+            components.get(currComponentIdx).update();
         }
 
         currComponentIdx = -1;
