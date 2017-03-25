@@ -35,8 +35,7 @@ public class Nuke extends Weapon {
         engineFireGameObject.setParent(gameObject);
         engineFireGameObject.setLocalPositionY(gameObject.getHalfScaleY() + engineFireGameObject.getHalfScaleY());
 
-        m_EngineFire = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
-        m_EngineFire.setScaleFactor(gameObject.getScaleX() / engineFireGameObject.getScaleX());
+        m_EngineFire = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire), gameObject.getScaleX() / engineFireGameObject.getScaleX());
         m_EngineFire.setAnimationRepeatable(true);
         engineFireGameObject.addComponent(m_EngineFire);
     }

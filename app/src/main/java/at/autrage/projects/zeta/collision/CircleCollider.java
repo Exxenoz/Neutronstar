@@ -30,8 +30,7 @@ public class CircleCollider extends Collider {
             debugCircleGameObject.setIgnoreParentRotation(true);
             debugCircleGameObject.setParent(gameObject);
 
-            m_DebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
-            m_DebugCircle.setScaleFactor(2 * m_Radius / debugCircleGameObject.getScaleX());
+            m_DebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle), 2 * m_Radius / debugCircleGameObject.getScaleX());
             m_DebugCircle.getSpriteMaterial().getColor().setColor(Color.Green);
             debugCircleGameObject.addComponent(m_DebugCircle);
         }

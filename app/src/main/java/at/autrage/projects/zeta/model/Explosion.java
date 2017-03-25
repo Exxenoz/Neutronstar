@@ -16,8 +16,8 @@ public class Explosion extends Sprite {
     private Weapon m_Weapon;
     private List<GameObject> m_GameObjectsImmuneToAOE;
 
-    public Explosion(AnimationSet animationSet, Weapon weapon) {
-        super(animationSet);
+    public Explosion(AnimationSet animationSet, Weapon weapon, float scaleFactor) {
+        super(animationSet, scaleFactor);
 
         m_Weapon = weapon;
         m_GameObjectsImmuneToAOE = new ArrayList<>();

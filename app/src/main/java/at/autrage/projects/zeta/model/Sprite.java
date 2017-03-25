@@ -31,7 +31,6 @@ public class Sprite extends Component {
     private float m_ScaleFactor;
 
     private SpriteMaterial m_SpriteMaterial;
-
     private MeshRenderer meshRenderer;
 
     public Sprite(AnimationSet animationSet) {
@@ -53,11 +52,6 @@ public class Sprite extends Component {
         m_ScaleFactor = scaleFactor;
 
         m_SpriteMaterial = new SpriteMaterial();
-
-        if (m_AnimationSet != null) {
-            playAnimationFromSet(AnimationType.Default);
-        }
-
         this.meshRenderer = null;
     }
 
@@ -67,6 +61,10 @@ public class Sprite extends Component {
         meshRenderer.setMaterial(m_SpriteMaterial);
         meshRenderer.setMesh(new SpriteMesh());
         gameObject.addComponent(meshRenderer);
+
+        if (m_AnimationSet != null) {
+            playAnimationFromSet(AnimationType.Default);
+        }
     }
 
     @Override
@@ -136,13 +134,13 @@ public class Sprite extends Component {
 
         GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
 
-        Explosion explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon);
+        Explosion explosion = null;
         if (!disableAOEDamage && weapon != null && weapon.getAOERadius() > 0f) {
-            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon, (weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
-            explosion.setScaleFactor((gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
+            explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon, (gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
         }
 
         explosionGameObject.addComponent(explosion);
