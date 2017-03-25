@@ -15,7 +15,7 @@ public abstract class Collider extends Component {
     @Override
     protected void onEnable() {
         if (gameObject.getLayer() == GameObject.Layer.GameView) {
-            gameObject.getGameView().ColliderManager.addGameViewCollider(this);
+            gameObject.getGameView().ColliderManager.addGVCollider(this);
         } else if (gameObject.getLayer() == GameObject.Layer.UI) {
             gameObject.getGameView().ColliderManager.addUICollider(this);
         }
@@ -24,7 +24,7 @@ public abstract class Collider extends Component {
     @Override
     protected void onDisable() {
         if (gameObject.getLayer() == GameObject.Layer.GameView) {
-            gameObject.getGameView().ColliderManager.removeGameViewCollider(this);
+            gameObject.getGameView().ColliderManager.removeGVCollider(this);
         } else if (gameObject.getLayer() == GameObject.Layer.UI) {
             gameObject.getGameView().ColliderManager.removeUICollider(this);
         }
@@ -33,7 +33,7 @@ public abstract class Collider extends Component {
     @Override
     protected void onDestroy() {
         if (gameObject.getLayer() == GameObject.Layer.GameView) {
-            gameObject.getGameView().ColliderManager.removeGameViewCollider(this);
+            gameObject.getGameView().ColliderManager.removeGVCollider(this);
         } else if (gameObject.getLayer() == GameObject.Layer.UI) {
             gameObject.getGameView().ColliderManager.removeUICollider(this);
         }
