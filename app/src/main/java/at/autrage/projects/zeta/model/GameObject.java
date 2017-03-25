@@ -4,6 +4,7 @@ import android.opengl.Matrix;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.event.Action;
@@ -11,12 +12,22 @@ import at.autrage.projects.zeta.exception.ArgumentNullException;
 import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
+import at.autrage.projects.zeta.ui.TouchDown;
+import at.autrage.projects.zeta.ui.TouchEvent;
+import at.autrage.projects.zeta.ui.TouchMove;
+import at.autrage.projects.zeta.ui.TouchUp;
 import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class represents an object in the game.
  */
 public final class GameObject {
+    public enum Layer {
+        None,
+        UI,
+        GameView
+    }
+
     private GameView m_GameView;
 
     /**
@@ -68,6 +79,8 @@ public final class GameObject {
     private float halfScaleY;
     private float halfScaleZ;
 
+    private Layer layer;
+
     private GameObject parent;
     private List<GameObject> children;
 
@@ -77,6 +90,10 @@ public final class GameObject {
     protected Synchronitron<Component> components;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
+        this(gameView, positionX, positionY, Layer.GameView);
+    }
+
+    public GameObject(GameView gameView, float positionX, float positionY, Layer layer) {
         m_GameView = gameView;
 
         modelMatrix = new float[16];
@@ -85,6 +102,8 @@ public final class GameObject {
         translationMatrix = new float[16];
         rotationMatrix = new float[16];
         scaleMatrix = new float[16];
+
+        this.layer = layer;
 
         parent = null;
         children = new ArrayList<>();
@@ -102,6 +121,10 @@ public final class GameObject {
         if (m_GameView != null) {
             m_GameView.addGameObject(this);
         }
+    }
+
+    public Layer getLayer() {
+        return layer;
     }
 
     public boolean addComponent(Component component) {
@@ -145,6 +168,7 @@ public final class GameObject {
             component.update();
         }
 
+
         // Update translation matrix
         Matrix.setIdentityM(translationMatrix, 0);
         Matrix.setIdentityM(rotationMatrix, 0);
@@ -186,6 +210,30 @@ public final class GameObject {
     public void onCollide(Collider other) {
         for (Component component : components) {
             component.collide(other);
+        }
+    }
+
+    public void touchDown(Collider collider, TouchEvent e) {
+        for (Component component: components){
+            if (component instanceof TouchDown){
+                ((TouchDown)component).touchDown(collider, e);
+            }
+        }
+    }
+
+    public void touchUp(Collider collider, TouchEvent e) {
+        for (Component component: components){
+            if (component instanceof TouchUp){
+                ((TouchUp)component).touchUp(collider, e);
+            }
+        }
+    }
+
+    public void touchMove(Collider collider, TouchEvent e) {
+        for (Component component: components){
+            if (component instanceof TouchMove){
+                ((TouchMove)component).touchMove(collider, e);
+            }
         }
     }
 
