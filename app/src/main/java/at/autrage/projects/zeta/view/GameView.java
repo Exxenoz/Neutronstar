@@ -17,6 +17,7 @@ import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.collision.ColliderManager;
 import at.autrage.projects.zeta.exception.ArgumentNullException;
+import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
@@ -75,7 +76,7 @@ public class GameView extends GLSurfaceView {
     /**
      * Reference to all enabled {@link MeshRenderer} objects.
      */
-    private List<MeshRenderer> m_MeshRenderers;
+    private Synchronitron<MeshRenderer> m_MeshRenderers;
 
     /**
      * Reference to (@link ColliderManager) object.
@@ -150,7 +151,7 @@ public class GameView extends GLSurfaceView {
         m_GameObjects = new ArrayList<>(256);
         currGameObjectIdx = -1;
 
-        m_MeshRenderers = new ArrayList<>(256);
+        m_MeshRenderers = new Synchronitron<>(MeshRenderer.class, 256);
 
         ColliderManager = new ColliderManager();
 
@@ -395,6 +396,8 @@ public class GameView extends GLSurfaceView {
         });
 
         synchronized (m_MeshRenderers) {
+            m_MeshRenderers.synchronize();
+
             for (MeshRenderer renderer : m_MeshRenderers) {
                 renderer.shift();
             }
