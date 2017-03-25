@@ -9,16 +9,10 @@ public abstract class Component {
     private boolean started;
     private boolean enabled;
 
-    public Component(GameObject gameObject) {
-        if (gameObject == null) {
-            throw new IllegalArgumentException("gameObject cannot be null!");
-        }
-
-        this.gameObject = gameObject;
+    public Component() {
+        this.gameObject = null;
         this.started = false;
         this.enabled = false;
-
-        gameObject.addComponent(this);
     }
 
     public GameObject getGameObject() {

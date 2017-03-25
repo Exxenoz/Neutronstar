@@ -10,12 +10,8 @@ public class LinearMovement extends Component {
     private float speedY;
     private float speed;
 
-    public LinearMovement(GameObject gameObject) {
-        super(gameObject);
-    }
-
-    public LinearMovement(GameObject gameObject, float directionX, float directionY, float speed) {
-        super(gameObject);
+    public LinearMovement(float directionX, float directionY, float speed) {
+        super();
 
         this.directionX = directionX;
         this.directionY = directionY;

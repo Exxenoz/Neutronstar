@@ -38,44 +38,56 @@ public class Player extends Component {
     private AlarmArea m_AlarmArea;
     private Sprite m_TouchRadiusDebugCircle;
 
-    public Player(GameObject gameObject) {
-        super(gameObject);
-
-        gameObject.setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
+    public Player() {
+        super();
 
         m_RemainingTime = Pustafin.LevelDuration;
         m_OnUpdateEverySecondTimer = 1f;
         m_SelectedWeapon = Weapons.SmallRocket;
+        m_PopulationIncreaseTimer = 0f;
 
         m_TouchEventStartPositions = new HashMap<>();
+
+        m_SphereMesh = null;
+        m_Material = null;
+        meshRenderer = null;
+
+        m_AlarmArea = null;
+        m_TouchRadiusDebugCircle = null;
+    }
+
+    @Override
+    protected void onStart() {
+        gameObject.setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
 
         m_SphereMesh = new SphereMesh(Pustafin.PlanetMeshStacks, Pustafin.PlanetMeshSlices);
         m_Material = new SpriteMaterial();
         m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
         m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
 
-        meshRenderer = new MeshRenderer(gameObject);
+        meshRenderer = new MeshRenderer();
         meshRenderer.setMaterial(m_Material);
         meshRenderer.setMesh(m_SphereMesh);
+        gameObject.addComponent(meshRenderer);
 
-        new CircleCollider(gameObject, gameObject.getHalfScaleX());
+        gameObject.addComponent(new CircleCollider(gameObject.getHalfScaleX()));
 
         GameObject alarmAreaGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
         alarmAreaGameObject.setIgnoreParentRotation(true);
         alarmAreaGameObject.setParent(gameObject);
-        m_AlarmArea = new AlarmArea(alarmAreaGameObject);
-        new CircleCollider(alarmAreaGameObject, Pustafin.AlarmAreaRadius);
+        alarmAreaGameObject.addComponent(m_AlarmArea = new AlarmArea());
+        alarmAreaGameObject.addComponent(new CircleCollider(Pustafin.AlarmAreaRadius));
 
         if (Pustafin.DebugMode) {
             GameObject debugCircleGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
             debugCircleGameObject.setIgnoreParentRotation(true);
             debugCircleGameObject.setParent(gameObject);
-            m_TouchRadiusDebugCircle = new Sprite(debugCircleGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
+
+            m_TouchRadiusDebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle));
             m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / debugCircleGameObject.getScaleX());
             m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
+            debugCircleGameObject.addComponent(m_TouchRadiusDebugCircle);
         }
-
-        Logger.D("Initialized player");
     }
 
     public void onUpdate() {

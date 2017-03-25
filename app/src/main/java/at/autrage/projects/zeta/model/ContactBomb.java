@@ -8,7 +8,4 @@ import at.autrage.projects.zeta.view.GameView;
  * This class represents a contact bomb object in the game.
  */
 public class ContactBomb extends Weapon {
-    public ContactBomb(GameObject gameObject, AnimationSet animationSet) {
-        super(gameObject);
-    }
 }

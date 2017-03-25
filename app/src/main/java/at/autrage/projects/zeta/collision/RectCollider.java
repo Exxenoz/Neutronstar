@@ -9,8 +9,8 @@ public class RectCollider extends Collider {
     private float halfWidth;
     private float halfHeight;
 
-    public RectCollider(GameObject owner, Rect rect) {
-        super(owner);
+    public RectCollider(Rect rect) {
+        super();
 
         this.rect = rect;
 
@@ -18,8 +18,8 @@ public class RectCollider extends Collider {
         halfHeight = rect.height() / 2f;
     }
 
-    public RectCollider(GameObject owner, int left, int right, int top, int bottom) {
-        super(owner);
+    public RectCollider(int left, int right, int top, int bottom) {
+        super();
 
         rect = new Rect(left, top, right, bottom);
 

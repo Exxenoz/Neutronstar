@@ -34,8 +34,12 @@ public class Sprite extends Component {
 
     private MeshRenderer meshRenderer;
 
-    public Sprite(GameObject gameObject, AnimationSet animationSet) {
-        super(gameObject);
+    public Sprite(AnimationSet animationSet) {
+        this(animationSet, 1f);
+    }
+
+    public Sprite(AnimationSet animationSet, float scaleFactor) {
+        super();
 
         m_Animation = null;
         m_AnimationSet = animationSet;
@@ -46,7 +50,7 @@ public class Sprite extends Component {
         m_AnimationRepeatable = false;
         m_AnimationPaused = false;
 
-        m_ScaleFactor = 1f;
+        m_ScaleFactor = scaleFactor;
 
         m_SpriteMaterial = new SpriteMaterial();
 
@@ -54,9 +58,15 @@ public class Sprite extends Component {
             playAnimationFromSet(AnimationType.Default);
         }
 
-        this.meshRenderer = new MeshRenderer(gameObject);
-        this.meshRenderer.setMaterial(m_SpriteMaterial);
-        this.meshRenderer.setMesh(new SpriteMesh());
+        this.meshRenderer = null;
+    }
+
+    @Override
+    protected void onStart() {
+        meshRenderer = new MeshRenderer();
+        meshRenderer.setMaterial(m_SpriteMaterial);
+        meshRenderer.setMesh(new SpriteMesh());
+        gameObject.addComponent(meshRenderer);
     }
 
     @Override
@@ -122,18 +132,20 @@ public class Sprite extends Component {
             explosionSpawnPositionY = gameObject.getPositionY();
         }
 
-        GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
-        Explosion explosion = new Explosion(explosionGameObject, AssetManager.getInstance().getAnimationSet(animationSet));
-
         Weapon weapon = gameObject.getComponent(Weapon.class);
+
+        GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
+
+        Explosion explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon);
         if (!disableAOEDamage && weapon != null && weapon.getAOERadius() > 0f) {
-            explosion.setWeapon(weapon);
             explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
             explosion.setScaleFactor((gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
         }
+
+        explosionGameObject.addComponent(explosion);
 
         gameObject.destroy();
     }

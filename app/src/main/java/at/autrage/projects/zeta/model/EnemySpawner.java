@@ -29,8 +29,8 @@ public class EnemySpawner extends Component {
     private float m_AsteroidSpawnTimeDelta;
     private int m_AsteroidCountDestroyed;
 
-    public EnemySpawner(GameObject gameObject) {
-        super(gameObject);
+    public EnemySpawner() {
+        super();
 
         m_Random = new Random();
 

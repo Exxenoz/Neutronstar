@@ -84,7 +84,7 @@ public final class GameObject {
     private boolean ignoreParentPosition;
     private boolean ignoreParentRotation;
 
-    protected List<Component> components;
+    private List<Component> components;
     private int currComponentIdx;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
@@ -120,12 +120,26 @@ public final class GameObject {
         return layer;
     }
 
-    public boolean addComponent(Component component) {
+    public boolean addComponent(Component component, boolean enable) {
         if (component == null) {
             throw new ArgumentNullException();
         }
 
-        return components.add(component);
+        if (component.gameObject != null) {
+            throw new IllegalStateException("Could not add component to game object, because component is already attached to a game object!");
+        }
+
+        if (components.add(component)) {
+            component.gameObject = this;
+            component.setEnabled(enable);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean addComponent(Component component) {
+        return addComponent(component, true);
     }
 
     public boolean removeComponent(Component component) {

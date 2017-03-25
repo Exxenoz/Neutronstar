@@ -5,7 +5,7 @@ import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.view.GameView;
 
 public class Laser extends Weapon {
-    public Laser(GameObject gameObject, AnimationSet animationSet) {
-        super(gameObject);
+    public Laser() {
+        super();
     }
 }

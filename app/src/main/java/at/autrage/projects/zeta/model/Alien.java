@@ -10,7 +10,7 @@ import at.autrage.projects.zeta.view.GameView;
  * This class represents an alien enemy object in the game.
  */
 public class Alien extends Enemy {
-    public Alien(GameObject gameObject, AnimationSets animationSet) {
-        super(gameObject, AssetManager.getInstance().getAnimationSet(animationSet));
+    public Alien(EnemySpawner spawner, float health, float hitDamage, int bounty, int points) {
+        super(spawner, health, hitDamage, bounty, points);
     }
 }

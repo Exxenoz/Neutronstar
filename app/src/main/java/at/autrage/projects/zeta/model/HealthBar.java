@@ -14,19 +14,23 @@ public class HealthBar extends Component {
     private float m_HealthPercent;
     private MeshRenderer meshRenderer;
 
-    public HealthBar(GameObject gameObject, float width, float height) {
-        super(gameObject);
+    public HealthBar(float width, float height) {
+        super();
 
         m_ColorMaterial = new ColorMaterial();
         m_FullWidth = width;
         m_FullHeight = height;
-        setHealthPercent(1f);
+        m_HealthPercent = 0f;
+    }
 
-        updateScale();
-
-        meshRenderer = new MeshRenderer(gameObject);
+    @Override
+    protected void onStart() {
+        meshRenderer = new MeshRenderer();
         meshRenderer.setMaterial(m_ColorMaterial);
         meshRenderer.setMesh(new SpriteMesh());
+        gameObject.addComponent(meshRenderer);
+
+        setHealthPercent(1f);
     }
 
     private void updateScale() {
@@ -55,5 +59,12 @@ public class HealthBar extends Component {
         m_HealthPercent = healthPercent;
 
         updateScale();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (meshRenderer != null) {
+            meshRenderer.destroy();
+        }
     }
 }

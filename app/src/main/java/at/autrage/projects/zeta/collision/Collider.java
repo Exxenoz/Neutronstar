@@ -8,10 +8,6 @@ import at.autrage.projects.zeta.module.Logger;
  * Colliders are simple invisible geometric objects used by game objects for collision detection.
  */
 public abstract class Collider extends Component {
-    public Collider(GameObject gameObject) {
-        super(gameObject);
-    }
-
     @Override
     protected void onEnable() {
         if (gameObject.getLayer() == GameObject.Layer.GameView) {

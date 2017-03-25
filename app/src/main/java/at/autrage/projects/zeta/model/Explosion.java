@@ -16,10 +16,30 @@ public class Explosion extends Sprite {
     private Weapon m_Weapon;
     private List<GameObject> m_GameObjectsImmuneToAOE;
 
-    public Explosion(GameObject gameObject, AnimationSet animationSet) {
-        super(gameObject, animationSet);
+    public Explosion(AnimationSet animationSet, Weapon weapon) {
+        super(animationSet);
 
+        m_Weapon = weapon;
         m_GameObjectsImmuneToAOE = new ArrayList<>();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (m_Weapon == null) {
+            return;
+        }
+
+        if (m_Weapon.getAOEDamage() <= 0f) {
+            return;
+        }
+
+        if (m_Weapon.getAOERadius() <= 0f) {
+            return;
+        }
+
+        gameObject.addComponent(new CircleCollider(m_Weapon.getAOERadius()));
     }
 
     @Override
@@ -30,12 +50,12 @@ public class Explosion extends Sprite {
             return;
         }
 
-        if (other.gameObject.getComponent(Enemy.class) != null) {
+        if (other.gameObject.getComponent(Enemy.class) == null) {
             return;
         }
 
         if (!m_GameObjectsImmuneToAOE.contains(other.getGameObject())) {
-            Enemy enemy = (Enemy) other.gameObject.getComponent(Enemy.class);
+            Enemy enemy = other.gameObject.getComponent(Enemy.class);
             enemy.receiveDamage(m_Weapon.getAOEDamage());
 
             if (enemy.isAlive()) {
@@ -49,28 +69,6 @@ public class Explosion extends Sprite {
         super.onAnimationFinished();
 
         gameObject.destroy();
-    }
-
-    public Weapon getWeapon() {
-        return m_Weapon;
-    }
-
-    public void setWeapon(Weapon weapon) {
-        this.m_Weapon = weapon;
-
-        if (weapon == null) {
-            return;
-        }
-
-        if (weapon.getAOEDamage() <= 0f) {
-            return;
-        }
-
-        if (weapon.getAOERadius() <= 0f) {
-            return;
-        }
-
-        new CircleCollider(gameObject, weapon.getAOERadius());
     }
 
     public void addImmuneToAOEGameObject(GameObject gameObject) {

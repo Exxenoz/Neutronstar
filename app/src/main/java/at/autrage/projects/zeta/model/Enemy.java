@@ -1,42 +1,42 @@
-    package at.autrage.projects.zeta.model;
+package at.autrage.projects.zeta.model;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.animation.AnimationSets;
-import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
-import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class represents an enemy object in the game.
  */
 public class Enemy extends Component {
-    protected EnemySpawner m_Owner;
-    protected HealthBar m_HealthBar;
-    protected float m_Health;
-    protected float m_HealthMaximum;
-    protected float m_HealthPercent;
-    protected float m_HitDamage;
-    protected int m_Bounty;
-    protected int m_Points;
-    protected Sprite sprite;
+    private EnemySpawner spawner;
+    private HealthBar m_HealthBar;
+    private float m_HealthMaximum;
+    private float m_HealthPercent;
+    private float m_Health;
+    private float m_HitDamage;
+    private int m_Bounty;
+    private int m_Points;
 
-    public Enemy(GameObject gameObject, AnimationSet animationSet) {
-        super(gameObject);
+    public Enemy(EnemySpawner spawner, float health, float hitDamage, int bounty, int points) {
+        super();
 
-        m_Owner = null;
-        m_HealthBar = null;
-        m_Health = 1f;
-        m_HealthMaximum = 1f;
-        m_HealthPercent = 1f;
-        m_HitDamage = 0f;
-        m_Bounty = 0;
-        m_Points = 0;
-        sprite = new Sprite(gameObject, animationSet);
+        setSpawner(spawner);
+        setHealthBar(null);
+        setHealthMaximum(1f);
+        setHealth(health);
+        setHitDamage(hitDamage);
+        setBounty(bounty);
+        setPoints(points);
     }
 
-    protected void createHealthbar() {
+    @Override
+    protected void onStart() {
+        createHealthbar();
+    }
+
+    private void createHealthbar() {
         GameObject healthBarGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
         healthBarGameObject.setIgnoreParentRotation(true);
         healthBarGameObject.setParent(gameObject);
@@ -45,7 +45,8 @@ public class Enemy extends Component {
                 gameObject.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
         );
 
-        m_HealthBar = new HealthBar(healthBarGameObject, Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHeight);
+        healthBarGameObject.addComponent(m_HealthBar = new HealthBar(Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHeight));
+        m_HealthBar.setHealthPercent(m_HealthPercent);
     }
 
     @Override
@@ -74,22 +75,34 @@ public class Enemy extends Component {
 
     @Override
     protected void onDestroy() {
-        if (m_Owner != null) {
-            m_Owner.onDestroyEnemy(this);
+        if (spawner != null) {
+            spawner.onDestroyEnemy(this);
+        }
+
+        if (m_HealthBar != null) {
+            m_HealthBar.destroy();
         }
     }
 
-    public EnemySpawner getOwner() {
-        return m_Owner;
+    public EnemySpawner getSpawner() {
+        return spawner;
     }
 
-    public void setOwner(EnemySpawner owner) {
-        this.m_Owner =owner;
+    private void setSpawner(EnemySpawner spawner) {
+        this.spawner = spawner;
+    }
+
+    public HealthBar getHealthBar() {
+        return m_HealthBar;
+    }
+
+    private void setHealthBar(HealthBar healthBar) {
+        this.m_HealthBar = healthBar;
     }
 
     public boolean isAlive() {
-        return m_Health > 0f;
-    }
+    return m_Health > 0f;
+}
 
     public float getHealth() {
         return m_Health;

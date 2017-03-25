@@ -7,7 +7,7 @@ import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.view.GameView;
 
 public class SpaceCow extends Enemy {
-    public SpaceCow(GameObject gameObject, AnimationSets animationSet) {
-        super(gameObject, AssetManager.getInstance().getAnimationSet(animationSet));
+    public SpaceCow(EnemySpawner spawner, float health, float hitDamage, int bounty, int points) {
+        super(spawner, health, hitDamage, bounty, points);
     }
 }

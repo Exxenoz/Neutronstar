@@ -19,20 +19,26 @@ public class Nuke extends Weapon {
     private Sprite m_EngineFire;
     private AnimationSets m_ExplosionAnimationSet;
 
-    public Nuke(GameObject gameObject, AnimationSet animationSet) {
-        super(gameObject);
+    public Nuke() {
+        super();
 
-        new Sprite(gameObject, animationSet);
+        m_EngineFire = null;
+        m_ExplosionAnimationSet = AnimationSets.Explosion1;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         GameObject engineFireGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
-        m_EngineFire = new Sprite(engineFireGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
-        m_EngineFire.setScaleFactor(gameObject.getScaleX() / engineFireGameObject.getScaleX());
-        m_EngineFire.setAnimationRepeatable(true);
         engineFireGameObject.setLocalRotationZ(180f);
         engineFireGameObject.setParent(gameObject);
         engineFireGameObject.setLocalPositionY(gameObject.getHalfScaleY() + engineFireGameObject.getHalfScaleY());
 
-        m_ExplosionAnimationSet = AnimationSets.Explosion1;
+        m_EngineFire = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
+        m_EngineFire.setScaleFactor(gameObject.getScaleX() / engineFireGameObject.getScaleX());
+        m_EngineFire.setAnimationRepeatable(true);
+        engineFireGameObject.addComponent(m_EngineFire);
     }
 
     @Override
@@ -58,35 +64,39 @@ public class Nuke extends Weapon {
     }
 
     public static Nuke createSmallNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject nukeGameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        gameObject.addComponent(new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.SmallNuke)));
+        gameObject.addComponent(new CircleCollider(gameObject.getHalfScaleX()));
+        gameObject.addComponent(new LinearMovement(directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.SmallNuke)));
 
-        Nuke nuke = new Nuke(nukeGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.SmallNuke));
-        nukeGameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        Nuke nuke = new Nuke();
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallNuke));
         nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.SmallNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion2);
-        new CircleCollider(nukeGameObject, nukeGameObject.getHalfScaleX());
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
+        gameObject.addComponent(nuke);
 
-        new LinearMovement(nukeGameObject, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.SmallNuke));
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
 
         return nuke;
     }
 
     public static Nuke createBigNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject bigNukeGameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        gameObject.addComponent(new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.BigNuke)));
+        gameObject.addComponent(new CircleCollider(gameObject.getHalfScaleX()));
+        gameObject.addComponent(new LinearMovement(directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.BigNuke)));
 
-        Nuke nuke = new Nuke(bigNukeGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.BigNuke));
-        bigNukeGameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        Nuke nuke = new Nuke();
         nuke.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigNuke));
         nuke.setAOEDamage(nuke.getHitDamage() * Pustafin.AOEDamageFactor);
         nuke.setAOERadius(GameManager.getInstance().getWeaponRadius(Weapons.BigNuke));
         nuke.setExplosionAnimationSet(AnimationSets.Explosion3);
-        new CircleCollider(bigNukeGameObject, bigNukeGameObject.getHalfScaleX());
-        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
+        gameObject.addComponent(nuke);
 
-        new LinearMovement(bigNukeGameObject, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.BigNuke));
+        SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
 
         return nuke;
     }
