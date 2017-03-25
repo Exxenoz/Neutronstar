@@ -87,7 +87,8 @@ public final class GameObject {
     private boolean ignoreParentPosition;
     private boolean ignoreParentRotation;
 
-    protected Synchronitron<Component> components;
+    protected List<Component> components;
+    private int currComponentIdx;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
         this(gameView, positionX, positionY, Layer.GameView);
@@ -110,13 +111,8 @@ public final class GameObject {
 
         setPosition(positionX, positionY);
 
-        components = new Synchronitron<Component>(Component.class);
-        components.elementAdded.add(new Action<Component>() {
-            @Override
-            public void invoke(Component arg) {
-                arg.enable();
-            }
-        });
+        components = new ArrayList<>();
+        currComponentIdx = -1;
 
         if (m_GameView != null) {
             m_GameView.addGameObject(this);
@@ -136,7 +132,22 @@ public final class GameObject {
     }
 
     public boolean removeComponent(Component component) {
-        return components.remove(component);
+        if (component == null) {
+            throw new ArgumentNullException();
+        }
+
+        if (currComponentIdx > -1) {
+            int componentIndex = components.indexOf(component);
+            if (componentIndex > -1 && componentIndex <= currComponentIdx) {
+                currComponentIdx--;
+                return components.remove(componentIndex) != null;
+            }
+        }
+        else {
+            return components.remove(component);
+        }
+
+        return false;
     }
 
     public <T> T getComponent(Class<T> componentClass) {
@@ -162,12 +173,12 @@ public final class GameObject {
     }
 
     public void onUpdate() {
-        components.synchronize();
-
-        for (Component component : components) {
+        for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
+            Component component = components.get(currComponentIdx);
             component.update();
         }
 
+        currComponentIdx = -1;
 
         // Update translation matrix
         Matrix.setIdentityM(translationMatrix, 0);
@@ -208,33 +219,45 @@ public final class GameObject {
     }
 
     public void onCollide(Collider other) {
-        for (Component component : components) {
+        for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
+            Component component = components.get(currComponentIdx);
             component.collide(other);
         }
+
+        currComponentIdx = -1;
     }
 
     public void touchDown(Collider collider, TouchEvent e) {
-        for (Component component: components){
+        for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
+            Component component = components.get(currComponentIdx);
             if (component instanceof TouchDown){
                 ((TouchDown)component).touchDown(collider, e);
             }
         }
+
+        currComponentIdx = -1;
     }
 
     public void touchUp(Collider collider, TouchEvent e) {
-        for (Component component: components){
+        for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
+            Component component = components.get(currComponentIdx);
             if (component instanceof TouchUp){
                 ((TouchUp)component).touchUp(collider, e);
             }
         }
+
+        currComponentIdx = -1;
     }
 
     public void touchMove(Collider collider, TouchEvent e) {
-        for (Component component: components){
+        for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
+            Component component = components.get(currComponentIdx);
             if (component instanceof TouchMove){
                 ((TouchMove)component).touchMove(collider, e);
             }
         }
+
+        currComponentIdx = -1;
     }
 
     public GameView getGameView() {
@@ -677,10 +700,8 @@ public final class GameObject {
     }
 
     public void destroy() {
-        GameObject child = null;
         for (int i = 0, size = children.size(); i < size; i++) {
-            child = children.get(i);
-            child.destroy();
+            children.get(i).destroy();
         }
 
         for (int i = 0; i < components.size(); i++) {
