@@ -134,16 +134,15 @@ public class Sprite extends Component {
 
         GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
 
-        Explosion explosion = null;
+        Explosion explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon);
+        explosionGameObject.addComponent(explosion);
         if (!disableAOEDamage && weapon != null && weapon.getAOERadius() > 0f) {
-            explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon, (weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
-            explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon, (gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
+            explosion.setScaleFactor((gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
         }
-
-        explosionGameObject.addComponent(explosion);
 
         gameObject.destroy();
     }

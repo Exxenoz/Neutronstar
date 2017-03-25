@@ -83,9 +83,9 @@ public class Player extends Component {
             debugCircleGameObject.setIgnoreParentRotation(true);
             debugCircleGameObject.setParent(gameObject);
 
-            m_TouchRadiusDebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle), 2f * Pustafin.PlanetTouchRadius / debugCircleGameObject.getScaleX());
+            debugCircleGameObject.addComponent(m_TouchRadiusDebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle)));
+            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / debugCircleGameObject.getScaleX());
             m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
-            debugCircleGameObject.addComponent(m_TouchRadiusDebugCircle);
         }
     }
 

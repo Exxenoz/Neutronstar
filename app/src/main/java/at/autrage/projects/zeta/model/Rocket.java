@@ -28,13 +28,12 @@ public class Rocket extends Weapon {
         super.onStart();
 
         GameObject engineFireGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
-        engineFireGameObject.setLocalRotationZ(180f);
         engineFireGameObject.setParent(gameObject);
-        engineFireGameObject.setLocalPositionY(gameObject.getHalfScaleY() + engineFireGameObject.getHalfScaleY() + engineFireOffset);
-
-        m_EngineFire = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire), gameObject.getScaleX() / engineFireGameObject.getScaleX());
+        engineFireGameObject.addComponent(m_EngineFire = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire)));
+        m_EngineFire.setScaleFactor(gameObject.getScaleX() / engineFireGameObject.getScaleX());
         m_EngineFire.setAnimationRepeatable(true);
-        engineFireGameObject.addComponent(m_EngineFire);
+        engineFireGameObject.setLocalRotationZ(180f);
+        engineFireGameObject.setLocalPositionY(gameObject.getHalfScaleY() + engineFireGameObject.getHalfScaleY() + engineFireOffset);
     }
 
     @Override

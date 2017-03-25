@@ -38,10 +38,10 @@ public class Asteroid extends Enemy {
                 (int)(health * Pustafin.AsteroidPointsPerHealthFactor)
         );
 
-        asteroidGameObject.addComponent(asteroid);
         asteroidGameObject.addComponent(new Sprite(AssetManager.getInstance().getAnimationSet(animationSet), scaleFactor));
         asteroidGameObject.addComponent(new CircleCollider(asteroidGameObject.getHalfScaleX()));
         asteroidGameObject.addComponent(new LinearMovement(directionX, directionY,  speed));
+        asteroidGameObject.addComponent(asteroid);
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
                 positionX, positionY, directionX, directionY, asteroidGameObject.getHalfScaleX(), speed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());

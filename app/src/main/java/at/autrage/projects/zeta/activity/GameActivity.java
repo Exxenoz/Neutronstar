@@ -189,8 +189,13 @@ public class GameActivity extends SuperActivity {
      * Performs a click on the small rocket button area to select small rocket as weapon.
      */
     public void setHighlightedHotbarBoxToSmallRocketArea() {
-        Button btnAreaSmallRocket = (Button) findViewById(R.id.btnAreaSmallRocket);
-        btnAreaSmallRocket.performClick();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Button btnAreaSmallRocket = (Button) findViewById(R.id.btnAreaSmallRocket);
+                btnAreaSmallRocket.performClick();
+            }
+        });
     }
 
     private class PauseButtonAreaListener implements View.OnClickListener {
