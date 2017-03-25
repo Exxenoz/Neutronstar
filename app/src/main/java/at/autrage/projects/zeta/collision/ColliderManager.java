@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.collision;
 
+import android.text.method.Touch;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -24,37 +25,29 @@ public class ColliderManager {
     private int currGVColliderIdx;
     private int currUIColliderIdx;
 
-    private ConcurrentLinkedQueue<TouchEvent> touchEvents;
-
     public ColliderManager() {
         GVColliders = new ArrayList<Collider>(256);
         UIColliders = new ArrayList<Collider>(256);
 
         currGVColliderIdx = -1;
         currUIColliderIdx = -1;
-
-        touchEvents = new ConcurrentLinkedQueue<>();
     }
 
     public void update() {
         updateGameViewColliders();
-
-        updateTouchEvents();
     }
 
-    private void updateTouchEvents() {
-        for (TouchEvent touchEvent = touchEvents.poll(); touchEvent != null; touchEvent = touchEvents.poll()) {
-            switch (touchEvent.motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    actionDown(touchEvent);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    actionUp(touchEvent);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    actionMove(touchEvent);
-                    break;
-            }
+    public void touch(TouchEvent touchEvent) {
+        switch (touchEvent.motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                actionDown(touchEvent);
+                break;
+            case MotionEvent.ACTION_UP:
+                actionUp(touchEvent);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                actionMove(touchEvent);
+                break;
         }
     }
 
@@ -156,12 +149,5 @@ public class ColliderManager {
         else {
             UIColliders.remove(collider);
         }
-    }
-
-    public void touch(MotionEvent e) {
-        float x = e.getRawX() * SuperActivity.getScaleFactorX();
-        float y = e.getRawY() * SuperActivity.getScaleFactorY();
-
-        touchEvents.add(new TouchEvent(e, x, y));
     }
 }

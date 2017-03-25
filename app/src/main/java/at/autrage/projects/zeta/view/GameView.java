@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
@@ -33,6 +34,7 @@ import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.Util;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
+import at.autrage.projects.zeta.ui.TouchEvent;
 
 /**
  * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
@@ -102,6 +104,7 @@ public class GameView extends GLSurfaceView {
      */
     private float m_AlarmTimer;
 
+    private ConcurrentLinkedQueue<TouchEvent> touchEvents;
     /**
      * True if a click event is in progress, otherwise false.
      */
@@ -162,6 +165,7 @@ public class GameView extends GLSurfaceView {
         m_AlarmAutoStop = true;
         m_AlarmTimer = 0f;
 
+        touchEvents = new ConcurrentLinkedQueue<>();
         m_ClickEventActive = false;
 
         m_RedirectionDelayTimer = new Timer();
@@ -257,23 +261,7 @@ public class GameView extends GLSurfaceView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!m_ClickEventActive) {
-                    m_ClickEventActive = true;
-                    onClick();
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                m_ClickEventActive = false;
-                break;
-        }
-
-        if (m_Player != null) {
-            m_Player.onGlobalTouch(e);
-        }
-
-        ColliderManager.touch(e);
+        touchEvents.add(new TouchEvent(e));
 
         // Always handle touch events
         return true;
@@ -289,6 +277,27 @@ public class GameView extends GLSurfaceView {
         }
 
         currGameObjectIdx = -1;
+
+        // Update touch events
+        for (TouchEvent touchEvent = touchEvents.poll(); touchEvent != null; touchEvent = touchEvents.poll()) {
+            switch (touchEvent.motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!m_ClickEventActive) {
+                        m_ClickEventActive = true;
+                        onClick();
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    m_ClickEventActive = false;
+                    break;
+            }
+
+            if (m_Player != null) {
+                m_Player.onGlobalTouch(touchEvent.motionEvent);
+            }
+
+            ColliderManager.touch(touchEvent);
+        }
 
         // Update colliders
         ColliderManager.update();
