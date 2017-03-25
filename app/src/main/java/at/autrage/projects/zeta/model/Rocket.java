@@ -15,49 +15,57 @@ import at.autrage.projects.zeta.view.GameView;
 public class Rocket extends Weapon {
     private Sprite m_EngineFire;
 
-    public Rocket(GameView gameView, float positionX, float positionY, AnimationSet animationSet, float engineFireOffset) {
-        super(gameView, positionX, positionY, animationSet);
+    public Rocket(GameObject gameObject, AnimationSet animationSet, float engineFireOffset) {
+        super(gameObject);
 
-        m_EngineFire = new Sprite(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
-        m_EngineFire.setScaleFactor(getScaleX() / m_EngineFire.getScaleX());
+        new Sprite(gameObject, animationSet);
+
+        GameObject engineFireGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+        m_EngineFire = new Sprite(engineFireGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.EngineFire));
+        m_EngineFire.setScaleFactor(gameObject.getScaleX() / engineFireGameObject.getScaleX());
         m_EngineFire.setAnimationRepeatable(true);
-        m_EngineFire.setLocalRotationZ(180f);
-        m_EngineFire.setParent(this);
-        m_EngineFire.setLocalPositionY(getHalfScaleY() + m_EngineFire.getHalfScaleY() + engineFireOffset);
+        engineFireGameObject.setLocalRotationZ(180f);
+        engineFireGameObject.setParent(gameObject);
+        engineFireGameObject.setLocalPositionY(gameObject.getHalfScaleY() + engineFireGameObject.getHalfScaleY() + engineFireOffset);
     }
 
     @Override
     public void onCollide(Collider other) {
         super.onCollide(other);
 
-        if (other.getGameObject() instanceof Enemy) {
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float) Math.random());
-            explode(other.getGameObject(), AnimationSets.Explosion1);
+        if (other.gameObject.getComponent(Enemy.class) != null) {
+            Sprite sprite = gameObject.getComponent(Sprite.class);
+            if (sprite != null) {
+                SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_rocket, 0.5f + (float) Math.random());
+                sprite.explode(other.getGameObject(), AnimationSets.Explosion1);
+            }
         }
     }
 
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
-                AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket), 0);
-        rocket.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        GameObject rocketGameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+
+        Rocket rocket = new Rocket(rocketGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.SmallRocket), 0);
+        rocketGameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.SmallRocket));
-        rocket.addComponent(new CircleCollider(rocket, rocket.getHalfScaleX()));
+        new CircleCollider(rocketGameObject, rocketGameObject.getHalfScaleX());
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
 
-        rocket.addComponent(new LinearMovement(rocket, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket)));
+        new LinearMovement(rocketGameObject, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.SmallRocket));
 
         return rocket;
     }
 
     public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        Rocket rocket = new Rocket(player.getGameView(), positionX, positionY,
-                AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket), -10f);
-        rocket.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
+        GameObject bigRocketGameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+
+        Rocket rocket = new Rocket(bigRocketGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.BigRocket), -10f);
+        bigRocketGameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
         rocket.setHitDamage(GameManager.getInstance().getWeaponHitDamage(Weapons.BigRocket));
-        rocket.addComponent(new CircleCollider(rocket, rocket.getHalfScaleX()));
+        new CircleCollider(bigRocketGameObject, bigRocketGameObject.getHalfScaleX());
         SoundManager.getInstance().PlaySFX(R.raw.sfx_launch_rocket, (float) (Math.random() + 0.5f));
 
-        rocket.addComponent(new LinearMovement(rocket, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket)));
+        new LinearMovement(bigRocketGameObject, directionX, directionY, GameManager.getInstance().getWeaponSpeed(Weapons.BigRocket));
 
         return rocket;
     }

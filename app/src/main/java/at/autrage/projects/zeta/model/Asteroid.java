@@ -21,28 +21,30 @@ public class Asteroid extends Enemy {
             AnimationSets.Asteroid3
     };
 
-    public Asteroid(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY, animationSet);
+    public Asteroid(GameObject gameObject, AnimationSets animationSet, float scaleFactor, float health) {
+        super(gameObject, AssetManager.getInstance().getAnimationSet(animationSet));
+        setRandomRotationSpeed();
+        setHealth(health);
+        setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
+        setBounty((int)(scaleFactor * Pustafin.AsteroidMoneyPerScaleFactor));
+        setPoints((int)(health * Pustafin.AsteroidPointsPerHealthFactor));
 
-        m_RotationSpeed = 0f;
+        sprite.setScaleFactor(scaleFactor);
+        createHealthbar();
     }
 
-    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scale, float speed,
+    public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scaleFactor, float speed,
                                           float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner owner) {
-        Asteroid asteroid = new Asteroid(gameView, positionX, positionY, AssetManager.getInstance().getAnimationSet(animationSet));
-        asteroid.setScaleFactor(scale);
-        asteroid.setRandomRotationSpeed();
-        asteroid.setHealth(health);
-        asteroid.setHitDamage(health * Pustafin.AsteroidImpactDamageFactor);
-        asteroid.setBounty((int)(scale * Pustafin.AsteroidMoneyPerScaleFactor));
-        asteroid.setPoints((int)(health * Pustafin.AsteroidPointsPerHealthFactor));
-        asteroid.addComponent(new CircleCollider(asteroid, asteroid.getHalfScaleX()));
+        GameObject asteroidGameObject = new GameObject(gameView, positionX, positionY);
+        Asteroid asteroid = new Asteroid(asteroidGameObject, animationSet, scaleFactor, health);
+
+        new CircleCollider(asteroidGameObject, asteroidGameObject.getHalfScaleX());
         asteroid.setOwner(owner);
 
-        asteroid.addComponent(new LinearMovement(asteroid, directionX, directionY,  speed));
+        new LinearMovement(asteroidGameObject, directionX, directionY,  speed);
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
-                positionX, positionY, directionX, directionY, scale, speed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());
+                positionX, positionY, directionX, directionY, asteroidGameObject.getHalfScaleX(), speed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());
 
         return asteroid;
     }
@@ -52,7 +54,7 @@ public class Asteroid extends Enemy {
         super.onUpdate();
 
         if (m_RotationSpeed != 0f) {
-            setRotationZ(getRotationZ() + m_RotationSpeed * Time.getScaledDeltaTime());
+            gameObject.setRotationZ(gameObject.getRotationZ() + m_RotationSpeed * Time.getScaledDeltaTime());
         }
     }
 

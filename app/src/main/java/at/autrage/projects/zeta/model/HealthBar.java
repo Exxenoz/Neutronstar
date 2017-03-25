@@ -7,48 +7,30 @@ import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.view.GameView;
 
-public class HealthBar extends GameObject {
-    private GameObject owner;
+public class HealthBar extends Component {
     private ColorMaterial m_ColorMaterial;
     private float m_FullWidth;
     private float m_FullHeight;
     private float m_HealthPercent;
+    private MeshRenderer meshRenderer;
 
-    public HealthBar(GameView gameView, GameObject owner, float width, float height) {
-        super(gameView, 0f, 0f);
+    public HealthBar(GameObject gameObject, float width, float height) {
+        super(gameObject);
 
-        this.owner = owner;
         m_ColorMaterial = new ColorMaterial();
         m_FullWidth = width;
         m_FullHeight = height;
-        m_HealthPercent = 1f;
+        setHealthPercent(1f);
 
         updateScale();
-        updatePosition();
 
-        MeshRenderer meshRenderer = new MeshRenderer(this);
+        meshRenderer = new MeshRenderer(gameObject);
         meshRenderer.setMaterial(m_ColorMaterial);
         meshRenderer.setMesh(new SpriteMesh());
-        meshRenderer.setEnabled(true);
-        addComponent(meshRenderer);
-    }
-
-    private void updatePosition() {
-        setPosition(
-                owner.getPositionX() + Pustafin.EnemyHealthBarOffsetX - (m_FullWidth - getScaleX()) / 2f,
-                owner.getPositionY() + owner.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
-        );
     }
 
     private void updateScale() {
-        setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
-    }
-
-    @Override
-    public void onUpdate() {
-        updatePosition();
-
-        super.onUpdate();
+        gameObject.setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
     }
 
     public void setHealthPercent(float healthPercent) {
@@ -73,6 +55,5 @@ public class HealthBar extends GameObject {
         m_HealthPercent = healthPercent;
 
         updateScale();
-        updatePosition();
     }
 }

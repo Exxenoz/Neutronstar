@@ -5,6 +5,7 @@ import at.autrage.projects.zeta.animation.AnimationFrame;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.animation.AnimationSets;
+import at.autrage.projects.zeta.event.Action;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -14,7 +15,7 @@ import at.autrage.projects.zeta.opengl.SpriteMaterial;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.view.GameView;
 
-public class Sprite extends GameObject {
+public class Sprite extends Component {
     private Animation m_Animation;
     private AnimationSet m_AnimationSet;
 
@@ -31,8 +32,10 @@ public class Sprite extends GameObject {
 
     private SpriteMaterial m_SpriteMaterial;
 
-    public Sprite(GameView gameView, float positionX, float positionY, AnimationSet animationSet) {
-        super(gameView, positionX, positionY);
+    private MeshRenderer meshRenderer;
+
+    public Sprite(GameObject gameObject, AnimationSet animationSet) {
+        super(gameObject);
 
         m_Animation = null;
         m_AnimationSet = animationSet;
@@ -51,11 +54,9 @@ public class Sprite extends GameObject {
             playAnimationFromSet(AnimationType.Default);
         }
 
-        MeshRenderer meshRenderer = new MeshRenderer(this);
-        meshRenderer.setMaterial(m_SpriteMaterial);
-        meshRenderer.setMesh(new SpriteMesh());
-        meshRenderer.setEnabled(true);
-        addComponent(meshRenderer);
+        this.meshRenderer = new MeshRenderer(gameObject);
+        this.meshRenderer.setMaterial(m_SpriteMaterial);
+        this.meshRenderer.setMesh(new SpriteMesh());
     }
 
     @Override
@@ -105,36 +106,36 @@ public class Sprite extends GameObject {
 
         // Move explosion center near target if there is any
         if (target != null) {
-            float positionDeltaX = target.getPositionX() - getPositionX();
-            float positionDeltaY = target.getPositionY() - getPositionY();
+            float positionDeltaX = target.getPositionX() - gameObject.getPositionX();
+            float positionDeltaY = target.getPositionY() - gameObject.getPositionY();
 
             double distance = Math.sqrt(positionDeltaX * positionDeltaX + positionDeltaY * positionDeltaY);
 
             float targetDirectionX = (float)(positionDeltaX / distance);
             float targetDirectionY = (float)(positionDeltaY / distance);
 
-            explosionSpawnPositionX = getPositionX() + targetDirectionX * getHalfScaleX() / 2f;
-            explosionSpawnPositionY = getPositionY() + targetDirectionY * getHalfScaleY() / 2f;
+            explosionSpawnPositionX = gameObject.getPositionX() + targetDirectionX * gameObject.getHalfScaleX() / 2f;
+            explosionSpawnPositionY = gameObject.getPositionY() + targetDirectionY * gameObject.getHalfScaleY() / 2f;
         }
         else {
-            explosionSpawnPositionX = getPositionX();
-            explosionSpawnPositionY = getPositionY();
+            explosionSpawnPositionX = gameObject.getPositionX();
+            explosionSpawnPositionY = gameObject.getPositionY();
         }
 
-        Explosion explosion = new Explosion(getGameView(), explosionSpawnPositionX, explosionSpawnPositionY,
-                AssetManager.getInstance().getAnimationSet(animationSet));
+        GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
+        Explosion explosion = new Explosion(explosionGameObject, AssetManager.getInstance().getAnimationSet(animationSet));
 
-        if (!disableAOEDamage && this instanceof Weapon && ((Weapon)this).getAOERadius() > 0f) {
-            Weapon weapon = (Weapon)this;
+        Weapon weapon = gameObject.getComponent(Weapon.class);
+        if (!disableAOEDamage && weapon != null && weapon.getAOERadius() > 0f) {
             explosion.setWeapon(weapon);
-            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
+            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
             explosion.addImmuneToAOEGameObject(target);
         }
         else {
-            explosion.setScaleFactor((getScaleX() / explosion.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
+            explosion.setScaleFactor((gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
         }
 
-        destroy();
+        gameObject.destroy();
     }
 
     protected void onAnimationFinished() {
@@ -169,14 +170,21 @@ public class Sprite extends GameObject {
         m_AnimationPaused = false;
     }
 
+    @Override
+    protected void onDestroy() {
+        if (meshRenderer != null) {
+            meshRenderer.destroy();
+        }
+    }
+
     private void setCurrentAnimationFrame(AnimationFrame animationFrame) {
         if (animationFrame == null) {
             return;
         }
 
         m_CurrAnimationFrame = animationFrame;
-        setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
-        setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
+        gameObject.setScaleX(m_CurrAnimationFrame.getFrameSizeX() * m_ScaleFactor);
+        gameObject.setScaleY(m_CurrAnimationFrame.getFrameSizeY() * m_ScaleFactor);
 
         if (m_CurrAnimationFrame.getTexture() != null) {
             m_SpriteMaterial.setTexture(m_CurrAnimationFrame.getTexture());

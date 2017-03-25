@@ -21,6 +21,7 @@ import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
+import at.autrage.projects.zeta.model.Sprite;
 import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.animation.AnimationSets;
@@ -150,10 +151,14 @@ public class GameView extends GLSurfaceView {
 
         ColliderManager = new ColliderManager();
 
-        m_EnemySpawner = new EnemySpawner(this, 0f, 0f, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
+        GameObject enemySpawnerGameObject = new GameObject(this, 0f, 0f);
+        new Sprite(enemySpawnerGameObject, AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame));
 
-        m_Player = new Player(this, 0f, 0f);
-        m_Player.addComponent(new CircleCollider(m_Player, m_Player.getHalfScaleX()));
+        m_EnemySpawner = new EnemySpawner(enemySpawnerGameObject);
+
+        GameObject playerGameObject = new GameObject(this, 0f, 0f);
+
+        m_Player = new Player(playerGameObject);
 
         m_AlarmEnabled = false;
         m_AlarmAutoStop = true;

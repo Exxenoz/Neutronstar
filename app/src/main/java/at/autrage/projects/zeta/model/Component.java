@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.model;
 
+import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.Logger;
 
 public abstract class Component {
@@ -16,6 +17,8 @@ public abstract class Component {
         this.gameObject = gameObject;
         this.started = false;
         this.enabled = false;
+
+        gameObject.addComponent(this);
     }
 
     public GameObject getGameObject() {
@@ -79,6 +82,16 @@ public abstract class Component {
     }
 
     protected void onUpdate() {
+
+    }
+
+    public final void collide(Collider other) {
+        if (enabled) {
+            onCollide(other);
+        }
+    }
+
+    protected void onCollide(Collider other) {
 
     }
 

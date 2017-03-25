@@ -16,7 +16,7 @@ import at.autrage.projects.zeta.view.GameView;
 /**
  * This class represents an object in the game.
  */
-public abstract class GameObject {
+public final class GameObject {
     private GameView m_GameView;
 
     /**
@@ -71,7 +71,10 @@ public abstract class GameObject {
     private GameObject parent;
     private List<GameObject> children;
 
-    private Synchronitron<Component> components;
+    private boolean ignoreParentPosition;
+    private boolean ignoreParentRotation;
+
+    protected Synchronitron<Component> components;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
         m_GameView = gameView;
@@ -181,6 +184,9 @@ public abstract class GameObject {
     }
 
     public void onCollide(Collider other) {
+        for (Component component : components) {
+            component.collide(other);
+        }
     }
 
     public GameView getGameView() {
@@ -218,7 +224,7 @@ public abstract class GameObject {
     public void setPositionX(float positionX) {
         this.positionX = positionX;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentPosition) {
             localPositionX = this.positionX - parent.getPositionX();
         } else {
             localPositionX = this.positionX;
@@ -234,7 +240,7 @@ public abstract class GameObject {
     public void setPositionY(float positionY) {
         this.positionY = positionY;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentPosition) {
             localPositionY = this.positionY - parent.getPositionY();
         } else {
             localPositionY = this.positionY;
@@ -250,7 +256,7 @@ public abstract class GameObject {
     public void setPositionZ(float positionZ) {
         this.positionZ = positionZ;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentPosition) {
             localPositionZ = this.positionZ - parent.getPositionZ();
         } else {
             localPositionZ = this.positionZ;
@@ -289,7 +295,7 @@ public abstract class GameObject {
     public void setLocalPositionX(float localPositionX) {
         this.localPositionX = localPositionX;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentPosition) {
             positionX = parent.getPositionX() + this.localPositionX;
         } else {
             positionX = this.localPositionX;
@@ -305,7 +311,7 @@ public abstract class GameObject {
     public void setLocalPositionY(float localPositionY) {
         this.localPositionY = localPositionY;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentPosition) {
             positionY = parent.getPositionY() + this.localPositionY;
         } else {
             positionY = this.localPositionY;
@@ -321,7 +327,7 @@ public abstract class GameObject {
     public void setLocalPositionZ(float localPositionZ) {
         this.localPositionZ = localPositionZ;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentPosition) {
             positionZ = parent.getPositionZ() + this.localPositionZ;
         } else {
             positionZ = this.localPositionZ;
@@ -360,7 +366,7 @@ public abstract class GameObject {
     public void setRotationX(float rotationX) {
         this.rotationX = rotationX;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentRotation) {
             localRotationX = this.rotationX - parent.getRotationX();
         } else {
             localRotationX = this.rotationX;
@@ -376,7 +382,7 @@ public abstract class GameObject {
     public void setRotationY(float rotationY) {
         this.rotationY = rotationY;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentRotation) {
             localRotationY = this.rotationY - parent.getRotationY();
         } else {
             localRotationY = this.rotationY;
@@ -392,7 +398,7 @@ public abstract class GameObject {
     public void setRotationZ(float rotationZ) {
         this.rotationZ = rotationZ;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentRotation) {
             localRotationZ = this.rotationZ - parent.getRotationZ();
         } else {
             localRotationZ = this.rotationZ;
@@ -426,7 +432,7 @@ public abstract class GameObject {
     public void setLocalRotationX(float localRotationX) {
         this.localRotationX = localRotationX;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentRotation) {
             rotationX = parent.getRotationX() + this.localRotationX;
         } else {
             rotationX = this.localRotationX;
@@ -442,7 +448,7 @@ public abstract class GameObject {
     public void setLocalRotationY(float localRotationY) {
         this.localRotationY = localRotationY;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentRotation) {
             rotationY = parent.getRotationY() + this.localRotationY;
         } else {
             rotationY = this.localRotationY;
@@ -458,7 +464,7 @@ public abstract class GameObject {
     public void setLocalRotationZ(float localRotationZ) {
         this.localRotationZ = localRotationZ;
 
-        if (parent != null) {
+        if (parent != null && !ignoreParentRotation) {
             rotationZ = parent.getRotationZ() + this.localRotationZ;
         } else {
             rotationZ = this.localRotationZ;
@@ -604,6 +610,22 @@ public abstract class GameObject {
 
     public int getChildCount() {
         return children.size();
+    }
+
+    public boolean isIgnoreParentPosition() {
+        return ignoreParentPosition;
+    }
+
+    public void setIgnoreParentPosition(boolean ignoreParentPosition) {
+        this.ignoreParentPosition = ignoreParentPosition;
+    }
+
+    public boolean isIgnoreParentRotation() {
+        return ignoreParentRotation;
+    }
+
+    public void setIgnoreParentRotation(boolean ignoreParentRotation) {
+        this.ignoreParentRotation = ignoreParentRotation;
     }
 
     public void destroy() {
