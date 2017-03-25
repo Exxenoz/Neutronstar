@@ -9,16 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
-import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.collision.ColliderManager;
 import at.autrage.projects.zeta.exception.ArgumentNullException;
-import at.autrage.projects.zeta.framework.Synchronitron;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
