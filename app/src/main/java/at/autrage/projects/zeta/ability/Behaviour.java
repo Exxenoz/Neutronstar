@@ -8,8 +8,8 @@ import at.autrage.projects.zeta.model.GameObject;
 public abstract class Behaviour extends Component {
     protected List<Pattern> patterns;
 
-    public Behaviour() {
-        super();
+    public Behaviour(GameObject gameObject) {
+        super(gameObject);
     }
 
     public final boolean canStart() {

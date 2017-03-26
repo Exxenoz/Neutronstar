@@ -13,8 +13,8 @@ public class MeshRenderer extends Component {
     /** The reference to the {@link ShaderParams} object. */
     private ShaderParams _shaderParams;
 
-    public MeshRenderer() {
-        super();
+    public MeshRenderer(GameObject gameObject) {
+        super(gameObject);
 
         m_Material = null;
         m_Mesh = null;

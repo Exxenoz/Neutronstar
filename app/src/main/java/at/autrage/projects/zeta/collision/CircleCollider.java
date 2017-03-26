@@ -1,10 +1,8 @@
 package at.autrage.projects.zeta.collision;
 
-import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Sprite;
-import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.opengl.Color;
 
@@ -13,11 +11,11 @@ public class CircleCollider extends Collider {
     private float m_RadiusSquared;
     private Sprite m_DebugCircle;
 
-    public CircleCollider(float radius) {
-        super();
+    public CircleCollider(GameObject gameObject) {
+        super(gameObject);
 
-        m_Radius = radius;
-        m_RadiusSquared = radius * radius;
+        m_Radius = 0f;
+        m_RadiusSquared = 0f;
         m_DebugCircle = null;
     }
 
@@ -29,14 +27,26 @@ public class CircleCollider extends Collider {
             GameObject debugCircleGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
             debugCircleGameObject.setIgnoreParentRotation(true);
             debugCircleGameObject.setParent(gameObject);
-            debugCircleGameObject.addComponent(m_DebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle)));
-            m_DebugCircle.setScaleFactor(2 * m_Radius / debugCircleGameObject.getScaleX());
+
+            m_DebugCircle = debugCircleGameObject.addComponent(Sprite.class);
+            m_DebugCircle.setAnimationSet(AnimationSets.DebugCircle);
             m_DebugCircle.getSpriteMaterial().getColor().setColor(Color.Green);
+            m_DebugCircle.playDefaultAnimationFromSet();
+            m_DebugCircle.setScaleFactorToMatchFrameSizeX(2 * m_Radius);
         }
     }
 
     public float getRadius() {
         return m_Radius;
+    }
+
+    public void setRadius(float radius) {
+        this.m_Radius = radius;
+        this.m_RadiusSquared = radius * radius;
+
+        if (m_DebugCircle != null) {
+            m_DebugCircle.setScaleFactorToMatchFrameSizeX(2 * m_Radius);
+        }
     }
 
     @Override

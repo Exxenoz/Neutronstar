@@ -14,27 +14,34 @@ public class HealthBar extends Component {
     private float m_HealthPercent;
     private MeshRenderer meshRenderer;
 
-    public HealthBar(float width, float height) {
-        super();
+    public HealthBar(GameObject gameObject) {
+        super(gameObject);
 
         m_ColorMaterial = new ColorMaterial();
-        m_FullWidth = width;
-        m_FullHeight = height;
-        m_HealthPercent = 0f;
+        m_FullWidth = 0f;
+        m_FullHeight = 0f;
+        setHealthPercent(0f);
     }
 
     @Override
     protected void onStart() {
-        meshRenderer = new MeshRenderer();
+        meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_ColorMaterial);
         meshRenderer.setMesh(new SpriteMesh());
-        gameObject.addComponent(meshRenderer);
-
-        setHealthPercent(1f);
     }
 
     private void updateScale() {
         gameObject.setScale(m_FullWidth * m_HealthPercent, m_FullHeight);
+    }
+
+    public void setFullHeight(float fullHeight) {
+        this.m_FullHeight = fullHeight;
+        updateScale();
+    }
+
+    public void setFullWidth(float fullWidth) {
+        this.m_FullWidth = fullWidth;
+        updateScale();
     }
 
     public void setHealthPercent(float healthPercent) {

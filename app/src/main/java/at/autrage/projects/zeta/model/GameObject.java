@@ -2,6 +2,7 @@ package at.autrage.projects.zeta.model;
 
 import android.opengl.Matrix;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,26 +121,51 @@ public final class GameObject {
         return layer;
     }
 
-    public boolean addComponent(Component component, boolean enable) {
-        if (component == null) {
+    public <T extends Component> T addComponent(Class<T> componentClass, boolean enable) {
+        if (componentClass == null) {
             throw new ArgumentNullException();
         }
 
-        if (component.gameObject != null) {
-            throw new IllegalStateException("Could not add component to game object, because component is already attached to a game object!");
+        T component = null;
+
+        try {
+            component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
+        } catch (Exception e) {
+            Logger.E("Could not add component of type " + componentClass.getName() + " to game object, because instantiation failed: " + e);
         }
 
-        if (components.add(component)) {
-            component.gameObject = this;
+        if (component != null) {
+            components.add(component);
             component.setEnabled(enable);
-            return true;
         }
 
-        return false;
+        return component;
     }
 
-    public boolean addComponent(Component component) {
-        return addComponent(component, true);
+    public <T extends Component> T addComponent(Class<T> componentClass) {
+        return addComponent(componentClass, true);
+    }
+
+    public <T extends Component> T getComponent(Class<T> componentClass) {
+        for (Component component : components) {
+            if (componentClass.isAssignableFrom(component.getClass())) {
+                return (T) component;
+            }
+        }
+
+        return null;
+    }
+
+    public <T extends Component> List<T> getComponents(Class<T> componentClass) {
+        ArrayList<T> components = new ArrayList<>();
+
+        for (Component component : this.components) {
+            if (componentClass.isAssignableFrom(component.getClass())) {
+                components.add((T) component);
+            }
+        }
+
+        return components;
     }
 
     public boolean removeComponent(Component component) {
@@ -159,28 +185,6 @@ public final class GameObject {
         }
 
         return false;
-    }
-
-    public <T> T getComponent(Class<T> componentClass) {
-        for (Component component : components) {
-            if (componentClass.isAssignableFrom(component.getClass())) {
-                return (T) component;
-            }
-        }
-
-        return null;
-    }
-
-    public <T> List<T> getComponents(Class<T> componentClass) {
-        ArrayList<T> components = new ArrayList<>();
-
-        for (Component component : this.components) {
-            if (componentClass.isAssignableFrom(component.getClass())) {
-                components.add((T) component);
-            }
-        }
-
-        return components;
     }
 
     public void onUpdate() {

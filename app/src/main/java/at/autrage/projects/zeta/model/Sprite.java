@@ -5,7 +5,6 @@ import at.autrage.projects.zeta.animation.AnimationFrame;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.animation.AnimationSets;
-import at.autrage.projects.zeta.event.Action;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -13,7 +12,6 @@ import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.opengl.SpriteMaterial;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
-import at.autrage.projects.zeta.view.GameView;
 
 public class Sprite extends Component {
     private Animation m_Animation;
@@ -33,15 +31,11 @@ public class Sprite extends Component {
     private SpriteMaterial m_SpriteMaterial;
     private MeshRenderer meshRenderer;
 
-    public Sprite(AnimationSet animationSet) {
-        this(animationSet, 1f);
-    }
-
-    public Sprite(AnimationSet animationSet, float scaleFactor) {
-        super();
+    public Sprite(GameObject gameObject) {
+        super(gameObject);
 
         m_Animation = null;
-        m_AnimationSet = animationSet;
+        m_AnimationSet = null;
         m_CurrAnimationFrame = null;
         m_NextAnimationFrame = null;
         m_AnimationTimer = 0;
@@ -49,7 +43,7 @@ public class Sprite extends Component {
         m_AnimationRepeatable = false;
         m_AnimationPaused = false;
 
-        m_ScaleFactor = scaleFactor;
+        m_ScaleFactor = 1f;
 
         m_SpriteMaterial = new SpriteMaterial();
         this.meshRenderer = null;
@@ -57,14 +51,9 @@ public class Sprite extends Component {
 
     @Override
     protected void onStart() {
-        meshRenderer = new MeshRenderer();
+        meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_SpriteMaterial);
         meshRenderer.setMesh(new SpriteMesh());
-        gameObject.addComponent(meshRenderer);
-
-        if (m_AnimationSet != null) {
-            playAnimationFromSet(AnimationType.Default);
-        }
     }
 
     @Override
@@ -134,20 +123,27 @@ public class Sprite extends Component {
 
         GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
 
-        Explosion explosion = new Explosion(AssetManager.getInstance().getAnimationSet(animationSet), weapon);
-        explosionGameObject.addComponent(explosion);
+        Explosion explosion = explosionGameObject.addComponent(Explosion.class);
+        explosion.setAnimationSet(AssetManager.getInstance().getAnimationSet(animationSet));
+        explosion.playDefaultAnimationFromSet();
+
         if (!disableAOEDamage && weapon != null && weapon.getAOERadius() > 0f) {
-            explosion.setScaleFactor((weapon.getAOERadius() * 2f / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactorAOE);
-            explosion.addImmuneToAOEGameObject(target);
+            explosion.setWeapon(weapon);
+            explosion.addImmuneToAOEGameObject(target); // Target was already hit, so do not deal AOE damage too...
+            explosion.setScaleFactorToMatchFrameSizeX(weapon.getAOERadius() * 2f);
+            explosion.setScaleFactor(explosion.getScaleFactor() * Pustafin.ExplosionSizeScaleFactorAOE);
         }
         else {
-            explosion.setScaleFactor((gameObject.getScaleX() / explosion.gameObject.getScaleX()) * Pustafin.ExplosionSizeScaleFactor);
+            explosion.setScaleFactorToMatchFrameSizeX(gameObject.getScaleX());
+            explosion.setScaleFactor(explosion.getScaleFactor() * Pustafin.ExplosionSizeScaleFactor);
         }
-
-        gameObject.destroy();
     }
 
     protected void onAnimationFinished() {
+    }
+
+    public void playDefaultAnimationFromSet() {
+        playAnimationFromSet(AnimationType.Default);
     }
 
     public void playAnimationFromSet(AnimationType animationType) {
@@ -186,6 +182,26 @@ public class Sprite extends Component {
         }
     }
 
+    public AnimationSet getAnimationSet() {
+        return m_AnimationSet;
+    }
+
+    public void setAnimationSet(AnimationSet animationSet) {
+        this.m_AnimationSet = animationSet;
+    }
+
+    public void setAnimationSet(AnimationSets animationSet) {
+        this.m_AnimationSet = AssetManager.getInstance().getAnimationSet(animationSet);
+    }
+
+    public float getAnimationFrameSizeX() {
+        return m_CurrAnimationFrame != null ? m_CurrAnimationFrame.getFrameSizeX() : 0f;
+    }
+
+    public float getAnimationFrameSizeY() {
+        return m_CurrAnimationFrame != null ? m_CurrAnimationFrame.getFrameSizeY() : 0f;
+    }
+
     private void setCurrentAnimationFrame(AnimationFrame animationFrame) {
         if (animationFrame == null) {
             return;
@@ -216,6 +232,15 @@ public class Sprite extends Component {
     public void setScaleFactor(float scaleFactor) {
         m_ScaleFactor = scaleFactor;
         setCurrentAnimationFrame(m_CurrAnimationFrame);
+    }
+
+    public void setScaleFactorToMatchFrameSizeX(float scaleX) {
+        if (getAnimationFrameSizeX() <= 0f) {
+            Logger.W("Could not match scale X of game object, because current animation frame size X is 0!");
+            return;
+        }
+
+        setScaleFactor(scaleX / getAnimationFrameSizeX());
     }
 
     public float getScaleFactor() {

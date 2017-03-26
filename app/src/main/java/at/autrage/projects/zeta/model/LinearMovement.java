@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.model;
 
+import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Time;
 
@@ -10,9 +11,15 @@ public class LinearMovement extends Component {
     private float speedY;
     private float speed;
 
-    public LinearMovement(float directionX, float directionY, float speed) {
-        super();
+    public LinearMovement(GameObject gameObject) {
+        super(gameObject);
 
+        this.directionX = 0f;
+        this.directionY = 0f;
+        setSpeed(0f);
+    }
+
+    public void initialize(float directionX, float directionY, float speed) {
         this.directionX = directionX;
         this.directionY = directionY;
         setSpeed(speed);

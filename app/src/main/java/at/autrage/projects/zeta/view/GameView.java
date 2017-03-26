@@ -15,6 +15,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
+import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.ColliderManager;
 import at.autrage.projects.zeta.exception.ArgumentNullException;
 import at.autrage.projects.zeta.framework.Synchronitron;
@@ -156,11 +157,15 @@ public class GameView extends GLSurfaceView {
         ColliderManager = new ColliderManager();
 
         GameObject enemySpawnerGameObject = new GameObject(this, 0f, 0f);
-        enemySpawnerGameObject.addComponent(new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.BackgroundGame)));
-        enemySpawnerGameObject.addComponent(m_EnemySpawner = new EnemySpawner());
+
+        Sprite enemySpawnerSprite = enemySpawnerGameObject.addComponent(Sprite.class);
+        enemySpawnerSprite.setAnimationSet(AnimationSets.BackgroundGame);
+        enemySpawnerSprite.playDefaultAnimationFromSet();
+
+        m_EnemySpawner = enemySpawnerGameObject.addComponent(EnemySpawner.class);
 
         GameObject playerGameObject = new GameObject(this, 0f, 0f);
-        playerGameObject.addComponent(m_Player = new Player());
+        m_Player = playerGameObject.addComponent(Player.class);
 
         m_AlarmEnabled = false;
         m_AlarmAutoStop = true;

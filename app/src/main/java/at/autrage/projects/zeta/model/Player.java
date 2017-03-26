@@ -9,19 +9,16 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.collision.CircleCollider;
-import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
-import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.opengl.Color;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.opengl.SphereMesh;
 import at.autrage.projects.zeta.opengl.SpriteMaterial;
-import at.autrage.projects.zeta.view.GameView;
 
 public class Player extends Component {
     private float m_RemainingTime;
@@ -35,11 +32,10 @@ public class Player extends Component {
     private SpriteMaterial m_Material;
     private MeshRenderer meshRenderer;
 
-    private AlarmArea m_AlarmArea;
     private Sprite m_TouchRadiusDebugCircle;
 
-    public Player() {
-        super();
+    public Player(GameObject gameObject) {
+        super(gameObject);
 
         m_RemainingTime = Pustafin.LevelDuration;
         m_OnUpdateEverySecondTimer = 1f;
@@ -52,7 +48,6 @@ public class Player extends Component {
         m_Material = null;
         meshRenderer = null;
 
-        m_AlarmArea = null;
         m_TouchRadiusDebugCircle = null;
     }
 
@@ -65,27 +60,29 @@ public class Player extends Component {
         m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
         m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
 
-        meshRenderer = new MeshRenderer();
+        meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_Material);
         meshRenderer.setMesh(m_SphereMesh);
-        gameObject.addComponent(meshRenderer);
 
-        gameObject.addComponent(new CircleCollider(gameObject.getHalfScaleX()));
+        gameObject.addComponent(CircleCollider.class).setRadius(gameObject.getHalfScaleX());
 
         GameObject alarmAreaGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
         alarmAreaGameObject.setIgnoreParentRotation(true);
         alarmAreaGameObject.setParent(gameObject);
-        alarmAreaGameObject.addComponent(m_AlarmArea = new AlarmArea());
-        alarmAreaGameObject.addComponent(new CircleCollider(Pustafin.AlarmAreaRadius));
+
+        alarmAreaGameObject.addComponent(AlarmArea.class);
+        alarmAreaGameObject.addComponent(CircleCollider.class).setRadius(Pustafin.AlarmAreaRadius);
 
         if (Pustafin.DebugMode) {
             GameObject debugCircleGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
             debugCircleGameObject.setIgnoreParentRotation(true);
             debugCircleGameObject.setParent(gameObject);
 
-            debugCircleGameObject.addComponent(m_TouchRadiusDebugCircle = new Sprite(AssetManager.getInstance().getAnimationSet(AnimationSets.DebugCircle)));
-            m_TouchRadiusDebugCircle.setScaleFactor(2f * Pustafin.PlanetTouchRadius / debugCircleGameObject.getScaleX());
+            m_TouchRadiusDebugCircle = debugCircleGameObject.addComponent(Sprite.class);
+            m_TouchRadiusDebugCircle.setAnimationSet(AnimationSets.DebugCircle);
             m_TouchRadiusDebugCircle.getSpriteMaterial().getColor().setColor(Color.Blue);
+            m_TouchRadiusDebugCircle.playDefaultAnimationFromSet();
+            m_TouchRadiusDebugCircle.setScaleFactorToMatchFrameSizeX(2f * Pustafin.PlanetTouchRadius);
         }
     }
 
@@ -226,19 +223,13 @@ public class Player extends Component {
         }
     }
 
-    @Override
-    public void onCollide(Collider other) {
-        super.onCollide(other);
-
+    public void receiveDamage(float damage) {
         if (gameObject.getGameView().isLevelFinished()) {
             return;
         }
 
-        Enemy enemy = other.gameObject.getComponent(Enemy.class);
-        if (enemy != null && GameManager.getInstance().getPopulation() > 0) {
-            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float) Math.random());
-
-            double remainingPopulation = GameManager.getInstance().getPopulation() - enemy.getHitDamage();
+        if (GameManager.getInstance().getPopulation() > 0) {
+            double remainingPopulation = GameManager.getInstance().getPopulation() - damage;
             if ((int) remainingPopulation <= 0f) {
                 remainingPopulation = 0f;
             }

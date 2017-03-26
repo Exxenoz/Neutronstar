@@ -16,30 +16,11 @@ public class Explosion extends Sprite {
     private Weapon m_Weapon;
     private List<GameObject> m_GameObjectsImmuneToAOE;
 
-    public Explosion(AnimationSet animationSet, Weapon weapon) {
-        super(animationSet);
+    public Explosion(GameObject gameObject) {
+        super(gameObject);
 
-        m_Weapon = weapon;
+        m_Weapon = null;
         m_GameObjectsImmuneToAOE = new ArrayList<>();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (m_Weapon == null) {
-            return;
-        }
-
-        if (m_Weapon.getAOEDamage() <= 0f) {
-            return;
-        }
-
-        if (m_Weapon.getAOERadius() <= 0f) {
-            return;
-        }
-
-        gameObject.addComponent(new CircleCollider(m_Weapon.getAOERadius()));
     }
 
     @Override
@@ -50,17 +31,14 @@ public class Explosion extends Sprite {
             return;
         }
 
-        if (other.gameObject.getComponent(Enemy.class) == null) {
+        Enemy enemy = other.gameObject.getComponent(Enemy.class);
+        if (enemy == null) {
             return;
         }
 
         if (!m_GameObjectsImmuneToAOE.contains(other.getGameObject())) {
-            Enemy enemy = other.gameObject.getComponent(Enemy.class);
             enemy.receiveDamage(m_Weapon.getAOEDamage());
-
-            if (enemy.isAlive()) {
-                m_GameObjectsImmuneToAOE.add(enemy.gameObject);
-            }
+            m_GameObjectsImmuneToAOE.add(enemy.gameObject);
         }
     }
 
@@ -69,6 +47,29 @@ public class Explosion extends Sprite {
         super.onAnimationFinished();
 
         gameObject.destroy();
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.m_Weapon = weapon;
+
+        if (this.m_Weapon == null) {
+            return;
+        }
+
+        if (this.m_Weapon.getAOEDamage() <= 0f) {
+            return;
+        }
+
+        if (this.m_Weapon.getAOERadius() <= 0f) {
+            return;
+        }
+
+        CircleCollider circleCollider = gameObject.getComponent(CircleCollider.class);
+        if (circleCollider == null) {
+            circleCollider = gameObject.addComponent(CircleCollider.class);
+        }
+
+        circleCollider.setRadius(this.m_Weapon.getAOERadius());
     }
 
     public void addImmuneToAOEGameObject(GameObject gameObject) {

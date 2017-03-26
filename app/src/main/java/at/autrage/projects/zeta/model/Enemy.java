@@ -1,10 +1,12 @@
 package at.autrage.projects.zeta.model;
 
+import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
+import at.autrage.projects.zeta.module.SoundManager;
 
 /**
  * This class represents an enemy object in the game.
@@ -19,12 +21,21 @@ public class Enemy extends Component {
     private int m_Bounty;
     private int m_Points;
 
-    public Enemy(EnemySpawner spawner, float health, float hitDamage, int bounty, int points) {
-        super();
+    public Enemy(GameObject gameObject) {
+        super(gameObject);
 
+        this.spawner = null;
+        this.m_HealthBar = null;
+        this.m_HealthMaximum = 1f;
+        this.m_HealthPercent = 0f;
+        this.m_Health = 0f;
+        this.m_HitDamage = 0f;
+        this.m_Bounty = 0;
+        this.m_Points = 0;
+    }
+
+    public void initialize(EnemySpawner spawner, float health, float hitDamage, int bounty, int points) {
         setSpawner(spawner);
-        setHealthBar(null);
-        setHealthMaximum(1f);
         setHealth(health);
         setHitDamage(hitDamage);
         setBounty(bounty);
@@ -45,21 +56,26 @@ public class Enemy extends Component {
                 gameObject.getHalfScaleY() + Pustafin.EnemyHealthBarHalfHeight + Pustafin.EnemyHealthBarOffsetY
         );
 
-        healthBarGameObject.addComponent(m_HealthBar = new HealthBar(Pustafin.EnemyHealthBarWidth, Pustafin.EnemyHealthBarHeight));
+        m_HealthBar = healthBarGameObject.addComponent(HealthBar.class);
+        m_HealthBar.setFullWidth(Pustafin.EnemyHealthBarWidth);
+        m_HealthBar.setFullHeight(Pustafin.EnemyHealthBarHeight);
         m_HealthBar.setHealthPercent(m_HealthPercent);
     }
 
     @Override
     public void onCollide(Collider other) {
-        Weapon weapon = other.gameObject.getComponent(Weapon.class);
-        if (weapon != null) {
-            receiveDamage(weapon.getHitDamage());
-        }
-        else if (other.gameObject.getComponent(Player.class) != null) {
+        Player player = other.gameObject.getComponent(Player.class);
+        if (player != null) {
+            player.receiveDamage(m_HitDamage);
+
+            SoundManager.getInstance().PlaySFX(R.raw.sfx_hit_planet, 0.5f + (float) Math.random());
+
             Sprite sprite = gameObject.getComponent(Sprite.class);
             if (sprite != null) {
                 sprite.explode(other.getGameObject(), AnimationSets.Explosion1);
             }
+
+            gameObject.destroy();
         }
     }
 

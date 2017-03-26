@@ -4,6 +4,7 @@ package at.autrage.projects.zeta.model;
 import java.util.Random;
 
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.collision.CircleCollider;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
@@ -21,8 +22,8 @@ public class Asteroid extends Enemy {
             AnimationSets.Asteroid3
     };
 
-    public Asteroid(EnemySpawner spawner, float health, float hitDamage, int bounty, int points) {
-        super(spawner, health, hitDamage, bounty, points);
+    public Asteroid(GameObject gameObject) {
+        super(gameObject);
 
         setRandomRotationSpeed();
     }
@@ -31,17 +32,17 @@ public class Asteroid extends Enemy {
                                           float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner spawner) {
         GameObject asteroidGameObject = new GameObject(gameView, positionX, positionY);
 
-        Asteroid asteroid = new Asteroid(spawner,
-                health,
-                health * Pustafin.AsteroidImpactDamageFactor,
-                (int)(scaleFactor * Pustafin.AsteroidMoneyPerScaleFactor),
-                (int)(health * Pustafin.AsteroidPointsPerHealthFactor)
-        );
+        Sprite sprite = asteroidGameObject.addComponent(Sprite.class);
+        sprite.setAnimationSet(animationSet);
+        sprite.setScaleFactor(scaleFactor);
+        sprite.playDefaultAnimationFromSet();
 
-        asteroidGameObject.addComponent(new Sprite(AssetManager.getInstance().getAnimationSet(animationSet), scaleFactor));
-        asteroidGameObject.addComponent(new CircleCollider(asteroidGameObject.getHalfScaleX()));
-        asteroidGameObject.addComponent(new LinearMovement(directionX, directionY,  speed));
-        asteroidGameObject.addComponent(asteroid);
+        asteroidGameObject.addComponent(CircleCollider.class).setRadius(asteroidGameObject.getHalfScaleX());
+        asteroidGameObject.addComponent(LinearMovement.class).initialize(directionX, directionY, speed);
+
+        Asteroid asteroid = asteroidGameObject.addComponent(Asteroid.class);
+        asteroid.initialize(spawner, health, health * Pustafin.AsteroidImpactDamageFactor,
+                (int)(scaleFactor * Pustafin.AsteroidMoneyPerScaleFactor), (int)(health * Pustafin.AsteroidPointsPerHealthFactor));
 
         Logger.D("Spawn asteroid at (%f, %f) with direction (%f, %f), scale (%f), move speed (%f), rotation speed (%f), health (%f), hit damage (%f), bounty (%d) and points (%d)",
                 positionX, positionY, directionX, directionY, asteroidGameObject.getHalfScaleX(), speed, asteroid.getRotationSpeed(), health, asteroid.getHitDamage(), asteroid.getBounty(), asteroid.getPoints());

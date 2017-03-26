@@ -6,12 +6,12 @@ import at.autrage.projects.zeta.model.GameObject;
 public enum Behaviours {
     Default;
 
-    public Behaviour create(){
+    public Behaviour create(GameObject gameObject){
         switch (this){
             case Default:
-                return new DefaultBehaviour();
+                return new DefaultBehaviour(gameObject);
             default:
-                return new DefaultBehaviour();
+                return new DefaultBehaviour(gameObject);
         }
     }
 }

@@ -9,8 +9,8 @@ public abstract class Component {
     private boolean started;
     private boolean enabled;
 
-    public Component() {
-        this.gameObject = null;
+    public Component(GameObject gameObject) {
+        this.gameObject = gameObject;
         this.started = false;
         this.enabled = false;
     }
