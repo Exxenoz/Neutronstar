@@ -88,6 +88,8 @@ public final class GameObject {
     private List<Component> components;
     private int currComponentIdx;
 
+    private boolean autoDestroyable;
+
     public GameObject(GameView gameView, float positionX, float positionY) {
         this(gameView, positionX, positionY, Layer.GameView);
     }
@@ -111,6 +113,8 @@ public final class GameObject {
 
         components = new ArrayList<>();
         currComponentIdx = -1;
+
+        autoDestroyable = true;
 
         if (m_GameView != null) {
             m_GameView.addGameObject(this);
@@ -225,8 +229,8 @@ public final class GameObject {
         Matrix.multiplyMM(modelMatrix, 0, TRMatrix, 0, scaleMatrix, 0);
 
         // Check for lost objects and destroy them
-        if (Math.abs(positionX) >= Pustafin.GameObjectAutoDestroyDistance ||
-                Math.abs(positionY) >= Pustafin.GameObjectAutoDestroyDistance) {
+        if (autoDestroyable && (Math.abs(positionX) >= Pustafin.GameObjectAutoDestroyDistance ||
+                Math.abs(positionY) >= Pustafin.GameObjectAutoDestroyDistance)) {
             Logger.D("Auto destroyed game object due to distance from planet.");
             destroy();
         }
@@ -711,6 +715,14 @@ public final class GameObject {
 
     public void setIgnoreParentRotation(boolean ignoreParentRotation) {
         this.ignoreParentRotation = ignoreParentRotation;
+    }
+
+    public void setAutoDestroyable(boolean autoDestroyable){
+        this.autoDestroyable = autoDestroyable;
+    }
+
+    public boolean isAutoDestroyable(){
+        return autoDestroyable;
     }
 
     public void destroy() {
