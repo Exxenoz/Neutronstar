@@ -89,12 +89,24 @@ public final class GameObject {
     private int currComponentIdx;
 
     private boolean autoDestroyable;
+    /**
+     * A not necessarily unique identification of a game object to make debugging easier
+     */
+    private String name;
 
     public GameObject(GameView gameView, float positionX, float positionY) {
-        this(gameView, positionX, positionY, Layer.GameView);
+        this(gameView, positionX, positionY, Layer.GameView, "");
+    }
+
+    public GameObject(GameView gameView, float positionX, float positionY, String name) {
+        this(gameView, positionX, positionY, Layer.GameView, name);
     }
 
     public GameObject(GameView gameView, float positionX, float positionY, Layer layer) {
+        this(gameView, positionX, positionY, layer, "");
+    }
+
+    public GameObject(GameView gameView, float positionX, float positionY, Layer layer, String name) {
         m_GameView = gameView;
 
         modelMatrix = new float[16];
@@ -116,6 +128,8 @@ public final class GameObject {
 
         autoDestroyable = true;
 
+        this.name = name;
+
         if (m_GameView != null) {
             m_GameView.addGameObject(this);
         }
@@ -135,7 +149,7 @@ public final class GameObject {
         try {
             component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
         } catch (Exception e) {
-            Logger.E("Could not add component of type " + componentClass.getName() + " to game object, because instantiation failed: " + e);
+            Logger.E("[" + this.getName() + "]Could not add component of type " + componentClass.getName() + " to game object, because instantiation failed: " + e);
         }
 
         if (component != null) {
@@ -231,7 +245,7 @@ public final class GameObject {
         // Check for lost objects and destroy them
         if (autoDestroyable && (Math.abs(positionX) >= Pustafin.GameObjectAutoDestroyDistance ||
                 Math.abs(positionY) >= Pustafin.GameObjectAutoDestroyDistance)) {
-            Logger.D("Auto destroyed game object due to distance from planet.");
+            Logger.D("[" + this.getName() + "]Auto destroyed game object due to distance from planet.");
             destroy();
         }
     }
@@ -719,6 +733,14 @@ public final class GameObject {
 
     public void setAutoDestroyable(boolean autoDestroyable){
         this.autoDestroyable = autoDestroyable;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isAutoDestroyable(){

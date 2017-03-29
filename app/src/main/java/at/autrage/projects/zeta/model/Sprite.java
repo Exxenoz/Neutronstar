@@ -121,7 +121,7 @@ public class Sprite extends Component {
 
         Weapon weapon = gameObject.getComponent(Weapon.class);
 
-        GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY);
+        GameObject explosionGameObject = new GameObject(gameObject.getGameView(), explosionSpawnPositionX, explosionSpawnPositionY, "Explosion");
 
         Explosion explosion = explosionGameObject.addComponent(Explosion.class);
         explosion.setAnimationSet(AssetManager.getInstance().getAnimationSet(animationSet));

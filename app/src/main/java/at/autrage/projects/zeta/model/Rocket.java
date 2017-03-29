@@ -68,7 +68,7 @@ public class Rocket extends Weapon {
     }
 
     public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "SmallRocket");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);
@@ -87,7 +87,7 @@ public class Rocket extends Weapon {
     }
 
     public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "BigRocket");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);

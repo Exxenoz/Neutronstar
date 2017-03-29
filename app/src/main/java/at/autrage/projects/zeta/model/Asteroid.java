@@ -30,7 +30,7 @@ public class Asteroid extends Enemy {
 
     public static Asteroid createAsteroid(GameView gameView, AnimationSets animationSet, float scaleFactor, float speed,
                                           float positionX, float positionY, float directionX, float directionY, float health, EnemySpawner spawner) {
-        GameObject asteroidGameObject = new GameObject(gameView, positionX, positionY);
+        GameObject asteroidGameObject = new GameObject(gameView, positionX, positionY, "Asteroid");
 
         Sprite sprite = asteroidGameObject.addComponent(Sprite.class);
         sprite.setAnimationSet(animationSet);

@@ -156,7 +156,7 @@ public class GameView extends GLSurfaceView {
 
         ColliderManager = new ColliderManager();
 
-        GameObject enemySpawnerGameObject = new GameObject(this, 0f, 0f);
+        GameObject enemySpawnerGameObject = new GameObject(this, 0f, 0f, "EnemySpawner");
 
         Sprite enemySpawnerSprite = enemySpawnerGameObject.addComponent(Sprite.class);
         enemySpawnerSprite.setAnimationSet(AnimationSets.BackgroundGame);
@@ -164,7 +164,7 @@ public class GameView extends GLSurfaceView {
 
         m_EnemySpawner = enemySpawnerGameObject.addComponent(EnemySpawner.class);
 
-        GameObject playerGameObject = new GameObject(this, 0f, 0f);
+        GameObject playerGameObject = new GameObject(this, 0f, 0f, "Player");
         m_Player = playerGameObject.addComponent(Player.class);
 
         m_AlarmEnabled = false;

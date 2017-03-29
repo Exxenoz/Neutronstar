@@ -48,7 +48,7 @@ public class Enemy extends Component {
     }
 
     private void createHealthbar() {
-        GameObject healthBarGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+        GameObject healthBarGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY(), "HealthBar");
         healthBarGameObject.setAutoDestroyable(false);
         healthBarGameObject.setIgnoreParentRotation(true);
         healthBarGameObject.setParent(gameObject);

@@ -27,7 +27,7 @@ public class Nuke extends Weapon {
     protected void onStart() {
         super.onStart();
 
-        GameObject engineFireGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY());
+        GameObject engineFireGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY(), "EngineFire");
         engineFireGameObject.setParent(gameObject);
 
         m_EngineFire = engineFireGameObject.addComponent(Sprite.class);
@@ -69,7 +69,7 @@ public class Nuke extends Weapon {
     }
 
     public static Nuke createSmallNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "SmallNuke");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);
@@ -91,7 +91,7 @@ public class Nuke extends Weapon {
     }
 
     public static Nuke createBigNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY);
+        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "BigNuke");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);
