@@ -1,6 +1,7 @@
 package at.autrage.projects.zeta.module.texturepacker;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class TexturePackerAtlas {
@@ -8,9 +9,9 @@ public class TexturePackerAtlas {
 	public final int w;
 	public final int h;
 
-	private final LinkedHashMap<String, PackedTexture> packedTextures;
+	private final HashMap<String, PackedTexture> packedTextures;
 
-	public TexturePackerAtlas(String fileName, int w, int h, LinkedHashMap<String, PackedTexture> unpackedTextures) {
+	public TexturePackerAtlas(String fileName, int w, int h, HashMap<String, PackedTexture> unpackedTextures) {
 		this.fileName = fileName;
 		this.w = w;
 		this.h = h;

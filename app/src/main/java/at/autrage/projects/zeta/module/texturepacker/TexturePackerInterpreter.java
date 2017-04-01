@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.json.simple.JSONArray;
@@ -18,9 +19,11 @@ public class TexturePackerInterpreter {
 	private static TexturePackerInterpreter instance;
 
 	private JSONParser jsonparser;
+    private HashMap<String, TexturePackerAtlas> texturePackerAtlasses;
 
 	private TexturePackerInterpreter(){
 		jsonparser = new JSONParser();
+        texturePackerAtlasses = new HashMap<>();
 	}
 
 	public static TexturePackerInterpreter getInstance(){
@@ -32,6 +35,11 @@ public class TexturePackerInterpreter {
 	}
 
 	public TexturePackerAtlas parseAtlas(String textureAtlasJSONFile, AssetManager am){
+        TexturePackerAtlas cache = texturePackerAtlasses.get(textureAtlasJSONFile);
+        if (cache != null) {
+            return cache;
+        }
+
 		BufferedReader reader = null;
 		JSONObject temporaryRawAtlas;
 
@@ -40,6 +48,7 @@ public class TexturePackerInterpreter {
 			temporaryRawAtlas = (JSONObject) jsonparser.parse(reader);
 		} catch (IOException | ParseException e) {
 			Logger.E("Could not read atlas json file \"" + textureAtlasJSONFile + "\": " + e);
+            texturePackerAtlasses.put(textureAtlasJSONFile, null);
 			return null;
 		} finally {
 			if (reader != null) {
@@ -53,14 +62,18 @@ public class TexturePackerInterpreter {
 
 		JSONObject meta = (JSONObject)temporaryRawAtlas.get("meta");
 
-		return new TexturePackerAtlas((String) meta.get("image"),
+        cache = new TexturePackerAtlas((String) meta.get("image"),
 				(int)((JSONObject)meta.get("size")).get("w"),
 				(int)((JSONObject)meta.get("size")).get("h"),
 				parseFrameList((JSONArray) temporaryRawAtlas.get("frames")));
+
+        texturePackerAtlasses.put(textureAtlasJSONFile, cache);
+
+        return cache;
 	}
 
-	private LinkedHashMap<String, PackedTexture> parseFrameList(JSONArray frames){
-		LinkedHashMap<String, PackedTexture> packedTextures = new LinkedHashMap<>();
+	private HashMap<String, PackedTexture> parseFrameList(JSONArray frames){
+		HashMap<String, PackedTexture> packedTextures = new HashMap<>();
 
 		for (Object frame : frames) {
 			JSONObject jsonFrame = (JSONObject) frame;
