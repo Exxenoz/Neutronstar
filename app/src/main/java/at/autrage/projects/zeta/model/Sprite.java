@@ -156,8 +156,8 @@ public class Sprite extends Component {
         Animation animation = m_AnimationSet.getAnimation(animationType);
         if (animation == null)
         {
-            Logger.W("Could not play animation type " + animationType + ", because it could not be found in animation set %i.",
-                    m_AnimationSet.getID());
+            Logger.W("Could not play animation type " + animationType + ", because it could not be found in animation set %s.",
+                    m_AnimationSet.getName());
             return;
         }
 

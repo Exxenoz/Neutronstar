@@ -112,49 +112,49 @@ public class AssetManager {
 
         m_AnimationSets.clear();
 
-        m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet(0, "BackgroundGame", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet("BackgroundGame", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
         }}));
-        m_AnimationSets.put(AnimationSets.SmallRocket, new AnimationSet(3, "SmallRocket", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.SmallRocket, new AnimationSet("SmallRocket", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.SmallRocket));
         }}));
-        m_AnimationSets.put(AnimationSets.BigRocket, new AnimationSet(4, "BigRocket", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.BigRocket, new AnimationSet("BigRocket", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BigRocket));
         }}));
-        m_AnimationSets.put(AnimationSets.Asteroid1, new AnimationSet(5, "Asteroid1", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Asteroid1, new AnimationSet("Asteroid1", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Asteroid1));
         }}));
-        m_AnimationSets.put(AnimationSets.Asteroid2, new AnimationSet(6, "Asteroid2", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Asteroid2, new AnimationSet("Asteroid2", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Asteroid2));
         }}));
-        m_AnimationSets.put(AnimationSets.Asteroid3, new AnimationSet(7, "Asteroid3", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Asteroid3, new AnimationSet("Asteroid3", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Asteroid3));
         }}));
-        m_AnimationSets.put(AnimationSets.Explosion1, new AnimationSet(8, "Explosion1", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Explosion1, new AnimationSet("Explosion1", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Explosion1));
         }}));
-        m_AnimationSets.put(AnimationSets.EngineFire, new AnimationSet(9, "EngineFire", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.EngineFire, new AnimationSet("EngineFire", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.EngineFire));
         }}));
-        m_AnimationSets.put(AnimationSets.SmallNuke, new AnimationSet(10, "SmallNuke", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.SmallNuke, new AnimationSet("SmallNuke", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.SmallNuke));
         }}));
-        m_AnimationSets.put(AnimationSets.BigNuke, new AnimationSet(11, "BigNuke", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.BigNuke, new AnimationSet("BigNuke", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.BigNuke));
         }}));
-        m_AnimationSets.put(AnimationSets.Explosion2, new AnimationSet(12, "Explosion2", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Explosion2, new AnimationSet("Explosion2", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Explosion2));
         }}));
-        m_AnimationSets.put(AnimationSets.Explosion3, new AnimationSet(13, "Explosion3", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Explosion3, new AnimationSet("Explosion3", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Explosion3));
         }}));
-        m_AnimationSets.put(AnimationSets.Debug, new AnimationSet(14, "Debug", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Debug, new AnimationSet("Debug", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Debug));
         }}));
-        m_AnimationSets.put(AnimationSets.DebugCircle, new AnimationSet(15, "DebugCircle", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.DebugCircle, new AnimationSet("DebugCircle", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.DebugCircle));
         }}));
-        m_AnimationSets.put(AnimationSets.Planet, new AnimationSet(16, "Planet", new HashMap<AnimationType, Animation>() {{
+        m_AnimationSets.put(AnimationSets.Planet, new AnimationSet("Planet", new HashMap<AnimationType, Animation>() {{
             put(AnimationType.Default, m_Animations.get(Animations.Planet));
         }}));
     }
