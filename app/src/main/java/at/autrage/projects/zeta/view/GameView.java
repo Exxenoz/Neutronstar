@@ -194,9 +194,12 @@ public class GameView extends GLSurfaceView {
 
         if (currGameObjectIdx > -1) {
             int gameObjectIndex = m_GameObjects.indexOf(gameObject);
-            if (gameObjectIndex > -1 && gameObjectIndex <= currGameObjectIdx) {
+            if (gameObjectIndex > -1) {
+                if (gameObjectIndex <= currGameObjectIdx) {
+                    currGameObjectIdx--;
+                }
+
                 m_GameObjects.remove(gameObjectIndex);
-                currGameObjectIdx--;
             }
         }
         else {

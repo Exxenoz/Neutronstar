@@ -149,7 +149,7 @@ public final class GameObject {
         try {
             component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
         } catch (Exception e) {
-            Logger.E("[" + this.getName() + "]Could not add component of type " + componentClass.getName() + " to game object, because instantiation failed: " + e);
+            Logger.E("[" + this.getName() + "] Could not add component of type " + componentClass.getName() + " to game object, because instantiation failed: " + e);
         }
 
         if (component != null) {
@@ -193,8 +193,11 @@ public final class GameObject {
 
         if (currComponentIdx > -1) {
             int componentIndex = components.indexOf(component);
-            if (componentIndex > -1 && componentIndex <= currComponentIdx) {
-                currComponentIdx--;
+            if (componentIndex > -1) {
+                if (componentIndex <= currComponentIdx) {
+                    currComponentIdx--;
+                }
+
                 return components.remove(componentIndex) != null;
             }
         }
@@ -752,8 +755,8 @@ public final class GameObject {
             children.get(i).destroy();
         }
 
-        for (int i = 0; i < components.size(); i++) {
-            components.get(i).destroy();
+        while (components.size() > 0) {
+            components.get(0).destroy();
         }
 
         if (m_GameView != null) {
