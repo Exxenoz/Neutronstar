@@ -93,21 +93,21 @@ public class AssetManager {
     private void loadAnimationData() {
         m_Animations.clear();
 
-        m_Animations.put(Animations.BackgroundGameDefault, new Animation(0, R.drawable.background_game, "BackgroundGameDefault", 1920, 1080, 1920, 1080, 0, 0, 1920, 1080, 0f));
-        m_Animations.put(Animations.SmallRocket, new Animation(3, R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
-        m_Animations.put(Animations.BigRocket, new Animation(4, R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 80, 80, 80, 80, 0, 0, 80, 80, 0f));
-        m_Animations.put(Animations.Asteroid1, new Animation(5, R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
-        m_Animations.put(Animations.Asteroid2, new Animation(6, R.drawable.gv_enemy_asteroid2, "EnemyAsteroid2", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
-        m_Animations.put(Animations.Asteroid3, new Animation(7, R.drawable.gv_enemy_asteroid3, "EnemyAsteroid3", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
-        m_Animations.put(Animations.Explosion1, new Animation(8, R.drawable.gv_explosion_sheet1, "Explosion1", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
-        m_Animations.put(Animations.EngineFire, new Animation(9, R.drawable.gv_engine_fire, "EngineFire", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
-        m_Animations.put(Animations.SmallNuke, new Animation(10, R.drawable.gv_weapon_small_nuke, "WeaponSmallNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
-        m_Animations.put(Animations.BigNuke, new Animation(11, R.drawable.gv_weapon_big_nuke, "WeaponBigNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
-        m_Animations.put(Animations.Explosion2, new Animation(12, R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
-        m_Animations.put(Animations.Explosion3, new Animation(13, R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
-        m_Animations.put(Animations.Debug, new Animation(14, R.drawable.debug, "Debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f));
-        m_Animations.put(Animations.DebugCircle, new Animation(15, R.drawable.debug, "DebugCircle", 300, 192, 100, 100, 200, 0, 300, 100, 0f));
-        m_Animations.put(Animations.Planet, new Animation(16, R.drawable.gv_planet, "Planet", 1024, 512, 1024, 512, 0, 0, 1024, 512, 0f));
+        m_Animations.put(Animations.BackgroundGameDefault, new Animation(R.drawable.background_game, "BackgroundGameDefault", 1920, 1080, 1920, 1080, 0, 0, 1920, 1080, 0f));
+        m_Animations.put(Animations.SmallRocket, new Animation(R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
+        m_Animations.put(Animations.BigRocket, new Animation(R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 80, 80, 80, 80, 0, 0, 80, 80, 0f));
+        m_Animations.put(Animations.Asteroid1, new Animation(R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
+        m_Animations.put(Animations.Asteroid2, new Animation(R.drawable.gv_enemy_asteroid2, "EnemyAsteroid2", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
+        m_Animations.put(Animations.Asteroid3, new Animation(R.drawable.gv_enemy_asteroid3, "EnemyAsteroid3", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
+        m_Animations.put(Animations.Explosion1, new Animation(R.drawable.gv_explosion_sheet1, "Explosion1", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
+        m_Animations.put(Animations.EngineFire, new Animation(R.drawable.gv_engine_fire, "EngineFire", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
+        m_Animations.put(Animations.SmallNuke, new Animation(R.drawable.gv_weapon_small_nuke, "WeaponSmallNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
+        m_Animations.put(Animations.BigNuke, new Animation(R.drawable.gv_weapon_big_nuke, "WeaponBigNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
+        m_Animations.put(Animations.Explosion2, new Animation(R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
+        m_Animations.put(Animations.Explosion3, new Animation(R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
+        m_Animations.put(Animations.Debug, new Animation(R.drawable.debug, "Debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f));
+        m_Animations.put(Animations.DebugCircle, new Animation(R.drawable.debug, "DebugCircle", 300, 192, 100, 100, 200, 0, 300, 100, 0f));
+        m_Animations.put(Animations.Planet, new Animation(R.drawable.gv_planet, "Planet", 1024, 512, 1024, 512, 0, 0, 1024, 512, 0f));
 
 
         m_AnimationSets.clear();

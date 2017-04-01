@@ -164,8 +164,8 @@ public class Sprite extends Component {
         AnimationFrame animationFrame = animation.getFirstAnimationFrame();
         if (animationFrame == null)
         {
-            Logger.W("Could not play animation %i, because it contains no animation frames.",
-                    animation.getID());
+            Logger.W("Could not play animation %s, because it contains no animation frames.",
+                    animation.getName());
             return;
         }
 

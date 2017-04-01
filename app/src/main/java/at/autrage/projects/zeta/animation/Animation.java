@@ -7,7 +7,6 @@ import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.opengl.Texture;
 
 public class Animation {
-    private int m_ID;
     private String m_Name;
 
     private int m_TextureResId;
@@ -28,10 +27,9 @@ public class Animation {
     private float m_Duration;
     private List<AnimationFrame> m_AnimationFrames;
 
-    public Animation(int ID, int textureResId, String name,
+    public Animation(int textureResId, String name,
                      int textureSizeX, int textureSizeY, int frameSizeX, int frameSizeY,
                      int startTexCoordX, int startTexCoordY, int endTexCoordX, int endTexCoordY, float duration) {
-        this.m_ID = ID;
         this.m_Name = name;
 
         this.m_TextureResId = textureResId;
@@ -83,10 +81,6 @@ public class Animation {
 
             last = i;
         }
-    }
-
-    public int getID() {
-        return m_ID;
     }
 
     public String getName() {
