@@ -183,6 +183,9 @@ public class Player extends Component {
         float deltaPositionY = event.getY() - startTouchPosition.Y;
 
         double distance = Math.sqrt(deltaPositionX * deltaPositionX + deltaPositionY * deltaPositionY);
+        if (distance < Pustafin.MinSwipeDistance) {
+            return;
+        }
 
         float directionX = (float) (deltaPositionX / distance);
         float directionY = (float) (deltaPositionY / distance) * (-1); // Flip y direction

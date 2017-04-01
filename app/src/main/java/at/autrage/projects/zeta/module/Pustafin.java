@@ -15,6 +15,8 @@ public class Pustafin {
     public static final int MinRenderDelta = 16; // In ms
     public static final float MaxUpdateDeltaInSeconds = MaxUpdateDelta / 1000f; // In seconds
 
+    public static final float MinSwipeDistance = 0.5f;
+
     public static final int PlanetMeshStacks = 10;
     public static final int PlanetMeshSlices = 10;
 
