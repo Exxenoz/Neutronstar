@@ -63,8 +63,8 @@ public class TexturePackerInterpreter {
 		JSONObject meta = (JSONObject)temporaryRawAtlas.get("meta");
 
         cache = new TexturePackerAtlas((String) meta.get("image"),
-				(int)((JSONObject)meta.get("size")).get("w"),
-				(int)((JSONObject)meta.get("size")).get("h"),
+                ((Long)((JSONObject)meta.get("size")).get("w")).intValue(),
+                ((Long)((JSONObject)meta.get("size")).get("h")).intValue(),
 				parseFrameList((JSONArray) temporaryRawAtlas.get("frames")));
 
         texturePackerAtlasses.put(textureAtlasJSONFile, cache);
@@ -79,11 +79,11 @@ public class TexturePackerInterpreter {
 			JSONObject jsonFrame = (JSONObject) frame;
 			JSONObject frameproperties = (JSONObject) jsonFrame.get("frame");
 
-			packedTextures.put((String) jsonFrame.get("fileName"), new PackedTexture((String) jsonFrame.get("fileName"),
-							(int)frameproperties.get("w"),
-							(int)frameproperties.get("h"),
-							(int)frameproperties.get("x"),
-							(int)frameproperties.get("y")));
+			packedTextures.put((String) jsonFrame.get("filename"), new PackedTexture((String) jsonFrame.get("filename"),
+                    ((Long)frameproperties.get("w")).intValue(),
+                    ((Long)frameproperties.get("h")).intValue(),
+                    ((Long)frameproperties.get("x")).intValue(),
+                    ((Long)frameproperties.get("y")).intValue()));
 		}
 
 		return packedTextures;
