@@ -26,7 +26,7 @@ public abstract class Shader {
 
     private String readShaderFileContent(String shaderFile, Context context) {
         if (context == null) {
-            Logger.E("Could not onSurfaceCreated shader \"" + shaderFile + "\", because context is null!");
+            Logger.E("Could not read shader \"" + shaderFile + "\", because context is null!");
             return null;
         }
 
@@ -44,7 +44,7 @@ public abstract class Shader {
                 body += newLine;
             }
         } catch (Exception e) {
-            Logger.E("Could not onSurfaceCreated shader \"" + shaderFile + "\": " + e);
+            Logger.E("Could not read shader \"" + shaderFile + "\": " + e);
             return null;
         } finally {
             if (reader != null) {

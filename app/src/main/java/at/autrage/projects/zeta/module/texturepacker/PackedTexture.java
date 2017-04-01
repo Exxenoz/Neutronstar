@@ -1,20 +1,17 @@
 package at.autrage.projects.zeta.module.texturepacker;
 
 public class PackedTexture {
-	public final String filename;
-	public final long width;
-	public final long height;
-	public final long x;
-	public final long y;
+	public final String fileName;
+	public final int w;
+	public final int h;
+	public final int x;
+	public final int y;
 
-
-	public PackedTexture(String filename, long width, long height, long x, long y) {
-		super();
-		this.filename = filename;
-		this.width = width;
-		this.height = height;
+	public PackedTexture(String fileName, int w, int h, int x, int y) {
+		this.fileName = fileName;
+		this.w = w;
+		this.h = h;
 		this.x = x;
 		this.y = y;
 	}
-
 }
