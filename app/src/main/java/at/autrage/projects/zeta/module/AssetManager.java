@@ -14,10 +14,14 @@ import javax.microedition.khronos.opengles.GL10;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.Animation;
+import at.autrage.projects.zeta.animation.AnimationInfo;
 import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.animation.Animations;
+import at.autrage.projects.zeta.module.texturepacker.PackedTexture;
+import at.autrage.projects.zeta.module.texturepacker.TexturePackerAtlas;
+import at.autrage.projects.zeta.module.texturepacker.TexturePackerInterpreter;
 import at.autrage.projects.zeta.opengl.ColorShader;
 import at.autrage.projects.zeta.opengl.SpriteShader;
 import at.autrage.projects.zeta.opengl.Texture;
@@ -53,7 +57,7 @@ public class AssetManager {
         m_Initialized = false;
     }
 
-    public void initialize() {
+    public void initialize(Context context) {
         if (m_Initialized) {
             return;
         }
@@ -61,7 +65,7 @@ public class AssetManager {
         m_Initialized = true;
 
         loadTextureData();
-        loadAnimationData();
+        loadAnimationData(context);
         loadShaderData();
     }
 
@@ -70,19 +74,13 @@ public class AssetManager {
 
         int[] textureResIds = new int[] {
                 R.drawable.background_game,
-                R.drawable.gv_weapon_small_rocket,
-                R.drawable.gv_weapon_big_rocket,
-                R.drawable.gv_enemy_asteroid1,
-                R.drawable.gv_enemy_asteroid2,
-                R.drawable.gv_enemy_asteroid3,
                 R.drawable.gv_explosion_sheet1,
                 R.drawable.gv_engine_fire,
-                R.drawable.gv_weapon_small_nuke,
-                R.drawable.gv_weapon_big_nuke,
                 R.drawable.gv_explosion2,
                 R.drawable.gv_explosion3,
                 R.drawable.debug,
-                R.drawable.gv_planet
+                R.drawable.gv_planet,
+                R.drawable.gv_texture_atlas
         };
 
         for (int textureResId : textureResIds) {
@@ -90,24 +88,75 @@ public class AssetManager {
         }
     }
 
-    private void loadAnimationData() {
+    private void loadAnimationFromTexturePacker(AnimationInfo animationInfo, Context context) {
+        TexturePackerAtlas atlas = TexturePackerInterpreter.getInstance().parseAtlas(animationInfo.TextureAtlasJSONFile, context.getAssets());
+        if (atlas == null) {
+            Logger.E("Could not load animation " + animationInfo.PackedTextureName + " from texture packer, because texture packer atlas could not be loaded!");
+            return;
+        }
+
+        PackedTexture packedTexture = atlas.getTextureByFileName(animationInfo.PackedTextureName);
+        if (packedTexture == null) {
+            Logger.E("Could not load animation " + animationInfo.PackedTextureName + " from texture packer, because packed texture " + animationInfo.PackedTextureName + " could not be found!");
+            return;
+        }
+
+        int frameSizeX = packedTexture.w;
+        int frameSizeY = packedTexture.h;
+
+        if (animationInfo.Duration != 0f &&
+            animationInfo.FrameSizeX > -1 &&
+            animationInfo.FrameSizeY > -1) {
+            frameSizeX = animationInfo.FrameSizeX;
+            frameSizeY = animationInfo.FrameSizeY;
+        }
+
+        m_Animations.put(animationInfo.AnimationID, new Animation(animationInfo.TextureResourceID, animationInfo.PackedTextureName,
+                atlas.w, atlas.h,
+                frameSizeX, frameSizeY,
+                packedTexture.x, packedTexture.y,
+                packedTexture.x + packedTexture.w, packedTexture.y + packedTexture.h,
+                animationInfo.Duration));
+    }
+
+    private void loadAnimationFromAnimationInfo(AnimationInfo animationInfo) {
+        m_Animations.put(animationInfo.AnimationID, new Animation(animationInfo.TextureResourceID, animationInfo.PackedTextureName,
+                animationInfo.TextureSizeX, animationInfo.TextureSizeY,
+                animationInfo.FrameSizeX, animationInfo.FrameSizeY,
+                animationInfo.StartTexCoordX, animationInfo.StartTexCoordY,
+                animationInfo.EndTexCoordX, animationInfo.EndTexCoordY,
+                animationInfo.Duration));
+    }
+
+    private void loadAnimationData(Context context) {
         m_Animations.clear();
 
-        m_Animations.put(Animations.BackgroundGameDefault, new Animation(R.drawable.background_game, "BackgroundGameDefault", 1920, 1080, 1920, 1080, 0, 0, 1920, 1080, 0f));
-        m_Animations.put(Animations.SmallRocket, new Animation(R.drawable.gv_weapon_small_rocket, "WeaponSmallRocket", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
-        m_Animations.put(Animations.BigRocket, new Animation(R.drawable.gv_weapon_big_rocket, "WeaponBigRocket", 80, 80, 80, 80, 0, 0, 80, 80, 0f));
-        m_Animations.put(Animations.Asteroid1, new Animation(R.drawable.gv_enemy_asteroid1, "EnemyAsteroid1", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
-        m_Animations.put(Animations.Asteroid2, new Animation(R.drawable.gv_enemy_asteroid2, "EnemyAsteroid2", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
-        m_Animations.put(Animations.Asteroid3, new Animation(R.drawable.gv_enemy_asteroid3, "EnemyAsteroid3", 256, 256, 256, 256, 0, 0, 256, 256, 0f));
-        m_Animations.put(Animations.Explosion1, new Animation(R.drawable.gv_explosion_sheet1, "Explosion1", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
-        m_Animations.put(Animations.EngineFire, new Animation(R.drawable.gv_engine_fire, "EngineFire", 512, 512, 64, 64, 0, 0, 512, 512, 0.032f));
-        m_Animations.put(Animations.SmallNuke, new Animation(R.drawable.gv_weapon_small_nuke, "WeaponSmallNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
-        m_Animations.put(Animations.BigNuke, new Animation(R.drawable.gv_weapon_big_nuke, "WeaponBigNuke", 64, 64, 64, 64, 0, 0, 64, 64, 0f));
-        m_Animations.put(Animations.Explosion2, new Animation(R.drawable.gv_explosion2, "Explosion2", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
-        m_Animations.put(Animations.Explosion3, new Animation(R.drawable.gv_explosion3, "Explosion3", 768, 768, 128, 128, 0, 0, 768, 768, 0.032f));
-        m_Animations.put(Animations.Debug, new Animation(R.drawable.debug, "Debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f));
-        m_Animations.put(Animations.DebugCircle, new Animation(R.drawable.debug, "DebugCircle", 300, 192, 100, 100, 200, 0, 300, 100, 0f));
-        m_Animations.put(Animations.Planet, new Animation(R.drawable.gv_planet, "Planet", 1024, 512, 1024, 512, 0, 0, 1024, 512, 0f));
+        AnimationInfo[] animationInfos = new AnimationInfo[] {
+                new AnimationInfo(R.drawable.background_game, Animations.BackgroundGameDefault, "background_game", 1920, 1080),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.SmallRocket, "gv_weapon_small_rocket", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.BigRocket, "gv_weapon_big_rocket", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.SmallNuke, "gv_weapon_small_nuke", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.BigNuke, "gv_weapon_big_nuke", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.Asteroid1, "gv_enemy_asteroid1", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.Asteroid2, "gv_enemy_asteroid2", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_texture_atlas, Animations.Asteroid3, "gv_enemy_asteroid3", "gv_texture_atlas.json"),
+                new AnimationInfo(R.drawable.gv_explosion_sheet1, Animations.Explosion1, "gv_explosion_sheet1", 512, 512, 64, 64, 0.032f),
+                new AnimationInfo(R.drawable.gv_explosion2, Animations.Explosion2, "gv_explosion2", 768, 768, 128, 128, 0.032f),
+                new AnimationInfo(R.drawable.gv_explosion3, Animations.Explosion3, "gv_explosion3", 768, 768, 128, 128, 0.032f),
+                new AnimationInfo(R.drawable.gv_engine_fire, Animations.EngineFire, "gv_engine_fire", 512, 512, 64, 64, 0.032f),
+                new AnimationInfo(R.drawable.gv_planet, Animations.Planet, "gv_planet", 1024, 512),
+                new AnimationInfo(R.drawable.debug, Animations.Debug, "debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f),
+                new AnimationInfo(R.drawable.debug, Animations.DebugCircle, "debug_circle", 300, 192, 100, 100, 200, 0, 300, 100, 0f),
+        };
+
+        for (AnimationInfo animationInfo : animationInfos) {
+            if (animationInfo.TextureAtlasJSONFile != null) {
+                loadAnimationFromTexturePacker(animationInfo, context);
+            }
+            else {
+                loadAnimationFromAnimationInfo(animationInfo);
+            }
+        }
 
 
         m_AnimationSets.clear();

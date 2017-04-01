@@ -130,7 +130,7 @@ public class GameView extends GLSurfaceView {
         m_GameActivity = gameActivity;
 
         // Initialize asset manager module
-        AssetManager.getInstance().initialize();
+        AssetManager.getInstance().initialize(getContext());
 
         // Add callback for events
         //getHolder().addCallback(this);
