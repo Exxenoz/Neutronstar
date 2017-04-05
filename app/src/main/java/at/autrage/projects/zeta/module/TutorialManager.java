@@ -14,6 +14,7 @@ import at.autrage.projects.zeta.activity.MainMenuActivity;
 import at.autrage.projects.zeta.model.Asteroid;
 import at.autrage.projects.zeta.model.Enemy;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
+import at.autrage.projects.zeta.util.Util;
 import at.autrage.projects.zeta.view.GameView;
 
 public class TutorialManager {

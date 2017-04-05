@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.autrage.projects.zeta.R;
-import at.autrage.projects.zeta.activity.GameActivity;
 import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.model.Player;
 import at.autrage.projects.zeta.model.WeaponStockpile;
@@ -19,6 +18,7 @@ import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
+import at.autrage.projects.zeta.util.Util;
 import at.autrage.projects.zeta.view.GameView;
 
 public class GameManager {

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
-import at.autrage.projects.zeta.module.Util;
+import at.autrage.projects.zeta.util.Util;
 
 /**
  * This class is inherited by most project activities to enable immersive mode automatically.

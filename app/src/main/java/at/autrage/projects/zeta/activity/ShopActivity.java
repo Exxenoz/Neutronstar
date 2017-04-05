@@ -18,7 +18,7 @@ import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
-import at.autrage.projects.zeta.module.Util;
+import at.autrage.projects.zeta.util.Util;
 
 /**
  * This activity implements the behaviour of the in-game shop.

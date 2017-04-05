@@ -1,13 +1,11 @@
-package at.autrage.projects.zeta.framework;
+package at.autrage.projects.zeta.util;
 
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import at.autrage.projects.zeta.event.Event;

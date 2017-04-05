@@ -2,7 +2,6 @@ package at.autrage.projects.zeta.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,7 +17,7 @@ import at.autrage.projects.zeta.module.Database;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
-import at.autrage.projects.zeta.module.Util;
+import at.autrage.projects.zeta.util.Util;
 import at.autrage.projects.zeta.persistence.HighscoreTable;
 import at.autrage.projects.zeta.persistence.HighscoreTableEntry;
 

@@ -76,7 +76,7 @@ public class WeaponLaunchArea extends Component implements TouchDown, TouchUpGlo
         }
 
         float directionX = (float) (deltaPositionX / distance);
-        float directionY = (float) (deltaPositionY / distance) * (-1); // Flip WorldCoordY direction
+        float directionY = (float) (deltaPositionY / distance) * (-1); // Flip y direction
 
         float radius = Pustafin.PlanetScale / 2f;
 
