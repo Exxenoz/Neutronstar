@@ -81,7 +81,8 @@ public class AssetManager {
                 R.drawable.gv_explosion3,
                 R.drawable.debug,
                 R.drawable.gv_planet,
-                R.drawable.gv_texture_atlas
+                R.drawable.gv_texture_atlas,
+                R.drawable.gv_foreground_alarm,
         };
 
         for (int textureResId : textureResIds) {
@@ -148,6 +149,7 @@ public class AssetManager {
                 new AnimationInfo(R.drawable.gv_planet, Animations.Planet, "gv_planet", 1024, 512),
                 new AnimationInfo(R.drawable.debug, Animations.Debug, "debug", 300, 192, 64, 64, 0, 0, 192, 192, 1f),
                 new AnimationInfo(R.drawable.debug, Animations.DebugCircle, "debug_circle", 300, 192, 100, 100, 200, 0, 300, 100, 0f),
+                new AnimationInfo(R.drawable.gv_foreground_alarm, Animations.ForegroundAlarm, "gv_foreground_alarm", 1920, 1080),
         };
 
         for (AnimationInfo animationInfo : animationInfos) {
@@ -177,7 +179,8 @@ public class AssetManager {
                 new AnimationSetInfo(AnimationSets.Explosion3, "Explosion3", Animations.Explosion3),
                 new AnimationSetInfo(AnimationSets.Debug, "Debug", Animations.Debug),
                 new AnimationSetInfo(AnimationSets.DebugCircle, "DebugCircle", Animations.DebugCircle),
-                new AnimationSetInfo(AnimationSets.Planet, "Planet", Animations.Planet)
+                new AnimationSetInfo(AnimationSets.Planet, "Planet", Animations.Planet),
+                new AnimationSetInfo(AnimationSets.ForegroundAlarm, "ForegroundAlarm", Animations.ForegroundAlarm),
         };
 
         for (AnimationSetInfo animationSetInfo : animationSetInfos) {

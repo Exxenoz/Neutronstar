@@ -36,6 +36,7 @@ import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
 import at.autrage.projects.zeta.module.Util;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
+import at.autrage.projects.zeta.prefab.GameViewUserInterfacePrefab;
 import at.autrage.projects.zeta.ui.TouchEvent;
 
 /**
@@ -62,6 +63,10 @@ public class GameView extends GLSurfaceView {
      * Reference to the {@link GameViewUI} object, which contains UI references.
      */
     private GameViewUI m_UI;
+    /**
+     * Reference to the {@link GameViewUserInterfacePrefab} object, which contains UI game object references.
+     */
+    private GameViewUserInterfacePrefab userInterfacePrefab;
 
     /**
      * Cached reference to the {@link GameManager} module.
@@ -92,19 +97,6 @@ public class GameView extends GLSurfaceView {
      * Reference to (@link Player) object.
      */
     private Player m_Player;
-
-    /**
-     * Indicates whether the alarm is enabled or not.
-     */
-    private boolean m_AlarmEnabled;
-    /**
-     * True if the alarm should be stopped automatically, otherwise false.
-     */
-    private boolean m_AlarmAutoStop;
-    /**
-     * Timer for smooth alarm foreground blinking.
-     */
-    private float m_AlarmTimer;
 
     private ConcurrentLinkedQueue<TouchEvent> touchEvents;
     /**
@@ -167,9 +159,7 @@ public class GameView extends GLSurfaceView {
         GameObject playerGameObject = new GameObject(this, 0f, 0f, "Player");
         m_Player = playerGameObject.addComponent(Player.class);
 
-        m_AlarmEnabled = false;
-        m_AlarmAutoStop = true;
-        m_AlarmTimer = 0f;
+        userInterfacePrefab = new GameViewUserInterfacePrefab(this);
 
         touchEvents = new ConcurrentLinkedQueue<>();
         m_ClickEventActive = false;
@@ -383,23 +373,6 @@ public class GameView extends GLSurfaceView {
                     m_UI.TxtViewBigContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigContactBomb));
                     m_GameManager.delUpdateFlag(UpdateFlags.BigContactBombCount);
                 }
-
-                if ((m_AlarmEnabled || m_AlarmTimer > 0f) && m_UI.ImgViewAlarm != null) {
-                    if (m_AlarmTimer == 0f && !m_LevelFinished) {
-                        SoundManager.getInstance().PlaySFX(R.raw.sfx_siren_noise);
-                    }
-
-                    if (m_AlarmAutoStop) {
-                        m_AlarmEnabled = false;
-                    }
-
-                    m_AlarmTimer += Time.getScaledDeltaTime();
-                    if (m_AlarmTimer >= Pustafin.AlarmForegroundBlinkDuration) {
-                        m_AlarmTimer = 0f;
-                    }
-
-                    m_UI.ImgViewAlarm.setAlpha((float) Math.sin(Math.PI * m_AlarmTimer / Pustafin.AlarmForegroundBlinkDuration));
-                }
             }
         });
 
@@ -520,22 +493,6 @@ public class GameView extends GLSurfaceView {
 
     public EnemySpawner getEnemySpawner() {
         return m_EnemySpawner;
-    }
-
-    public boolean isAlarmEnabled() {
-        return m_AlarmEnabled;
-    }
-
-    public void setAlarmEnabled(boolean alarmEnabled) {
-        this.m_AlarmEnabled = alarmEnabled;
-    }
-
-    public boolean isAlarmAutoStopped() {
-        return m_AlarmAutoStop;
-    }
-
-    public void setAlarmAutoStop(boolean alarmAutoStop) {
-        this.m_AlarmAutoStop = alarmAutoStop;
     }
 
     public boolean isLevelFinished() {

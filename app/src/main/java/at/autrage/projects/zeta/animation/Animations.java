@@ -19,5 +19,6 @@ public enum Animations {
     Explosion3,
     Debug,
     DebugCircle,
-    Planet
+    Planet,
+    ForegroundAlarm,
 }

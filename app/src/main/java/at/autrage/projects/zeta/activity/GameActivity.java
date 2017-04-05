@@ -64,7 +64,6 @@ public class GameActivity extends SuperActivity {
         gameViewUI.TxtViewBigLaserCount = (TextView)findViewById(R.id.txtViewBigLaserCount);
         gameViewUI.TxtViewSmallContactBombCount = (TextView)findViewById(R.id.txtViewSmallContactBombCount);
         gameViewUI.TxtViewBigContactBombCount = (TextView)findViewById(R.id.txtViewBigContactBombCount);
-        gameViewUI.ImgViewAlarm = (ImageView)findViewById(R.id.imgViewAlarm);
 
         if (GameManager.getInstance().isTutorialMode()) {
             TutorialManager.getInstance().setImgViewTutorialArrow((ImageView)findViewById(R.id.imgViewTutorialArrow));

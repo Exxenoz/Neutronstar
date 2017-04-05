@@ -66,13 +66,6 @@ public class Player extends Component {
 
         gameObject.addComponent(CircleCollider.class).setRadius(gameObject.getHalfScaleX());
 
-        GameObject alarmAreaGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY(), "AlarmArea");
-        alarmAreaGameObject.setIgnoreParentRotation(true);
-        alarmAreaGameObject.setParent(gameObject);
-
-        alarmAreaGameObject.addComponent(AlarmArea.class);
-        alarmAreaGameObject.addComponent(CircleCollider.class).setRadius(Pustafin.AlarmAreaRadius);
-
         if (Pustafin.DebugMode) {
             GameObject debugCircleGameObject = new GameObject(gameObject.getGameView(), gameObject.getPositionX(), gameObject.getPositionY(), "PlayerDebugCircle");
             debugCircleGameObject.setIgnoreParentRotation(true);

@@ -34,9 +34,6 @@ public class GameViewUI {
     /** Reference to the big contact bomb count text view element. */
     public TextView TxtViewBigContactBombCount;
 
-    /** Reference to the alarm foreground image view element. */
-    public ImageView ImgViewAlarm;
-
     public GameViewUI() {
     }
 }
