@@ -56,10 +56,6 @@ public class GameView extends GLSurfaceView {
      */
     private GameViewUpdater m_Updater;
     /**
-     * Reference to the {@link GameViewUpdater} thread.
-     */
-    private Thread m_UpdaterThread;
-    /**
      * Reference to the {@link GameViewUI} object, which contains UI references.
      */
     private GameViewUI m_UI;
@@ -224,8 +220,7 @@ public class GameView extends GLSurfaceView {
 
         // Initialize game view updater and start thread
         m_Updater = new GameViewUpdater(this);
-        m_UpdaterThread = new Thread(m_Updater);
-        m_UpdaterThread.start();
+        m_Updater.start();
     }
 
     @Override
@@ -239,10 +234,10 @@ public class GameView extends GLSurfaceView {
         super.surfaceDestroyed(holder);
         Logger.D("GameView::surfaceDestroyed()");
 
-        m_Updater.setRunning(false);
+        m_Updater.stop();
 
         try {
-            m_UpdaterThread.join();
+            m_Updater.join();
         } catch (InterruptedException e) {
             Logger.E(e.getMessage());
         }

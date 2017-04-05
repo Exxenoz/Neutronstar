@@ -9,9 +9,14 @@ import at.autrage.projects.zeta.module.Time;
  * <p>If started, it repeats the update routine all 16 milli seconds.</p>
  */
 public class GameViewUpdater implements Runnable {
-
-    /** Variable which stores reference to {@link GameView} */
+    /**
+     * Variable which stores reference to {@link GameView}
+     */
     private GameView m_View;
+    /**
+     * Reference to the {@link GameViewUpdater} thread.
+     */
+    private Thread m_UpdaterThread;
     /**
      * Variable which contains the current state of the thread.
      *
@@ -26,15 +31,24 @@ public class GameViewUpdater implements Runnable {
      */
     public GameViewUpdater(GameView view) {
         this.m_View = view;
+        this.m_UpdaterThread = new Thread(this);
+        this.m_Running = false;
     }
 
-    /**
-     * Set the value of {@link GameViewUpdater#m_Running}
-     *
-     * @param running True means that the thrad is currently running. Otherwise the variable is set to false.
-     */
-    public void setRunning(boolean running) {
-        this.m_Running = running;
+    public void start() {
+        if (!m_Running && m_UpdaterThread != null) {
+            m_UpdaterThread.start();
+        }
+    }
+
+    public void stop() {
+        this.m_Running = false;
+    }
+
+    public void join() throws InterruptedException {
+        if (m_UpdaterThread != null) {
+            m_UpdaterThread.join();
+        }
     }
 
     @Override
