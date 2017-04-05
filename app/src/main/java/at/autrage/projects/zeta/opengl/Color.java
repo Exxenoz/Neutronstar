@@ -31,6 +31,13 @@ public class Color {
     }
 
     public void setAlpha(float alpha) {
+        if (alpha < 0f) {
+            alpha = 0f;
+        }
+        else if (alpha > 1f) {
+            alpha = 1f;
+        }
+
         m_Color[3] = alpha;
     }
 
