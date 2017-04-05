@@ -16,6 +16,7 @@ import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.animation.Animation;
 import at.autrage.projects.zeta.animation.AnimationInfo;
 import at.autrage.projects.zeta.animation.AnimationSet;
+import at.autrage.projects.zeta.animation.AnimationSetInfo;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.animation.AnimationType;
 import at.autrage.projects.zeta.animation.Animations;
@@ -161,51 +162,40 @@ public class AssetManager {
 
         m_AnimationSets.clear();
 
-        m_AnimationSets.put(AnimationSets.BackgroundGame, new AnimationSet("BackgroundGame", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.BackgroundGameDefault));
-        }}));
-        m_AnimationSets.put(AnimationSets.SmallRocket, new AnimationSet("SmallRocket", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.SmallRocket));
-        }}));
-        m_AnimationSets.put(AnimationSets.BigRocket, new AnimationSet("BigRocket", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.BigRocket));
-        }}));
-        m_AnimationSets.put(AnimationSets.Asteroid1, new AnimationSet("Asteroid1", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Asteroid1));
-        }}));
-        m_AnimationSets.put(AnimationSets.Asteroid2, new AnimationSet("Asteroid2", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Asteroid2));
-        }}));
-        m_AnimationSets.put(AnimationSets.Asteroid3, new AnimationSet("Asteroid3", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Asteroid3));
-        }}));
-        m_AnimationSets.put(AnimationSets.Explosion1, new AnimationSet("Explosion1", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Explosion1));
-        }}));
-        m_AnimationSets.put(AnimationSets.EngineFire, new AnimationSet("EngineFire", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.EngineFire));
-        }}));
-        m_AnimationSets.put(AnimationSets.SmallNuke, new AnimationSet("SmallNuke", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.SmallNuke));
-        }}));
-        m_AnimationSets.put(AnimationSets.BigNuke, new AnimationSet("BigNuke", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.BigNuke));
-        }}));
-        m_AnimationSets.put(AnimationSets.Explosion2, new AnimationSet("Explosion2", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Explosion2));
-        }}));
-        m_AnimationSets.put(AnimationSets.Explosion3, new AnimationSet("Explosion3", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Explosion3));
-        }}));
-        m_AnimationSets.put(AnimationSets.Debug, new AnimationSet("Debug", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Debug));
-        }}));
-        m_AnimationSets.put(AnimationSets.DebugCircle, new AnimationSet("DebugCircle", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.DebugCircle));
-        }}));
-        m_AnimationSets.put(AnimationSets.Planet, new AnimationSet("Planet", new HashMap<AnimationType, Animation>() {{
-            put(AnimationType.Default, m_Animations.get(Animations.Planet));
-        }}));
+        AnimationSetInfo[] animationSetInfos = new AnimationSetInfo[] {
+                new AnimationSetInfo(AnimationSets.BackgroundGame, "BackgroundGame", Animations.BackgroundGameDefault),
+                new AnimationSetInfo(AnimationSets.SmallRocket, "SmallRocket", Animations.SmallRocket),
+                new AnimationSetInfo(AnimationSets.BigRocket, "BigRocket", Animations.BigRocket),
+                new AnimationSetInfo(AnimationSets.Asteroid1, "Asteroid1", Animations.Asteroid1),
+                new AnimationSetInfo(AnimationSets.Asteroid2, "Asteroid2", Animations.Asteroid2),
+                new AnimationSetInfo(AnimationSets.Asteroid3, "Asteroid3", Animations.Asteroid3),
+                new AnimationSetInfo(AnimationSets.Explosion1, "Explosion1", Animations.Explosion1),
+                new AnimationSetInfo(AnimationSets.EngineFire, "EngineFire", Animations.EngineFire),
+                new AnimationSetInfo(AnimationSets.SmallNuke, "SmallNuke", Animations.SmallNuke),
+                new AnimationSetInfo(AnimationSets.BigNuke, "BigNuke", Animations.BigNuke),
+                new AnimationSetInfo(AnimationSets.Explosion2, "Explosion2", Animations.Explosion2),
+                new AnimationSetInfo(AnimationSets.Explosion3, "Explosion3", Animations.Explosion3),
+                new AnimationSetInfo(AnimationSets.Debug, "Debug", Animations.Debug),
+                new AnimationSetInfo(AnimationSets.DebugCircle, "DebugCircle", Animations.DebugCircle),
+                new AnimationSetInfo(AnimationSets.Planet, "Planet", Animations.Planet)
+        };
+
+        for (AnimationSetInfo animationSetInfo : animationSetInfos) {
+            AnimationSet animationSet = new AnimationSet(animationSetInfo.Name);
+
+            for (Map.Entry<AnimationType, Animations> entry : animationSetInfo.Animations.entrySet()) {
+                Animation animation = m_Animations.get(entry.getValue());
+
+                if (animation == null) {
+                    Logger.W("Could not find animation with ID " + entry.getValue() + " for animation set " + animationSetInfo.Name + "!");
+                    continue;
+                }
+
+                animationSet.addAnimation(entry.getKey(), animation);
+            }
+
+            m_AnimationSets.put(animationSetInfo.AnimationSetID, animationSet);
+        }
     }
 
     private void loadShaderData() {

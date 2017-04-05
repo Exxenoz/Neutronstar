@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.animation;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AnimationSet {
@@ -11,12 +12,17 @@ public class AnimationSet {
         this.m_Animations = animations;
     }
 
-    public void insertAnimation(AnimationType animationType, Animation animation) {
-        m_Animations.put(animationType, animation);
+    public AnimationSet(String name) {
+        this.m_Name = name;
+        this.m_Animations = new HashMap<>();
     }
 
     public String getName() {
         return m_Name;
+    }
+
+    public void addAnimation(AnimationType animationType, Animation animation) {
+        m_Animations.put(animationType, animation);
     }
 
     public Animation getAnimation(AnimationType animationType) {
