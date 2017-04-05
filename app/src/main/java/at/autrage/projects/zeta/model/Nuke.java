@@ -8,6 +8,7 @@ import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.SoundManager;
+import at.autrage.projects.zeta.view.GameView;
 
 /**
  * This class represents a nuke object in the game.
@@ -68,8 +69,8 @@ public class Nuke extends Weapon {
         this.m_ExplosionAnimationSet = explosionAnimationSet;
     }
 
-    public static Nuke createSmallNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "SmallNuke");
+    public static Nuke createSmallNuke(GameView gameView, float positionX, float positionY, float directionX, float directionY) {
+        GameObject gameObject = new GameObject(gameView, positionX, positionY, "SmallNuke");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);
@@ -90,8 +91,8 @@ public class Nuke extends Weapon {
         return nuke;
     }
 
-    public static Nuke createBigNuke(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "BigNuke");
+    public static Nuke createBigNuke(GameView gameView, float positionX, float positionY, float directionX, float directionY) {
+        GameObject gameObject = new GameObject(gameView, positionX, positionY, "BigNuke");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);

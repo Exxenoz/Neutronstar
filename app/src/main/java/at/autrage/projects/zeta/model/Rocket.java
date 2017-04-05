@@ -7,6 +7,7 @@ import at.autrage.projects.zeta.collision.Collider;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.SoundManager;
+import at.autrage.projects.zeta.view.GameView;
 
 public class Rocket extends Weapon {
     private Sprite m_EngineFire;
@@ -67,8 +68,8 @@ public class Rocket extends Weapon {
         }
     }
 
-    public static Rocket createSmallRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "SmallRocket");
+    public static Rocket createSmallRocket(GameView gameView, float positionX, float positionY, float directionX, float directionY) {
+        GameObject gameObject = new GameObject(gameView, positionX, positionY, "SmallRocket");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);
@@ -86,8 +87,8 @@ public class Rocket extends Weapon {
         return rocket;
     }
 
-    public static Rocket createBigRocket(Player player, float positionX, float positionY, float directionX, float directionY) {
-        GameObject gameObject = new GameObject(player.gameObject.getGameView(), positionX, positionY, "BigRocket");
+    public static Rocket createBigRocket(GameView gameView, float positionX, float positionY, float directionX, float directionY) {
+        GameObject gameObject = new GameObject(gameView, positionX, positionY, "BigRocket");
         gameObject.setRotationZ((float) (Math.atan2(directionY, directionX) * 180.0 / Math.PI) - 90f);
 
         Sprite sprite = gameObject.addComponent(Sprite.class);

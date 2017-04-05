@@ -274,7 +274,7 @@ public class GameView extends GLSurfaceView {
 
         // Update touch events
         for (TouchEvent touchEvent = touchEvents.poll(); touchEvent != null; touchEvent = touchEvents.poll()) {
-            switch (touchEvent.motionEvent.getAction()) {
+            switch (touchEvent.Action) {
                 case MotionEvent.ACTION_DOWN:
                     if (!m_ClickEventActive) {
                         m_ClickEventActive = true;
@@ -284,10 +284,6 @@ public class GameView extends GLSurfaceView {
                 case MotionEvent.ACTION_UP:
                     m_ClickEventActive = false;
                     break;
-            }
-
-            if (m_Player != null) {
-                m_Player.onGlobalTouch(touchEvent.motionEvent);
             }
 
             ColliderManager.touch(touchEvent);

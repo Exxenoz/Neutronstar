@@ -14,6 +14,7 @@ import at.autrage.projects.zeta.ui.TouchDown;
 import at.autrage.projects.zeta.ui.TouchEvent;
 import at.autrage.projects.zeta.ui.TouchMove;
 import at.autrage.projects.zeta.ui.TouchUp;
+import at.autrage.projects.zeta.ui.TouchUpGlobal;
 import at.autrage.projects.zeta.view.GameView;
 
 /**
@@ -276,8 +277,19 @@ public final class GameObject {
     public void touchUp(Collider collider, TouchEvent e) {
         for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
             Component component = components.get(currComponentIdx);
-            if (component instanceof TouchUp){
-                ((TouchUp)component).touchUp(collider, e);
+            if (component instanceof TouchUp) {
+                ((TouchUp) component).touchUp(collider, e);
+            }
+        }
+
+        currComponentIdx = -1;
+    }
+
+    public void touchUpGlobal(Collider collider, TouchEvent e) {
+        for (currComponentIdx = 0; currComponentIdx < components.size(); currComponentIdx++) {
+            Component component = components.get(currComponentIdx);
+            if (component instanceof TouchUpGlobal) {
+                ((TouchUpGlobal) component).touchUpGlobal(collider, e);
             }
         }
 

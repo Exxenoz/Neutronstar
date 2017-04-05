@@ -1,13 +1,10 @@
 package at.autrage.projects.zeta.collision;
 
-import android.text.method.Touch;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.exception.ArgumentNullException;
 import at.autrage.projects.zeta.ui.TouchEvent;
 
@@ -38,7 +35,7 @@ public class ColliderManager {
     }
 
     public void touch(TouchEvent touchEvent) {
-        switch (touchEvent.motionEvent.getAction()) {
+        switch (touchEvent.Action) {
             case MotionEvent.ACTION_DOWN:
                 actionDown(touchEvent);
                 break;
@@ -54,7 +51,7 @@ public class ColliderManager {
     private void actionMove(TouchEvent e) {
         for (currUIColliderIdx = 0; currUIColliderIdx < UIColliders.size(); currUIColliderIdx++) {
             Collider collider = UIColliders.get(currUIColliderIdx);
-            if (collider.intersects(e.x, e.y)){
+            if (collider.intersects(e.WorldCoordX, e.WorldCoordY)){
                 collider.getGameObject().touchMove(collider, e);
             }
         }
@@ -65,9 +62,10 @@ public class ColliderManager {
     private void actionUp(TouchEvent e) {
         for (currUIColliderIdx = 0; currUIColliderIdx < UIColliders.size(); currUIColliderIdx++) {
             Collider collider = UIColliders.get(currUIColliderIdx);
-            if (collider.intersects(e.x, e.y)){
+            if (collider.intersects(e.WorldCoordX, e.WorldCoordY)){
                 collider.getGameObject().touchUp(collider, e);
             }
+            collider.getGameObject().touchUpGlobal(collider, e);
         }
 
         currUIColliderIdx = -1;
@@ -76,7 +74,7 @@ public class ColliderManager {
     private void actionDown(TouchEvent e) {
         for (currUIColliderIdx = 0; currUIColliderIdx < UIColliders.size(); currUIColliderIdx++) {
             Collider collider = UIColliders.get(currUIColliderIdx);
-            if (collider.intersects(e.x, e.y)){
+            if (collider.intersects(e.WorldCoordX, e.WorldCoordY)){
                 collider.getGameObject().touchDown(collider, e);
             }
         }
