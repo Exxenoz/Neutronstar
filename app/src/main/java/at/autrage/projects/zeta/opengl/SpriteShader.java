@@ -69,6 +69,11 @@ public class SpriteShader extends Shader {
             return;
         }
 
+        // Do not draw invisible elements
+        if (shaderParams.Color.getAlpha() == 0f) {
+            return;
+        }
+
         if (m_Program != _currProgram) {
             // Add program to OpenGL ES environment
             GLES20.glUseProgram(m_Program);

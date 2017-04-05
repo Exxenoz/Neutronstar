@@ -30,6 +30,14 @@ public class Color {
         return m_Color;
     }
 
+    public void setAlpha(float alpha) {
+        m_Color[3] = alpha;
+    }
+
+    public float getAlpha() {
+        return m_Color[3];
+    }
+
     public static final float[] Red   = new float[] { 1f, 0f, 0f, 1f };
     public static final float[] Green = new float[] { 0f, 1f, 0f, 1f };
     public static final float[] Blue  = new float[] { 0f, 0f, 1f, 1f };

@@ -20,4 +20,12 @@ public class ColorMaterial extends Material {
     public Color getColor() {
         return m_Color;
     }
+
+    public void setAlpha(float alpha) {
+        m_Color.setAlpha(alpha);
+    }
+
+    public float getAlpha() {
+        return m_Color.getAlpha();
+    }
 }

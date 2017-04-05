@@ -250,4 +250,14 @@ public class Sprite extends Component {
     public SpriteMaterial getSpriteMaterial() {
         return m_SpriteMaterial;
     }
+
+    public void setAlpha(float alpha) {
+        if (m_SpriteMaterial != null) {
+            m_SpriteMaterial.setAlpha(alpha);
+        }
+    }
+
+    public float getAlpha() {
+        return m_SpriteMaterial != null ? m_SpriteMaterial.getAlpha() : 0f;
+    }
 }
