@@ -14,14 +14,12 @@ import android.widget.TextView;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.model.WeaponStockpile;
-import at.autrage.projects.zeta.model.WeaponUpgrade;
-import at.autrage.projects.zeta.model.WeaponUpgrades;
 import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.SoundManager;
 import at.autrage.projects.zeta.module.Time;
-import at.autrage.projects.zeta.module.TutorialManager;
+import at.autrage.projects.zeta.tutorial.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewUI;
@@ -64,25 +62,20 @@ public class GameActivity extends SuperActivity {
         gameViewUI.TxtViewBigLaserCount = (TextView)findViewById(R.id.txtViewBigLaserCount);
         gameViewUI.TxtViewSmallContactBombCount = (TextView)findViewById(R.id.txtViewSmallContactBombCount);
         gameViewUI.TxtViewBigContactBombCount = (TextView)findViewById(R.id.txtViewBigContactBombCount);
+        gameViewUI.ImgViewTutorialArrow = (ImageView)findViewById(R.id.imgViewTutorialArrow);
+        gameViewUI.TxtViewTutorial = (TextView)findViewById(R.id.txtViewTutorial);
 
-        if (GameManager.getInstance().isTutorialMode()) {
-            TutorialManager.getInstance().setImgViewTutorialArrow((ImageView)findViewById(R.id.imgViewTutorialArrow));
-            TutorialManager.getInstance().setTxtViewTutorial((TextView)findViewById(R.id.txtViewTutorial));
+        if (!GameManager.getInstance().isTutorialMode()) {
+            if (gameViewUI.ImgViewTutorialArrow != null) {
+                gameViewUI.ImgViewTutorialArrow.setAlpha(0f);
+            }
 
-            android.view.animation.Animation arrowAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arrow_up_down);
-            TutorialManager.getInstance().getImgViewTutorialArrow().startAnimation(arrowAnimation);
+            if (gameViewUI.TxtViewTutorial != null) {
+                gameViewUI.TxtViewTutorial.setAlpha(0f);
+            }
         }
-        else {
-            findViewById(R.id.imgViewTutorialArrow).setAlpha(0f);
-            findViewById(R.id.txtViewTutorial).setAlpha(0f);
-        }
 
-        m_GameView = new GameView(this);
-        m_GameView.setGameViewUI(gameViewUI);
-
-        if (GameManager.getInstance().isTutorialMode()) {
-            TutorialManager.getInstance().startTutorial(m_GameView);
-        }
+        m_GameView = new GameView(this, gameViewUI);
 
         // Debug
         Button btnDebugWin = (Button)findViewById(R.id.btnDebugWin);

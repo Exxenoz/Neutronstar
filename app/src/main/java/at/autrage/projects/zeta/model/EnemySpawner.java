@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import at.autrage.projects.zeta.animation.AnimationSet;
 import at.autrage.projects.zeta.module.GameManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.module.Time;
-import at.autrage.projects.zeta.module.TutorialManager;
-import at.autrage.projects.zeta.view.GameView;
+import at.autrage.projects.zeta.tutorial.TutorialManager;
 
 public class EnemySpawner extends Component {
     private Random m_Random;
@@ -159,7 +157,7 @@ public class EnemySpawner extends Component {
         }
 
         if (GameManager.getInstance().isTutorialMode()) {
-            TutorialManager.getInstance().onDestroyEnemy(enemy);
+            gameObject.getGameView().TutorialManager.onDestroyEnemy(enemy);
             return;
         }
 

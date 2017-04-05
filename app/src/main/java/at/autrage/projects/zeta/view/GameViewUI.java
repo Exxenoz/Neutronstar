@@ -34,6 +34,9 @@ public class GameViewUI {
     /** Reference to the big contact bomb count text view element. */
     public TextView TxtViewBigContactBombCount;
 
+    public ImageView ImgViewTutorialArrow;
+    public TextView TxtViewTutorial;
+
     public GameViewUI() {
     }
 }

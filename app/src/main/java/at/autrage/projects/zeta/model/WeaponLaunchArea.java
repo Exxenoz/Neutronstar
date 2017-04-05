@@ -109,7 +109,7 @@ public class WeaponLaunchArea extends Component implements TouchDown, TouchUpGlo
         if (weaponCount > 0) {
             weaponStockpile.setCount(--weaponCount);
             if (weaponCount == 0) {
-                gameObject.getGameView().getGameActivity().setHighlightedHotbarBoxToSmallRocketArea();
+                gameObject.getGameView().GameActivity.setHighlightedHotbarBoxToSmallRocketArea();
             }
         }
     }

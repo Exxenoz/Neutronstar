@@ -27,7 +27,7 @@ import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
-import at.autrage.projects.zeta.module.TutorialManager;
+import at.autrage.projects.zeta.tutorial.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -42,79 +42,41 @@ import at.autrage.projects.zeta.ui.TouchEvent;
  * It is responsible for {@link GameViewUpdater} management and drawing of the whole game view.
  */
 public class GameView extends GLSurfaceView {
-    /**
-     * Reference to the {@link GameActivity} object.
-     */
-    private GameActivity m_GameActivity;
-    /**
-     * Reference to the {@link GameViewRenderer} object.
-     */
+    public final GameActivity GameActivity;
+
     private GameViewRenderer m_Renderer;
-    /**
-     * Reference to the {@link GameViewUpdater} object.
-     */
     private GameViewUpdater m_Updater;
-    /**
-     * Reference to the {@link GameViewUI} object, which contains UI references.
-     */
-    private GameViewUI m_UI;
-    /**
-     * Reference to the {@link GameViewUserInterfacePrefab} object, which contains UI game object references.
-     */
-    private GameViewUserInterfacePrefab userInterfacePrefab;
 
-    /**
-     * Cached reference to the {@link GameManager} module.
-     */
-    private GameManager m_GameManager;
+    public final GameViewUI UI;
+    public final GameViewUserInterfacePrefab UserInterfacePrefab;
 
-    /**
-     * Reference to all updated {@link GameObject} objects.
-     */
     private List<GameObject> m_GameObjects;
     private int currGameObjectIdx;
 
-    /**
-     * Reference to all enabled {@link MeshRenderer} objects.
-     */
     private Synchronitron<MeshRenderer> m_MeshRenderers;
 
-    /**
-     * Reference to (@link ColliderManager) object.
-     */
+    public final GameManager GameManager;
     public final ColliderManager ColliderManager;
+    public final TutorialManager TutorialManager;
 
-    /**
-     * Reference to (@link EnemySpawner) object.
-     */
     private EnemySpawner m_EnemySpawner;
-    /**
-     * Reference to (@link Player) object.
-     */
     private Player m_Player;
 
     private ConcurrentLinkedQueue<TouchEvent> touchEvents;
-    /**
-     * True if a click event is in progress, otherwise false.
-     */
-    private boolean m_ClickEventActive;
-    /**
-     * Timer to delay redirection to the next activity.
-     */
+
     private Timer m_RedirectionDelayTimer;
-    /**
-     * True if the current level is finished, otherwise false.
-     */
     private boolean m_LevelFinished;
 
-    public GameView(GameActivity gameActivity) {
+    public GameView(GameActivity gameActivity, GameViewUI ui) {
         super(gameActivity.getApplicationContext());
 
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
         // Initialize game activity variable
-        m_GameActivity = gameActivity;
+        GameActivity = gameActivity;
+
+        UI = ui;
 
         // Initialize asset manager module
         AssetManager.getInstance().initialize(getContext());
@@ -133,14 +95,12 @@ public class GameView extends GLSurfaceView {
         // Render the view also when there is no change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
-        // Cache game manager module reference
-        m_GameManager = GameManager.getInstance();
-
         m_GameObjects = new ArrayList<>(256);
         currGameObjectIdx = -1;
 
         m_MeshRenderers = new Synchronitron<>(MeshRenderer.class, 256);
 
+        GameManager = at.autrage.projects.zeta.module.GameManager.getInstance(); // ToDo: Replace singleton with object
         ColliderManager = new ColliderManager();
 
         GameObject enemySpawnerGameObject = new GameObject(this, 0f, 0f, "EnemySpawner");
@@ -154,14 +114,19 @@ public class GameView extends GLSurfaceView {
         GameObject playerGameObject = new GameObject(this, 0f, 0f, "Player");
         m_Player = playerGameObject.addComponent(Player.class);
 
-        userInterfacePrefab = new GameViewUserInterfacePrefab(this);
+        UserInterfacePrefab = new GameViewUserInterfacePrefab(this);
 
         touchEvents = new ConcurrentLinkedQueue<>();
-        m_ClickEventActive = false;
 
         m_RedirectionDelayTimer = new Timer();
-
         m_LevelFinished = false;
+
+        if (GameManager.isTutorialMode()) {
+            TutorialManager = new TutorialManager(this);
+        }
+        else {
+            TutorialManager = null;
+        }
     }
 
     public void addGameObject(GameObject gameObject) {
@@ -246,12 +211,6 @@ public class GameView extends GLSurfaceView {
         AssetManager.getInstance().onSurfaceDestroyed();
     }
 
-    public void onClick() {
-        if (GameManager.getInstance().isTutorialMode()) {
-            TutorialManager.getInstance().onClickEvent(this);
-        }
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         touchEvents.add(new TouchEvent(e));
@@ -273,95 +232,87 @@ public class GameView extends GLSurfaceView {
 
         // Update touch events
         for (TouchEvent touchEvent = touchEvents.poll(); touchEvent != null; touchEvent = touchEvents.poll()) {
-            switch (touchEvent.Action) {
-                case MotionEvent.ACTION_DOWN:
-                    if (!m_ClickEventActive) {
-                        m_ClickEventActive = true;
-                        onClick();
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    m_ClickEventActive = false;
-                    break;
-            }
-
             ColliderManager.touch(touchEvent);
+
+            if (TutorialManager != null) {
+                TutorialManager.touch(touchEvent);
+            }
         }
 
         // Update colliders
         ColliderManager.update();
 
         // Update user interface states
-        m_GameActivity.runOnUiThread(new Runnable() {
+        GameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (m_UI == null) {
+                if (UI == null) {
                     return;
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.Population) && m_UI.TxtViewPopulation != null) {
-                    m_UI.TxtViewPopulation.setText(String.format(m_GameActivity.getString(R.string.gv_population_display), Util.addLeadingZeros((int) m_GameManager.getPopulation(), 5, true, false)));
-                    m_GameManager.delUpdateFlag(UpdateFlags.Population);
+                if (GameManager.hasUpdateFlag(UpdateFlags.Population) && UI.TxtViewPopulation != null) {
+                    UI.TxtViewPopulation.setText(String.format(GameActivity.getString(R.string.gv_population_display), Util.addLeadingZeros((int) GameManager.getPopulation(), 5, true, false)));
+                    GameManager.delUpdateFlag(UpdateFlags.Population);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.Money) && m_UI.TxtViewMoney != null) {
-                    m_UI.TxtViewMoney.setText(String.format(m_GameActivity.getString(R.string.gv_money_display), Util.addLeadingZeros(m_GameManager.getMoney(), 6, true, false)));
-                    m_GameManager.delUpdateFlag(UpdateFlags.Money);
+                if (GameManager.hasUpdateFlag(UpdateFlags.Money) && UI.TxtViewMoney != null) {
+                    UI.TxtViewMoney.setText(String.format(GameActivity.getString(R.string.gv_money_display), Util.addLeadingZeros(GameManager.getMoney(), 6, true, false)));
+                    GameManager.delUpdateFlag(UpdateFlags.Money);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.Level) && m_UI.TxtViewLevel != null) {
-                    m_UI.TxtViewLevel.setText(String.format("Lvl. %d", m_GameManager.getLevel()));
-                    m_GameManager.delUpdateFlag(UpdateFlags.Level);
+                if (GameManager.hasUpdateFlag(UpdateFlags.Level) && UI.TxtViewLevel != null) {
+                    UI.TxtViewLevel.setText(String.format("Lvl. %d", GameManager.getLevel()));
+                    GameManager.delUpdateFlag(UpdateFlags.Level);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.Score) && m_UI.TxtViewScore != null) {
-                    m_UI.TxtViewScore.setText(String.format("%s", Util.addLeadingZeros(m_GameManager.getScore(), 6, true, true)));
-                    m_GameManager.delUpdateFlag(UpdateFlags.Score);
+                if (GameManager.hasUpdateFlag(UpdateFlags.Score) && UI.TxtViewScore != null) {
+                    UI.TxtViewScore.setText(String.format("%s", Util.addLeadingZeros(GameManager.getScore(), 6, true, true)));
+                    GameManager.delUpdateFlag(UpdateFlags.Score);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.Time) && m_UI.TxtViewTime != null) {
-                    m_UI.TxtViewTime.setText(String.format("%ds", (int) m_Player.getRemainingTime()));
-                    m_GameManager.delUpdateFlag(UpdateFlags.Time);
+                if (GameManager.hasUpdateFlag(UpdateFlags.Time) && UI.TxtViewTime != null) {
+                    UI.TxtViewTime.setText(String.format("%ds", (int) m_Player.getRemainingTime()));
+                    GameManager.delUpdateFlag(UpdateFlags.Time);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.FPS) && m_UI.TxtViewFPS != null) {
-                    m_UI.TxtViewFPS.setText("" + Time.getFPS());
-                    m_GameManager.delUpdateFlag(UpdateFlags.FPS);
+                if (GameManager.hasUpdateFlag(UpdateFlags.FPS) && UI.TxtViewFPS != null) {
+                    UI.TxtViewFPS.setText("" + Time.getFPS());
+                    GameManager.delUpdateFlag(UpdateFlags.FPS);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigRocketCount) && m_UI.TxtViewBigRocketCount != null) {
-                    m_UI.TxtViewBigRocketCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigRocket));
-                    m_GameManager.delUpdateFlag(UpdateFlags.BigRocketCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.BigRocketCount) && UI.TxtViewBigRocketCount != null) {
+                    UI.TxtViewBigRocketCount.setText("" + GameManager.getWeaponCount(Weapons.BigRocket));
+                    GameManager.delUpdateFlag(UpdateFlags.BigRocketCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallNukeCount) && m_UI.TxtViewSmallNukeCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchNuke)) {
-                    m_UI.TxtViewSmallNukeCount.setText("" + m_GameManager.getWeaponCount(Weapons.SmallNuke));
-                    m_GameManager.delUpdateFlag(UpdateFlags.SmallNukeCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.SmallNukeCount) && UI.TxtViewSmallNukeCount != null && GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchNuke)) {
+                    UI.TxtViewSmallNukeCount.setText("" + GameManager.getWeaponCount(Weapons.SmallNuke));
+                    GameManager.delUpdateFlag(UpdateFlags.SmallNukeCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigNukeCount) && m_UI.TxtViewBigNukeCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchNuke)) {
-                    m_UI.TxtViewBigNukeCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigNuke));
-                    m_GameManager.delUpdateFlag(UpdateFlags.BigNukeCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.BigNukeCount) && UI.TxtViewBigNukeCount != null && GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchNuke)) {
+                    UI.TxtViewBigNukeCount.setText("" + GameManager.getWeaponCount(Weapons.BigNuke));
+                    GameManager.delUpdateFlag(UpdateFlags.BigNukeCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallLaserCount) && m_UI.TxtViewSmallLaserCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
-                    m_UI.TxtViewSmallLaserCount.setText(Math.min((int) (m_GameManager.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
-                    m_GameManager.delUpdateFlag(UpdateFlags.SmallLaserCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.SmallLaserCount) && UI.TxtViewSmallLaserCount != null && GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
+                    UI.TxtViewSmallLaserCount.setText(Math.min((int) (GameManager.getMoney() / Pustafin.SmallLaserCostPerSecond), 99) + "s");
+                    GameManager.delUpdateFlag(UpdateFlags.SmallLaserCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigLaserCount) && m_UI.TxtViewBigLaserCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
-                    m_UI.TxtViewBigLaserCount.setText(Math.min((int) (m_GameManager.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
-                    m_GameManager.delUpdateFlag(UpdateFlags.BigLaserCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.BigLaserCount) && UI.TxtViewBigLaserCount != null && GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchLaser)) {
+                    UI.TxtViewBigLaserCount.setText(Math.min((int) (GameManager.getMoney() / Pustafin.BigLaserCostPerSecond), 99) + "s");
+                    GameManager.delUpdateFlag(UpdateFlags.BigLaserCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.SmallContactBombCount) && m_UI.TxtViewSmallContactBombCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchContactBomb)) {
-                    m_UI.TxtViewSmallContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.SmallContactBomb));
-                    m_GameManager.delUpdateFlag(UpdateFlags.SmallContactBombCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.SmallContactBombCount) && UI.TxtViewSmallContactBombCount != null && GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchContactBomb)) {
+                    UI.TxtViewSmallContactBombCount.setText("" + GameManager.getWeaponCount(Weapons.SmallContactBomb));
+                    GameManager.delUpdateFlag(UpdateFlags.SmallContactBombCount);
                 }
 
-                if (m_GameManager.hasUpdateFlag(UpdateFlags.BigContactBombCount) && m_UI.TxtViewBigContactBombCount != null && m_GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchContactBomb)) {
-                    m_UI.TxtViewBigContactBombCount.setText("" + m_GameManager.getWeaponCount(Weapons.BigContactBomb));
-                    m_GameManager.delUpdateFlag(UpdateFlags.BigContactBombCount);
+                if (GameManager.hasUpdateFlag(UpdateFlags.BigContactBombCount) && UI.TxtViewBigContactBombCount != null && GameManager.isWeaponUpgradeResearched(WeaponUpgrades.ResearchContactBomb)) {
+                    UI.TxtViewBigContactBombCount.setText("" + GameManager.getWeaponCount(Weapons.BigContactBomb));
+                    GameManager.delUpdateFlag(UpdateFlags.BigContactBombCount);
                 }
             }
         });
@@ -391,27 +342,27 @@ public class GameView extends GLSurfaceView {
             return;
         }
 
-        if (GameManager.getInstance().isTutorialMode()) {
+        if (GameManager.isTutorialMode()) {
             return;
         }
 
-        GameManager.getInstance().onWin(this, m_Player);
+        GameManager.onWin(this, m_Player);
 
         m_RedirectionDelayTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                m_GameActivity.runOnUiThread(new Runnable() {
+                GameActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Open shop activity
-                        Intent redirectIntent = new Intent(m_GameActivity, ShopActivity.class);
-                        m_GameActivity.startActivity(redirectIntent);
+                        Intent redirectIntent = new Intent(GameActivity, ShopActivity.class);
+                        GameActivity.startActivity(redirectIntent);
 
                         // Close game activity
-                        m_GameActivity.finish();
+                        GameActivity.finish();
 
                         // Start slide animation
-                        //m_GameActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                        //GameActivity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                     }
                 });
             }
@@ -426,27 +377,27 @@ public class GameView extends GLSurfaceView {
             return;
         }
 
-        if (GameManager.getInstance().isTutorialMode()) {
+        if (GameManager.isTutorialMode()) {
             return;
         }
 
-        GameManager.getInstance().onLose(this, m_Player);
+        GameManager.onLose(this, m_Player);
 
         m_RedirectionDelayTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                m_GameActivity.runOnUiThread(new Runnable() {
+                GameActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Open highscore activity
-                        Intent redirectIntent = new Intent(m_GameActivity, HighscoreActivity.class);
-                        m_GameActivity.startActivity(redirectIntent);
+                        Intent redirectIntent = new Intent(GameActivity, HighscoreActivity.class);
+                        GameActivity.startActivity(redirectIntent);
 
                         // Close game activity
-                        m_GameActivity.finish();
+                        GameActivity.finish();
 
                         // Start slide animation
-                        //m_GameActivity.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+                        //GameActivity.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
                     }
                 });
             }
@@ -462,19 +413,6 @@ public class GameView extends GLSurfaceView {
         }
 
         SoundManager.getInstance().PlaySFX(R.raw.sfx_change_weapon);
-    }
-
-    /**
-     * Sets the value of {@link GameView#m_UI}
-     *
-     * @param ui The reference to game view ui object.
-     */
-    public void setGameViewUI(GameViewUI ui) {
-        m_UI = ui;
-    }
-
-    public GameActivity getGameActivity() {
-        return m_GameActivity;
     }
 
     public Player getPlayer() {
