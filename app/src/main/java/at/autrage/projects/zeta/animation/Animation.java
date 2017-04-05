@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.autrage.projects.zeta.module.AssetManager;
+import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.opengl.Texture;
 
 public class Animation {
@@ -34,6 +35,10 @@ public class Animation {
 
         this.m_TextureResId = textureResId;
         this.m_Texture = AssetManager.getInstance().getTexture(textureResId);
+
+        if (this.m_Texture == null) {
+            Logger.E("Could not load texture with resource ID " + textureResId + " for animation " + m_Name + "!");
+        }
 
         this.m_TextureSizeX = textureSizeX;
         this.m_TextureSizeY = textureSizeY;

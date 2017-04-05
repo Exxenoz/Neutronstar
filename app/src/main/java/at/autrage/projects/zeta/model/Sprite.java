@@ -192,6 +192,10 @@ public class Sprite extends Component {
 
     public void setAnimationSet(AnimationSets animationSet) {
         this.m_AnimationSet = AssetManager.getInstance().getAnimationSet(animationSet);
+
+        if (m_AnimationSet == null) {
+            Logger.E("[" + gameObject.getName() + "]: Could not set animation set " + animationSet + ", because it could not be found!");
+        }
     }
 
     public float getAnimationFrameSizeX() {

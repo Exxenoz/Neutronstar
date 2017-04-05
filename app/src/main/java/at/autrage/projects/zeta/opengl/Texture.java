@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
+import at.autrage.projects.zeta.module.Logger;
+
 public class Texture {
     private int m_ResourceId;
     private int m_TextureDataHandle;
@@ -19,29 +21,32 @@ public class Texture {
 
     public void load(final Context context, int textureHandle)
     {
-        if (textureHandle != 0) {
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false; // No pre-scaling
-
-            // Read in the resource
-            final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), m_ResourceId, options);
-
-            m_Width = bitmap.getWidth();
-            m_Height = bitmap.getHeight();
-
-            // Bind to the texture in OpenGL
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
-
-            // Set filtering
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
-
-            // Load the bitmap into the bound texture.
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
-            // Recycle the bitmap, since its data has been loaded into OpenGL.
-            bitmap.recycle();
+        if (textureHandle == 0) {
+            Logger.E("Could not load texture with resource ID " + m_ResourceId + ", because texture handle is 0!");
+            return;
         }
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false; // No pre-scaling
+
+        // Read in the resource
+        final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), m_ResourceId, options);
+
+        m_Width = bitmap.getWidth();
+        m_Height = bitmap.getHeight();
+
+        // Bind to the texture in OpenGL
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
+
+        // Set filtering
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+
+        // Load the bitmap into the bound texture.
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+
+        // Recycle the bitmap, since its data has been loaded into OpenGL.
+        bitmap.recycle();
 
         m_TextureDataHandle = textureHandle;
     }
