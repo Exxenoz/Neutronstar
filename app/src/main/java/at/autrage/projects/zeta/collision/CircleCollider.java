@@ -30,7 +30,7 @@ public class CircleCollider extends Collider {
 
             m_DebugCircle = debugCircleGameObject.addComponent(Sprite.class);
             m_DebugCircle.setAnimationSet(AnimationSets.DebugCircle);
-            m_DebugCircle.getSpriteMaterial().getColor().setColor(Color.Green);
+            m_DebugCircle.getSpriteMaterial().getColor().setColor(gameObject.getLayer() == GameObject.Layer.UI ? Color.Blue : Color.Green);
             m_DebugCircle.playDefaultAnimationFromSet();
             m_DebugCircle.setScaleFactorToMatchFrameSizeX(2 * m_Radius);
         }
