@@ -21,6 +21,7 @@ public class GameViewUserInterfacePrefab extends Prefab {
         Sprite sprite = ForegroundAlarmGameObject.addComponent(Sprite.class);
         sprite.setAnimationSet(AnimationSets.ForegroundAlarm);
         sprite.setAlpha(0f);
+        sprite.setDrawOrderID(1000);
         sprite.playDefaultAnimationFromSet();
         ForegroundAlarmGameObject.addComponent(CircleCollider.class).setRadius(Pustafin.AlarmAreaRadius);
         ForegroundAlarmGameObject.addComponent(AlarmArea.class);

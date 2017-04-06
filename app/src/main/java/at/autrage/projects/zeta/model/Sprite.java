@@ -264,4 +264,14 @@ public class Sprite extends Component {
     public float getAlpha() {
         return m_SpriteMaterial != null ? m_SpriteMaterial.getAlpha() : 0f;
     }
+
+    public void setDrawOrderID(int drawOrderID) {
+        if (meshRenderer != null) {
+            meshRenderer.setDrawOrderID(drawOrderID);
+        }
+    }
+
+    public int getDrawOrderID() {
+        return meshRenderer != null ? meshRenderer.getDrawOrderID() : 0;
+    }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import at.autrage.projects.zeta.R;
 import at.autrage.projects.zeta.activity.GameActivity;
@@ -53,7 +54,7 @@ public class GameView extends GLSurfaceView {
     private List<GameObject> m_GameObjects;
     private int currGameObjectIdx;
 
-    private Synchronitron<MeshRenderer> m_MeshRenderers;
+    private ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<MeshRenderer>> m_MeshRenderers;
 
     public final GameManager GameManager;
     public final ColliderManager ColliderManager;
@@ -98,7 +99,7 @@ public class GameView extends GLSurfaceView {
         m_GameObjects = new ArrayList<>(256);
         currGameObjectIdx = -1;
 
-        m_MeshRenderers = new Synchronitron<>(MeshRenderer.class, 256);
+        m_MeshRenderers = new ConcurrentSkipListMap<>();
 
         GameManager = at.autrage.projects.zeta.module.GameManager.getInstance(); // ToDo: Replace singleton with object
         ColliderManager = new ColliderManager();
@@ -157,12 +158,21 @@ public class GameView extends GLSurfaceView {
         }
     }
 
-    public void addMeshRenderer(MeshRenderer meshRenderer) {
+    public void addMeshRenderer(MeshRenderer meshRenderer, int drawOrderID) {
         if (meshRenderer == null) {
             throw new ArgumentNullException();
         }
 
-        m_MeshRenderers.add(meshRenderer);
+        if (meshRenderer.Holder != null) {
+            throw new IllegalStateException();
+        }
+
+        meshRenderer.Holder = m_MeshRenderers.get(drawOrderID);
+        if (meshRenderer.Holder == null) {
+            m_MeshRenderers.put(drawOrderID, meshRenderer.Holder = new ConcurrentLinkedQueue<>());
+        }
+
+        meshRenderer.Holder.add(meshRenderer);
     }
 
     public void removeMeshRenderer(MeshRenderer meshRenderer) {
@@ -170,7 +180,12 @@ public class GameView extends GLSurfaceView {
             throw new ArgumentNullException();
         }
 
-        m_MeshRenderers.remove(meshRenderer);
+        if (meshRenderer.Holder == null) {
+            throw new IllegalStateException();
+        }
+
+        meshRenderer.Holder.remove(meshRenderer);
+        meshRenderer.Holder = null;
     }
 
     @Override
@@ -318,10 +333,10 @@ public class GameView extends GLSurfaceView {
         });
 
         synchronized (m_MeshRenderers) {
-            m_MeshRenderers.synchronize();
-
-            for (MeshRenderer renderer : m_MeshRenderers) {
-                renderer.shift();
+            for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
+                for (MeshRenderer renderer : holder) {
+                    renderer.shift();
+                }
             }
         }
     }
@@ -331,8 +346,10 @@ public class GameView extends GLSurfaceView {
      */
     public void draw(float[] vpMatrix) {
         synchronized (m_MeshRenderers) {
-            for (MeshRenderer renderer : m_MeshRenderers) {
-                renderer.draw(vpMatrix);
+            for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
+                for (MeshRenderer renderer : holder) {
+                    renderer.draw(vpMatrix);
+                }
             }
         }
     }
