@@ -53,7 +53,7 @@ public class Sprite extends Component {
     protected void onStart() {
         meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_SpriteMaterial);
-        meshRenderer.setMesh(new SpriteMesh());
+        meshRenderer.setMesh(AssetManager.getInstance().getSpriteMesh());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package at.autrage.projects.zeta.model;
 
+import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.opengl.Color;
 import at.autrage.projects.zeta.opengl.ColorMaterial;
@@ -27,7 +28,7 @@ public class HealthBar extends Component {
     protected void onStart() {
         meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_ColorMaterial);
-        meshRenderer.setMesh(new SpriteMesh());
+        meshRenderer.setMesh(AssetManager.getInstance().getSpriteMesh());
     }
 
     private void updateScale() {
