@@ -7,7 +7,6 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import at.autrage.projects.zeta.activity.SuperActivity;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Logger;
 import at.autrage.projects.zeta.module.Pustafin;
@@ -77,6 +76,6 @@ public class GameViewRenderer implements GLSurfaceView.Renderer {
         m_GameView.draw(m_VPMatrix);
 
         m_DiffTime = System.currentTimeMillis() - m_LastTime;
-        Time.setDeltaTimeGL(m_DiffTime);
+        Time.setDeltaTimeGLInMS(m_DiffTime);
     }
 }

@@ -1,8 +1,6 @@
 package at.autrage.projects.zeta.module;
 
 
-import android.util.Log;
-
 /**
  * This class helps maintaining total time independence of the running program.
  *
@@ -19,10 +17,10 @@ public class Time {
     private static float scaledDeltaTime;
     /** Factor which gets multiplied to {@link Time#deltaTime} to form {@link Time#scaledDeltaTime} */
     private static float timeScale = 1f;
-    /** Passed time in milli seconds */
+    /** Passed time in milliseconds */
     private static long deltaTimeInMs;
-    /** Passed time in seconds */
-    private static float deltaTimeGL;
+    /** Passed time in milliseconds */
+    private static float deltaTimeGLInMS;
 
     /**
      * Sets the {@link Time#realDeltaTime} variable to a new value.
@@ -83,17 +81,17 @@ public class Time {
     }
 
     /**
-     * Sets the {@link Time#deltaTimeGL} variable to a new value.
+     * Sets the {@link Time#deltaTimeGLInMS} variable to a new value.
      *
-     * @param deltaTimeGL must be positive
+     * @param deltaTimeGLInMS must be positive
      */
-    public static void setDeltaTimeGL(float deltaTimeGL) {
-        if (deltaTimeGL < 0) {
+    public static void setDeltaTimeGLInMS(float deltaTimeGLInMS) {
+        if (deltaTimeGLInMS < 0) {
             Logger.E("Couldn't set delta time GL, because value must not be negative.");
             return;
         }
 
-        Time.deltaTimeGL = deltaTimeGL;
+        Time.deltaTimeGLInMS = deltaTimeGLInMS;
     }
 
     /**
@@ -142,20 +140,29 @@ public class Time {
     }
 
     /**
-     * Returns the value of {@link Time#deltaTimeGL}
+     * Returns the value of {@link Time#deltaTimeGLInMS}
      *
-     * @return the value of {@link Time#deltaTimeGL}
+     * @return the value of {@link Time#deltaTimeGLInMS}
      */
-    public static float getDeltaTimeGL() {
-        return Time.deltaTimeGL;
+    public static float getDeltaTimeGLInMS() {
+        return Time.deltaTimeGLInMS;
     }
 
     /**
-     * Returns the estimated amount of frames per second
+     * Returns the estimated amount of frames per second [update thread]
      *
-     * @return the value of estimated frames per second
+     * @return the value of estimated frames per second [update thread]
      */
     public static long getFPS() {
-        return (long)(1000f / Math.max(Time.deltaTimeGL, 1f /* 1000 FPS display limit */));
+        return (long)(1000f / Math.max(Time.deltaTimeInMs, 1.001f /* 999 FPS display limit */));
+    }
+
+    /**
+     * Returns the estimated amount of frames per second [render thread]
+     *
+     * @return the value of estimated frames per second [render thread]
+     */
+    public static long getFPSGL() {
+        return (long)(1000f / Math.max(Time.deltaTimeGLInMS, 1.001f /* 999 FPS display limit */));
     }
 }

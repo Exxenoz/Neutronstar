@@ -18,7 +18,6 @@ import at.autrage.projects.zeta.activity.HighscoreActivity;
 import at.autrage.projects.zeta.activity.ShopActivity;
 import at.autrage.projects.zeta.collision.ColliderManager;
 import at.autrage.projects.zeta.exception.ArgumentNullException;
-import at.autrage.projects.zeta.util.Synchronitron;
 import at.autrage.projects.zeta.model.EnemySpawner;
 import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.model.Player;
@@ -291,7 +290,7 @@ public class GameView extends GLSurfaceView {
                 }
 
                 if (GameManager.hasUpdateFlag(UpdateFlags.FPS) && UI.TxtViewFPS != null) {
-                    UI.TxtViewFPS.setText("" + Time.getFPS());
+                    UI.TxtViewFPS.setText(Time.getFPS() + "/" + Time.getFPSGL());
                     GameManager.delUpdateFlag(UpdateFlags.FPS);
                 }
 
