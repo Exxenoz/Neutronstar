@@ -154,7 +154,7 @@ public class Time {
      * @return the value of estimated frames per second [update thread]
      */
     public static long getFPS() {
-        return (long)(1000f / Math.max(Time.deltaTimeInMs, 1.001f /* 999 FPS display limit */));
+        return (long)(1000f / Math.max(Time.realDeltaTime, 1.001f /* 999 FPS display limit */));
     }
 
     /**
