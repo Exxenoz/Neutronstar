@@ -27,6 +27,7 @@ import at.autrage.projects.zeta.model.Weapons;
 import at.autrage.projects.zeta.animation.AnimationSets;
 import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.GameManager;
+import at.autrage.projects.zeta.opengl.Renderer;
 import at.autrage.projects.zeta.tutorial.TutorialManager;
 import at.autrage.projects.zeta.module.UpdateFlags;
 import at.autrage.projects.zeta.module.Logger;
@@ -53,7 +54,7 @@ public class GameView extends GLSurfaceView {
     private List<GameObject> m_GameObjects;
     private int currGameObjectIdx;
 
-    private ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<MeshRenderer>> m_MeshRenderers;
+    private ConcurrentSkipListMap<Integer, ConcurrentLinkedQueue<at.autrage.projects.zeta.opengl.Renderer>> renderers;
 
     public final GameManager GameManager;
     public final ColliderManager ColliderManager;
@@ -98,7 +99,7 @@ public class GameView extends GLSurfaceView {
         m_GameObjects = new ArrayList<>(256);
         currGameObjectIdx = -1;
 
-        m_MeshRenderers = new ConcurrentSkipListMap<>();
+        renderers = new ConcurrentSkipListMap<>();
 
         GameManager = at.autrage.projects.zeta.module.GameManager.getInstance(); // ToDo: Replace singleton with object
         ColliderManager = new ColliderManager();
@@ -157,34 +158,34 @@ public class GameView extends GLSurfaceView {
         }
     }
 
-    public void addMeshRenderer(MeshRenderer meshRenderer, int drawOrderID) {
-        if (meshRenderer == null) {
+    public void addRenderer(at.autrage.projects.zeta.opengl.Renderer renderer, int drawOrderID) {
+        if (renderer == null) {
             throw new ArgumentNullException();
         }
 
-        if (meshRenderer.Holder != null) {
+        if (renderer.Holder != null) {
             throw new IllegalStateException();
         }
 
-        meshRenderer.Holder = m_MeshRenderers.get(drawOrderID);
-        if (meshRenderer.Holder == null) {
-            m_MeshRenderers.put(drawOrderID, meshRenderer.Holder = new ConcurrentLinkedQueue<>());
+        renderer.Holder = renderers.get(drawOrderID);
+        if (renderer.Holder == null) {
+            renderers.put(drawOrderID, renderer.Holder = new ConcurrentLinkedQueue<>());
         }
 
-        meshRenderer.Holder.add(meshRenderer);
+        renderer.Holder.add(renderer);
     }
 
-    public void removeMeshRenderer(MeshRenderer meshRenderer) {
-        if (meshRenderer == null) {
+    public void removeRenderer(at.autrage.projects.zeta.opengl.Renderer renderer) {
+        if (renderer == null) {
             throw new ArgumentNullException();
         }
 
-        if (meshRenderer.Holder == null) {
+        if (renderer.Holder == null) {
             throw new IllegalStateException();
         }
 
-        meshRenderer.Holder.remove(meshRenderer);
-        meshRenderer.Holder = null;
+        renderer.Holder.remove(renderer);
+        renderer.Holder = null;
     }
 
     @Override
@@ -331,8 +332,8 @@ public class GameView extends GLSurfaceView {
             }
         });
 
-        for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
-            for (MeshRenderer renderer : holder) {
+        for (ConcurrentLinkedQueue<at.autrage.projects.zeta.opengl.Renderer> holder : renderers.values()) {
+            for (at.autrage.projects.zeta.opengl.Renderer renderer : holder) {
                 renderer.lateUpdate();
             }
         }
@@ -342,8 +343,8 @@ public class GameView extends GLSurfaceView {
      * This method draws the game view to the surface view.
      */
     public void draw(float[] vpMatrix) {
-        for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
-            for (MeshRenderer renderer : holder) {
+        for (ConcurrentLinkedQueue<at.autrage.projects.zeta.opengl.Renderer> holder : renderers.values()) {
+            for (at.autrage.projects.zeta.opengl.Renderer renderer : holder) {
                 renderer.draw(vpMatrix);
             }
         }
