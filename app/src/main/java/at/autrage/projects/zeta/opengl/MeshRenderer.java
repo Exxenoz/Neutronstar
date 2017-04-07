@@ -1,6 +1,7 @@
 package at.autrage.projects.zeta.opengl;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import at.autrage.projects.zeta.model.Component;
 import at.autrage.projects.zeta.model.GameObject;
@@ -12,7 +13,9 @@ public class MeshRenderer extends Component {
     private Mesh mesh;
     public ConcurrentLinkedQueue<MeshRenderer> Holder;
 
-    private ShaderParams _shaderParams;
+    private ShaderParams[] _shaderParams;
+    private AtomicInteger _shaderParamsUpdateIdx;
+    private AtomicInteger _shaderParamsRenderIdx;
 
     public MeshRenderer(GameObject gameObject) {
         super(gameObject);
@@ -22,7 +25,12 @@ public class MeshRenderer extends Component {
         mesh = null;
         Holder = null;
 
-        _shaderParams = new ShaderParams();
+        _shaderParams = new ShaderParams[3];
+        for (int i = 0; i < _shaderParams.length; i++) {
+            _shaderParams[i] = new ShaderParams();
+        }
+        _shaderParamsUpdateIdx = new AtomicInteger(1);
+        _shaderParamsRenderIdx = new AtomicInteger(0);
     }
 
     @Override
@@ -40,43 +48,74 @@ public class MeshRenderer extends Component {
         gameObject.getGameView().removeMeshRenderer(this);
     }
 
-    public void shift() {
-        _shaderParams.Enabled = isEnabled();
+    public void lateUpdate() {
+        int renderIdx = _shaderParamsRenderIdx.get();
+        int updateIdx = _shaderParamsUpdateIdx.get();
 
-        _shaderParams.Material = material;
-        if (_shaderParams.Material != null) {
-            _shaderParams.Material.shift(_shaderParams);
+        ShaderParams shaderParams = _shaderParams[updateIdx];
+
+        shaderParams.Enabled = isEnabled();
+
+        if (material != null) {
+            shaderParams.Shader = material._shader;
+            material.shift(shaderParams);
+        }
+        else {
+            shaderParams.Enabled = false;
+            Logger.W("Could not draw mesh, because material member is null.");
         }
 
-        _shaderParams.Mesh = mesh;
-        if (_shaderParams.Mesh != null) {
-            _shaderParams.Mesh.shift(_shaderParams);
+        if (mesh != null) {
+            mesh.shift(shaderParams);
+        }
+        else {
+            shaderParams.Enabled = false;
+            Logger.W("Could not draw mesh, because mesh member is null.");
         }
 
-        System.arraycopy(gameObject.getModelMatrix(), 0, _shaderParams.ModelMatrix, 0, 16);
+        System.arraycopy(gameObject.getModelMatrix(), 0, shaderParams.ModelMatrix, 0, 16);
+
+        int indexBeforeUpdateIdx = updateIdx - 1;
+        if (indexBeforeUpdateIdx < 0) {
+            indexBeforeUpdateIdx = _shaderParams.length - 1;
+        }
+
+        if (indexBeforeUpdateIdx == renderIdx) {
+            updateIdx++;
+            if (updateIdx >= _shaderParams.length) {
+                updateIdx = 0;
+            }
+            _shaderParamsUpdateIdx.set(updateIdx);
+        }
     }
 
     public void draw(float[] vpMatrix) {
-        if (!_shaderParams.Enabled) {
-            return;
+        int renderIdx = _shaderParamsRenderIdx.get();
+        int updateIdx = _shaderParamsUpdateIdx.get();
+
+        int indexBeforeRenderIdx = renderIdx - 1;
+        if (indexBeforeRenderIdx < 0) {
+            indexBeforeRenderIdx = _shaderParams.length - 1;
         }
 
-        if (_shaderParams.Material == null) {
-            Logger.W("Could not draw mesh, because material member is null.");
-            return;
+        if (indexBeforeRenderIdx == updateIdx) {
+            renderIdx++;
+            if (renderIdx >= _shaderParams.length) {
+                renderIdx = 0;
+            }
+            _shaderParamsRenderIdx.set(renderIdx);
         }
 
-        if (_shaderParams.Mesh == null) {
-            Logger.W("Could not draw mesh, because mesh member is null.");
-            return;
+        ShaderParams shaderParams = _shaderParams[renderIdx];
+
+        if (shaderParams.Enabled) {
+            // Copy of reference is OK, because
+            // the matrix is only accessible by
+            // the render thread.
+            shaderParams.VPMatrix = vpMatrix;
+
+            shaderParams.Shader.draw(shaderParams);
         }
-
-        // Copy of reference is OK, because
-        // the matrix is only accessible by
-        // the render thread.
-        _shaderParams.VPMatrix = vpMatrix;
-
-        _shaderParams.Material._shader.draw(_shaderParams);
     }
 
     public void setDrawOrderID(int drawOrderID) {

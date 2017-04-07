@@ -331,11 +331,9 @@ public class GameView extends GLSurfaceView {
             }
         });
 
-        synchronized (m_MeshRenderers) {
-            for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
-                for (MeshRenderer renderer : holder) {
-                    renderer.shift();
-                }
+        for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
+            for (MeshRenderer renderer : holder) {
+                renderer.lateUpdate();
             }
         }
     }
@@ -344,11 +342,9 @@ public class GameView extends GLSurfaceView {
      * This method draws the game view to the surface view.
      */
     public void draw(float[] vpMatrix) {
-        synchronized (m_MeshRenderers) {
-            for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
-                for (MeshRenderer renderer : holder) {
-                    renderer.draw(vpMatrix);
-                }
+        for (ConcurrentLinkedQueue<MeshRenderer> holder : m_MeshRenderers.values()) {
+            for (MeshRenderer renderer : holder) {
+                renderer.draw(vpMatrix);
             }
         }
     }

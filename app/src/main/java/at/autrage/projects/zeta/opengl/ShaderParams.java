@@ -5,9 +5,7 @@ import java.nio.ShortBuffer;
 
 public class ShaderParams {
     public boolean Enabled;
-
-    public Material Material;
-    public Mesh Mesh;
+    public Shader Shader;
 
     public FloatBuffer VertexBuffer;
     public ShortBuffer IndexBuffer;
