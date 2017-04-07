@@ -24,6 +24,8 @@ import at.autrage.projects.zeta.module.texturepacker.PackedTexture;
 import at.autrage.projects.zeta.module.texturepacker.TexturePackerAtlas;
 import at.autrage.projects.zeta.module.texturepacker.TexturePackerInterpreter;
 import at.autrage.projects.zeta.opengl.ColorShader;
+import at.autrage.projects.zeta.opengl.Font;
+import at.autrage.projects.zeta.opengl.Fonts;
 import at.autrage.projects.zeta.opengl.SphereMesh;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.opengl.SpriteShader;
@@ -45,6 +47,7 @@ public class AssetManager {
 
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
+    private Map<Fonts, Font> fonts;
     private ColorShader m_ColorShader;
     private SpriteShader m_SpriteShader;
     private TextShader textShader;
@@ -57,6 +60,7 @@ public class AssetManager {
     private AssetManager() {
         m_Animations = new HashMap<>();
         m_AnimationSets = new HashMap<>();
+        fonts = new HashMap<>();
         m_ColorShader = null;
         m_SpriteShader = null;
         textShader = null;
@@ -78,6 +82,7 @@ public class AssetManager {
         loadAnimationData(context);
         loadShaderData();
         loadMeshData();
+        loadFontData(context);
     }
 
     private void loadTextureData() {
@@ -93,6 +98,7 @@ public class AssetManager {
                 R.drawable.gv_planet,
                 R.drawable.gv_texture_atlas,
                 R.drawable.gv_foreground_alarm,
+                R.drawable.font_arial
         };
 
         for (int textureResId : textureResIds) {
@@ -211,6 +217,12 @@ public class AssetManager {
         }
     }
 
+    private void loadFontData(Context context) {
+        Font arial = new Font("Arial", "arial.fnt", R.drawable.font_arial);
+        arial.loadGlyphMap(context.getAssets());
+        fonts.put(Fonts.Arial, arial);
+    }
+
     private void loadShaderData() {
         m_ColorShader = new ColorShader();
         m_SpriteShader = new SpriteShader();
@@ -299,6 +311,10 @@ public class AssetManager {
 
     public AnimationSet getAnimationSet(AnimationSets animationSet) {
         return m_AnimationSets.get(animationSet);
+    }
+
+    public Font getFont(Fonts fontID) {
+        return fonts.get(fontID);
     }
 
     public ColorShader getColorShader() {
