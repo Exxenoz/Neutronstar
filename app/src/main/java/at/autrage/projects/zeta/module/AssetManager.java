@@ -27,6 +27,7 @@ import at.autrage.projects.zeta.opengl.ColorShader;
 import at.autrage.projects.zeta.opengl.SphereMesh;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.opengl.SpriteShader;
+import at.autrage.projects.zeta.opengl.TextShader;
 import at.autrage.projects.zeta.opengl.Texture;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewRenderer;
@@ -46,6 +47,7 @@ public class AssetManager {
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
     private ColorShader m_ColorShader;
     private SpriteShader m_SpriteShader;
+    private TextShader textShader;
     private Map<Integer /* ResId */, Texture> m_Textures;
     private SpriteMesh spriteMesh;
     private SphereMesh sphereMesh;
@@ -57,6 +59,7 @@ public class AssetManager {
         m_AnimationSets = new HashMap<>();
         m_ColorShader = null;
         m_SpriteShader = null;
+        textShader = null;
         m_Textures = new HashMap<>();
         spriteMesh = null;
         sphereMesh = null;
@@ -211,6 +214,7 @@ public class AssetManager {
     private void loadShaderData() {
         m_ColorShader = new ColorShader();
         m_SpriteShader = new SpriteShader();
+        textShader = new TextShader();
     }
 
     private void loadMeshData() {
@@ -248,6 +252,14 @@ public class AssetManager {
             m_SpriteShader.createProgram();
         }
 
+        if (textShader != null) {
+            textShader.reset();
+
+            textShader.createVertexShader("text_vertex_shader.glsl", context);
+            textShader.createFragmentShader("text_fragment_shader.glsl", context);
+            textShader.createProgram();
+        }
+
         final int[] textureHandles = new int[m_Textures.size()];
 
         GLES20.glGenTextures(textureHandles.length, textureHandles, 0);
@@ -271,6 +283,10 @@ public class AssetManager {
         if (m_SpriteShader != null) {
             m_SpriteShader.reset();
         }
+
+        if (textShader != null) {
+            textShader.reset();
+        }
     }
 
     public Texture getTexture(int resId) {
@@ -291,6 +307,10 @@ public class AssetManager {
 
     public SpriteShader getSpriteShader() {
         return m_SpriteShader;
+    }
+
+    public TextShader getTextShader() {
+        return textShader;
     }
 
     public SpriteMesh getSpriteMesh() {
