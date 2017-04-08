@@ -13,6 +13,7 @@ public class Font {
     public final String FontDataFile;
     public final Texture FontAtlasTexture;
 
+    private float size;
     private float lineHeight;
     private Map<Character, Glyph> glyphMap;
 
@@ -25,6 +26,7 @@ public class Font {
             Logger.E("Could not load font atlas texture with resource ID " + fontAtlasTextureResId + " for font " + name + "!");
         }
 
+        this.size = 0f;
         this.lineHeight = 0f;
         this.glyphMap = new HashMap<>();
     }
@@ -42,10 +44,12 @@ public class Font {
                 if (line.startsWith("char id=")) {
                     loadGlyphLine(line);
                 }
+                else if (line.startsWith("info ")) {
+                    loadInfoLine(line);
+                }
                 else if (line.startsWith("common ")) {
                     loadCommonLine(line);
                 }
-
             }
         } catch (Exception e) {
             Logger.E("Could not read font data file \"" + FontDataFile + "\": " + e);
@@ -60,6 +64,28 @@ public class Font {
         }
 
         Logger.D("Loaded " + glyphMap.size() + " glyphs for font " + Name + "!");
+    }
+
+    private void loadInfoLine(String line) {
+        // Remove multiple whitespaces with a single one
+        line = line.replaceAll("\\s+", " ");
+
+        String[] attributes = line.split(" ");
+
+        String sizeValue = null;
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].startsWith("size=")) {
+                sizeValue = getValueFrom(attributes[i]);
+                break;
+            }
+        }
+
+        try {
+            size = Integer.parseInt(sizeValue);
+        }
+        catch (Exception e) {
+            Logger.E("Could not load info line for font " + Name + ", because the following line is invalid: " + line);
+        }
     }
 
     private void loadCommonLine(String line) {
