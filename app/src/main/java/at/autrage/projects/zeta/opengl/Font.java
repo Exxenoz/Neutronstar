@@ -152,18 +152,22 @@ public class Font {
             int xO = Integer.parseInt(xOValue);
             int yO = Integer.parseInt(yOValue);
             int xA = Integer.parseInt(xAValue);
+            float wNorm = 0f;
+            float hNorm = 0f;
             float xONorm = 0f;
             float yONorm = 0f;
             float xANorm = 0f;
             if (size > 0f) {
+                wNorm = w / size;
+                hNorm = h / size;
                 xONorm = xO / size;
                 yONorm = yO / size;
                 xANorm = xA / size;
             }
             else {
-                Logger.E("Could not calculate normalized xOffset, yOffset and xAdvance for font " + Name + ", because font size is invalid!");
+                Logger.E("Could not calculate normalized width, height, xOffset, yOffset and xAdvance for font " + Name + ", because font size is invalid!");
             }
-            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA, xONorm, yONorm, xANorm));
+            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA, wNorm, hNorm, xONorm, yONorm, xANorm));
         }
         catch (Exception e) {
             Logger.W("Could not load glyph for font " + Name + ", because the following line could not be parsed: " + line);

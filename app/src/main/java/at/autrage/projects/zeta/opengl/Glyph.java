@@ -9,11 +9,13 @@ public class Glyph {
     public final int XOffset;
     public final int YOffset;
     public final int XAdvance;
+    public final float WNorm;
+    public final float HNorm;
     public final float XOffsetNorm;
     public final float YOffsetNorm;
     public final float XAdvanceNorm;
 
-    public Glyph(char character, int x, int y, int w, int h, int xOffset, int yOffset, int xAdvance, float xOffsetNorm, float yOffsetNorm, float xAdvanceNorm) {
+    public Glyph(char character, int x, int y, int w, int h, int xOffset, int yOffset, int xAdvance, float wNorm, float hNorm, float xOffsetNorm, float yOffsetNorm, float xAdvanceNorm) {
         Character = character;
         X = x;
         Y = y;
@@ -22,6 +24,8 @@ public class Glyph {
         XOffset = xOffset;
         YOffset = yOffset;
         XAdvance = xAdvance;
+        WNorm = wNorm;
+        HNorm = hNorm;
         XOffsetNorm = xOffsetNorm;
         YOffsetNorm = yOffsetNorm;
         XAdvanceNorm = xAdvanceNorm;
