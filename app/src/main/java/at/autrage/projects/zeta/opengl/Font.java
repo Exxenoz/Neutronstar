@@ -31,7 +31,7 @@ public class Font {
         this.glyphMap = new HashMap<>();
     }
 
-    public void loadGlyphMap(android.content.res.AssetManager am) {
+    public void load(android.content.res.AssetManager am) {
         glyphMap.clear();
 
         BufferedReader reader = null;
