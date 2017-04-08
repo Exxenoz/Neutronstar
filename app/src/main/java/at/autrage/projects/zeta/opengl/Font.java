@@ -95,9 +95,12 @@ public class Font {
         String yValue = getValueFrom(attributes[3]);
         String wValue = getValueFrom(attributes[4]);
         String hValue = getValueFrom(attributes[5]);
+        String xOValue = getValueFrom(attributes[6]);
+        String yOValue = getValueFrom(attributes[7]);
+        String xAValue = getValueFrom(attributes[8]);
 
         if (cValue == null || xValue == null || yValue == null ||
-            wValue == null || hValue == null) {
+            wValue == null || hValue == null || xOValue == null || yOValue == null || xAValue == null) {
             Logger.W("Could not load glyph for font " + Name + ", because the following line is invalid: " + line);
             return;
         }
@@ -108,7 +111,10 @@ public class Font {
             int y = Integer.parseInt(yValue);
             int w = Integer.parseInt(wValue);
             int h = Integer.parseInt(hValue);
-            glyphMap.put(character, new Glyph(character, x, y, w, h));
+            int xO = Integer.parseInt(xOValue);
+            int yO = Integer.parseInt(yOValue);
+            int xA = Integer.parseInt(xAValue);
+            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA));
         }
         catch (Exception e) {
             Logger.W("Could not load glyph for font " + Name + ", because the following line could not be parsed: " + line);
