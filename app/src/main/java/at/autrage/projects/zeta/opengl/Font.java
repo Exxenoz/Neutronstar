@@ -15,6 +15,7 @@ public class Font {
 
     private float size;
     private float lineHeight;
+    private float lineHeightNorm;
     private Map<Character, Glyph> glyphMap;
 
     public Font(String name, String fontDataFile, int fontAtlasTextureResId) {
@@ -28,6 +29,7 @@ public class Font {
 
         this.size = 0f;
         this.lineHeight = 0f;
+        this.lineHeightNorm = 0f;
         this.glyphMap = new HashMap<>();
     }
 
@@ -61,6 +63,13 @@ public class Font {
                     Logger.E("Could not close reader for font data file \"" + FontDataFile + "\": " + e);
                 }
             }
+        }
+
+        if (size > 0f) {
+            lineHeightNorm = lineHeight / size;
+        }
+        else {
+            Logger.E("Could not calculate normalized line height for font " + Name + ", because font size is invalid!");
         }
 
         Logger.D("Loaded " + glyphMap.size() + " glyphs for font " + Name + "!");
@@ -143,7 +152,18 @@ public class Font {
             int xO = Integer.parseInt(xOValue);
             int yO = Integer.parseInt(yOValue);
             int xA = Integer.parseInt(xAValue);
-            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA));
+            float xONorm = 0f;
+            float yONorm = 0f;
+            float xANorm = 0f;
+            if (size > 0f) {
+                xONorm = xO / size;
+                yONorm = yO / size;
+                xANorm = xA / size;
+            }
+            else {
+                Logger.E("Could not calculate normalized xOffset, yOffset and xAdvance for font " + Name + ", because font size is invalid!");
+            }
+            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA, xONorm, yONorm, xANorm));
         }
         catch (Exception e) {
             Logger.W("Could not load glyph for font " + Name + ", because the following line could not be parsed: " + line);
