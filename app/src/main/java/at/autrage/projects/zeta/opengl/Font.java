@@ -93,11 +93,14 @@ public class Font {
         line = line.replaceAll("\\s+", " ");
 
         String[] attributes = line.split(" ");
-        if (attributes.length < 11) {
-            return;
-        }
 
-        String lineHeightValue = getValueFrom(attributes[1]);
+        String lineHeightValue = null;
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].startsWith("lineHeight=")) {
+                lineHeightValue = getValueFrom(attributes[i]);
+                break;
+            }
+        }
 
         try {
             lineHeight = Integer.parseInt(lineHeightValue);
