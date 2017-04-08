@@ -16,6 +16,8 @@ public class Font {
     private float size;
     private float lineHeight;
     private float lineHeightNorm;
+    private int scaleW;
+    private int scaleH;
     private Map<Character, Glyph> glyphMap;
 
     public Font(String name, String fontDataFile, int fontAtlasTextureResId) {
@@ -30,6 +32,8 @@ public class Font {
         this.size = 0f;
         this.lineHeight = 0f;
         this.lineHeightNorm = 0f;
+        this.scaleW = 0;
+        this.scaleH = 0;
         this.glyphMap = new HashMap<>();
     }
 
@@ -104,15 +108,24 @@ public class Font {
         String[] attributes = line.split(" ");
 
         String lineHeightValue = null;
+        String scaleWValue = null;
+        String scaleHValue = null;
         for (int i = 0; i < attributes.length; i++) {
             if (attributes[i].startsWith("lineHeight=")) {
                 lineHeightValue = getValueFrom(attributes[i]);
-                break;
+            }
+            else if (attributes[i].startsWith("scaleW=")) {
+                scaleWValue = getValueFrom(attributes[i]);
+            }
+            else if (attributes[i].startsWith("scaleH=")) {
+                scaleHValue = getValueFrom(attributes[i]);
             }
         }
 
         try {
             lineHeight = Integer.parseInt(lineHeightValue);
+            scaleW = Integer.parseInt(scaleWValue);
+            scaleH = Integer.parseInt(scaleHValue);
         }
         catch (Exception e) {
             Logger.E("Could not load common line for font " + Name + ", because the following line is invalid: " + line);
@@ -167,7 +180,7 @@ public class Font {
             else {
                 Logger.E("Could not calculate normalized width, height, xOffset, yOffset and xAdvance for font " + Name + ", because font size is invalid!");
             }
-            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA, wNorm, hNorm, xONorm, yONorm, xANorm));
+            glyphMap.put(character, new Glyph(character, x, y, w, h, xO, yO, xA, wNorm, hNorm, xONorm, yONorm, xANorm, scaleW, scaleH));
         }
         catch (Exception e) {
             Logger.W("Could not load glyph for font " + Name + ", because the following line could not be parsed: " + line);
@@ -194,6 +207,10 @@ public class Font {
 
     public float getLineHeight() {
         return lineHeight;
+    }
+
+    public float getLineHeightNorm() {
+        return lineHeightNorm;
     }
 
     public Glyph getGlyphForCharacter(char c) {

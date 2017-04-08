@@ -1,5 +1,7 @@
 package at.autrage.projects.zeta.opengl;
 
+import at.autrage.projects.zeta.util.CoordinateTranslator;
+
 public class Glyph {
     public final char Character;
     public final int X;
@@ -14,8 +16,10 @@ public class Glyph {
     public final float XOffsetNorm;
     public final float YOffsetNorm;
     public final float XAdvanceNorm;
+    public final float[] TextureCoordinates;
 
-    public Glyph(char character, int x, int y, int w, int h, int xOffset, int yOffset, int xAdvance, float wNorm, float hNorm, float xOffsetNorm, float yOffsetNorm, float xAdvanceNorm) {
+    public Glyph(char character, int x, int y, int w, int h, int xOffset, int yOffset, int xAdvance,
+                 float wNorm, float hNorm, float xOffsetNorm, float yOffsetNorm, float xAdvanceNorm, int textureAtlasSizeX, int textureAtlasSizeY) {
         Character = character;
         X = x;
         Y = y;
@@ -29,5 +33,6 @@ public class Glyph {
         XOffsetNorm = xOffsetNorm;
         YOffsetNorm = yOffsetNorm;
         XAdvanceNorm = xAdvanceNorm;
+        TextureCoordinates = CoordinateTranslator.CalculateNormalisedTextureCoordinates(X, Y, W, H, textureAtlasSizeX, textureAtlasSizeY);
     }
 }
