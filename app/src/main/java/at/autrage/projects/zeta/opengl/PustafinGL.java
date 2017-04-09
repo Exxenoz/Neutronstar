@@ -16,4 +16,6 @@ public class PustafinGL {
     public static final int BYTES_PER_TEXTURE_COORD = FLOATS_PER_TEXTURE_COORD * BYTES_PER_FLOAT;
 
     public static final int VERTICES_PER_RADIUS_IN_PIXEL = 3;
+
+    public static final int DEFAULT_TEXT_MESH_CHARACTER_CAPACITY = 255;
 }
