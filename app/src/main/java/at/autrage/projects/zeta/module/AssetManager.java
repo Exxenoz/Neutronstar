@@ -218,7 +218,7 @@ public class AssetManager {
     }
 
     private void loadFontData(Context context) {
-        Font arial = new Font("Arial", "arial.fnt", R.drawable.font_arial);
+        Font arial = new Font("Arial", "font_arial.fnt", R.drawable.font_arial);
         arial.load(context.getAssets());
         fonts.put(Fonts.Arial, arial);
     }
