@@ -52,8 +52,6 @@ public class AssetManager {
     private SpriteShader m_SpriteShader;
     private TextShader textShader;
     private Map<Integer /* ResId */, Texture> m_Textures;
-    private SpriteMesh spriteMesh;
-    private SphereMesh sphereMesh;
 
     private boolean m_Initialized;
 
@@ -65,8 +63,6 @@ public class AssetManager {
         m_SpriteShader = null;
         textShader = null;
         m_Textures = new HashMap<>();
-        spriteMesh = null;
-        sphereMesh = null;
 
         m_Initialized = false;
     }
@@ -81,7 +77,6 @@ public class AssetManager {
         loadTextureData();
         loadAnimationData(context);
         loadShaderData();
-        loadMeshData();
         loadFontData(context);
     }
 
@@ -229,11 +224,6 @@ public class AssetManager {
         textShader = new TextShader();
     }
 
-    private void loadMeshData() {
-        spriteMesh = new SpriteMesh();
-        sphereMesh = new SphereMesh(Pustafin.PlanetMeshStacks, Pustafin.PlanetMeshSlices);
-    }
-
     /**
      * This method is called, when {@link GameView#surfaceCreated(SurfaceHolder)} is called.
      * Do not call OpenGL methods here!
@@ -327,13 +317,5 @@ public class AssetManager {
 
     public TextShader getTextShader() {
         return textShader;
-    }
-
-    public SpriteMesh getSpriteMesh() {
-        return spriteMesh;
-    }
-
-    public SphereMesh getSphereMesh() {
-        return sphereMesh;
     }
 }

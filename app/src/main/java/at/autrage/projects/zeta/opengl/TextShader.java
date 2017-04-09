@@ -64,6 +64,18 @@ public class TextShader extends Shader {
             return;
         }
 
+        Mesh mesh = shaderParams.Mesh;
+        if (mesh == null || mesh.indexDrawCount <= 0) {
+            return;
+        }
+
+        // Do not draw elements with invalid buffers
+        if (mesh.vertexBuffer == null ||
+            mesh.indexBuffer == null ||
+            mesh.textureCoordBuffer == null) {
+            return;
+        }
+
         // Do not draw elements with invalid texture data handle
         if (shaderParams.TextureDataHandle <= 0) {
             return;
@@ -95,7 +107,7 @@ public class TextShader extends Shader {
         }
 
         // Prepare the texture coordinate data
-        GLES20.glVertexAttribPointer(_textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, shaderParams.TextureCoordinates);
+        GLES20.glVertexAttribPointer(_textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, mesh.textureCoordBuffer);
 
         // Enable the handle to the texture coordinates
         GLES20.glEnableVertexAttribArray(_textureCoordinateHandle);
@@ -103,7 +115,7 @@ public class TextShader extends Shader {
         // Prepare the coordinate data
         GLES20.glVertexAttribPointer(_positionHandle, PustafinGL.FLOATS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                PustafinGL.BYTES_PER_VERTEX, shaderParams.VertexBuffer);
+                PustafinGL.BYTES_PER_VERTEX, mesh.vertexBuffer);
 
         // Enable the handle to the vertices
         GLES20.glEnableVertexAttribArray(_positionHandle);
@@ -118,7 +130,7 @@ public class TextShader extends Shader {
         GLES20.glUniformMatrix4fv(_vpMatrixHandle, 1, false, shaderParams.VPMatrix, 0);
 
         // Draw the triangles
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexBufferSize, GLES20.GL_UNSIGNED_SHORT, shaderParams.IndexBuffer);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, mesh.indexDrawCount, GLES20.GL_UNSIGNED_SHORT, mesh.indexBuffer);
 
         // Disable the handle to the vertices
         GLES20.glDisableVertexAttribArray(_positionHandle);

@@ -29,6 +29,7 @@ public class Sprite extends Component {
     private float m_ScaleFactor;
 
     private SpriteMaterial m_SpriteMaterial;
+    private SpriteMesh spriteMesh;
     private MeshRenderer meshRenderer;
 
     public Sprite(GameObject gameObject) {
@@ -46,6 +47,7 @@ public class Sprite extends Component {
         m_ScaleFactor = 1f;
 
         m_SpriteMaterial = new SpriteMaterial();
+        spriteMesh = new SpriteMesh();
         this.meshRenderer = null;
     }
 
@@ -53,7 +55,7 @@ public class Sprite extends Component {
     protected void onStart() {
         meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_SpriteMaterial);
-        meshRenderer.setMesh(AssetManager.getInstance().getSpriteMesh());
+        meshRenderer.setMesh(spriteMesh);
     }
 
     @Override
@@ -217,7 +219,7 @@ public class Sprite extends Component {
 
         if (m_CurrAnimationFrame.getTexture() != null) {
             m_SpriteMaterial.setTexture(m_CurrAnimationFrame.getTexture());
-            m_SpriteMaterial.setTextureCoordinates(m_CurrAnimationFrame.getNormalisedTexCoordinates());
+            spriteMesh.setTextureCoordBuffer(m_CurrAnimationFrame.getNormalisedTexCoordinates());
         }
     }
 

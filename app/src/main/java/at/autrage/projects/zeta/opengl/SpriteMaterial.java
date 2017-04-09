@@ -1,7 +1,5 @@
 package at.autrage.projects.zeta.opengl;
 
-import java.nio.FloatBuffer;
-
 import at.autrage.projects.zeta.module.AssetManager;
 
 public class SpriteMaterial extends Material {
@@ -9,8 +7,6 @@ public class SpriteMaterial extends Material {
     private Color m_Color;
     /** Texture attribute used by the update thread. */
     private Texture m_Texture;
-    /** Texture coordinates attribute used by the update thread. */
-    private FloatBuffer m_TextureCoordinates;
 
     public SpriteMaterial() {
         super(AssetManager.getInstance().getSpriteShader());
@@ -22,7 +18,6 @@ public class SpriteMaterial extends Material {
     public void shift(ShaderParams shaderParams) {
         shaderParams.Color.setColor(m_Color);
         shaderParams.TextureDataHandle = m_Texture != null ? m_Texture.getTextureDataHandle() : 0;
-        shaderParams.TextureCoordinates = m_TextureCoordinates;
     }
 
     public Color getColor() {
@@ -39,9 +34,5 @@ public class SpriteMaterial extends Material {
 
     public void setTexture(Texture texture) {
         m_Texture = texture;
-    }
-
-    public void setTextureCoordinates(FloatBuffer textureCoordinates) {
-        m_TextureCoordinates = textureCoordinates;
     }
 }

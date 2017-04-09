@@ -42,6 +42,17 @@ public class ColorShader extends Shader {
             return;
         }
 
+        Mesh mesh = shaderParams.Mesh;
+        if (mesh == null || mesh.indexDrawCount <= 0) {
+            return;
+        }
+
+        // Do not draw elements with invalid buffers
+        if (mesh.vertexBuffer == null ||
+            mesh.indexBuffer == null) {
+            return;
+        }
+
         // Do not draw invisible elements
         if (shaderParams.Color.getAlpha() == 0f) {
             return;
@@ -57,7 +68,7 @@ public class ColorShader extends Shader {
         // Prepare the coordinate data
         GLES20.glVertexAttribPointer(_positionHandle, PustafinGL.FLOATS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                PustafinGL.BYTES_PER_VERTEX, shaderParams.VertexBuffer);
+                PustafinGL.BYTES_PER_VERTEX, mesh.vertexBuffer);
 
         // Enable a handle to the vertices
         GLES20.glEnableVertexAttribArray(_positionHandle);
@@ -72,7 +83,7 @@ public class ColorShader extends Shader {
         GLES20.glUniformMatrix4fv(_vpMatrixHandle, 1, false, shaderParams.VPMatrix, 0);
 
         // Draw the triangles
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, shaderParams.IndexBufferSize, GLES20.GL_UNSIGNED_SHORT, shaderParams.IndexBuffer);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, mesh.indexDrawCount, GLES20.GL_UNSIGNED_SHORT, mesh.indexBuffer);
 
         // Disable the handle to the vertices
         GLES20.glDisableVertexAttribArray(_positionHandle);

@@ -6,32 +6,28 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 public class Mesh {
-    protected FloatBuffer m_VertexBuffer;
-    protected ShortBuffer m_IndexBuffer;
+    protected FloatBuffer vertexBuffer;
+    protected ShortBuffer indexBuffer;
+    protected FloatBuffer textureCoordBuffer;
 
-    protected int m_VertexBufferSize;
-    protected int m_IndexBufferSize;
+    protected int vertexCount;
+    protected int indexDrawCount;
 
     protected Mesh() {
-        m_VertexBuffer = null;
-        m_IndexBuffer = null;
+        vertexBuffer = null;
+        indexBuffer = null;
+        textureCoordBuffer = null;
 
-        m_VertexBufferSize = 0;
-        m_IndexBufferSize = 0;
+        vertexCount = 0;
+        indexDrawCount = 0;
     }
 
     public Mesh(float[] vertices, short[] indices) {
-        m_VertexBuffer = createVertexBuffer(vertices);
-        m_IndexBuffer = createIndexBuffer(indices);
+        vertexBuffer = createVertexBuffer(vertices);
+        indexBuffer = createIndexBuffer(indices);
 
-        m_VertexBufferSize = vertices.length;
-        m_IndexBufferSize = indices.length;
-    }
-
-    public void shift(ShaderParams shaderParams) {
-        shaderParams.VertexBuffer = m_VertexBuffer;
-        shaderParams.IndexBuffer = m_IndexBuffer;
-        shaderParams.IndexBufferSize = m_IndexBufferSize;
+        vertexCount = vertices.length;
+        indexDrawCount = indices.length;
     }
 
     public FloatBuffer createFloatBuffer(int capacity) {
@@ -74,11 +70,7 @@ public class Mesh {
         return indexBuffer;
     }
 
-    public int getVertexBufferSize() {
-        return m_VertexBufferSize;
-    }
-
-    public int getIndexBufferSize() {
-        return m_IndexBufferSize;
+    public void setTextureCoordBuffer(FloatBuffer textureCoordBuffer) {
+        this.textureCoordBuffer = textureCoordBuffer;
     }
 }
