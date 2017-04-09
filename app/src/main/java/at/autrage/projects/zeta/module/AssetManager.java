@@ -31,6 +31,7 @@ import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.opengl.SpriteShader;
 import at.autrage.projects.zeta.opengl.TextShader;
 import at.autrage.projects.zeta.opengl.Texture;
+import at.autrage.projects.zeta.opengl.TextureInfo;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewRenderer;
 
@@ -83,21 +84,21 @@ public class AssetManager {
     private void loadTextureData() {
         m_Textures.clear();
 
-        int[] textureResIds = new int[] {
-                R.drawable.background_game,
-                R.drawable.gv_explosion_sheet1,
-                R.drawable.gv_engine_fire,
-                R.drawable.gv_explosion2,
-                R.drawable.gv_explosion3,
-                R.drawable.debug,
-                R.drawable.gv_planet,
-                R.drawable.gv_texture_atlas,
-                R.drawable.gv_foreground_alarm,
-                R.drawable.font_arial
+        TextureInfo[] textureInfos = new TextureInfo[] {
+                new TextureInfo(R.drawable.background_game, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_explosion_sheet1, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_engine_fire, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_explosion2, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_explosion3, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.debug, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_planet, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_texture_atlas, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_foreground_alarm, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.font_arial, Texture.Filter.Linear),
         };
 
-        for (int textureResId : textureResIds) {
-            m_Textures.put(textureResId, new Texture(textureResId));
+        for (TextureInfo textureInfo : textureInfos) {
+            m_Textures.put(textureInfo.ResourceID, new Texture(textureInfo.ResourceID, textureInfo.Filter));
         }
     }
 
