@@ -6,16 +6,16 @@ varying vec4 v_Color;           // This is the color from the vertex shader inte
                                 // triangle per fragment.
 varying vec2 v_TexCoordinate;   // Interpolated texture coordinate per fragment.
 
-//const float smoothing = 1.0/16.0;
+const float smoothing = 1.0 / 16.0;
 
-float contour(in float d, in float w) {
+/*float contour(in float d, in float w) {
     // smoothstep(lower edge0, upper edge1, x)
     return smoothstep(0.5 - w, 0.5 + w, d);
 }
 
 float samp(in vec2 uv, float w) {
     return contour(texture2D(u_Texture, v_TexCoordinate).a, w);
-}
+}*/
 
 // The entry point for our fragment shader.
 void main()
@@ -25,11 +25,11 @@ void main()
     //****************
 
     // Retrieve distance from texture
-    //float distance = texture2D(u_Texture, v_TexCoordinate).a;
-    //float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, distance);
-    //gl_FragColor = vec4(v_Color.rgb, v_Color.a * alpha);
+    float distance = texture2D(u_Texture, v_TexCoordinate).a;
+    float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, distance);
+    gl_FragColor = vec4(v_Color.rgb, v_Color.a * alpha);
 
-    //***********************
+    /************************
     // Supersampled version *
     //***********************
 
@@ -56,5 +56,5 @@ void main()
     // so 1 + 0.5*4 = 3 is the divisor
     alpha = (alpha + 0.5 * asum) / 3.0;
 
-    gl_FragColor = vec4(v_Color.rgb, v_Color.a * alpha);
+    gl_FragColor = vec4(v_Color.rgb, v_Color.a * alpha);*/
 }
