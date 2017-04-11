@@ -28,6 +28,9 @@ public class TextMesh extends Mesh {
 
     private int capacity;
 
+    private float[] fastVertexBuffer;
+    private float[] fastTexCoordBuffer;
+
     public TextMesh() {
         allocateCapacity(PustafinGL.DEFAULT_TEXT_MESH_CHARACTER_CAPACITY);
     }
@@ -40,6 +43,9 @@ public class TextMesh extends Mesh {
         vertexBuffer = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_VERTEX);
         indexBuffer = quadIndexBuffer;
         textureCoordBuffer = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD);
+
+        fastVertexBuffer = new float[vertexCount * PustafinGL.FLOATS_PER_VERTEX];
+        fastTexCoordBuffer = new float[vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD];
     }
 
     public void rebuildTextMesh(Font font, String text) {
@@ -64,6 +70,8 @@ public class TextMesh extends Mesh {
 
         float[] quadVertices = new float[12];
 
+        int v = 0;
+        int t = 0;
         int quads = 0;
 
         for (int i = 0, length = text.length(); i < length; i++) {
@@ -101,13 +109,19 @@ public class TextMesh extends Mesh {
             quadVertices[9] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
             quadVertices[10] = glyphPositionY - glyph.YOffsetNorm;
 
-            vertexBuffer.put(quadVertices);
-            textureCoordBuffer.put(glyph.TextureCoordinates);
+            System.arraycopy(quadVertices, 0, fastVertexBuffer, v, 12);
+            System.arraycopy(glyph.TextureCoordinates, 0, fastTexCoordBuffer, t,  8);
+
+            v += 12;
+            t += 8;
 
             glyphPositionX += glyph.XAdvanceNorm;
 
             quads++;
         }
+
+        vertexBuffer.put(fastVertexBuffer, 0, v);
+        textureCoordBuffer.put(fastTexCoordBuffer, 0, t);
 
         indexDrawCount = quads * 6;
 
