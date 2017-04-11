@@ -30,7 +30,7 @@ public class Mesh {
         indexDrawCount = indices.length;
     }
 
-    public FloatBuffer createFloatBuffer(int capacity) {
+    public static FloatBuffer createFloatBuffer(int capacity) {
         // Allocate bytes
         ByteBuffer bb = ByteBuffer.allocateDirect(capacity * PustafinGL.BYTES_PER_FLOAT);
         // Use the device hardware's native byte order
@@ -39,7 +39,7 @@ public class Mesh {
         return bb.asFloatBuffer();
     }
 
-    public FloatBuffer createVertexBuffer(float[] vertices) {
+    public static FloatBuffer createVertexBuffer(float[] vertices) {
         // Create a floating point buffer
         FloatBuffer vertexBuffer = createFloatBuffer(vertices.length);
         // Add the coordinates to the FloatBuffer
@@ -50,7 +50,7 @@ public class Mesh {
         return vertexBuffer;
     }
 
-    public ShortBuffer createShortBuffer(int capacity) {
+    public static ShortBuffer createShortBuffer(int capacity) {
         // Allocate bytes
         ByteBuffer bb = ByteBuffer.allocateDirect(capacity * PustafinGL.BYTES_PER_SHORT);
         // Use the device hardware's native byte order
@@ -59,7 +59,7 @@ public class Mesh {
         return bb.asShortBuffer();
     }
 
-    public ShortBuffer createIndexBuffer(short[] indices) {
+    public static ShortBuffer createIndexBuffer(short[] indices) {
         // Create a short buffer
         ShortBuffer indexBuffer = createShortBuffer(indices.length);
         // Add the values to the ShortBuffer

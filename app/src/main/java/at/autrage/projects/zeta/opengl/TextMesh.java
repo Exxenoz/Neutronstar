@@ -1,11 +1,32 @@
 package at.autrage.projects.zeta.opengl;
 
-import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 import at.autrage.projects.zeta.module.Logger;
 
 public class TextMesh extends Mesh {
-    protected int capacity;
+    private static final ShortBuffer quadIndexBuffer;
+
+    static {
+        quadIndexBuffer = createShortBuffer(PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY * 6);
+
+        short[] quadIndices = new short[] {
+                0, 1, 2, // Triangle1
+                1, 3, 2  // Triangle2
+        };
+
+        for (int quad = 0, length = quadIndices.length; quad < PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY; quad++) {
+            quadIndexBuffer.put(quadIndices);
+
+            for (int i = 0; i < length; i++) {
+                quadIndices[i] += 4;
+            }
+        }
+
+        quadIndexBuffer.rewind();
+    }
+
+    private int capacity;
 
     public TextMesh() {
         allocateCapacity(PustafinGL.DEFAULT_TEXT_MESH_CHARACTER_CAPACITY);
@@ -17,29 +38,8 @@ public class TextMesh extends Mesh {
         indexDrawCount = 0;
 
         vertexBuffer = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_VERTEX);
-        indexBuffer = createShortBuffer(capacity * 6);
+        indexBuffer = quadIndexBuffer;
         textureCoordBuffer = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD);
-
-        initializeIndices();
-    }
-
-    private void initializeIndices() {
-        indexBuffer.rewind();
-
-        short[] quadIndices = new short[] {
-            0, 1, 2, // Triangle1
-            1, 3, 2  // Triangle2
-        };
-
-        for (int quad = 0, length = quadIndices.length; quad < capacity; quad++) {
-            indexBuffer.put(quadIndices);
-
-            for (int i = 0; i < length; i++) {
-                quadIndices[i] += 4;
-            }
-        }
-
-        indexBuffer.rewind();
     }
 
     public void rebuildTextMesh(String text, Font font) {
@@ -110,6 +110,11 @@ public class TextMesh extends Mesh {
         }
 
         indexDrawCount = quads * 6;
+
+        if (quads > PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) {
+            Logger.W("Could not draw " + (quads - PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) +  " quads of text mesh with text \"" + text + "\", because the capacity of static index buffer for quads is too low!");
+            indexDrawCount = PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY * 6;
+        }
 
         vertexBuffer.rewind();
         textureCoordBuffer.rewind();
