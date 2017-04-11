@@ -57,9 +57,16 @@ public class TextMesh extends Mesh {
             text = "";
         }
 
-        if (capacity < text.length()) {
-            int factor = (int)(text.length() / (float)capacity + 1f);
-            allocateCapacity(capacity * factor);
+        int size = text.length();
+
+        if (size > PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) {
+            Logger.W("Could not draw " + (size - PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) +  " quads of text mesh with text \"" + text + "\", because the capacity of static index buffer for quads is too low!");
+            size = PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY;
+        }
+
+        if (capacity < size) {
+            int factor = (int)(size / (float)capacity + 1f);
+            allocateCapacity(Math.min(capacity * factor, PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY));
         }
 
         vertexBuffer.rewind();
@@ -74,7 +81,7 @@ public class TextMesh extends Mesh {
         int t = 0;
         int quads = 0;
 
-        for (int i = 0, length = text.length(); i < length; i++) {
+        for (int i = 0; i < size; i++) {
             char c = text.charAt(i);
 
             switch (c) {
@@ -124,11 +131,6 @@ public class TextMesh extends Mesh {
         textureCoordBuffer.put(fastTexCoordBuffer, 0, t);
 
         indexDrawCount = quads * 6;
-
-        if (quads > PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) {
-            Logger.W("Could not draw " + (quads - PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) +  " quads of text mesh with text \"" + text + "\", because the capacity of static index buffer for quads is too low!");
-            indexDrawCount = PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY * 6;
-        }
 
         vertexBuffer.rewind();
         textureCoordBuffer.rewind();
