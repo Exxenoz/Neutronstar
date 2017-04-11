@@ -42,13 +42,13 @@ public class TextMesh extends Mesh {
         textureCoordBuffer = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD);
     }
 
-    public void rebuildTextMesh(String text, Font font) {
-        if (text == null) {
+    public void rebuildTextMesh(Font font, String text) {
+        if (font == null) {
             return;
         }
 
-        if (font == null) {
-            return;
+        if (text == null) {
+            text = "";
         }
 
         if (capacity < text.length()) {

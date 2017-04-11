@@ -7,15 +7,11 @@ import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.Logger;
 
 public class TextRenderer extends MeshRenderer {
-    private String text;
-    private Font font;
     private TextMesh[] textMeshes;
 
     public TextRenderer(GameObject gameObject) {
         super(gameObject);
 
-        text = "";
-        font = null;
         textMeshes = new TextMesh[3];
         for (int i = 0; i < textMeshes.length; i++) {
             textMeshes[i] = new TextMesh();
@@ -23,10 +19,14 @@ public class TextRenderer extends MeshRenderer {
         mesh = textMeshes[0];
     }
 
-    public void rebuildTextMesh() {
+    public void rebuildTextMesh(Font font, String text) {
         if (font == null) {
-            Logger.E("Could not rebuild text mesh, because no font was set!");
+            Logger.E("Could not rebuild text mesh, because font parameter may not be null!");
             return;
+        }
+
+        if (text == null) {
+            text = "";
         }
 
         TextMesh editableTextMesh = getEditableTextMesh();
@@ -35,7 +35,7 @@ public class TextRenderer extends MeshRenderer {
             return;
         }
 
-        editableTextMesh.rebuildTextMesh(text, font);
+        editableTextMesh.rebuildTextMesh(font, text);
         setMesh(editableTextMesh);
     }
 
@@ -61,28 +61,5 @@ public class TextRenderer extends MeshRenderer {
         }
 
         return null;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        if (text != null) {
-            this.text = text;
-        }
-        else {
-            this.text = "";
-        }
-        rebuildTextMesh();
-    }
-
-    public Font getFont() {
-        return font;
-    }
-
-    public void setFont(Font font) {
-        this.font = font;
-        rebuildTextMesh();
     }
 }
