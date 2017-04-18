@@ -205,6 +205,191 @@ public class Font {
         return explode[1];
     }
 
+    private void addEllipsis(GlyphLine glyphLine, TextOverflowModes textOverflowMode, float maxWidthNorm) {
+        if (glyphLine == null) {
+            return;
+        }
+
+        Glyph glyph = getGlyphForCharacter('.');
+
+        if (glyph == null) {
+            Logger.W("Could not add ellipsis using character '.', because glyph could not be found in font " + Name + "!");
+            return;
+        }
+
+        float ellipsisWidthNorm = 3f * (glyph.WNorm + glyph.XOffsetNorm);
+
+        if (textOverflowMode != TextOverflowModes.Overflow &&
+            textOverflowMode != TextOverflowModes.OverflowH) {
+            Glyph lastRemovedGlyph = null;
+
+            while ((maxWidthNorm - glyphLine.WidthNorm) < ellipsisWidthNorm) {
+                if (glyphLine.Glyphs.size() == 0) {
+                    break;
+                }
+
+                lastRemovedGlyph = glyphLine.Glyphs.removeLast();
+                glyphLine.WidthNorm -= (lastRemovedGlyph.WNorm + lastRemovedGlyph.XOffsetNorm);
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            glyphLine.Glyphs.add(glyph);
+        }
+
+        glyphLine.WidthNorm += ellipsisWidthNorm;
+    }
+
+    private boolean isWordSeparator(char c) {
+        return c == ' ' || c == '-';
+    }
+
+    public GlyphBlock measureText(String text, float fontSize, TextOverflowModes textOverflowMode, float maxWidth, float maxHeight, boolean wordWrappingEnabled) {
+        if (text == null) {
+            Logger.E("Could not measure text, because text parameter is null!");
+            return null;
+        }
+
+        if (fontSize <= 0f) {
+            Logger.E("Could not measure text \"" + text + "\", because font size " + fontSize + " is invalid!");
+            return null;
+        }
+
+        if (textOverflowMode != TextOverflowModes.Overflow) {
+            if (textOverflowMode != TextOverflowModes.OverflowH && maxWidth <= 0f) {
+                Logger.E("Could not measure text \"" + text + "\", because max width " + maxWidth + " for overflow mode " + textOverflowMode + " is invalid!");
+                return null;
+            }
+
+            if (textOverflowMode != TextOverflowModes.OverflowV && maxHeight <= 0f) {
+                Logger.E("Could not measure text \"" + text + "\", because max height " + maxHeight + " for overflow mode " + textOverflowMode + " is invalid!");
+                return null;
+            }
+        }
+
+        GlyphBlock glyphBlock = new GlyphBlock();
+        GlyphLine glyphLine = null;
+
+        float maxWidthNorm = maxWidth / fontSize;
+        float maxHeightNorm = maxHeight / fontSize;
+
+        for (int j = 0, length = text.length(); j < length; j++) {
+            if (textOverflowMode != TextOverflowModes.Overflow &&
+                textOverflowMode != TextOverflowModes.OverflowV) {
+                // No space for next line
+                if ((maxHeightNorm - glyphBlock.HeightNorm) < lineHeightNorm) {
+                    switch (textOverflowMode) {
+                        case Ellipsis:
+                            addEllipsis(glyphLine, textOverflowMode, maxWidthNorm);
+                            break;
+                        case Truncate:
+                            // Do nothing
+                            break;
+                    }
+                    break;
+                }
+            }
+
+            glyphLine = new GlyphLine();
+            glyphLine.HeightNorm = lineHeightNorm;
+
+            for (char currChar, lastChar = 0; j < length; j++) {
+                currChar = text.charAt(j);
+
+                if (currChar == '\n') {
+                    break;
+                }
+
+                Glyph glyph = glyphMap.get(currChar);
+
+                if (glyph == null) {
+                    Logger.W("Could not measure character '" + currChar + "', because glyph could not be found in font " + Name + "!");
+                    continue;
+                }
+
+                glyphLine.Glyphs.add(glyph);
+                glyphLine.WidthNorm += glyph.WNorm + glyph.XOffsetNorm;
+
+                if ((isWordSeparator(lastChar) || lastChar == 0) && !isWordSeparator(currChar)) {
+                    glyphLine.WordCount++;
+                }
+
+                if (textOverflowMode == TextOverflowModes.Overflow ||
+                    textOverflowMode == TextOverflowModes.OverflowH ||
+                    glyphLine.WidthNorm <= maxWidthNorm) {
+                    lastChar = currChar;
+                    continue;
+                }
+
+                // Each line must at least contain one glyph
+                if (glyphLine.Glyphs.size() == 1) {
+                    break;
+                }
+
+                if (wordWrappingEnabled) {
+                    if (isWordSeparator(currChar)) {
+                        // Remove the word separator
+                        glyph = glyphLine.Glyphs.removeLast();
+                        glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                        // Move the word separator to the
+                        // next line (except whitespace).
+                        if (currChar != ' ') {
+                            j--;
+                        }
+                    }
+                    else if (glyphLine.WordCount >= 2) {
+                        // Remove the last word
+                        do
+                        {
+                            glyph = glyphLine.Glyphs.removeLast();
+                            glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                            j--;
+                        }
+                        while (!isWordSeparator(glyph.Character));
+
+                        // Re-add word separator (except whitespace)
+                        if (glyph.Character != ' ') {
+                            glyphLine.Glyphs.add(glyph);
+                            glyphLine.WidthNorm += (glyph.WNorm + glyph.XOffsetNorm);
+                        }
+
+                        // Skip word separator
+                        j++;
+
+                        // Decrease word count
+                        glyphLine.WordCount--;
+                    }
+                    else { // Word count == 1
+                        // Either the line begins with multiple word separators
+                        // and takes all the space, or the word is bigger than
+                        // the available line width.
+
+                        // Remove the last character
+                        glyph = glyphLine.Glyphs.removeLast();
+                        glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                        // Decrease character counter, because the last
+                        // character should be placed in the next line.
+                        j--;
+                    }
+                }
+                else {
+                    // Remove the last character
+                    glyph = glyphLine.Glyphs.removeLast();
+                    glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                    // Decrease character counter, because the last
+                    // character should be placed in the next line.
+                    j--;
+                }
+
+                break;
+            }
+
+            glyphBlock.addGlyphLine(glyphLine);
+        }
+
+        return glyphBlock;
+    }
+
     public float getLineHeight() {
         return lineHeight;
     }
