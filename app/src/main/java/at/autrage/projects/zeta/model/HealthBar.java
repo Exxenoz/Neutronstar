@@ -54,13 +54,13 @@ public class HealthBar extends Component {
         }
 
         if (healthPercent < Pustafin.EnemyHealthBarMinPercentageColorOrange) {
-            m_ColorMaterial.getColor().setColor(Color.Red);
+            m_ColorMaterial.setColor(Color.Red);
         }
         else if (healthPercent < Pustafin.EnemyHealthBarMinPercentageColorGreen) {
-            m_ColorMaterial.getColor().setColor(255f / 255f, 200f / 255f, 0f, 1f);
+            m_ColorMaterial.setColor(255f / 255f, 200f / 255f, 0f);
         }
         else {
-            m_ColorMaterial.getColor().setColor(Color.Green);
+            m_ColorMaterial.setColor(Color.Green);
         }
 
         m_HealthPercent = healthPercent;

@@ -18,6 +18,10 @@ public class Color {
         m_Color[3] = a;
     }
 
+    public void setColor(float r, float g, float b) {
+        setColor(r, g, b, m_Color[3]);
+    }
+
     public void setColor(float[] color) {
         setColor(color[0], color[1], color[2], color[3]);
     }
@@ -45,9 +49,9 @@ public class Color {
         return m_Color[3];
     }
 
-    public static final float[] Red   = new float[] { 1f, 0f, 0f, 1f };
-    public static final float[] Green = new float[] { 0f, 1f, 0f, 1f };
-    public static final float[] Blue  = new float[] { 0f, 0f, 1f, 1f };
-    public static final float[] Black = new float[] { 0f, 0f, 0f, 1f };
-    public static final float[] White = new float[] { 1f, 1f, 1f, 1f };
+    public static final Color Red   = new Color(1f, 0f, 0f, 1f);
+    public static final Color Green = new Color(0f, 1f, 0f, 1f);
+    public static final Color Blue  = new Color(0f, 0f, 1f, 1f);
+    public static final Color Black = new Color(0f, 0f, 0f, 1f);
+    public static final Color White = new Color(1f, 1f, 1f, 1f);
 }

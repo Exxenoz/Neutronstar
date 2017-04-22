@@ -7,7 +7,11 @@ public class ColorMaterial extends Material {
     private Color m_Color;
 
     public ColorMaterial() {
-        super(AssetManager.getInstance().getColorShader());
+        this(AssetManager.getInstance().getColorShader());
+    }
+
+    public ColorMaterial(Shader shader) {
+        super(shader);
 
         m_Color = new Color();
     }
@@ -15,6 +19,14 @@ public class ColorMaterial extends Material {
     @Override
     public void shift(ShaderParams shaderParams) {
         shaderParams.Color.setColor(m_Color);
+    }
+
+    public void setColor(Color color) {
+        m_Color.setColor(color);
+    }
+
+    public void setColor(float r, float g, float b) {
+        m_Color.setColor(r, g, b);
     }
 
     public Color getColor() {
