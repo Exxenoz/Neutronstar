@@ -48,19 +48,16 @@ public class TextMesh extends Mesh {
         fastTexCoordBuffer = new float[vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD];
     }
 
-    public void rebuildTextMesh(Font font, String text) {
-        if (font == null) {
+    public void rebuildTextMesh(GlyphBlock glyphBlock, TextAlignmentOptions textAlignment) {
+        if (glyphBlock == null) {
+            Logger.E("Could not rebuild text mesh, because glyph block parameter may not be null!");
             return;
         }
 
-        if (text == null) {
-            text = "";
-        }
-
-        int size = text.length();
+        int size = glyphBlock.getGlyphCount();
 
         if (size > PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) {
-            Logger.W("Could not draw " + (size - PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) +  " quads of text mesh with text \"" + text + "\", because the capacity of static index buffer for quads is too low!");
+            Logger.W("Could not draw " + (size - PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) +  " quads of text mesh with text \"" + glyphBlock.OriginalText + "\", because the capacity of static index buffer for quads is too low!");
             size = PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY;
         }
 
@@ -74,6 +71,7 @@ public class TextMesh extends Mesh {
 
         float glyphPositionX = 0f;
         float glyphPositionY = 0f;
+        float glyphLineOffsetY = 0f;
 
         float[] quadVertices = new float[12];
 
@@ -81,50 +79,88 @@ public class TextMesh extends Mesh {
         int t = 0;
         int quads = 0;
 
-        for (int i = 0; i < size; i++) {
-            char c = text.charAt(i);
+        for (GlyphLine glyphLine : glyphBlock.GlyphLines)
+        {
+            if (quads >= size)
+            {
+                break;
+            }
 
-            switch (c) {
-                case '\n':
+            switch (textAlignment)
+            {
+                case TopLeft:
                     glyphPositionX = 0f;
-                    glyphPositionY -= font.getLineHeightNorm();
-                    continue;
-                default:
+                    glyphPositionY = 0f - glyphLineOffsetY;
+                    break;
+                case TopCenter:
+                    glyphPositionX = glyphBlock.HalfMaxWidthNorm - glyphLine.HalfWidthNorm;
+                    glyphPositionY = 0f - glyphLineOffsetY;
+                    break;
+                case TopRight:
+                    glyphPositionX = glyphBlock.MaxWidthNorm - glyphLine.WidthNorm;
+                    glyphPositionY = 0f - glyphLineOffsetY;
+                    break;
+                case CenterLeft:
+                    glyphPositionX = 0f;
+                    glyphPositionY = -(glyphBlock.HalfMaxHeightNorm - glyphBlock.HalfHeightNorm) - glyphLineOffsetY;
+                    break;
+                case CenterCenter:
+                    glyphPositionX = glyphBlock.HalfMaxWidthNorm - glyphLine.HalfWidthNorm;
+                    glyphPositionY = -(glyphBlock.HalfMaxHeightNorm - glyphBlock.HalfHeightNorm) - glyphLineOffsetY;
+                    break;
+                case CenterRight:
+                    glyphPositionX = glyphBlock.MaxWidthNorm - glyphLine.WidthNorm;
+                    glyphPositionY = -(glyphBlock.HalfMaxHeightNorm - glyphBlock.HalfHeightNorm) - glyphLineOffsetY;
+                    break;
+                case BottomLeft:
+                    glyphPositionX = 0f;
+                    glyphPositionY = -(glyphBlock.MaxHeightNorm - glyphBlock.HeightNorm) - glyphLineOffsetY;
+                    break;
+                case BottomCenter:
+                    glyphPositionX = glyphBlock.HalfMaxWidthNorm - glyphLine.HalfWidthNorm;
+                    glyphPositionY = -(glyphBlock.MaxHeightNorm - glyphBlock.HeightNorm) - glyphLineOffsetY;
+                    break;
+                case BottomRight:
+                    glyphPositionX = glyphBlock.MaxWidthNorm - glyphLine.WidthNorm;
+                    glyphPositionY = -(glyphBlock.MaxHeightNorm - glyphBlock.HeightNorm) - glyphLineOffsetY;
                     break;
             }
 
-            Glyph glyph = font.getGlyphForCharacter(c);
+            for (Glyph glyph : glyphLine.Glyphs)
+            {
+                if (quads >= size)
+                {
+                    break;
+                }
 
-            if (glyph == null) {
-                Logger.W("Could not draw character '" + c + "', because glyph could not be found in font " + font.Name + "!");
-                continue;
+                // BottomCenter CenterLeft
+                quadVertices[0] = glyphPositionX + glyph.XOffsetNorm;
+                quadVertices[1] = glyphPositionY - glyph.YOffsetNorm - glyph.HNorm;
+
+                // BottomCenter CenterRight
+                quadVertices[3] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
+                quadVertices[4] = glyphPositionY - glyph.HNorm - glyph.YOffsetNorm;
+
+                // TopCenter CenterLeft
+                quadVertices[6] = glyphPositionX + glyph.XOffsetNorm;
+                quadVertices[7] = glyphPositionY - glyph.YOffsetNorm;
+
+                // TopCenter CenterRight
+                quadVertices[9] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
+                quadVertices[10] = glyphPositionY - glyph.YOffsetNorm;
+
+                System.arraycopy(quadVertices, 0, fastVertexBuffer, v, 12);
+                System.arraycopy(glyph.TextureCoordinates, 0, fastTexCoordBuffer, t,  8);
+
+                v += 12;
+                t += 8;
+
+                glyphPositionX += glyph.XAdvanceNorm;
+
+                quads++;
             }
 
-            // Bottom Left
-            quadVertices[0] = glyphPositionX + glyph.XOffsetNorm;
-            quadVertices[1] = glyphPositionY - glyph.YOffsetNorm - glyph.HNorm;
-
-            // Bottom Right
-            quadVertices[3] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
-            quadVertices[4] = glyphPositionY - glyph.HNorm - glyph.YOffsetNorm;
-
-            // Top Left
-            quadVertices[6] = glyphPositionX + glyph.XOffsetNorm;
-            quadVertices[7] = glyphPositionY - glyph.YOffsetNorm;
-
-            // Top Right
-            quadVertices[9] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
-            quadVertices[10] = glyphPositionY - glyph.YOffsetNorm;
-
-            System.arraycopy(quadVertices, 0, fastVertexBuffer, v, 12);
-            System.arraycopy(glyph.TextureCoordinates, 0, fastTexCoordBuffer, t,  8);
-
-            v += 12;
-            t += 8;
-
-            glyphPositionX += glyph.XAdvanceNorm;
-
-            quads++;
+            glyphLineOffsetY += glyphLine.HeightNorm;
         }
 
         vertexBuffer.put(fastVertexBuffer, 0, v);
@@ -135,6 +171,6 @@ public class TextMesh extends Mesh {
         vertexBuffer.rewind();
         textureCoordBuffer.rewind();
 
-        Logger.D("Rebuild text mesh for text \"" + text + "\" with " + quads + " quads and " + indexDrawCount + " indices!");
+        Logger.D("Rebuild text mesh for text \"" + glyphBlock.OriginalText + "\" with " + quads + " quads and " + indexDrawCount + " indices!");
     }
 }

@@ -217,7 +217,7 @@ public class Font {
             return;
         }
 
-        float ellipsisWidthNorm = 3f * (glyph.WNorm + glyph.XOffsetNorm);
+        float ellipsisWidthNorm = 3f * glyph.XAdvanceNorm;
 
         if (textOverflowMode != TextOverflowModes.Overflow &&
             textOverflowMode != TextOverflowModes.OverflowH) {
@@ -229,7 +229,7 @@ public class Font {
                 }
 
                 lastRemovedGlyph = glyphLine.Glyphs.removeLast();
-                glyphLine.WidthNorm -= (lastRemovedGlyph.WNorm + lastRemovedGlyph.XOffsetNorm);
+                glyphLine.WidthNorm -= lastRemovedGlyph.XAdvanceNorm;
             }
         }
 
@@ -238,6 +238,7 @@ public class Font {
         }
 
         glyphLine.WidthNorm += ellipsisWidthNorm;
+        glyphLine.HalfWidthNorm = glyphLine.WidthNorm / 2f;
     }
 
     private boolean isWordSeparator(char c) {
@@ -267,11 +268,11 @@ public class Font {
             }
         }
 
-        GlyphBlock glyphBlock = new GlyphBlock();
-        GlyphLine glyphLine = null;
-
         float maxWidthNorm = maxWidth / fontSize;
         float maxHeightNorm = maxHeight / fontSize;
+
+        GlyphBlock glyphBlock = new GlyphBlock(text, maxWidthNorm, maxHeightNorm);
+        GlyphLine glyphLine = null;
 
         for (int j = 0, length = text.length(); j < length; j++) {
             if (textOverflowMode != TextOverflowModes.Overflow &&
@@ -308,7 +309,7 @@ public class Font {
                 }
 
                 glyphLine.Glyphs.add(glyph);
-                glyphLine.WidthNorm += glyph.WNorm + glyph.XOffsetNorm;
+                glyphLine.WidthNorm += glyph.XAdvanceNorm;
 
                 if ((isWordSeparator(lastChar) || lastChar == 0) && !isWordSeparator(currChar)) {
                     glyphLine.WordCount++;
@@ -330,7 +331,7 @@ public class Font {
                     if (isWordSeparator(currChar)) {
                         // Remove the word separator
                         glyph = glyphLine.Glyphs.removeLast();
-                        glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                        glyphLine.WidthNorm -= glyph.XAdvanceNorm;
                         // Move the word separator to the
                         // next line (except whitespace).
                         if (currChar != ' ') {
@@ -342,7 +343,7 @@ public class Font {
                         do
                         {
                             glyph = glyphLine.Glyphs.removeLast();
-                            glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                            glyphLine.WidthNorm -= glyph.XAdvanceNorm;
                             j--;
                         }
                         while (!isWordSeparator(glyph.Character));
@@ -350,7 +351,7 @@ public class Font {
                         // Re-add word separator (except whitespace)
                         if (glyph.Character != ' ') {
                             glyphLine.Glyphs.add(glyph);
-                            glyphLine.WidthNorm += (glyph.WNorm + glyph.XOffsetNorm);
+                            glyphLine.WidthNorm += glyph.XAdvanceNorm;
                         }
 
                         // Skip word separator
@@ -366,7 +367,7 @@ public class Font {
 
                         // Remove the last character
                         glyph = glyphLine.Glyphs.removeLast();
-                        glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                        glyphLine.WidthNorm -= glyph.XAdvanceNorm;
                         // Decrease character counter, because the last
                         // character should be placed in the next line.
                         j--;
@@ -375,7 +376,7 @@ public class Font {
                 else {
                     // Remove the last character
                     glyph = glyphLine.Glyphs.removeLast();
-                    glyphLine.WidthNorm -= (glyph.WNorm + glyph.XOffsetNorm);
+                    glyphLine.WidthNorm -= glyph.XAdvanceNorm;
                     // Decrease character counter, because the last
                     // character should be placed in the next line.
                     j--;
@@ -385,7 +386,16 @@ public class Font {
             }
 
             glyphBlock.addGlyphLine(glyphLine);
+            glyphLine.HalfWidthNorm = glyphLine.WidthNorm / 2f;
+            glyphLine.HalfHeightNorm = glyphLine.HeightNorm / 2f;
+
+            if (glyphLine.Glyphs.size() > 0) {
+                glyphBlock.addGlyphLine(glyphLine);
+            }
         }
+
+        glyphBlock.HalfWidthNorm = glyphBlock.WidthNorm / 2f;
+        glyphBlock.HalfHeightNorm = glyphBlock.HeightNorm / 2f;
 
         return glyphBlock;
     }

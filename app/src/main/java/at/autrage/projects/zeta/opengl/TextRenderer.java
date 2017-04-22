@@ -19,14 +19,10 @@ public class TextRenderer extends MeshRenderer {
         mesh = textMeshes[0];
     }
 
-    public void rebuildTextMesh(Font font, String text) {
-        if (font == null) {
-            Logger.E("Could not rebuild text mesh, because font parameter may not be null!");
+    public void rebuildTextMesh(GlyphBlock glyphBlock, TextAlignmentOptions textAlignment) {
+        if (glyphBlock == null) {
+            Logger.E("Could not rebuild text mesh, because glyph block parameter may not be null!");
             return;
-        }
-
-        if (text == null) {
-            text = "";
         }
 
         TextMesh editableTextMesh = getEditableTextMesh();
@@ -35,7 +31,7 @@ public class TextRenderer extends MeshRenderer {
             return;
         }
 
-        editableTextMesh.rebuildTextMesh(font, text);
+        editableTextMesh.rebuildTextMesh(glyphBlock, textAlignment);
         setMesh(editableTextMesh);
     }
 
