@@ -385,7 +385,18 @@ public class Font {
                 break;
             }
 
-            glyphBlock.addGlyphLine(glyphLine);
+            // Remove EOL whitespaces
+            while (glyphLine.Glyphs.size() > 0) {
+                Glyph glyph = glyphLine.Glyphs.getLast();
+
+                if (glyph.Character != ' ') {
+                    break;
+                }
+
+                glyphLine.WidthNorm -= glyph.XAdvanceNorm;
+                glyphLine.Glyphs.removeLast();
+            }
+
             glyphLine.HalfWidthNorm = glyphLine.WidthNorm / 2f;
             glyphLine.HalfHeightNorm = glyphLine.HeightNorm / 2f;
 
