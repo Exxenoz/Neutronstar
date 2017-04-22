@@ -54,6 +54,7 @@ public class TextMesh extends Mesh {
             return;
         }
 
+        // ToDo: Not very accurate, because whitespaces should be excluded
         int size = glyphBlock.getGlyphCount();
 
         if (size > PustafinGL.TEXT_MESH_INDEX_BUFFER_CAPACITY) {
@@ -133,31 +134,33 @@ public class TextMesh extends Mesh {
                     break;
                 }
 
-                // BottomCenter CenterLeft
-                quadVertices[0] = glyphPositionX + glyph.XOffsetNorm;
-                quadVertices[1] = glyphPositionY - glyph.YOffsetNorm - glyph.HNorm;
+                if (glyph.Character != ' ') {
+                    // BottomCenter CenterLeft
+                    quadVertices[0] = glyphPositionX + glyph.XOffsetNorm;
+                    quadVertices[1] = glyphPositionY - glyph.YOffsetNorm - glyph.HNorm;
 
-                // BottomCenter CenterRight
-                quadVertices[3] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
-                quadVertices[4] = glyphPositionY - glyph.HNorm - glyph.YOffsetNorm;
+                    // BottomCenter CenterRight
+                    quadVertices[3] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
+                    quadVertices[4] = glyphPositionY - glyph.HNorm - glyph.YOffsetNorm;
 
-                // TopCenter CenterLeft
-                quadVertices[6] = glyphPositionX + glyph.XOffsetNorm;
-                quadVertices[7] = glyphPositionY - glyph.YOffsetNorm;
+                    // TopCenter CenterLeft
+                    quadVertices[6] = glyphPositionX + glyph.XOffsetNorm;
+                    quadVertices[7] = glyphPositionY - glyph.YOffsetNorm;
 
-                // TopCenter CenterRight
-                quadVertices[9] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
-                quadVertices[10] = glyphPositionY - glyph.YOffsetNorm;
+                    // TopCenter CenterRight
+                    quadVertices[9] = glyphPositionX + glyph.WNorm + glyph.XOffsetNorm;
+                    quadVertices[10] = glyphPositionY - glyph.YOffsetNorm;
 
-                System.arraycopy(quadVertices, 0, fastVertexBuffer, v, 12);
-                System.arraycopy(glyph.TextureCoordinates, 0, fastTexCoordBuffer, t,  8);
+                    System.arraycopy(quadVertices, 0, fastVertexBuffer, v, 12);
+                    System.arraycopy(glyph.TextureCoordinates, 0, fastTexCoordBuffer, t, 8);
 
-                v += 12;
-                t += 8;
+                    v += 12;
+                    t += 8;
+
+                    quads++;
+                }
 
                 glyphPositionX += glyph.XAdvanceNorm;
-
-                quads++;
             }
 
             glyphLineOffsetY += glyphLine.HeightNorm;

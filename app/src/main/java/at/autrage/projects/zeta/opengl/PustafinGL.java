@@ -18,5 +18,5 @@ public class PustafinGL {
     public static final int VERTICES_PER_RADIUS_IN_PIXEL = 3;
 
     public static final int TEXT_MESH_INDEX_BUFFER_CAPACITY = 1024;
-    public static final int DEFAULT_TEXT_MESH_CHARACTER_CAPACITY = 255; // Must be lower than TEXT_MESH_INDEX_BUFFER_CAPACITY
+    public static final int DEFAULT_TEXT_MESH_CHARACTER_CAPACITY = 256; // Must be lower than TEXT_MESH_INDEX_BUFFER_CAPACITY
 }
