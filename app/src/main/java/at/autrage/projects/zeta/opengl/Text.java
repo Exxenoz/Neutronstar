@@ -1,14 +1,8 @@
-package at.autrage.projects.zeta.model;
+package at.autrage.projects.zeta.opengl;
 
+import at.autrage.projects.zeta.model.Component;
+import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.AssetManager;
-import at.autrage.projects.zeta.opengl.Color;
-import at.autrage.projects.zeta.opengl.Font;
-import at.autrage.projects.zeta.opengl.Fonts;
-import at.autrage.projects.zeta.opengl.GlyphBlock;
-import at.autrage.projects.zeta.opengl.TextAlignmentOptions;
-import at.autrage.projects.zeta.opengl.TextMaterial;
-import at.autrage.projects.zeta.opengl.TextOverflowModes;
-import at.autrage.projects.zeta.opengl.TextRenderer;
 
 public class Text extends Component {
     private Font font;
