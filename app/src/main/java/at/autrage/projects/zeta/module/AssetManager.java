@@ -95,6 +95,7 @@ public class AssetManager {
                 new TextureInfo(R.drawable.gv_texture_atlas, Texture.Filter.Nearest),
                 new TextureInfo(R.drawable.gv_foreground_alarm, Texture.Filter.Nearest),
                 new TextureInfo(R.drawable.font_arial, Texture.Filter.Linear),
+                new TextureInfo(R.drawable.font_audiowide, Texture.Filter.Linear),
         };
 
         for (TextureInfo textureInfo : textureInfos) {
@@ -217,6 +218,10 @@ public class AssetManager {
         Font arial = new Font("Arial", "font_arial.fnt", R.drawable.font_arial);
         arial.load(context.getAssets());
         fonts.put(Fonts.Arial, arial);
+
+        Font audiowide = new Font("Audiowide", "font_audiowide.fnt", R.drawable.font_audiowide);
+        audiowide.load(context.getAssets());
+        fonts.put(Fonts.Audiowide, audiowide);
     }
 
     private void loadShaderData() {

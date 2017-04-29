@@ -22,7 +22,7 @@ public class Text extends Component {
     public Text(GameObject gameObject) {
         super(gameObject);
 
-        font = AssetManager.getInstance().getFont(Fonts.Arial);
+        font = AssetManager.getInstance().getFont(Fonts.Audiowide);
         setFontSize(32f);
         text = "";
         textAlignment = TextAlignmentOptions.TopLeft;
