@@ -1,12 +1,8 @@
 package at.autrage.projects.zeta.opengl;
 
-import java.nio.FloatBuffer;
-
 import at.autrage.projects.zeta.module.Logger;
 
 public class SphereMesh extends Mesh {
-    private FloatBuffer m_TextureCoordBuffer;
-
     public SphereMesh(int stacks, int slices) {
         super();
 
@@ -17,13 +13,13 @@ public class SphereMesh extends Mesh {
     {
         int vertexCount = (stacks + 1) * (slices + 1);
 
-        m_VertexBufferSize = vertexCount * PustafinGL.FLOATS_PER_VERTEX;
-        m_IndexBufferSize = vertexCount * PustafinGL.SHORTS_PER_TRIANGLE_INDEX;
+        this.vertexCount = vertexCount * PustafinGL.FLOATS_PER_VERTEX;
+        indexDrawCount = vertexCount * PustafinGL.SHORTS_PER_TRIANGLE_INDEX;
 
-        m_VertexBuffer = createFloatBuffer(m_VertexBufferSize);
-        m_IndexBuffer = createShortBuffer(m_IndexBufferSize);
+        vertexBuffer = createFloatBuffer(this.vertexCount);
+        indexBuffer = createShortBuffer(indexDrawCount);
         //m_NormalBuffer = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_NORMAL);
-        m_TextureCoordBuffer  = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD);
+        textureCoordBuffer  = createFloatBuffer(vertexCount * PustafinGL.FLOATS_PER_TEXTURE_COORD);
 
         for (int stackNumber = 0; stackNumber <= stacks; ++stackNumber)
         {
@@ -51,12 +47,12 @@ public class SphereMesh extends Mesh {
                 //m_NormalBuffer.put((float)ny);
                 //m_NormalBuffer.put((float)nz);
 
-                m_VertexBuffer.put((float)x);
-                m_VertexBuffer.put((float)y);
-                m_VertexBuffer.put((float)z);
+                vertexBuffer.put((float)x);
+                vertexBuffer.put((float)y);
+                vertexBuffer.put((float)z);
 
-                m_TextureCoordBuffer.put(u);
-                m_TextureCoordBuffer.put(v);
+                textureCoordBuffer.put(u);
+                textureCoordBuffer.put(v);
             }
         }
 
@@ -70,25 +66,21 @@ public class SphereMesh extends Mesh {
                 //int first = (stackNumber * slices) + (sliceNumber % slices);
                 //int second = ((stackNumber + 1) * slices) + (sliceNumber % slices);
 
-                m_IndexBuffer.put((short) first);
-                m_IndexBuffer.put((short) second);
-                m_IndexBuffer.put((short) (first + 1));
+                indexBuffer.put((short) first);
+                indexBuffer.put((short) second);
+                indexBuffer.put((short) (first + 1));
 
-                m_IndexBuffer.put((short) second);
-                m_IndexBuffer.put((short) (second + 1));
-                m_IndexBuffer.put((short) (first + 1));
+                indexBuffer.put((short) second);
+                indexBuffer.put((short) (second + 1));
+                indexBuffer.put((short) (first + 1));
             }
         }
 
-        m_VertexBuffer.rewind();
-        m_IndexBuffer.rewind();
+        vertexBuffer.rewind();
+        indexBuffer.rewind();
         //m_NormalBuffer.rewind();
-        m_TextureCoordBuffer.rewind();
+        textureCoordBuffer.rewind();
 
         Logger.D("New SphereMesh created.");
-    }
-
-    public FloatBuffer getTextureCoordBuffer() {
-        return m_TextureCoordBuffer;
     }
 }

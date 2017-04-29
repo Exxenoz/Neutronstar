@@ -8,14 +8,14 @@ import at.autrage.projects.zeta.model.GameObject;
 import at.autrage.projects.zeta.module.Logger;
 
 public class MeshRenderer extends Component {
-    private int drawOrderID;
-    private Material material;
-    private Mesh mesh;
+    protected int drawOrderID;
+    protected Material material;
+    protected Mesh mesh;
     public ConcurrentLinkedQueue<MeshRenderer> Holder;
 
-    private ShaderParams[] _shaderParams;
-    private AtomicInteger _shaderParamsUpdateIdx;
-    private AtomicInteger _shaderParamsRenderIdx;
+    protected ShaderParams[] _shaderParams;
+    protected AtomicInteger _shaderParamsUpdateIdx;
+    protected AtomicInteger _shaderParamsRenderIdx;
 
     public MeshRenderer(GameObject gameObject) {
         super(gameObject);
@@ -66,7 +66,7 @@ public class MeshRenderer extends Component {
         }
 
         if (mesh != null) {
-            mesh.shift(shaderParams);
+            shaderParams.Mesh = mesh;
         }
         else {
             shaderParams.Enabled = false;

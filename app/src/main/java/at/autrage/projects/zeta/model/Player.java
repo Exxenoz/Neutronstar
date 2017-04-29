@@ -51,10 +51,9 @@ public class Player extends Component {
     protected void onStart() {
         gameObject.setScale(Pustafin.PlanetScale, Pustafin.PlanetScale, Pustafin.PlanetScale);
 
-        m_SphereMesh = AssetManager.getInstance().getSphereMesh();
+        m_SphereMesh = new SphereMesh(Pustafin.PlanetMeshStacks, Pustafin.PlanetMeshSlices);
         m_Material = new SpriteMaterial();
         m_Material.setTexture(AssetManager.getInstance().getTexture(R.drawable.gv_planet));
-        m_Material.setTextureCoordinates(m_SphereMesh.getTextureCoordBuffer());
 
         meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_Material);

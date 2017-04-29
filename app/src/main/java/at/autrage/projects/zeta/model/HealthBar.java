@@ -1,14 +1,13 @@
 package at.autrage.projects.zeta.model;
 
-import at.autrage.projects.zeta.module.AssetManager;
 import at.autrage.projects.zeta.module.Pustafin;
 import at.autrage.projects.zeta.opengl.Color;
 import at.autrage.projects.zeta.opengl.ColorMaterial;
 import at.autrage.projects.zeta.opengl.MeshRenderer;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
-import at.autrage.projects.zeta.view.GameView;
 
 public class HealthBar extends Component {
+    private static SpriteMesh spriteMesh = new SpriteMesh();
     private ColorMaterial m_ColorMaterial;
     private float m_FullWidth;
     private float m_FullHeight;
@@ -28,7 +27,7 @@ public class HealthBar extends Component {
     protected void onStart() {
         meshRenderer = gameObject.addComponent(MeshRenderer.class);
         meshRenderer.setMaterial(m_ColorMaterial);
-        meshRenderer.setMesh(AssetManager.getInstance().getSpriteMesh());
+        meshRenderer.setMesh(spriteMesh);
     }
 
     private void updateScale() {
@@ -55,13 +54,13 @@ public class HealthBar extends Component {
         }
 
         if (healthPercent < Pustafin.EnemyHealthBarMinPercentageColorOrange) {
-            m_ColorMaterial.getColor().setColor(Color.Red);
+            m_ColorMaterial.setColor(Color.Red);
         }
         else if (healthPercent < Pustafin.EnemyHealthBarMinPercentageColorGreen) {
-            m_ColorMaterial.getColor().setColor(255f / 255f, 200f / 255f, 0f, 1f);
+            m_ColorMaterial.setColor(255f / 255f, 200f / 255f, 0f);
         }
         else {
-            m_ColorMaterial.getColor().setColor(Color.Green);
+            m_ColorMaterial.setColor(Color.Green);
         }
 
         m_HealthPercent = healthPercent;

@@ -41,7 +41,7 @@ public class TexturePackerInterpreter {
         }
 
 		BufferedReader reader = null;
-		JSONObject temporaryRawAtlas;
+		JSONObject temporaryRawAtlas = null;
 
 		try {
 			reader = new BufferedReader(new InputStreamReader(am.open(textureAtlasJSONFile, AssetManager.ACCESS_BUFFER)));
@@ -49,7 +49,6 @@ public class TexturePackerInterpreter {
 		} catch (IOException | ParseException e) {
 			Logger.E("Could not read atlas json file \"" + textureAtlasJSONFile + "\": " + e);
             texturePackerAtlasses.put(textureAtlasJSONFile, null);
-			return null;
 		} finally {
 			if (reader != null) {
 				try {
@@ -58,6 +57,10 @@ public class TexturePackerInterpreter {
 					Logger.E("Could not close reader for atlas json file \"" + textureAtlasJSONFile + "\": " + e);
 				}
 			}
+		}
+
+		if (temporaryRawAtlas == null) {
+			return null;
 		}
 
 		JSONObject meta = (JSONObject)temporaryRawAtlas.get("meta");

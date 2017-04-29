@@ -5,6 +5,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import at.autrage.projects.zeta.opengl.Texture;
+import at.autrage.projects.zeta.util.CoordinateTranslator;
 
 public class AnimationFrame {
     private Animation m_Owner;
@@ -36,29 +37,7 @@ public class AnimationFrame {
         this.m_LastFrame = null;
         this.m_NextFrame = null;
 
-        calculateNormalisedTexCoordinates(textureSizeX, textureSizeY);
-    }
-
-    private void calculateNormalisedTexCoordinates(int textureSizeX, int textureSizeY) {
-        float texCoordTopLeftX = m_TexCoordX;
-        float texCoordTopLeftY = m_TexCoordY;
-
-        float texCoordTopRightX = texCoordTopLeftX + m_FrameSizeX;
-        float texCoordTopRightY = texCoordTopLeftY;
-
-        float texCoordBottomLeftX = m_TexCoordX;
-        float texCoordBottomLeftY = texCoordTopLeftY + m_FrameSizeY;
-
-        float texCoordBottomRightX = texCoordBottomLeftX + m_FrameSizeX;
-        float texCoordBottomRightY = texCoordBottomLeftY;
-
-        float[] normalisedTexCoordinates = new float[] {
-                texCoordBottomLeftX / textureSizeX, texCoordBottomLeftY / textureSizeY,     // Bottom Left
-                texCoordBottomRightX / textureSizeX, texCoordBottomRightY / textureSizeY,   // Bottom Right
-                texCoordTopLeftX / textureSizeX, texCoordTopLeftY / textureSizeY,           // Top Left
-                texCoordTopRightX / textureSizeX, texCoordTopRightY / textureSizeY          // Top Right
-        };
-
+        float[] normalisedTexCoordinates = CoordinateTranslator.CalculateNormalisedTextureCoordinates(m_TexCoordX, m_TexCoordY, m_FrameSizeX, m_FrameSizeY, textureSizeX, textureSizeY);
         m_NormalisedTexCoordinates = ByteBuffer.allocateDirect(normalisedTexCoordinates.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         m_NormalisedTexCoordinates.put(normalisedTexCoordinates).position(0);
     }

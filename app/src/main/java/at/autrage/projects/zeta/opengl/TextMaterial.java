@@ -2,12 +2,12 @@ package at.autrage.projects.zeta.opengl;
 
 import at.autrage.projects.zeta.module.AssetManager;
 
-public class SpriteMaterial extends ColorMaterial {
+public class TextMaterial extends ColorMaterial {
     /** Texture attribute used by the update thread. */
     private Texture m_Texture;
 
-    public SpriteMaterial() {
-        super(AssetManager.getInstance().getSpriteShader());
+    public TextMaterial() {
+        super(AssetManager.getInstance().getTextShader());
     }
 
     @Override

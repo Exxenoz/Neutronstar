@@ -24,10 +24,14 @@ import at.autrage.projects.zeta.module.texturepacker.PackedTexture;
 import at.autrage.projects.zeta.module.texturepacker.TexturePackerAtlas;
 import at.autrage.projects.zeta.module.texturepacker.TexturePackerInterpreter;
 import at.autrage.projects.zeta.opengl.ColorShader;
+import at.autrage.projects.zeta.opengl.Font;
+import at.autrage.projects.zeta.opengl.Fonts;
 import at.autrage.projects.zeta.opengl.SphereMesh;
 import at.autrage.projects.zeta.opengl.SpriteMesh;
 import at.autrage.projects.zeta.opengl.SpriteShader;
+import at.autrage.projects.zeta.opengl.TextShader;
 import at.autrage.projects.zeta.opengl.Texture;
+import at.autrage.projects.zeta.opengl.TextureInfo;
 import at.autrage.projects.zeta.view.GameView;
 import at.autrage.projects.zeta.view.GameViewRenderer;
 
@@ -44,22 +48,22 @@ public class AssetManager {
 
     private Map<Animations, Animation> m_Animations;
     private Map<AnimationSets, AnimationSet> m_AnimationSets;
+    private Map<Fonts, Font> fonts;
     private ColorShader m_ColorShader;
     private SpriteShader m_SpriteShader;
+    private TextShader textShader;
     private Map<Integer /* ResId */, Texture> m_Textures;
-    private SpriteMesh spriteMesh;
-    private SphereMesh sphereMesh;
 
     private boolean m_Initialized;
 
     private AssetManager() {
         m_Animations = new HashMap<>();
         m_AnimationSets = new HashMap<>();
+        fonts = new HashMap<>();
         m_ColorShader = null;
         m_SpriteShader = null;
+        textShader = null;
         m_Textures = new HashMap<>();
-        spriteMesh = null;
-        sphereMesh = null;
 
         m_Initialized = false;
     }
@@ -74,26 +78,27 @@ public class AssetManager {
         loadTextureData();
         loadAnimationData(context);
         loadShaderData();
-        loadMeshData();
+        loadFontData(context);
     }
 
     private void loadTextureData() {
         m_Textures.clear();
 
-        int[] textureResIds = new int[] {
-                R.drawable.background_game,
-                R.drawable.gv_explosion_sheet1,
-                R.drawable.gv_engine_fire,
-                R.drawable.gv_explosion2,
-                R.drawable.gv_explosion3,
-                R.drawable.debug,
-                R.drawable.gv_planet,
-                R.drawable.gv_texture_atlas,
-                R.drawable.gv_foreground_alarm,
+        TextureInfo[] textureInfos = new TextureInfo[] {
+                new TextureInfo(R.drawable.background_game, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_explosion_sheet1, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_engine_fire, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_explosion2, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_explosion3, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.debug, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_planet, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_texture_atlas, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.gv_foreground_alarm, Texture.Filter.Nearest),
+                new TextureInfo(R.drawable.font_arial, Texture.Filter.Linear),
         };
 
-        for (int textureResId : textureResIds) {
-            m_Textures.put(textureResId, new Texture(textureResId));
+        for (TextureInfo textureInfo : textureInfos) {
+            m_Textures.put(textureInfo.ResourceID, new Texture(textureInfo.ResourceID, textureInfo.Filter));
         }
     }
 
@@ -208,14 +213,16 @@ public class AssetManager {
         }
     }
 
+    private void loadFontData(Context context) {
+        Font arial = new Font("Arial", "font_arial.fnt", R.drawable.font_arial);
+        arial.load(context.getAssets());
+        fonts.put(Fonts.Arial, arial);
+    }
+
     private void loadShaderData() {
         m_ColorShader = new ColorShader();
         m_SpriteShader = new SpriteShader();
-    }
-
-    private void loadMeshData() {
-        spriteMesh = new SpriteMesh();
-        sphereMesh = new SphereMesh(Pustafin.PlanetMeshStacks, Pustafin.PlanetMeshSlices);
+        textShader = new TextShader();
     }
 
     /**
@@ -248,6 +255,14 @@ public class AssetManager {
             m_SpriteShader.createProgram();
         }
 
+        if (textShader != null) {
+            textShader.reset();
+
+            textShader.createVertexShader("text_vertex_shader.glsl", context);
+            textShader.createFragmentShader("text_fragment_shader.glsl", context);
+            textShader.createProgram();
+        }
+
         final int[] textureHandles = new int[m_Textures.size()];
 
         GLES20.glGenTextures(textureHandles.length, textureHandles, 0);
@@ -271,6 +286,10 @@ public class AssetManager {
         if (m_SpriteShader != null) {
             m_SpriteShader.reset();
         }
+
+        if (textShader != null) {
+            textShader.reset();
+        }
     }
 
     public Texture getTexture(int resId) {
@@ -285,6 +304,10 @@ public class AssetManager {
         return m_AnimationSets.get(animationSet);
     }
 
+    public Font getFont(Fonts fontID) {
+        return fonts.get(fontID);
+    }
+
     public ColorShader getColorShader() {
         return m_ColorShader;
     }
@@ -293,11 +316,7 @@ public class AssetManager {
         return m_SpriteShader;
     }
 
-    public SpriteMesh getSpriteMesh() {
-        return spriteMesh;
-    }
-
-    public SphereMesh getSphereMesh() {
-        return sphereMesh;
+    public TextShader getTextShader() {
+        return textShader;
     }
 }

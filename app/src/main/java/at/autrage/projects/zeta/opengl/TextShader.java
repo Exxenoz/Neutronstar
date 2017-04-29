@@ -2,17 +2,33 @@ package at.autrage.projects.zeta.opengl;
 
 import android.opengl.GLES20;
 
-public class ColorShader extends Shader {
-    /** This will be used to pass in the vertices. */
+public class TextShader extends Shader {
+    /**
+     * This will be used to pass in the vertices.
+     */
     private int _positionHandle;
-    /** This will be used to pass in the color. */
+    /**
+     * This will be used to pass in the color.
+     */
     private int _colorHandle;
-    /** This will be used to pass in the model matrix. */
+    /**
+     * This will be used to pass in the texture.
+     */
+    private int _textureHandle;
+    /**
+     * This will be used to pass in model texture coordinate information.
+     */
+    private int _textureCoordinateHandle;
+    /**
+     * This will be used to pass in the model matrix.
+     */
     private int _modelMatrixHandle;
-    /** This will be used to pass in the view/projection matrix. */
+    /**
+     * This will be used to pass in the view/projection matrix.
+     */
     private int _vpMatrixHandle;
 
-    public ColorShader() {
+    public TextShader() {
         super();
     }
 
@@ -20,8 +36,10 @@ public class ColorShader extends Shader {
     public void bindAttribLocations() {
         GLES20.glBindAttribLocation(m_Program, 0, "a_Position");
         GLES20.glBindAttribLocation(m_Program, 1, "a_Color");
-        GLES20.glBindAttribLocation(m_Program, 2, "u_ModelMatrix");
-        GLES20.glBindAttribLocation(m_Program, 3, "u_VPMatrix");
+        GLES20.glBindAttribLocation(m_Program, 2, "u_Texture");
+        GLES20.glBindAttribLocation(m_Program, 3, "a_TexCoordinate");
+        GLES20.glBindAttribLocation(m_Program, 4, "u_ModelMatrix");
+        GLES20.glBindAttribLocation(m_Program, 5, "u_VPMatrix");
     }
 
     @Override
@@ -30,15 +48,19 @@ public class ColorShader extends Shader {
         _positionHandle = GLES20.glGetAttribLocation(m_Program, "a_Position");
         // Get handle to fragment shader's v_Color member
         _colorHandle = GLES20.glGetUniformLocation(m_Program, "a_Color");
-        // Get handle to shape's model matrix
+        // Get handle to fragment shader's u_Texture member
+        _textureHandle = GLES20.glGetUniformLocation(m_Program, "u_Texture");
+        // Get handle to fragment shader's v_TexCoordinate member
+        _textureCoordinateHandle = GLES20.glGetAttribLocation(m_Program, "a_TexCoordinate");
+        // Get handle to vertex shader's model matrix
         _modelMatrixHandle = GLES20.glGetUniformLocation(m_Program, "u_ModelMatrix");
-        // Get handle to shape's view projection matrix
+        // Get handle to vertex shader's view projection matrix
         _vpMatrixHandle = GLES20.glGetUniformLocation(m_Program, "u_VPMatrix");
     }
 
     @Override
     public void draw(ShaderParams shaderParams) {
-        if (m_Program == 0){
+        if (m_Program == 0) {
             return;
         }
 
@@ -49,7 +71,13 @@ public class ColorShader extends Shader {
 
         // Do not draw elements with invalid buffers
         if (mesh.vertexBuffer == null ||
-            mesh.indexBuffer == null) {
+            mesh.indexBuffer == null ||
+            mesh.textureCoordBuffer == null) {
+            return;
+        }
+
+        // Do not draw elements with invalid texture data handle
+        if (shaderParams.TextureDataHandle <= 0) {
             return;
         }
 
@@ -65,12 +93,31 @@ public class ColorShader extends Shader {
             _currProgram = m_Program;
         }
 
+        if (shaderParams.TextureDataHandle != _currTextureDataHandle) {
+            // Set the active texture unit to texture unit 0.
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+            // Bind the texture to this unit.
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, shaderParams.TextureDataHandle);
+
+            // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+            GLES20.glUniform1i(_textureHandle, 0);
+
+            _currTextureDataHandle = shaderParams.TextureDataHandle;
+        }
+
+        // Prepare the texture coordinate data
+        GLES20.glVertexAttribPointer(_textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, mesh.textureCoordBuffer);
+
+        // Enable the handle to the texture coordinates
+        GLES20.glEnableVertexAttribArray(_textureCoordinateHandle);
+
         // Prepare the coordinate data
         GLES20.glVertexAttribPointer(_positionHandle, PustafinGL.FLOATS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
                 PustafinGL.BYTES_PER_VERTEX, mesh.vertexBuffer);
 
-        // Enable a handle to the vertices
+        // Enable the handle to the vertices
         GLES20.glEnableVertexAttribArray(_positionHandle);
 
         // Set color for drawing the triangle
@@ -87,5 +134,8 @@ public class ColorShader extends Shader {
 
         // Disable the handle to the vertices
         GLES20.glDisableVertexAttribArray(_positionHandle);
+
+        // Disable the handle to the texture coordinates
+        GLES20.glDisableVertexAttribArray(_textureCoordinateHandle);
     }
 }
